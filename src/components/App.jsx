@@ -1,10 +1,21 @@
 import React from "react";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+
+import { DataProvider } from "../redux";
+import AuthorizedRoute from "./AuthorizedRoute";
+import AuthForm from "./AuthForm";
+import PrimaryLayout from "./PrimaryLayout";
 
 export default function App() {
   return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
-    </div>
+    <DataProvider>
+      <HashRouter>
+        <Switch>
+          <Route path="/login" component={AuthForm} />
+          <AuthorizedRoute path="/" component={PrimaryLayout} />
+          <Redirect to="/" />
+        </Switch>
+      </HashRouter>
+    </DataProvider>
   );
 }
