@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 
 import { useRedux } from "../redux";
-
 import * as unboundActions from "../actions/auth";
 import { getIsLoggedIn, getIsLoading } from "../selectors";
 
