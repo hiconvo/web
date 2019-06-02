@@ -15,7 +15,7 @@ export const initialState = {
 
 export default function reducer(state, action) {
   switch (action.type) {
-    case "RECIEVE_USER":
+    case "RECEIVE_USER":
       return Object.assign({}, state, {
         user: action.payload,
         loading: {

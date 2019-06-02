@@ -1,32 +1,54 @@
 import API from "../api";
 
-export const loginUserWithToken = dispatch => {
-  return API.getUser()
-    .then(user =>
+/*
+ * @param {function} dispatch
+ * @returns {undefined}
+ */
+export const loginUserWithToken = async dispatch => {
+  if (localStorage.getItem("userToken")) {
+    try {
+      const user = await API.getUser();
       dispatch({
         type: "RECEIVE_USER",
-        user
-      })
-    )
-    .catch(error => {
-      dispatch({ type: "RECEIVE_AUTH_ERROR", error });
-      dispatch(logoutUser());
-    });
+        payload: user
+      });
+    } catch (error) {
+      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error });
+      logoutUser(dispatch);
+    }
+  } else {
+    logoutUser(dispatch);
+  }
 };
 
-export const loginUserWithAuth = ({ username, password }) => dispatch => {
-  return API.authenticate(username, password)
-    .then(payload => {
-      localStorage.setItem("userToken", payload.token);
-      return dispatch(loginUserWithToken());
-    })
-    .catch(error => {
-      dispatch({ type: "RECEIVE_AUTH_ERROR", error });
-      dispatch(logoutUser());
+/*
+ * @param {function} dispatch
+ * @param {Object} payload
+ * @param {string} payload.email
+ * @param {string} payload.password
+ * @param {string} payload.firstName
+ * @param {string} [payload.lastName]
+ * @returns {undefined}
+ */
+export const loginUserWithAuth = async (dispatch, payload) => {
+  try {
+    const user = await API.authenticate(payload);
+    localStorage.setItem("userToken", user.token);
+    dispatch({
+      type: "RECEIVE_USER",
+      payload: user
     });
+  } catch (error) {
+    dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error });
+    logoutUser(dispatch);
+  }
 };
 
-export const logoutUser = () => dispatch => {
+/*
+ * @param {function} dispatch
+ * @returns {undefined}
+ */
+export const logoutUser = dispatch => {
   localStorage.removeItem("userToken");
-  return dispatch({ type: "LOGOUT" });
+  dispatch({ type: "LOGOUT" });
 };
