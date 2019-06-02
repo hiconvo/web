@@ -1,18 +1,23 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { Actions, DataContext } from "../redux";
+
+import { useRedux } from "../redux";
+
+import * as unboundActions from "../actions/auth";
+import { getIsLoggedIn, getIsLoading } from "../selectors";
 
 export default function AuthorizedRoute(props) {
   const { component: Component, ...rest } = props;
-  const { store, dispatch } = useContext(DataContext);
-  const isLoading = store.loading.global;
-  const isLoggedIn = Boolean(store.user);
+  const [[isLoading, isLoggedIn], { loginUserWithToken }] = useRedux(
+    [getIsLoading, getIsLoggedIn],
+    unboundActions
+  );
 
   useEffect(() => {
     if (!isLoggedIn) {
-      Actions.loginUserWithToken(dispatch);
+      loginUserWithToken();
     }
-  }, [isLoggedIn, dispatch]);
+  }, [isLoggedIn, loginUserWithToken]);
 
   return (
     <Route

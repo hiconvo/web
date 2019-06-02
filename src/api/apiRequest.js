@@ -1,5 +1,11 @@
 const API_ORIGIN = "https://api.hiconvo.com";
 
+/*
+ * @function apiRequest
+ * @param {string} url
+ * @param {{ [method]: string, [body]: any }} [data]
+ * @returns {Promise}
+ */
 export default function apiRequest(url, data = {}) {
   return new Promise((resolve, reject) => {
     const token = localStorage.getItem("userToken");

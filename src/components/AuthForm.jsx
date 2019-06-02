@@ -1,28 +1,25 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Actions, DataContext } from "../redux";
+import { useRedux } from "../redux";
+import * as unboundActions from "../actions/auth";
 
-function getEmailError(store) {
-  return (store.errors.auth && store.errors.auth.email) || "";
-}
+import {
+  getEmailError,
+  getPasswordError,
+  getGeneralError,
+  getIsLoggedIn
+} from "../selectors";
 
-function getPasswordError(store) {
-  return (store.errors.auth && store.errors.auth.password) || "";
-}
-
-function getGeneralError(store) {
-  return (store.errors.auth && store.errors.auth.message) || "";
-}
-
-export default function Auth(props) {
-  const { store, dispatch } = useContext(DataContext);
+export default function AuthForm(props) {
+  const [
+    [emailError, passwordError, generalError, isLoggedIn],
+    { loginUserWithAuth }
+  ] = useRedux(
+    [getEmailError, getPasswordError, getGeneralError, getIsLoggedIn],
+    unboundActions
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const emailError = getEmailError(store);
-  const passwordError = getPasswordError(store);
-  const generalError = getGeneralError(store);
-  const isLoggedIn = Boolean(store.user);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -32,7 +29,7 @@ export default function Auth(props) {
 
   function handleLogin(e) {
     e.preventDefault();
-    Actions.loginUserWithAuth(dispatch, { email, password });
+    loginUserWithAuth({ email, password });
   }
 
   function handleEmailChange(e) {

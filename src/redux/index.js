@@ -1,5 +1,6 @@
-import DataContext from "./context";
-import DataProvider from "./provider";
-import * as Actions from "./actions";
+import initRedux from "./plumbing";
+import reducer, { initialState } from "./reducer";
 
-export { DataProvider, DataContext, Actions };
+const { DataProvider, useRedux } = initRedux(reducer, initialState);
+
+export { DataProvider, useRedux };
