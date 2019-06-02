@@ -1,31 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { useRedux } from "../redux";
 import * as unboundActions from "../actions/auth";
 
-import {
-  getEmailError,
-  getPasswordError,
-  getGeneralError,
-  getIsLoggedIn
-} from "../selectors";
+import { getEmailError, getPasswordError, getGeneralError } from "../selectors";
 
-export default function AuthForm(props) {
+export default function LoginForm(props) {
   const [
-    [emailError, passwordError, generalError, isLoggedIn],
+    [emailError, passwordError, generalError],
     { loginUserWithAuth }
   ] = useRedux(
-    [getEmailError, getPasswordError, getGeneralError, getIsLoggedIn],
+    [getEmailError, getPasswordError, getGeneralError],
     unboundActions
   );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      props.history.push("/");
-    }
-  }, [isLoggedIn, props.history]);
 
   function handleLogin(e) {
     e.preventDefault();
@@ -64,6 +54,7 @@ export default function AuthForm(props) {
         <span>{passwordError}</span>
       </label>
       <button type="submit">Login</button>
+      <Link to="/login/register">Sign Up</Link>
     </form>
   );
 }

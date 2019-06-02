@@ -6,6 +6,14 @@ export function getPasswordError(store) {
   return (store.errors.auth && store.errors.auth.password) || "";
 }
 
+export function getFirstNameError(store) {
+  return (store.errors.auth && store.errors.auth.firstName) || "";
+}
+
+export function getLastNameError(store) {
+  return (store.errors.auth && store.errors.auth.lastName) || "";
+}
+
 export function getGeneralError(store) {
   return (store.errors.auth && store.errors.auth.message) || "";
 }

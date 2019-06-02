@@ -31,12 +31,10 @@ export const loginUserWithToken = dispatch =>
  */
 export const loginUserWithAuth = dispatch =>
   /*
-   *   @param {Object} payload
-   *   @param {string} payload.email
-   *   @param {string} payload.password
-   *   @param {string} payload.firstName
-   *   @param {string} [payload.lastName]
-   *   @returns {undefined}
+   * @param {Object} payload
+   * @param {string} payload.email
+   * @param {string} payload.password
+   * @returns {undefined}
    */
   async payload => {
     try {
@@ -63,4 +61,30 @@ export const logoutUser = dispatch =>
   () => {
     localStorage.removeItem("userToken");
     dispatch({ type: "LOGOUT" });
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const registerUser = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.email
+   * @param {string} payload.password
+   * @param {string} payload.firstName
+   * @param {string} [payload.lastName]
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.createUser(payload);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+    } catch (error) {
+      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error });
+      logoutUser(dispatch)();
+    }
   };
