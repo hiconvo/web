@@ -6,6 +6,8 @@ import * as unboundActions from "../actions/auth";
 
 import { getAuthErrors } from "../selectors";
 
+import { Box, TextInput } from "./styles";
+
 export default function LoginForm() {
   const [[authErrors], { loginUserWithAuth }] = useRedux(
     [getAuthErrors],
@@ -28,30 +30,24 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleLogin}>
+    <Box as="form" width="30rem" onSubmit={handleLogin}>
       <span>{authErrors.message}</span>
-      <label>
-        <span>email</span>
-        <input
-          type="text"
-          value={email}
-          onChange={handleEmailChange}
-          name="email"
-        />
-        <span>{authErrors.email}</span>
-      </label>
-      <label>
-        <span>password</span>
-        <input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-          name="password"
-        />
-        <span>{authErrors.password}</span>
-      </label>
+      <TextInput
+        name="Email"
+        type="email"
+        value={email}
+        onChange={handleEmailChange}
+        error={authErrors.email}
+      />
+      <TextInput
+        name="Password"
+        type="password"
+        value={password}
+        onChange={handlePasswordChange}
+        error={authErrors.password}
+      />
       <button type="submit">Login</button>
       <Link to="/login/register">Sign Up</Link>
-    </form>
+    </Box>
   );
 }

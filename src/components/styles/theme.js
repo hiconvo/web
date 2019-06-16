@@ -65,7 +65,7 @@ const warning900 = "#60432D";
 
 const error100 = "#FAD9CF";
 const error300 = "#F4A68F";
-const error500 = "#EF815F";
+const error500 = "#D46363";
 const error700 = "#A2442B";
 const error900 = "#722E1F";
 
