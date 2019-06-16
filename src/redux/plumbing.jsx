@@ -26,7 +26,7 @@ export default function initRedux(reducer, initialState) {
    * @param {{ any: (dispatch) => function }} unboundActions
    * @returns {[any[], { any: function }]} array of selected and object of boundActions
    */
-  function useRedux(selectors, unboundActions) {
+  function useRedux(selectors = [], unboundActions = {}) {
     const { store, dispatch } = useContext(DataContext);
 
     const selected = selectors.map(selector => selector(store));

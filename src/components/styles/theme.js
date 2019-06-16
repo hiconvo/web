@@ -108,6 +108,12 @@ const shadows = {
   heavy: `${space[0]} ${space[2]} ${space[3]} ${space[0]} ${blacks[0]}`
 };
 
+const animations = {
+  fast: "200ms",
+  brisk: "500ms",
+  lazy: "1000ms"
+};
+
 export default {
   // ----- MAIN THEME -----
 
@@ -204,12 +210,7 @@ export default {
   shadows,
 
   // Animations
-  animations: {
-    fast: "200ms",
-    brisk: "500ms",
-    lazy: "1000ms"
-  },
-
+  animations,
   // Various z-indexes
   zIndicies: {
     baseline: 0,
@@ -265,6 +266,19 @@ export default {
       backgroundColor: snow,
       "&:hover": {
         backgroundColor: lightGray
+      }
+    },
+    tertiary: {
+      color: black,
+      fontWeight: "inherit",
+      fontSize: "inherit",
+      letterSpacing: "inherit",
+      padding: "inherit",
+      margin: "inherit",
+      transition: `color ease ${animations.fast}`,
+      backgroundColor: transparent,
+      "&:hover": {
+        color: mediumGray
       }
     },
     success: {

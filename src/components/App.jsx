@@ -8,21 +8,23 @@ import AuthorizedRoute from "./AuthorizedRoute";
 import Frame from "./Frame";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
+import Settings from "../pages/Settings";
 
 export default function App() {
   return (
     <DataProvider>
       <ThemeProvider theme={theme}>
         <Reset>
-          <Frame>
-            <HashRouter>
+          <HashRouter>
+            <Frame>
               <Switch>
                 <Route path="/login" component={Login} />
+                <AuthorizedRoute path="/settings" component={Settings} />
                 <AuthorizedRoute path="/" component={Main} />
                 <Redirect to="/" />
               </Switch>
-            </HashRouter>
-          </Frame>
+            </Frame>
+          </HashRouter>
         </Reset>
       </ThemeProvider>
     </DataProvider>

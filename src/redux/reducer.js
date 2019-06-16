@@ -23,12 +23,26 @@ export default function reducer(state, action) {
           auth: false
         }
       });
+    case "RECEIVE_THREADS":
+      return Object.assign({}, state, {
+        threads: state.threads.concat(action.payload),
+        loading: {
+          global: false
+        }
+      });
     case "RECEIVE_AUTH_ERROR":
       return Object.assign({}, state, {
         errors: { auth: action.payload },
         loading: {
           global: false,
           auth: false
+        }
+      });
+    case "RECEIVE_GLOBAL_ERROR":
+      return Object.assign({}, state, {
+        errors: { global: action.payload },
+        loading: {
+          global: false
         }
       });
     case "LOGOUT":

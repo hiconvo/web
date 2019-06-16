@@ -14,7 +14,6 @@ const Button = styled(Box)(
     appearance: "none",
     border: 0,
     display: "inline-block",
-    textAlign: "center",
     fontFamily: themeGet("fonts.main")(props),
     fontWeight: themeGet("fontWeights.bold")(props),
     letterSpacing: themeGet("letterSpacings.spaced")(props),
@@ -25,7 +24,8 @@ const Button = styled(Box)(
     cursor: props.disabled ? "default" : "pointer",
     opacity: props.disabled ? themeGet("opacities.1")(props) : 1,
     pointerEvents: props.disabled ? "none" : "initial",
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
+    textAlign: props.textAlign || "center"
   }),
   borders,
   borderColor,
@@ -39,7 +39,7 @@ Button.defaultProps = {
   variant: "primary",
   width: [1, "auto"],
   p: 3,
-  mb: [2, 3],
+  mb: 2,
   fontSize: [1, null, 2]
 };
 
