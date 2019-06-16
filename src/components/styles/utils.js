@@ -29,8 +29,3 @@ export const textOverflow = style({
   prop: "textOverflow",
   cssProperty: "text-overflow"
 });
-
-export const textAlign = style({
-  prop: "textAlign",
-  cssProperty: "text-align"
-});

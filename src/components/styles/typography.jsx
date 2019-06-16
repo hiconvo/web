@@ -1,18 +1,21 @@
 import styled from "styled-components";
-import { textAlign, letterSpacing, colorStyle, textStyle } from "styled-system";
+import { letterSpacing, colorStyle, textStyle, textAlign } from "styled-system";
+import { textOverflow } from "./utils";
 
 import Box from "./Box";
 
 const Text = styled(Box)({
-  textAlign,
+  textOverflow,
   letterSpacing,
   textStyle,
+  textAlign,
   colorStyle
 });
 
 Text.defaultProps = {
   as: "span",
-  display: "inline"
+  display: "inline",
+  color: "bodytext"
 };
 
 const Paragraph = styled(Text)({});
@@ -22,7 +25,8 @@ Paragraph.defaultProps = {
   mt: 0,
   mb: 3,
   display: "block",
-  lineHeight: "paragraph"
+  lineHeight: "paragraph",
+  color: "bodytext"
 };
 
 const Heading = styled(Text)({});
@@ -32,7 +36,8 @@ Heading.defaultProps = {
   display: "block",
   mt: [1, null, 2],
   mb: [2, null, 3],
-  lineHeight: "title"
+  lineHeight: "title",
+  color: "bodytext"
 };
 
 export { Text, Paragraph, Heading };

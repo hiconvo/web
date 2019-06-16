@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import { useRedux } from "../redux";
 import * as unboundActions from "../actions/auth";
-
 import { getAuthErrors } from "../selectors";
+import { Box, TextInput, Button, LinkButton } from "./styles";
 
 export default function RegistrationForm() {
   const [[authErrors], { registerUser }] = useRedux(
@@ -22,50 +21,40 @@ export default function RegistrationForm() {
   }
 
   return (
-    <form onSubmit={handleRegistration}>
+    <Box as="form" width="30rem" onSubmit={handleRegistration}>
       <span>{authErrors.message}</span>
-      <label>
-        <span>first name</span>
-        <input
-          type="text"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
-          name="firstName"
-        />
-        <span>{authErrors.firstName}</span>
-      </label>
-      <label>
-        <span>last name</span>
-        <input
-          type="text"
-          value={lastName}
-          onChange={e => setLastName(e.target.value)}
-          name="lastName"
-        />
-        <span>{authErrors.lastName}</span>
-      </label>
-      <label>
-        <span>email</span>
-        <input
-          type="text"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          name="email"
-        />
-        <span>{authErrors.email}</span>
-      </label>
-      <label>
-        <span>password</span>
-        <input
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          name="password"
-        />
-        <span>{authErrors.password}</span>
-      </label>
-      <button type="submit">Sign Up</button>
-      <Link to="/login">Login</Link>
-    </form>
+      <TextInput
+        name="First name"
+        value={firstName}
+        onChange={e => setFirstName(e.target.value)}
+        error={authErrors.firstName}
+      />
+      <TextInput
+        name="Last name"
+        value={lastName}
+        onChange={e => setLastName(e.target.value)}
+        error={authErrors.lastName}
+      />
+      <TextInput
+        name="Email"
+        type="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        error={authErrors.email}
+      />
+      <TextInput
+        name="Password"
+        type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        error={authErrors.password}
+      />
+      <Button mt={2} mb={4} type="submit">
+        Sign up
+      </Button>
+      <LinkButton to="/login" textAlign="center" fontSize={1}>
+        Login
+      </LinkButton>
+    </Box>
   );
 }

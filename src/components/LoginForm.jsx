@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import { useRedux } from "../redux";
 import * as unboundActions from "../actions/auth";
-
 import { getAuthErrors } from "../selectors";
-
-import { Box, TextInput } from "./styles";
+import { Box, TextInput, Button, LinkButton } from "./styles";
 
 export default function LoginForm() {
   const [[authErrors], { loginUserWithAuth }] = useRedux(
@@ -46,8 +43,12 @@ export default function LoginForm() {
         onChange={handlePasswordChange}
         error={authErrors.password}
       />
-      <button type="submit">Login</button>
-      <Link to="/login/register">Sign Up</Link>
+      <Button mt={2} mb={4} type="submit">
+        Login
+      </Button>
+      <LinkButton to="/login/register" textAlign="right" fontSize={1}>
+        Sign up
+      </LinkButton>
     </Box>
   );
 }

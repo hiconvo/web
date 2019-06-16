@@ -20,14 +20,15 @@ const opacities = [0.1, 0.35, 0.5, 0.65, 0.8];
 
 const transparent = "transparent";
 
-const trueBlack = "#000";
-const black = "#101B2F";
-const darkGray = "#344B66";
-const mediumGray = "#778F9B";
-const lightGray = "#B8C1CB";
-const snow = "#DDE2E8";
-const white = "#FAFAFA";
-const trueWhite = "#FFF";
+const trueBlack = "#000000";
+const bodytext = "#24292e";
+const black = "#1b1f23";
+const darkGray = "#2f363d";
+const mediumGray = "#959da5";
+const lightGray = "#d1d5da";
+const snow = "#f6f8fa";
+const white = "#fafafa";
+const trueWhite = "#ffffff";
 
 const blacks = [
   `rgba(0, 0, 0, ${opacities[0]})`,
@@ -92,7 +93,7 @@ const fontWeights = {
 
 const letterSpacings = {
   normal: "normal",
-  spaced: "0.1rem",
+  spaced: "0.05rem",
   crazy: "0.4rem"
 };
 
@@ -126,6 +127,7 @@ export default {
   minHeights: sizeScale,
 
   colors: {
+    bodytext,
     // Primary color (and tints/shades)
     primary: primary500,
     primary100,
@@ -253,9 +255,9 @@ export default {
   buttons: {
     primary: {
       color: white,
-      backgroundColor: primary500,
+      backgroundColor: black,
       "&:hover": {
-        backgroundColor: primary700
+        backgroundColor: darkGray
       }
     },
     secondary: {
