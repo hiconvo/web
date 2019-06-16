@@ -4,26 +4,11 @@ import { Link } from "react-router-dom";
 import { useRedux } from "../redux";
 import * as unboundActions from "../actions/auth";
 
-import {
-  getFirstNameError,
-  getLastNameError,
-  getEmailError,
-  getPasswordError,
-  getGeneralError
-} from "../selectors";
+import { getAuthErrors } from "../selectors";
 
 export default function RegistrationForm() {
-  const [
-    [firstNameError, lastNameError, emailError, passwordError, generalError],
-    { registerUser }
-  ] = useRedux(
-    [
-      getFirstNameError,
-      getLastNameError,
-      getEmailError,
-      getPasswordError,
-      getGeneralError
-    ],
+  const [[authErrors], { registerUser }] = useRedux(
+    [getAuthErrors],
     unboundActions
   );
   const [firstName, setFirstName] = useState("");
@@ -38,7 +23,7 @@ export default function RegistrationForm() {
 
   return (
     <form onSubmit={handleRegistration}>
-      <span>{generalError}</span>
+      <span>{authErrors.message}</span>
       <label>
         <span>first name</span>
         <input
@@ -47,7 +32,7 @@ export default function RegistrationForm() {
           onChange={e => setFirstName(e.target.value)}
           name="firstName"
         />
-        <span>{firstNameError}</span>
+        <span>{authErrors.firstName}</span>
       </label>
       <label>
         <span>last name</span>
@@ -57,7 +42,7 @@ export default function RegistrationForm() {
           onChange={e => setLastName(e.target.value)}
           name="lastName"
         />
-        <span>{lastNameError}</span>
+        <span>{authErrors.lastName}</span>
       </label>
       <label>
         <span>email</span>
@@ -67,7 +52,7 @@ export default function RegistrationForm() {
           onChange={e => setEmail(e.target.value)}
           name="email"
         />
-        <span>{emailError}</span>
+        <span>{authErrors.email}</span>
       </label>
       <label>
         <span>password</span>
@@ -77,7 +62,7 @@ export default function RegistrationForm() {
           onChange={e => setPassword(e.target.value)}
           name="password"
         />
-        <span>{passwordError}</span>
+        <span>{authErrors.password}</span>
       </label>
       <button type="submit">Sign Up</button>
       <Link to="/login">Login</Link>

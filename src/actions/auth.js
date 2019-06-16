@@ -2,7 +2,7 @@ import * as API from "../api/auth";
 
 /*
  * @param {function} dispatch
- * @returns {(function)}
+ * @returns {function}
  */
 export const loginUserWithToken = dispatch =>
   /*

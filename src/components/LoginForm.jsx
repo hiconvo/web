@@ -4,14 +4,11 @@ import { Link } from "react-router-dom";
 import { useRedux } from "../redux";
 import * as unboundActions from "../actions/auth";
 
-import { getEmailError, getPasswordError, getGeneralError } from "../selectors";
+import { getAuthErrors } from "../selectors";
 
-export default function LoginForm(props) {
-  const [
-    [emailError, passwordError, generalError],
-    { loginUserWithAuth }
-  ] = useRedux(
-    [getEmailError, getPasswordError, getGeneralError],
+export default function LoginForm() {
+  const [[authErrors], { loginUserWithAuth }] = useRedux(
+    [getAuthErrors],
     unboundActions
   );
   const [email, setEmail] = useState("");
@@ -32,7 +29,7 @@ export default function LoginForm(props) {
 
   return (
     <form onSubmit={handleLogin}>
-      <span>{generalError}</span>
+      <span>{authErrors.message}</span>
       <label>
         <span>email</span>
         <input
@@ -41,7 +38,7 @@ export default function LoginForm(props) {
           onChange={handleEmailChange}
           name="email"
         />
-        <span>{emailError}</span>
+        <span>{authErrors.email}</span>
       </label>
       <label>
         <span>password</span>
@@ -51,7 +48,7 @@ export default function LoginForm(props) {
           onChange={handlePasswordChange}
           name="password"
         />
-        <span>{passwordError}</span>
+        <span>{authErrors.password}</span>
       </label>
       <button type="submit">Login</button>
       <Link to="/login/register">Sign Up</Link>
