@@ -46,11 +46,11 @@ const whites = [
   `rgba(255, 255, 255, ${opacities[4]})`
 ];
 
-const primary100 = "#C4D7F9";
-const primary300 = "#8AB0F3";
-const primary500 = "#518AEE";
-const primary700 = "#365C9F";
-const primary900 = "#1B2F51";
+const primary100 = "#959da5";
+const primary300 = "#2f363d";
+const primary500 = "#1b1f23";
+const primary700 = "#000000";
+const primary900 = "#000000";
 
 const success100 = "#D6EFDD";
 const success300 = "#A3DCB1";
@@ -255,9 +255,9 @@ export default {
   buttons: {
     primary: {
       color: white,
-      backgroundColor: black,
+      backgroundColor: primary500,
       "&:hover": {
-        backgroundColor: darkGray
+        backgroundColor: primary300
       }
     },
     secondary: {
@@ -302,5 +302,8 @@ export default {
         backgroundColor: socialMediaColors.twitterHover
       }
     }
-  }
+  },
+
+  // Layout
+  headerHeight: "5rem"
 };

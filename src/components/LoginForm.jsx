@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRedux } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getAuthErrors } from "../selectors";
-import { Box, TextInput, Button, LinkButton } from "./styles";
+import { Box, TextInput, Button, LinkButton, Text } from "./styles";
 
 export default function LoginForm() {
   const [[authErrors], { loginUserWithAuth }] = useRedux(
@@ -27,8 +27,10 @@ export default function LoginForm() {
   }
 
   return (
-    <Box as="form" width="30rem" onSubmit={handleLogin}>
-      <span>{authErrors.message}</span>
+    <Box as="form" onSubmit={handleLogin}>
+      <Text color="error" fontSize={2} mb={2} textAlign="center">
+        {authErrors.message}
+      </Text>
       <TextInput
         name="Email"
         type="email"
@@ -46,7 +48,7 @@ export default function LoginForm() {
       <Button mt={2} mb={4} type="submit">
         Login
       </Button>
-      <LinkButton to="/login/register" textAlign="right" fontSize={1}>
+      <LinkButton to="/login/register" textAlign="center" fontSize={1}>
         Sign up
       </LinkButton>
     </Box>

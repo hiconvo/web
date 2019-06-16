@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 import { theme, Reset } from "./styles";
 import { DataProvider } from "../redux";
 import AuthorizedRoute from "./AuthorizedRoute";
+import Frame from "./Frame";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
 
@@ -13,13 +14,15 @@ export default function App() {
     <DataProvider>
       <ThemeProvider theme={theme}>
         <Reset>
-          <HashRouter>
-            <Switch>
-              <Route path="/login" component={Login} />
-              <AuthorizedRoute path="/" component={Main} />
-              <Redirect to="/" />
-            </Switch>
-          </HashRouter>
+          <Frame>
+            <HashRouter>
+              <Switch>
+                <Route path="/login" component={Login} />
+                <AuthorizedRoute path="/" component={Main} />
+                <Redirect to="/" />
+              </Switch>
+            </HashRouter>
+          </Frame>
         </Reset>
       </ThemeProvider>
     </DataProvider>

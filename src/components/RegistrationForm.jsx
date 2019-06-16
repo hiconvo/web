@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRedux } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getAuthErrors } from "../selectors";
-import { Box, TextInput, Button, LinkButton } from "./styles";
+import { Box, TextInput, Button, LinkButton, Text } from "./styles";
 
 export default function RegistrationForm() {
   const [[authErrors], { registerUser }] = useRedux(
@@ -21,8 +21,10 @@ export default function RegistrationForm() {
   }
 
   return (
-    <Box as="form" width="30rem" onSubmit={handleRegistration}>
-      <span>{authErrors.message}</span>
+    <Box as="form" onSubmit={handleRegistration}>
+      <Text color="error" fontSize={2} mb={2} textAlign="center">
+        {authErrors.message}
+      </Text>
       <TextInput
         name="First name"
         value={firstName}
