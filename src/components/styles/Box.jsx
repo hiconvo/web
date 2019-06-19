@@ -20,7 +20,7 @@ import {
   flexWrap,
   alignItems
 } from "styled-system";
-import { float, flexShrink, cursor, backgroundColor } from "./utils";
+import { float, flexShrink, cursor, backgroundColor, maxWidth } from "./utils";
 
 const Box = styled("div")(
   {
@@ -50,7 +50,8 @@ const Box = styled("div")(
   overflow,
   cursor,
   backgroundColor,
-  flexDirection
+  flexDirection,
+  maxWidth
 );
 
 Box.defaultProps = {

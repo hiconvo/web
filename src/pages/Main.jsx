@@ -13,7 +13,6 @@ const ThreadsContainer = styled.ul`
   margin: ${themeGet("space.5")} auto 0 auto;
   width: 100%;
   max-width: 80rem;
-  border-top: 0.2rem solid ${themeGet("colors.primary")};
 `;
 
 export default function Main() {
@@ -21,7 +20,7 @@ export default function Main() {
 
   useEffect(() => {
     if (threads.length === 0) fetchThreads();
-  }, [threads, fetchThreads]);
+  }, [fetchThreads, threads]);
 
   return (
     <ThreadsContainer>

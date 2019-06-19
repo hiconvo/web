@@ -4,6 +4,7 @@ import { themeGet } from "styled-system";
 import { Link } from "react-router-dom";
 
 import UserMenu from "./UserMenu";
+import Logo from "./Logo";
 
 const Header = styled.header`
   position: fixed;
@@ -12,8 +13,7 @@ const Header = styled.header`
   justify-content: space-between;
   width: calc(100% - ${themeGet("space.3")} * 2);
   height: ${themeGet("headerHeight")};
-  border-bottom: 0.1rem solid ${themeGet("colors.lightGray")};
-  padding: 0 ${themeGet("space.3")};
+  padding: 0 ${themeGet("space.4")};
 `;
 
 const Slug = styled.div`
@@ -23,13 +23,28 @@ const Slug = styled.div`
 
 const Footer = styled.footer``;
 
-const Logo = () => <Link to="/">Convo</Link>;
+const LogoWrapper = styled.div`
+  border-radius: 3rem;
+  transition: all ease ${themeGet("animations.fast")};
+
+  &:hover {
+    box-shadow: ${themeGet("shadows.normal")};
+  }
+`;
+
+const WrappedLogo = () => (
+  <LogoWrapper>
+    <Link style={{ width: "5rem", height: "5rem", display: "block" }} to="/">
+      <Logo width="5rem" />
+    </Link>
+  </LogoWrapper>
+);
 
 export default function Frame({ children }) {
   return (
     <React.Fragment>
       <Header>
-        <Logo />
+        <WrappedLogo />
         <UserMenu />
       </Header>
       <Slug />

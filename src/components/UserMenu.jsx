@@ -21,8 +21,8 @@ const HoverRing = styled.div`
 
 const NullAvatar = styled.div`
   background-color: ${themeGet("colors.lightGray")};
-  height: 2rem;
-  width: 2rem;
+  height: 3.6rem;
+  width: 3.6rem;
   border-radius: 100%;
 `;
 

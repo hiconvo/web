@@ -46,29 +46,29 @@ const whites = [
   `rgba(255, 255, 255, ${opacities[4]})`
 ];
 
-const primary100 = "#959da5";
-const primary300 = "#2f363d";
-const primary500 = "#1b1f23";
-const primary700 = "#000000";
-const primary900 = "#000000";
+const primary100 = "#78e8d7";
+const primary300 = "#45dfc8";
+const primary500 = "#00D4B5";
+const primary700 = "#00a88f";
+const primary900 = "#006556";
 
-const success100 = "#D6EFDD";
-const success300 = "#A3DCB1";
-const success500 = "#7CCD90";
-const success700 = "#3E7938";
-const success900 = "#243E2B";
+const success100 = "#8ae87a";
+const success300 = "#20d400";
+const success500 = "#19a800";
+const success700 = "#158c00";
+const success900 = "#0f6500";
 
-const warning100 = "#FBEAC6";
-const warning300 = "#F6CE7A";
-const warning500 = "#F3B942";
-const warning700 = "#A3792D";
-const warning900 = "#60432D";
+const warning100 = "#e9a580";
+const warning300 = "#e1814e";
+const warning500 = "#d44a00";
+const warning700 = "#bf4200";
+const warning900 = "#a73a00";
 
-const error100 = "#FAD9CF";
-const error300 = "#F4A68F";
-const error500 = "#D46363";
-const error700 = "#A2442B";
-const error900 = "#722E1F";
+const error100 = "#ed96a3";
+const error300 = "#e5697c";
+const error500 = "#d40020";
+const error700 = "#bf001c";
+const error900 = "#a80019";
 
 const socialMediaColors = {
   facebook: "#3B5998",
@@ -256,9 +256,10 @@ export default {
   buttons: {
     primary: {
       color: white,
-      backgroundColor: primary500,
+      backgroundColor: black,
       "&:hover": {
-        backgroundColor: primary300
+        backgroundColor: darkGray,
+        boxShadow: shadows.normal
       }
     },
     secondary: {
@@ -319,5 +320,5 @@ export default {
   },
 
   // Layout
-  headerHeight: "5rem"
+  headerHeight: "10rem"
 };
