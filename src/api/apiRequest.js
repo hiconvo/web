@@ -1,5 +1,16 @@
 const API_ORIGIN = "https://api.hiconvo.com";
 
+class ApiError extends Error {
+  constructor(payload, message, fileName, lineNumber) {
+    super(message, fileName, lineNumber);
+    this.payload = payload || {};
+  }
+
+  getPayload() {
+    return this.payload;
+  }
+}
+
 /*
  * @function apiRequest
  * @param {string} url
@@ -31,22 +42,9 @@ export default function apiRequest(url, data = {}) {
     })
       .then(response => {
         if (response.status >= 400) {
-          response.json().then(parsed => reject(parsed));
+          response.json().then(parsed => reject(new ApiError(parsed)));
         } else if (response.status === 204) {
           resolve(response);
-        } else if (response.headers.get("Content-Type") === "text/csv") {
-          const contentDisposition = response.headers.get(
-            "Content-Disposition"
-          );
-          const fileName = contentDisposition
-            .split("filename=")[1]
-            .slice(1, -1);
-          response.blob().then(blob =>
-            resolve({
-              url: URL.createObjectURL(blob),
-              fileName
-            })
-          );
         } else {
           response.json().then(parsed => resolve(parsed));
         }

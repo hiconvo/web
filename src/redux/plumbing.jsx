@@ -23,8 +23,8 @@ export default function initRedux(reducer, initialState) {
   /*
    * @function useRedux
    * @param {selector[]} selectors
-   * @param {{ any: (dispatch) => function }} unboundActions
-   * @returns {[any[], { any: function }]} array of selected and object of boundActions
+   * @param {{ String: (dispatch) => function }} unboundActions
+   * @returns {[any[], { String: function }]} array of selected and object of boundActions
    */
   function useRedux(selectors = [], unboundActions = {}) {
     const { store, dispatch } = useContext(DataContext);

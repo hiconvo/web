@@ -16,6 +16,6 @@ export const fetchThreads = dispatch =>
         payload: response.threads
       });
     } catch (error) {
-      dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error });
+      dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
     }
   };

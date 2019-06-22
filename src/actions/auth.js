@@ -17,7 +17,7 @@ export const loginUserWithToken = dispatch =>
           payload: user
         });
       } catch (error) {
-        dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error });
+        dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
         logoutUser(dispatch)();
       }
     } else {
@@ -45,7 +45,7 @@ export const loginUserWithAuth = dispatch =>
         payload: user
       });
     } catch (error) {
-      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error });
+      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
       logoutUser(dispatch)();
     }
   };
@@ -84,7 +84,7 @@ export const registerUser = dispatch =>
         payload: user
       });
     } catch (error) {
-      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error });
+      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
       logoutUser(dispatch)();
     }
   };
