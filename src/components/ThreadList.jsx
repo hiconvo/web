@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { themeGet } from "styled-system";
 
 import { useSelectors, useActions } from "../redux";
 import { getThreads } from "../selectors";
@@ -10,6 +11,13 @@ const ThreadsContainer = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: calc(100% - 2 * ${themeGet("sidebarChromeHeight")});
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default function ThreadList() {

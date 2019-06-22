@@ -105,7 +105,8 @@ const radii = {
 
 const shadows = {
   normal: `${space[0]} ${space[1]} ${space[2]} ${space[0]} ${blacks[0]}`,
-  heavy: `${space[0]} ${space[2]} ${space[3]} ${space[0]} ${blacks[0]}`
+  heavy: `${space[0]} ${space[2]} ${space[3]} ${space[0]} ${blacks[0]}`,
+  spread: `rgba(0, 0, 0, 0.1) 0px 0px 24px -2px`
 };
 
 const animations = {
@@ -323,5 +324,6 @@ export default {
   pageMaxWidth: "192rem",
   pageMaxWidthPx: "1920px",
   headerHeight: "10rem",
-  sidebarWidth: "28rem"
+  sidebarWidth: "28rem",
+  sidebarChromeHeight: "5rem"
 };

@@ -3,31 +3,37 @@ import styled from "styled-components";
 import { format } from "date-fns";
 import { themeGet } from "styled-system";
 
+const timestampWidth = "6rem";
+
 const ListItem = styled.li`
   display: flex;
-  padding: ${themeGet("space.3")} ${themeGet("space.5")};
+  flex-direction: column;
+  padding: ${themeGet("space.2")};
   cursor: pointer;
-  justify-content: center;
-  border-bottom: 0.1rem solid ${themeGet("colors.trueWhite")};
-  border-top: 0.1rem solid ${themeGet("colors.snow")};
   transition: all ease ${themeGet("animations.fast")};
+  border-bottom: 0.1rem solid ${themeGet("colors.lightGray")};
+  overflow: hidden;
+  width: calc(100% - ${themeGet("space.2")} * 2);
 
   &:hover {
     background-color: ${themeGet("colors.snow")};
-    border-bottom: 0.1rem solid ${themeGet("colors.lightGray")};
-    border-top: 0.1rem solid ${themeGet("colors.lightGray")};
   }
 `;
 
 const FromContainer = styled.div`
-  max-width: 16rem;
-  width: 20%;
-  flex-shrink: 0;
+  margin-bottom: ${themeGet("space.1")};
 `;
 
 const From = styled.span`
+  display: inline;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   color: ${themeGet("colors.bodytext")};
-  font-weight: 500;
+  float: left;
+  width: calc(100% - ${timestampWidth});
+  font-weight: bold;
+  font-size: ${themeGet("fontSizes.1")};
 `;
 
 const Subject = styled.span`
@@ -35,27 +41,24 @@ const Subject = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  margin-right: 2rem;
+  font-size: ${themeGet("fontSizes.1")};
   color: ${themeGet("colors.darkGray")};
+  margin-bottom: ${themeGet("space.1")};
 `;
 
 const Preview = styled.span`
   display: inline;
-  white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  height: 2.4em;
+  line-height: 1.2em;
+  font-size: ${themeGet("fontSizes.0")};
   color: ${themeGet("colors.mediumGray")};
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-grow: 1;
-  overflow: hidden;
-`;
-
 const Timestamp = styled.span`
-  width: 6rem;
-  flex-shrink: 0;
+  width: ${timestampWidth};
+  float: right;
   text-align: right;
   text-transform: uppercase;
   font-weight: 500;
@@ -67,17 +70,13 @@ export default function ThreadListItem({ thread }) {
   return (
     <ListItem>
       <FromContainer>
-        {thread.users.map(user => (
-          <From>{user.firstName}</From>
-        ))}
+        <From>{thread.users.map(user => user.firstName).join(",")}</From>
+        <Timestamp>
+          {thread.preview && format(thread.preview.timestamp, "MMM D")}
+        </Timestamp>
       </FromContainer>
-      <Content>
-        <Subject>{thread.subject}</Subject>
-        <Preview>{thread.preview && thread.preview.body}</Preview>
-      </Content>
-      <Timestamp>
-        {thread.preview && format(thread.preview.timestamp, "MMM D")}
-      </Timestamp>
+      <Subject>{thread.subject}</Subject>
+      <Preview>{thread.preview && thread.preview.body}</Preview>
     </ListItem>
   );
 }

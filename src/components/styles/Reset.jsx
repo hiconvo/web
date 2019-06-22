@@ -50,7 +50,7 @@ const Globals = createGlobalStyle`
     border-spacing: 0;
   }
   body {
-    background-color: #fff;
+    background-color: #fafafa;
     color: ${theme.colors.black};
     font-family: ${theme.fonts.main};
     font-size: ${theme.fontSizes[1]};
