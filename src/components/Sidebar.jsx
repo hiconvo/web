@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "styled-system";
 
+import { useSelectors } from "../redux";
+import { getThreadsCount } from "../selectors";
 import ThreadList from "./ThreadList";
+import { Button, Icon } from "./styles";
 
 const Container = styled.div``;
 
@@ -19,6 +22,7 @@ const Fixed = styled.div`
   border: 0.1rem solid ${themeGet("colors.lightGray")};
   border-radius: ${themeGet("sidebarChromeHeight")};
   box-shadow: ${themeGet("shadows.spread")};
+  overflow: hidden;
 
   @media (min-width: ${themeGet("pageMaxWidthPx")}) {
     left: calc(
@@ -30,20 +34,48 @@ const Fixed = styled.div`
 const TopContainer = styled.div`
   height: ${themeGet("sidebarChromeHeight")};
   border-bottom: 0.1rem solid ${themeGet("colors.lightGray")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BottomContainer = styled.div`
   height: ${themeGet("sidebarChromeHeight")};
   border-top: 0.1rem solid ${themeGet("colors.lightGray")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${themeGet("colors.mediumGray")};
+  font-size: ${themeGet("fontSizes.0")};
 `;
+
+function Top() {
+  return (
+    <TopContainer>
+      <Button variant="brand" width="100%" mb="0" fontSize={[1]}>
+        New Convo <Icon name="mail_outline" ml={1} fontSize="1.8rem" />
+      </Button>
+    </TopContainer>
+  );
+}
+
+function Bottom() {
+  const [threadsCount] = useSelectors(getThreadsCount);
+  const descriptor = threadsCount === 1 ? "Convo" : "Convos";
+  return (
+    <BottomContainer>
+      {threadsCount} {descriptor}
+    </BottomContainer>
+  );
+}
 
 export default function Sidebar() {
   return (
     <Container>
       <Fixed>
-        <TopContainer />
+        <Top />
         <ThreadList />
-        <BottomContainer />
+        <Bottom />
       </Fixed>
     </Container>
   );

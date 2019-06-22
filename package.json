@@ -11,6 +11,7 @@
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
     "react-scripts": "3.0.1",
+    "reselect": "^4.0.0",
     "styled-components": "4.2.1",
     "styled-system": "4.2.4"
   },

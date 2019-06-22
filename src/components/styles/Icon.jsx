@@ -33,11 +33,11 @@ const Icon = styled.i`
 `;
 
 Icon.defaultProps = {
-  display: "flex",
-  flexDirection: "column",
+  display: "inline",
   className: "material-icons",
   cursor: "pointer",
-  padding: 0
+  padding: 0,
+  fontSize: "inherit"
 };
 
 export default props => {

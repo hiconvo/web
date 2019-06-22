@@ -13,7 +13,9 @@ const Button = styled(Box)(
   props => ({
     appearance: "none",
     border: 0,
-    display: "inline-block",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     fontFamily: themeGet("fonts.main")(props),
     fontWeight: themeGet("fontWeights.bold")(props),
     letterSpacing: themeGet("letterSpacings.spaced")(props),

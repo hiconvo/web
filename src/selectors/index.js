@@ -1,3 +1,5 @@
+import { createSelector } from "reselect";
+
 export function getGeneralError(store) {
   return (store.errors.auth && store.errors.auth.message) || "";
 }
@@ -22,3 +24,8 @@ export function getAuthErrors(store) {
 export function getThreads(store) {
   return store.threads;
 }
+
+export const getThreadsCount = createSelector(
+  getThreads,
+  res => res.length
+);

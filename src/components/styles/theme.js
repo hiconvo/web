@@ -283,6 +283,13 @@ export default {
         color: mediumGray
       }
     },
+    brand: {
+      color: primary500,
+      backgroundColor: "inherit",
+      "&:hover": {
+        color: primary700
+      }
+    },
     success: {
       color: white,
       backgroundColor: success500,
