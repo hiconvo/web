@@ -4,7 +4,7 @@ import React, { useReducer, useContext } from "react";
  * @function initRedux
  * @param {function} reducer
  * @param {Object} initialState
- * @returns {{ DataProvier: Component, useRedux: function }}
+ * @returns {{ DataProvier: Component, useSelectors: function, useActions: function }}
  */
 export default function initRedux(reducer, initialState) {
   const DataContext = React.createContext(null);
@@ -20,26 +20,30 @@ export default function initRedux(reducer, initialState) {
       </DataContext.Provider>
     );
   }
+
   /*
-   * @function useRedux
+   * @function useSelectors
    * @param {selector[]} selectors
-   * @param {{ String: (dispatch) => function }} unboundActions
-   * @returns {[any[], { String: function }]} array of selected and object of boundActions
+   * @returns any[] array of selected
    */
-  function useRedux(selectors = [], unboundActions = {}) {
-    const { store, dispatch } = useContext(DataContext);
-
-    const selected = selectors.map(selector => selector(store));
-    const actions = Object.keys(unboundActions).reduce(
-      (actionMap, actionName) => {
-        actionMap[actionName] = unboundActions[actionName](dispatch);
-        return actionMap;
-      },
-      {}
-    );
-
-    return [selected, actions];
+  function useSelectors(...selectors) {
+    const { store } = useContext(DataContext);
+    return selectors.map(selector => selector(store));
   }
 
-  return { DataProvider, useRedux };
+  /*
+   * @function useActions
+   * @param { String: (dispatch) => function } unboundActions
+   * @returns { String: function } object of boundActions
+   */
+  function useActions(unboundActions = {}) {
+    const { dispatch } = useContext(DataContext);
+
+    return Object.keys(unboundActions).reduce((actionMap, actionName) => {
+      actionMap[actionName] = unboundActions[actionName](dispatch);
+      return actionMap;
+    }, {});
+  }
+
+  return { DataProvider, useSelectors, useActions };
 }

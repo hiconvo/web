@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import { useRedux } from "../redux";
+import { useSelectors, useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getIsLoggedIn, getIsLoading } from "../selectors";
 
 export default function AuthorizedRoute(props) {
   const { component: Component, ...rest } = props;
-  const [[isLoading, isLoggedIn], { loginUserWithToken }] = useRedux(
-    [getIsLoading, getIsLoggedIn],
-    unboundActions
-  );
+
+  const [isLoading, isLoggedIn] = useSelectors(getIsLoading, getIsLoggedIn);
+  const { loginUserWithToken } = useActions(unboundActions);
 
   useEffect(() => {
     if (!isLoggedIn) {

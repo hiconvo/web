@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 
-import { useRedux } from "../redux";
+import { useSelectors, useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getAuthErrors } from "../selectors";
 import { Box, TextInput, Button, LinkButton, Text } from "./styles";
 
 export default function LoginForm() {
-  const [[authErrors], { loginUserWithAuth }] = useRedux(
-    [getAuthErrors],
-    unboundActions
-  );
+  const [authErrors] = useSelectors(getAuthErrors);
+  const { loginUserWithAuth } = useActions(unboundActions);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

@@ -1,14 +1,13 @@
 import React from "react";
 
-import { useRedux } from "../redux";
+import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { Button } from "./styles";
 
 export default function LogoutButton() {
-  // eslint-disable-next-line no-unused-vars
-  const [_, { logoutUser }] = useRedux([], unboundActions);
+  const { logoutUser } = useActions(unboundActions);
 
-  function handleLogout(e) {
+  function handleLogout() {
     logoutUser();
   }
 

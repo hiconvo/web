@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "styled-system";
 
-import { useRedux } from "../redux";
+import { useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
 import LoginForm from "../components/LoginForm";
 import RegistrationForm from "../components/RegistrationForm";
@@ -23,8 +23,7 @@ const Container = styled.div`
 `;
 
 export default function Login(props) {
-  // eslint-disable-next-line no-unused-vars
-  const [[isLoggedIn], _] = useRedux([getIsLoggedIn], {});
+  const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
   useEffect(() => {
     if (isLoggedIn) {

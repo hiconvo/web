@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { themeGet } from "styled-system";
 
-import { useRedux } from "../redux";
+import { useSelectors, useActions } from "../redux";
 import { getThreads } from "../selectors";
 import * as unboundActions from "../actions/threads";
 import ThreadListItem from "../components/ThreadListItem";
@@ -16,7 +16,8 @@ const ThreadsContainer = styled.ul`
 `;
 
 export default function Main() {
-  const [[threads], { fetchThreads }] = useRedux([getThreads], unboundActions);
+  const [threads] = useSelectors(getThreads);
+  const { fetchThreads } = useActions(unboundActions);
 
   useEffect(() => {
     if (threads.length === 0) fetchThreads();

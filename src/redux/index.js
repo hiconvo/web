@@ -1,6 +1,9 @@
 import initRedux from "./plumbing";
 import reducer, { initialState } from "./reducer";
 
-const { DataProvider, useRedux } = initRedux(reducer, initialState);
+const { DataProvider, useSelectors, useActions } = initRedux(
+  reducer,
+  initialState
+);
 
-export { DataProvider, useRedux };
+export { DataProvider, useSelectors, useActions };

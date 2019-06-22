@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "styled-system";
 
-import { useRedux } from "../redux";
+import { useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
 import { Dropdown, LinkButton } from "./styles";
 import LogoutButton from "./LogoutButton";
@@ -38,8 +38,8 @@ const Item = styled.li`
   font-size: ${themeGet("fontSizes.1")};
 `;
 
-export default function UserMenu(props) {
-  const [[isLoggedIn]] = useRedux([getIsLoggedIn]);
+export default function UserMenu() {
+  const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
   if (!isLoggedIn) return null;
 

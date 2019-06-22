@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 
-import { useRedux } from "../redux";
+import { useActions, useSelectors } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getAuthErrors } from "../selectors";
 import { Box, TextInput, Button, LinkButton, Text } from "./styles";
 
 export default function RegistrationForm() {
-  const [[authErrors], { registerUser }] = useRedux(
-    [getAuthErrors],
-    unboundActions
-  );
+  const [authErrors] = useSelectors(getAuthErrors);
+  const { registerUser } = useActions(unboundActions);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
