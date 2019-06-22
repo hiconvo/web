@@ -7,23 +7,16 @@ import { getIsLoggedIn } from "../selectors";
 import { Dropdown, LinkButton } from "./styles";
 import LogoutButton from "./LogoutButton";
 
-const HoverRing = styled.div`
-  padding: ${themeGet("space.1")};
-  transition: background-color ease ${themeGet("animations.fast")};
-  border-radius: 100%;
-  background-color: transparent;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${themeGet("colors.snow")};
-  }
-`;
-
 const NullAvatar = styled.div`
   background-color: ${themeGet("colors.lightGray")};
   height: 3.6rem;
   width: 3.6rem;
   border-radius: 100%;
+  transition: all ease ${themeGet("animations.fast")};
+
+  &:hover {
+    box-shadow: ${themeGet("shadows.normal")};
+  }
 `;
 
 const List = styled.ul`
@@ -31,10 +24,15 @@ const List = styled.ul`
   background-color: ${themeGet("colors.trueWhite")};
   border: 0.1rem solid ${themeGet("colors.snow")};
   box-shadow: ${themeGet("shadows.normal")};
+  visibility: ${props => (props.isOpen ? "visible" : "hidden")};
+  transition: all ease ${themeGet("animations.fast")};
+  transform: ${props =>
+    props.isOpen ? "translateY(0rem)" : "translateY(-1rem)"};
+  opacity: ${props => (props.isOpen ? "1" : "0")};
 `;
 
 const Item = styled.li`
-  padding: ${themeGet("space.1")};
+  padding: ${themeGet("space.2")};
   font-size: ${themeGet("fontSizes.1")};
 `;
 
@@ -44,23 +42,19 @@ export default function UserMenu() {
   if (!isLoggedIn) return null;
 
   return (
-    <Dropdown
-      renderAnchor={({ onClick }) => (
-        <HoverRing onClick={onClick}>
-          <NullAvatar />
-        </HoverRing>
+    <Dropdown renderAnchor={({ onClick }) => <NullAvatar onClick={onClick} />}>
+      {({ isOpen }) => (
+        <List isOpen={isOpen}>
+          <Item>
+            <LinkButton to="/settings" width="100%">
+              Settings
+            </LinkButton>
+          </Item>
+          <Item>
+            <LogoutButton />
+          </Item>
+        </List>
       )}
-    >
-      <List>
-        <Item>
-          <LinkButton to="/settings" width="100%">
-            Settings
-          </LinkButton>
-        </Item>
-        <Item>
-          <LogoutButton />
-        </Item>
-      </List>
     </Dropdown>
   );
 }

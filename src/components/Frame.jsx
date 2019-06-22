@@ -11,7 +11,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - ${themeGet("space.3")} * 2);
+  width: calc(100% - ${themeGet("space.4")} * 2);
   height: ${themeGet("headerHeight")};
   padding: 0 ${themeGet("space.4")};
 `;

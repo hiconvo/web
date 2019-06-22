@@ -27,7 +27,7 @@ export default function Dropdown({ renderAnchor, children }) {
   return (
     <Box position="relative">
       <div>{renderAnchor({ onClick: toggle })}</div>
-      {isOpen && <Setter>{children}</Setter>}
+      <Setter>{children({ isOpen })}</Setter>
     </Box>
   );
 }
