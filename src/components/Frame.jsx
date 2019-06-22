@@ -6,14 +6,22 @@ import { Link } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import Logo from "./Logo";
 
+const Container = styled.div`
+  width: calc(100% - ${themeGet("space.4")} * 2);
+  max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.4")} * 2);
+  padding: 0 ${themeGet("space.4")};
+  margin: auto;
+`;
+
 const Header = styled.header`
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - ${themeGet("space.4")} * 2);
   height: ${themeGet("headerHeight")};
-  padding: 0 ${themeGet("space.4")};
+  width: calc(100% - ${themeGet("space.4")} * 2);
+  max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.4")} * 2);
+  margin: auto;
 `;
 
 const Slug = styled.div`
@@ -42,7 +50,7 @@ const WrappedLogo = () => (
 
 export default function Frame({ children }) {
   return (
-    <React.Fragment>
+    <Container>
       <Header>
         <WrappedLogo />
         <UserMenu />
@@ -50,6 +58,6 @@ export default function Frame({ children }) {
       <Slug />
       {children}
       <Footer />
-    </React.Fragment>
+    </Container>
   );
 }

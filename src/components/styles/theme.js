@@ -320,5 +320,8 @@ export default {
   },
 
   // Layout
-  headerHeight: "10rem"
+  pageMaxWidth: "192rem",
+  pageMaxWidthPx: "1920px",
+  headerHeight: "10rem",
+  sidebarWidth: "28rem"
 };
