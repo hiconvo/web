@@ -7,9 +7,10 @@ import UserMenu from "./UserMenu";
 import Logo from "./Logo";
 
 const Container = styled.div`
-  width: calc(100% - ${themeGet("space.4")} * 2);
-  max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.4")} * 2);
-  padding: 0 ${themeGet("space.4")};
+  width: calc(100% - ${themeGet("space.5")} * 2);
+  max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.5")} * 2);
+  height: 100vh;
+  padding: 0 ${themeGet("space.5")};
   margin: auto;
 `;
 
@@ -19,8 +20,8 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   height: ${themeGet("headerHeight")};
-  width: calc(100% - ${themeGet("space.4")} * 2);
-  max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.4")} * 2);
+  width: calc(100% - ${themeGet("space.5")} * 2);
+  max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.5")} * 2);
   margin: auto;
 `;
 

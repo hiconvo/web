@@ -13,6 +13,7 @@ const NullAvatar = styled.div`
   width: 3.6rem;
   border-radius: 100%;
   transition: all ease ${themeGet("animations.fast")};
+  cursor: pointer;
 
   &:hover {
     box-shadow: ${themeGet("shadows.normal")};

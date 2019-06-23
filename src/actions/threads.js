@@ -19,3 +19,18 @@ export const fetchThreads = dispatch =>
       dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
     }
   };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const setSelectedThread = dispatch =>
+  /*
+   * @returns {undefined}
+   */
+  threadId => {
+    dispatch({
+      type: "RECEIVE_SELECTED_THREAD",
+      payload: threadId
+    });
+  };

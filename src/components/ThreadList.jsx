@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { themeGet } from "styled-system";
 
 import { useSelectors, useActions } from "../redux";
-import { getThreads } from "../selectors";
+import { getThreads, getSelectedThread } from "../selectors";
 import * as unboundActions from "../actions/threads";
 import ThreadListItem from "./ThreadListItem";
 
@@ -21,7 +21,7 @@ const ThreadsContainer = styled.ul`
 `;
 
 export default function ThreadList() {
-  const [threads] = useSelectors(getThreads);
+  const [threads, { id }] = useSelectors(getThreads, getSelectedThread);
   const { fetchThreads } = useActions(unboundActions);
 
   useEffect(() => {
@@ -31,7 +31,11 @@ export default function ThreadList() {
   return (
     <ThreadsContainer>
       {threads.map(thread => (
-        <ThreadListItem key={thread.id} thread={thread} />
+        <ThreadListItem
+          key={thread.id}
+          thread={thread}
+          isSelected={thread.id === id}
+        />
       ))}
     </ThreadsContainer>
   );

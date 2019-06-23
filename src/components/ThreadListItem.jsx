@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { format } from "date-fns";
 import { themeGet } from "styled-system";
 
+import { useActions } from "../redux";
+import * as unboundActions from "../actions/threads";
+
 const timestampWidth = "6rem";
 
 const ListItem = styled.li`
@@ -14,6 +17,12 @@ const ListItem = styled.li`
   border-bottom: 0.1rem solid ${themeGet("colors.lightGray")};
   overflow: hidden;
   width: calc(100% - ${themeGet("space.2")} * 2);
+  flex-shrink: 0;
+
+  background-color: ${props =>
+    props.isSelected
+      ? props.theme.colors.primary100
+      : props.theme.colors.trueWhite};
 
   &:hover {
     background-color: ${themeGet("colors.snow")};
@@ -66,9 +75,15 @@ const Timestamp = styled.span`
   color: ${themeGet("colors.gray")};
 `;
 
-export default function ThreadListItem({ thread }) {
+export default function ThreadListItem({ thread, isSelected }) {
+  const { setSelectedThread } = useActions(unboundActions);
+
+  function handleClick() {
+    setSelectedThread(thread.id);
+  }
+
   return (
-    <ListItem>
+    <ListItem onClick={handleClick} isSelected={isSelected}>
       <FromContainer>
         <From>{thread.users.map(user => user.firstName).join(",")}</From>
         <Timestamp>

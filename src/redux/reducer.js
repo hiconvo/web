@@ -8,6 +8,7 @@ export const initialState = {
     auth: null
   },
   user: null,
+  selectedThreadId: null,
   threads: [],
   messages: [],
   contacts: []
@@ -29,6 +30,17 @@ export default function reducer(state, action) {
         loading: {
           global: false
         }
+      });
+    case "RECEIVE_MESSAGES":
+      return Object.assign({}, state, {
+        messages: state.messages.concat(action.payload),
+        loading: {
+          global: false
+        }
+      });
+    case "RECEIVE_SELECTED_THREAD":
+      return Object.assign({}, state, {
+        selectedThreadId: action.payload
       });
     case "RECEIVE_AUTH_ERROR":
       return Object.assign({}, state, {

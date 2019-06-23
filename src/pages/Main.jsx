@@ -4,6 +4,7 @@ import { themeGet } from "styled-system";
 
 import Sidebar from "../components/Sidebar";
 import Viewer from "../components/Viewer";
+import Contacts from "../components/Contacts";
 
 const Container = styled.div`
   display: grid;
@@ -11,6 +12,8 @@ const Container = styled.div`
   "sidebarWidth"
 )}
   width: 100%;
+  height: auto;
+  min-height: calc(100vh - ${themeGet("headerHeight")});
 `;
 
 export default function Main() {
@@ -18,7 +21,7 @@ export default function Main() {
     <Container>
       <Sidebar />
       <Viewer />
-      <div />
+      <Contacts />
     </Container>
   );
 }

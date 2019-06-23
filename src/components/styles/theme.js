@@ -328,9 +328,9 @@ export default {
   },
 
   // Layout
-  pageMaxWidth: "192rem",
-  pageMaxWidthPx: "1920px",
-  headerHeight: "10rem",
+  pageMaxWidth: "144rem",
+  pageMaxWidthPx: "1440px",
+  headerHeight: "12rem",
   sidebarWidth: "28rem",
   sidebarChromeHeight: "5rem"
 };
