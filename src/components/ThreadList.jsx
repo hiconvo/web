@@ -25,8 +25,8 @@ export default function ThreadList() {
   const { fetchThreads } = useActions(unboundActions);
 
   useEffect(() => {
-    if (threads.length === 0) fetchThreads();
-  }, [fetchThreads, threads]);
+    fetchThreads();
+  }, [fetchThreads]);
 
   return (
     <ThreadsContainer>

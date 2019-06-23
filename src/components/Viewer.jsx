@@ -5,6 +5,7 @@ import { themeGet } from "styled-system";
 import { useSelectors, useActions } from "../redux";
 import { getSelectedThread, getMessagesBySelectedThread } from "../selectors";
 import * as unboundActions from "../actions/messages";
+import Message from "./Message";
 
 const Container = styled.main`
   display: flex;
@@ -22,12 +23,12 @@ export default function Viewer() {
 
   useEffect(() => {
     id && messages.length === 0 && fetchMessages(id);
-  }, [id, messages.length]);
+  }, [id, messages.length, fetchMessages]);
 
   return (
     <Container>
       {messages.map(message => (
-        <div key={message.id}>{message.body}</div>
+        <Message key={message.id} message={message} />
       ))}
     </Container>
   );

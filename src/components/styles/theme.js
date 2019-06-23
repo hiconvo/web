@@ -46,7 +46,7 @@ const whites = [
   `rgba(255, 255, 255, ${opacities[4]})`
 ];
 
-const primary100 = "#78e8d7";
+const primary100 = "#e3faf6";
 const primary300 = "#45dfc8";
 const primary500 = "#00D4B5";
 const primary700 = "#00a88f";

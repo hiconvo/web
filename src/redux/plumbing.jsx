@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext, useMemo } from "react";
 
 /*
  * @function initRedux
@@ -34,15 +34,21 @@ export default function initRedux(reducer, initialState) {
   /*
    * @function useActions
    * @param { String: (dispatch) => function } unboundActions
+   * @param dependencies[] dependecies
    * @returns { String: function } object of boundActions
    */
-  function useActions(unboundActions = {}) {
+  function useActions(unboundActions = {}, deps) {
     const { dispatch } = useContext(DataContext);
 
-    return Object.keys(unboundActions).reduce((actionMap, actionName) => {
-      actionMap[actionName] = unboundActions[actionName](dispatch);
-      return actionMap;
-    }, {});
+    return useMemo(
+      () =>
+        Object.keys(unboundActions).reduce((actionMap, actionName) => {
+          actionMap[actionName] = unboundActions[actionName](dispatch);
+          return actionMap;
+        }, {}),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      deps ? [dispatch, ...deps] : [dispatch]
+    );
   }
 
   return { DataProvider, useSelectors, useActions };
