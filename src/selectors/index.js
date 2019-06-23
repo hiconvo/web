@@ -21,6 +21,10 @@ export function getAuthErrors(store) {
   }, {});
 }
 
+export function getUser(store) {
+  return store.user
+}
+
 export function getThreads(store) {
   return store.threads;
 }

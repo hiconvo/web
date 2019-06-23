@@ -52,7 +52,7 @@ const Globals = createGlobalStyle`
   body {
     background-color: #fafafa;
     color: ${theme.colors.black};
-    font-family: ${theme.fonts.main};
+    font-family: ${theme.fonts.sans};
     font-size: ${theme.fontSizes[1]};
     line-height: ${theme.lineHeights.normal};
   }

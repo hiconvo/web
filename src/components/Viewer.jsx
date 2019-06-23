@@ -3,21 +3,24 @@ import styled from "styled-components";
 import { themeGet } from "styled-system";
 
 import { useSelectors, useActions } from "../redux";
-import { getSelectedThread, getMessagesBySelectedThread } from "../selectors";
+import {
+  getSelectedThread,
+  getMessagesBySelectedThread,
+  getUser
+} from "../selectors";
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
 
 const Container = styled.main`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: block;
   padding: 0 ${themeGet("space.5")};
 `;
 
 export default function Viewer() {
-  const [{ id }, messages] = useSelectors(
+  const [{ id }, messages, user] = useSelectors(
     getSelectedThread,
-    getMessagesBySelectedThread
+    getMessagesBySelectedThread,
+    getUser
   );
   const { fetchMessages } = useActions(unboundActions);
 
@@ -28,7 +31,11 @@ export default function Viewer() {
   return (
     <Container>
       {messages.map(message => (
-        <Message key={message.id} message={message} />
+        <Message
+          key={message.id}
+          message={message}
+          isAuthor={user.id === message.user.id}
+        />
       ))}
     </Container>
   );

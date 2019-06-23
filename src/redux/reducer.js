@@ -27,6 +27,9 @@ export default function reducer(state, action) {
     case "RECEIVE_THREADS":
       return Object.assign({}, state, {
         threads: state.threads.concat(action.payload),
+        selectedThreadId: state.selectedThreadId
+          ? state.selectedThreadId
+          : action.payload.length > 0 && action.payload[0].id,
         loading: {
           global: false
         }

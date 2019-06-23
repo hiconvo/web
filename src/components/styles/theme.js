@@ -26,6 +26,7 @@ const black = "#1b1f23";
 const darkGray = "#2f363d";
 const mediumGray = "#959da5";
 const lightGray = "#d1d5da";
+const veryLightGray = "#f3f3f3";
 const snow = "#f6f8fa";
 const white = "#fafafa";
 const trueWhite = "#ffffff";
@@ -81,8 +82,8 @@ const SYSTEM_FONTS =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
 
 const fonts = {
-  main: `"Muli", ${SYSTEM_FONTS}`,
-  special: `"Quicksand", ${SYSTEM_FONTS}`
+  sans: `"Inter", ${SYSTEM_FONTS}`,
+  serif: `Georgia, Cambria, "Times New Roman", Times, serif`
 };
 
 const fontWeights = {
@@ -178,6 +179,7 @@ export default {
     darkGray,
     mediumGray,
     lightGray,
+    veryLightGray,
     snow,
     white,
     trueWhite,
