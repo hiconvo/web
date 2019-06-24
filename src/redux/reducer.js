@@ -1,3 +1,5 @@
+import { isBefore } from "date-fns";
+
 export const initialState = {
   loading: {
     global: true,
@@ -36,7 +38,9 @@ export default function reducer(state, action) {
       });
     case "RECEIVE_MESSAGES":
       return Object.assign({}, state, {
-        messages: state.messages.concat(action.payload),
+        messages: state.messages
+          .concat(action.payload)
+          .sort((a, b) => isBefore(a.timestamp, b.timestamp)),
         loading: {
           global: false
         }

@@ -14,7 +14,6 @@ const ListItem = styled.li`
   padding: ${themeGet("space.2")};
   cursor: pointer;
   transition: all ease ${themeGet("animations.fast")};
-  border-bottom: 0.1rem solid ${themeGet("colors.lightGray")};
   overflow: hidden;
   width: calc(100% - ${themeGet("space.2")} * 2);
   flex-shrink: 0;

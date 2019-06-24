@@ -10,6 +10,7 @@ import {
 } from "../selectors";
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
+import Composer from "./Composer";
 
 const Container = styled.main`
   display: block;
@@ -30,6 +31,7 @@ export default function Viewer() {
 
   return (
     <Container>
+      <Composer />
       {messages.map(message => (
         <Message
           key={message.id}

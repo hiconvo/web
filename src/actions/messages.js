@@ -35,5 +35,6 @@ export const createMessage = dispatch =>
       dispatch({ type: "RECEIVE_MESSAGES", payload: [message] });
     } catch (error) {
       dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
+      return Promise.reject();
     }
   };

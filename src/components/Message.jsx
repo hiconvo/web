@@ -12,9 +12,9 @@ const Container = styled.div`
     props.isAuthor
       ? props.theme.colors.primary100
       : props.theme.colors.veryLightGray};
-  border-radius: ${themeGet("sidebarChromeHeight")};
+  border-radius: ${themeGet("radii.normal")};
   font-family: ${themeGet("fonts.serif")};
-  font-size: ${themeGet("fontSizes.2")};
+  font-size: ${themeGet("fontSizes.3")};
   line-height: 1.5em;
 `;
 

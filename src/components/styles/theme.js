@@ -99,8 +99,8 @@ const letterSpacings = {
 };
 
 const radii = {
-  normal: space[1],
-  special: space[3],
+  normal: space[3],
+  special: space[4],
   round: "1000em"
 };
 
@@ -170,7 +170,9 @@ export default {
 
     // Various gradients
     gradients: {
-      primary: `linear-gradient(to bottom right, ${primary500}, #8A96FD)`
+      primary: `linear-gradient(to bottom right, ${primary500}, #8A96FD)`,
+      toTop: `linear-gradient(to top, ${trueWhite}, transparent)`,
+      toBottom: `linear-gradient(to bottom, ${trueWhite}, transparent)`
     },
 
     // Grays
@@ -287,6 +289,7 @@ export default {
     },
     brand: {
       color: primary500,
+      fontWeight: fontWeights.regular,
       backgroundColor: "inherit",
       "&:hover": {
         color: primary700
