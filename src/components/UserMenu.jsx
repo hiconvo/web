@@ -23,13 +23,14 @@ const NullAvatar = styled.div`
 const List = styled.ul`
   width: 16rem;
   background-color: ${themeGet("colors.trueWhite")};
-  border: 0.1rem solid ${themeGet("colors.snow")};
+  border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
   visibility: ${props => (props.isOpen ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
   transform: ${props =>
     props.isOpen ? "translateY(0rem)" : "translateY(-1rem)"};
   opacity: ${props => (props.isOpen ? "1" : "0")};
+  z-index: 30;
 `;
 
 const Item = styled.li`

@@ -20,7 +20,14 @@ import {
   flexWrap,
   alignItems
 } from "styled-system";
-import { float, flexShrink, cursor, backgroundColor, maxWidth } from "./utils";
+import {
+  float,
+  flexShrink,
+  cursor,
+  backgroundColor,
+  maxWidth,
+  zIndex
+} from "./utils";
 
 const Box = styled("div")(
   {
@@ -51,7 +58,8 @@ const Box = styled("div")(
   cursor,
   backgroundColor,
   flexDirection,
-  maxWidth
+  maxWidth,
+  zIndex
 );
 
 Box.defaultProps = {

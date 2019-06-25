@@ -2,7 +2,7 @@ import React from "react";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
-import { Button } from "./styles";
+import { Button, Text } from "./styles";
 
 export default function LogoutButton() {
   const { logoutUser } = useActions(unboundActions);
@@ -12,13 +12,10 @@ export default function LogoutButton() {
   }
 
   return (
-    <Button
-      variant="tertiary"
-      textAlign="left"
-      width="100%"
-      onClick={handleLogout}
-    >
-      Logout
+    <Button variant="tertiary" width="100%" onClick={handleLogout}>
+      <Text textAlign="left" width="100%" color="inherit">
+        Logout
+      </Text>
     </Button>
   );
 }

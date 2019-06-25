@@ -33,3 +33,7 @@ export const textOverflow = style({
 export const maxWidth = style({
   prop: "maxWidth"
 });
+
+export const zIndex = style({
+  prop: "zIndex"
+});

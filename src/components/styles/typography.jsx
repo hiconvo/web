@@ -10,7 +10,6 @@ const Text = styled(Box)`
   ${textStyle}
   ${colorStyle}
   text-align: ${props => props.textAlign};
-  font-family: ${props => themeGet(props.fontFamily)(props)};
 `;
 
 Text.defaultProps = {
@@ -18,7 +17,7 @@ Text.defaultProps = {
   display: "inline",
   color: "bodytext",
   textAlign: "left",
-  fontFamily: "fonts.sans"
+  fontFamily: "sans"
 };
 
 const Paragraph = styled(Text)({});
@@ -38,7 +37,6 @@ const Heading = styled(Text)({});
 Heading.defaultProps = {
   as: "h1",
   display: "block",
-  mt: [1, null, 2],
   mb: [2, null, 3],
   lineHeight: "title",
   textAlign: "left",
