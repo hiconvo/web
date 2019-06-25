@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { themeGet } from "styled-system";
 
@@ -11,6 +11,7 @@ import {
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
 import Composer from "./Composer";
+import { Ripple } from "./styles";
 
 const Container = styled.main`
   display: block;
@@ -18,6 +19,7 @@ const Container = styled.main`
 `;
 
 export default function Viewer() {
+  const [isLoading, setIsLoading] = useState(false);
   const [{ id }, messages, user] = useSelectors(
     getSelectedThread,
     getMessagesBySelectedThread,
@@ -26,12 +28,21 @@ export default function Viewer() {
   const { fetchMessages } = useActions(unboundActions);
 
   useEffect(() => {
-    id && messages.length === 0 && fetchMessages(id);
+    async function handleFetchMessages() {
+      setIsLoading(true);
+      await fetchMessages(id);
+      setIsLoading(false);
+    }
+
+    if (id && messages.length === 0) {
+      handleFetchMessages();
+    }
   }, [id, messages.length, fetchMessages]);
 
   return (
     <Container>
       <Composer />
+      {isLoading && <Ripple />}
       {messages.map(message => (
         <Message
           key={message.id}

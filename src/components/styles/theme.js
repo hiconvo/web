@@ -24,6 +24,7 @@ const trueBlack = "#000000";
 const bodytext = "#24292e";
 const black = "#1b1f23";
 const darkGray = "#2f363d";
+const gray = "#646d75";
 const mediumGray = "#959da5";
 const lightGray = "#d1d5da";
 const veryLightGray = "#f3f3f3";
@@ -50,7 +51,7 @@ const whites = [
 const primary100 = "#e3faf6";
 const primary300 = "#45dfc8";
 const primary500 = "#00D4B5";
-const primary700 = "#00a88f";
+const primary700 = "#00bfa2";
 const primary900 = "#006556";
 
 const success100 = "#8ae87a";
@@ -88,6 +89,7 @@ const fonts = {
 
 const fontWeights = {
   regular: 400,
+  semiBold: 500,
   bold: 700,
   extraBold: 800
 };
@@ -179,6 +181,7 @@ export default {
     trueBlack,
     black,
     darkGray,
+    gray,
     mediumGray,
     lightGray,
     veryLightGray,
@@ -261,15 +264,17 @@ export default {
   buttons: {
     primary: {
       color: white,
-      backgroundColor: black,
+      backgroundColor: primary700,
+      borderRadius: radii.special,
       "&:hover": {
-        backgroundColor: darkGray,
+        backgroundColor: primary900,
         boxShadow: shadows.normal
       }
     },
     secondary: {
       color: black,
       backgroundColor: snow,
+      borderRadius: radii.normal,
       "&:hover": {
         backgroundColor: lightGray
       }
@@ -283,6 +288,7 @@ export default {
       margin: "inherit",
       transition: `color ease ${animations.fast}`,
       backgroundColor: transparent,
+      borderRadius: radii.normal,
       "&:hover": {
         color: mediumGray
       }
@@ -291,43 +297,9 @@ export default {
       color: primary500,
       fontWeight: fontWeights.regular,
       backgroundColor: "inherit",
+      borderRadius: radii.normal,
       "&:hover": {
         color: primary700
-      }
-    },
-    success: {
-      color: white,
-      backgroundColor: success500,
-      "&:hover": {
-        backgroundColor: success700
-      }
-    },
-    warning: {
-      color: white,
-      backgroundColor: warning500,
-      "&:hover": {
-        backgroundColor: warning700
-      }
-    },
-    error: {
-      color: white,
-      backgroundColor: error500,
-      "&:hover": {
-        backgroundColor: error700
-      }
-    },
-    facebook: {
-      color: white,
-      backgroundColor: socialMediaColors.facebook,
-      "&:hover": {
-        backgroundColor: socialMediaColors.facebookHover
-      }
-    },
-    twitter: {
-      color: white,
-      backgroundColor: socialMediaColors.twitter,
-      "&:hover": {
-        backgroundColor: socialMediaColors.twitterHover
       }
     }
   },

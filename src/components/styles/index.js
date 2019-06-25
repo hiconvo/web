@@ -5,6 +5,8 @@ import Button from "./Button";
 import LinkButton from "./LinkButton";
 import Icon from "./Icon";
 import Dropdown from "./Dropdown";
+import Ripple from "./Ripple";
+import Spinner from "./Spinner";
 import theme from "./theme";
 import Reset from "./Reset";
 
@@ -19,5 +21,7 @@ export {
   Reset,
   Icon,
   Dropdown,
-  theme
+  theme,
+  Ripple,
+  Spinner
 };

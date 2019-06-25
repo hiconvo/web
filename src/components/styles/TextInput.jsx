@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { themeGet } from "styled-system";
 
+import Box from "./Box";
 import { Text } from "./typography";
 
 const Input = styled.input`
@@ -10,8 +11,9 @@ const Input = styled.input`
   border: 0.1rem solid ${themeGet("colors.lightGray")};
   outline: none;
   transition: border ease ${themeGet("animations.fast")};
-  font-size: ${themeGet("fontSizes.2")};
-  color: ${themeGet("colors.black")};
+  font-size: ${themeGet("fontSizes.3")};
+  color: ${themeGet("colors.bodytext")};
+  border-radius: 0.4rem;
 
   &:hover {
     border: 0.1rem solid ${themeGet("colors.mediumGray")};
@@ -28,14 +30,17 @@ const Input = styled.input`
   `}
 `;
 
-const Label = styled.label`
+const Label = styled(Box)`
   display: flex;
   flex-direction: column;
   padding: ${themeGet("space.1")} 0;
-  margin-bottom: ${themeGet("space.2")};
 `;
 
-function TextInput({ name, value, error, type, onChange }) {
+Label.defaultProps = {
+  mb: 2
+};
+
+function TextInput({ name, value, error, type, onChange, ...rest }) {
   const [isError, setIsError] = useState(false);
 
   function handleChange(e) {
@@ -49,7 +54,7 @@ function TextInput({ name, value, error, type, onChange }) {
   }, [error]);
 
   return (
-    <Label>
+    <Label as="label" {...rest}>
       <Text fontSize={1}>{name}</Text>
       <Input
         type={type}

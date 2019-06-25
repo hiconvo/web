@@ -10,10 +10,13 @@ export default function LoginForm() {
   const { loginUserWithAuth } = useActions(unboundActions);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    loginUserWithAuth({ email, password });
+    setIsLoading(true);
+    await loginUserWithAuth({ email, password });
+    setIsLoading(false);
   }
 
   function handleEmailChange(e) {
@@ -42,8 +45,9 @@ export default function LoginForm() {
         value={password}
         onChange={handlePasswordChange}
         error={authErrors.password}
+        mb={4}
       />
-      <Button mt={2} mb={4} type="submit">
+      <Button mt={2} mb={4} type="submit" isLoading={isLoading}>
         Login
       </Button>
       <LinkButton to="/login/register" textAlign="center" fontSize={1}>

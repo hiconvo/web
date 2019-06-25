@@ -33,7 +33,8 @@ export default function reducer(state, action) {
           ? state.selectedThreadId
           : action.payload.length > 0 && action.payload[0].id,
         loading: {
-          global: false
+          global: false,
+          threads: false
         }
       });
     case "RECEIVE_MESSAGES":
@@ -42,7 +43,8 @@ export default function reducer(state, action) {
           .concat(action.payload)
           .sort((a, b) => isBefore(a.timestamp, b.timestamp)),
         loading: {
-          global: false
+          global: false,
+          messages: false
         }
       });
     case "RECEIVE_SELECTED_THREAD":
@@ -72,6 +74,8 @@ export default function reducer(state, action) {
           auth: false
         }
       });
+    case "RECEIVE_LOADING_STATE":
+      return Object.assign({}, state, { ...state.loading, ...action.payload });
     default:
       return state;
   }

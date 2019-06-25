@@ -4,7 +4,7 @@ import { themeGet } from "styled-system";
 
 import Sidebar from "../components/Sidebar";
 import Viewer from "../components/Viewer";
-import Contacts from "../components/Contacts";
+import InfoBox from "../components/InfoBox";
 
 const Container = styled.div`
   display: grid;
@@ -21,7 +21,7 @@ export default function Main() {
     <Container>
       <Sidebar />
       <Viewer />
-      <Contacts />
+      <InfoBox />
     </Container>
   );
 }

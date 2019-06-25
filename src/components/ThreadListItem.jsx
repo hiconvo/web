@@ -11,12 +11,13 @@ const timestampWidth = "6rem";
 const ListItem = styled.li`
   display: flex;
   flex-direction: column;
-  padding: ${themeGet("space.2")};
+  padding: ${themeGet("space.3")};
   cursor: pointer;
   transition: all ease ${themeGet("animations.fast")};
   overflow: hidden;
-  width: calc(100% - ${themeGet("space.2")} * 2);
+  width: calc(100% - ${themeGet("space.3")} * 2);
   flex-shrink: 0;
+  border-bottom: 0.1rem solid ${themeGet("colors.veryLightGray")};
 
   background-color: ${props =>
     props.isSelected
@@ -29,7 +30,7 @@ const ListItem = styled.li`
 `;
 
 const FromContainer = styled.div`
-  margin-bottom: ${themeGet("space.1")};
+  margin-bottom: ${themeGet("space.2")};
 `;
 
 const From = styled.span`
@@ -61,7 +62,7 @@ const Preview = styled.span`
   height: 2.4em;
   line-height: 1.2em;
   font-size: ${themeGet("fontSizes.0")};
-  color: ${themeGet("colors.mediumGray")};
+  color: ${themeGet("colors.gray")};
 `;
 
 const Timestamp = styled.span`
@@ -71,7 +72,7 @@ const Timestamp = styled.span`
   text-transform: uppercase;
   font-weight: 500;
   font-size: ${themeGet("fontSizes.0")};
-  color: ${themeGet("colors.gray")};
+  color: ${themeGet("colors.mediumGray")};
 `;
 
 export default function ThreadListItem({ thread, isSelected }) {

@@ -12,13 +12,14 @@ const Container = styled.div``;
 const Fixed = styled.div`
   position: fixed;
   background-color: ${themeGet("colors.trueWhite")};
-  top: calc(${themeGet("headerHeight")} + ${themeGet("space.3")});
-  left: ${themeGet("space.5")};
+  top: auto;
+  left: auto;
   width: calc(${themeGet("sidebarWidth")} - 0.1rem);
   height: calc(
     100vh - (${themeGet("headerHeight")} + ${themeGet("space.3")}) -
       ${themeGet("space.5")}
   );
+  max-height: 70rem;
   border-radius: ${themeGet("radii.special")};
   box-shadow: ${themeGet("shadows.spread")};
   overflow: hidden;

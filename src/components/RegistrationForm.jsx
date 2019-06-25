@@ -12,10 +12,13 @@ export default function RegistrationForm() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleRegistration(e) {
+  async function handleRegistration(e) {
     e.preventDefault();
-    registerUser({ firstName, lastName, email, password });
+    setIsLoading(true);
+    await registerUser({ firstName, lastName, email, password });
+    setIsLoading(false);
   }
 
   return (
@@ -48,8 +51,9 @@ export default function RegistrationForm() {
         value={password}
         onChange={e => setPassword(e.target.value)}
         error={authErrors.password}
+        mb={4}
       />
-      <Button mt={2} mb={4} type="submit">
+      <Button mt={2} mb={4} type="submit" isLoading={isLoading}>
         Sign up
       </Button>
       <LinkButton to="/login" textAlign="center" fontSize={1}>

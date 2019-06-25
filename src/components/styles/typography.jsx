@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { letterSpacing, colorStyle, textStyle } from "styled-system";
+import { letterSpacing, colorStyle, textStyle, themeGet } from "styled-system";
 import { textOverflow } from "./utils";
 
 import Box from "./Box";
@@ -10,13 +10,15 @@ const Text = styled(Box)`
   ${textStyle}
   ${colorStyle}
   text-align: ${props => props.textAlign};
+  font-family: ${props => themeGet(props.fontFamily)(props)};
 `;
 
 Text.defaultProps = {
   as: "span",
   display: "inline",
   color: "bodytext",
-  textAlign: "left"
+  textAlign: "left",
+  fontFamily: "fonts.sans"
 };
 
 const Paragraph = styled(Text)({});
