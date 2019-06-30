@@ -84,7 +84,8 @@ const SYSTEM_FONTS =
 
 const fonts = {
   sans: `"Inter", ${SYSTEM_FONTS}`,
-  serif: `Georgia, Cambria, "Times New Roman", Times, serif`
+  serif: `Georgia, Cambria, "Times New Roman", Times, serif`,
+  mono: "monospace"
 };
 
 const fontWeights = {
