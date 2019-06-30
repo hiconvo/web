@@ -31,6 +31,7 @@ export default function RegistrationForm() {
         value={firstName}
         onChange={e => setFirstName(e.target.value)}
         error={authErrors.firstName}
+        required
       />
       <TextInput
         name="Last name"
@@ -44,6 +45,7 @@ export default function RegistrationForm() {
         value={email}
         onChange={e => setEmail(e.target.value)}
         error={authErrors.email}
+        required
       />
       <TextInput
         name="Password"
@@ -51,6 +53,7 @@ export default function RegistrationForm() {
         value={password}
         onChange={e => setPassword(e.target.value)}
         error={authErrors.password}
+        required
         mb={4}
       />
       <Button mt={2} mb={4} type="submit" isLoading={isLoading}>

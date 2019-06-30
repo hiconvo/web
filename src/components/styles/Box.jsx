@@ -64,11 +64,11 @@ const Box = styled("div")(
 
 Box.defaultProps = {
   as: "div",
-  fontFamily: "main",
+  fontFamily: "sans",
   fontSize: 2,
   lineHeight: "normal",
   fontWeight: "regular",
-  color: "black",
+  color: "bodytext",
   display: "flex",
   flexDirection: "column"
 };

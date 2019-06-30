@@ -38,6 +38,7 @@ export default function LoginForm() {
         value={email}
         onChange={handleEmailChange}
         error={authErrors.email}
+        required
       />
       <TextInput
         name="Password"
@@ -45,6 +46,7 @@ export default function LoginForm() {
         value={password}
         onChange={handlePasswordChange}
         error={authErrors.password}
+        required
         mb={4}
       />
       <Button mt={2} mb={4} type="submit" isLoading={isLoading}>

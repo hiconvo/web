@@ -15,6 +15,9 @@ const Label = styled.span`
 
 export default function InfoBox() {
   const [thread] = useSelectors(getSelectedThread);
+
+  if (!thread.id) return null;
+
   return (
     <Box>
       <Box position="fixed" zIndex="-1">

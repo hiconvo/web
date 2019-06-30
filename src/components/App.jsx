@@ -8,6 +8,7 @@ import AuthorizedRoute from "./AuthorizedRoute";
 import Frame from "./Frame";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
+import NewThread from "../pages/NewThread";
 import Settings from "../pages/Settings";
 
 export default function App() {
@@ -20,8 +21,13 @@ export default function App() {
               <Switch>
                 <Route path="/login" component={Login} />
                 <AuthorizedRoute path="/settings" component={Settings} />
-                <AuthorizedRoute path="/" component={Main} />
-                <Redirect to="/" />
+                <AuthorizedRoute path="/convos" exact component={Main} />
+                <AuthorizedRoute
+                  path="/convos/new"
+                  exact
+                  component={NewThread}
+                />
+                <Redirect to="/convos" />
               </Switch>
             </Frame>
           </HashRouter>

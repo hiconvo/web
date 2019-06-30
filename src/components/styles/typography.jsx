@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { letterSpacing, colorStyle, textStyle, themeGet } from "styled-system";
+import { letterSpacing, colorStyle, textStyle } from "styled-system";
 import { textOverflow } from "./utils";
 
 import Box from "./Box";

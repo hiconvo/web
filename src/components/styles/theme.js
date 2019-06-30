@@ -101,6 +101,7 @@ const letterSpacings = {
 };
 
 const radii = {
+  small: space[1],
   normal: space[3],
   special: space[4],
   round: "1000em"

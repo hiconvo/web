@@ -7,6 +7,7 @@ import Icon from "./Icon";
 import Dropdown from "./Dropdown";
 import Ripple from "./Ripple";
 import Spinner from "./Spinner";
+import FloatingPill from "./FloatingPill";
 import theme from "./theme";
 import Reset from "./Reset";
 
@@ -23,5 +24,6 @@ export {
   Dropdown,
   theme,
   Ripple,
-  Spinner
+  Spinner,
+  FloatingPill
 };
