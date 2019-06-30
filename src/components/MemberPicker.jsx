@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { useDebounce } from "../hooks";
 import { userSearch } from "../api/search";
-import { Box, UnstyledButton } from "./styles";
+import { Box } from "./styles";
 
 const Input = styled.input`
   padding: ${themeGet("space.2")};
@@ -21,6 +21,7 @@ const List = styled.ul`
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
+  padding: ${themeGet("space.2")} 0;
   visibility: ${props => (props.isOpen ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
   transform: ${props =>
@@ -29,23 +30,39 @@ const List = styled.ul`
   z-index: 30;
 `;
 
-const Item = styled.li`
-  padding: ${themeGet("space.3")};
+const Item = styled.button`
+  padding: ${themeGet("space.2")} ${themeGet("space.3")};
   font-size: ${themeGet("fontSizes.2")};
+  background: inherit;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+
+  &:focus,
+  &:hover {
+    background-color: ${themeGet("colors.veryLightGray")};
+  }
 `;
 
 export default function MemberPicker({ members, setMembers }) {
+  const inputEl = useRef(null);
+  const inputContainerEl = useRef(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const debouncedQuery = useDebounce(query, 300);
 
   function handleAddMember(member) {
-    return () => {
+    return e => {
+      e.preventDefault();
+
       if (!members.some(m => m.id === member.id)) {
         setMembers(members.concat(member));
         setQuery("");
         setResults([]);
+        inputEl.current.focus();
       }
     };
   }
@@ -58,9 +75,26 @@ export default function MemberPicker({ members, setMembers }) {
     if (debouncedQuery) {
       userSearch(debouncedQuery).then(payload => {
         setResults(payload.users);
+        if (payload.users.length > 0) setIsDropdownOpen(true);
       });
     }
   }, [debouncedQuery]);
+
+  useEffect(() => {
+    function handleCloseDropdown(e) {
+      if (!inputContainerEl.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    if (isDropdownOpen) {
+      document.addEventListener("click", handleCloseDropdown);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleCloseDropdown);
+    };
+  }, [isDropdownOpen, setIsDropdownOpen, inputContainerEl]);
 
   return (
     <Box flexDirection="row">
@@ -69,20 +103,19 @@ export default function MemberPicker({ members, setMembers }) {
           <li onClick={handleRemoveMember(member)}>{member.fullName}</li>
         ))}
       </Box>
-      <Box position="relative">
+      <Box position="relative" ref={inputContainerEl}>
         <Input
+          ref={inputEl}
           type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
         <Box position="absolute" left="0" top="100%">
-          <List isOpen={results.length > 0}>
+          <List isOpen={isDropdownOpen}>
             {results.map(result => (
-              <Item>
-                <UnstyledButton onClick={handleAddMember(result)}>
-                  {result.fullName}
-                </UnstyledButton>
-              </Item>
+              <li>
+                <Item onClick={handleAddMember(result)}>{result.fullName}</Item>
+              </li>
             ))}
           </List>
         </Box>
