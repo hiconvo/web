@@ -79,6 +79,7 @@ export const registerUser = dispatch =>
   async payload => {
     try {
       const user = await API.createUser(payload);
+      localStorage.setItem("userToken", user.token);
       dispatch({
         type: "RECEIVE_USER",
         payload: user

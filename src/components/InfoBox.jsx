@@ -20,7 +20,7 @@ export default function InfoBox() {
 
   return (
     <Box>
-      <Box position="fixed" zIndex="-1">
+      <Box position="fixed" width="28rem">
         <Label>Subject</Label>
         <Heading fontFamily="sans" fontSize={4} mb={4} mt="0">
           {thread.subject}
@@ -30,7 +30,7 @@ export default function InfoBox() {
         <Box as="ul" mb={4}>
           {thread.users &&
             thread.users.map(user => (
-              <Text as="li" fontFamily="sans" fontSize={3} mb={2}>
+              <Text as="li" fontFamily="sans" fontSize={3} mb={2} key={user.id}>
                 {user.fullName}
               </Text>
             ))}

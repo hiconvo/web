@@ -13,6 +13,7 @@ const nullValue = Plain.deserialize("");
 export default function Composer() {
   const [currentValue, setValue] = useState(nullValue);
   const [{ id: threadId }] = useSelectors(getSelectedThread);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { createMessage } = useActions(unboundActions);
 
   function handleChange({ value }) {
@@ -20,12 +21,16 @@ export default function Composer() {
   }
 
   async function handleSend() {
+    setIsDisabled(true);
+
     try {
       await createMessage(threadId, { body: Plain.serialize(currentValue) });
     } catch (e) {
+      setIsDisabled(false);
       return e;
     }
 
+    setIsDisabled(false);
     setValue(nullValue);
   }
 
@@ -37,7 +42,11 @@ export default function Composer() {
         placeholder="Compose your response..."
         style={{ width: "100%", marginBottom: "1rem" }}
       />
-      <Controls value={currentValue} onClick={handleSend} />
+      <Controls
+        value={currentValue}
+        onClick={handleSend}
+        isDisabled={isDisabled}
+      />
     </FloatingPill>
   );
 }

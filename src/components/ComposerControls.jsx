@@ -3,7 +3,7 @@ import Plain from "slate-plain-serializer";
 
 import { Box, Text, Button, Icon } from "./styles";
 
-export default function ComposerControls({ value, onClick }) {
+export default function ComposerControls({ value, onClick, isDisabled }) {
   const wordCount = Plain.serialize(value)
     .trim()
     .split(/\s+/).length;
@@ -26,6 +26,7 @@ export default function ComposerControls({ value, onClick }) {
         fontSize={[2]}
         mb="0"
         pr="0"
+        disabled={isDisabled}
       >
         Send <Icon name="send" ml={1} fontSize="2.0rem" />
       </Button>

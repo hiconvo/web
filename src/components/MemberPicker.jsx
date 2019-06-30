@@ -4,7 +4,8 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useDebounce } from "../hooks";
 import { userSearch } from "../api/search";
-import { Box } from "./styles";
+import MemberItemSmall from "./MemberItemSmall";
+import { Box, Text } from "./styles";
 
 const Input = styled.input`
   padding: ${themeGet("space.2")};
@@ -45,6 +46,14 @@ const Item = styled.button`
   }
 `;
 
+function DropDownItem({ member, onClick }) {
+  return (
+    <li>
+      <Item onClick={onClick}>{member.fullName}</Item>
+    </li>
+  );
+}
+
 export default function MemberPicker({ members, setMembers }) {
   const inputEl = useRef(null);
   const inputContainerEl = useRef(null);
@@ -52,7 +61,7 @@ export default function MemberPicker({ members, setMembers }) {
   const [results, setResults] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 200);
 
   function handleAddMember(member) {
     return e => {
@@ -68,14 +77,17 @@ export default function MemberPicker({ members, setMembers }) {
   }
 
   function handleRemoveMember(member) {
-    return () => setMembers(members.filter(m => m.id !== member.id));
+    return () => {
+      setMembers(members.filter(m => m.id !== member.id));
+      inputEl.current.focus();
+    };
   }
 
   useEffect(() => {
     if (debouncedQuery) {
       userSearch(debouncedQuery).then(payload => {
         setResults(payload.users);
-        if (payload.users.length > 0) setIsDropdownOpen(true);
+        setIsDropdownOpen(true);
       });
     }
   }, [debouncedQuery]);
@@ -98,9 +110,13 @@ export default function MemberPicker({ members, setMembers }) {
 
   return (
     <Box flexDirection="row">
-      <Box as="ul" flexDirection="row">
+      <Box as="ul" flexDirection="row" alignItems="center">
         {members.map(member => (
-          <li onClick={handleRemoveMember(member)}>{member.fullName}</li>
+          <MemberItemSmall
+            key={member.id}
+            member={member}
+            onDelete={handleRemoveMember(member)}
+          />
         ))}
       </Box>
       <Box position="relative" ref={inputContainerEl}>
@@ -112,11 +128,19 @@ export default function MemberPicker({ members, setMembers }) {
         />
         <Box position="absolute" left="0" top="100%">
           <List isOpen={isDropdownOpen}>
-            {results.map(result => (
-              <li>
-                <Item onClick={handleAddMember(result)}>{result.fullName}</Item>
-              </li>
-            ))}
+            {results.length < 1 ? (
+              <Text px={3} py={2} color="gray" fontSize={2} display="block">
+                No results
+              </Text>
+            ) : (
+              results.map(result => (
+                <DropDownItem
+                  key={result.id}
+                  member={result}
+                  onClick={handleAddMember(result)}
+                />
+              ))
+            )}
           </List>
         </Box>
       </Box>

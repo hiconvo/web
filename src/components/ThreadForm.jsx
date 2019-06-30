@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { Editor } from "slate-react";
 import Plain from "slate-plain-serializer";
+import { withRouter } from "react-router";
 
 import { theme, Text, FloatingPill } from "./styles";
 import Controls from "./ComposerControls";
 import MemberPicker from "./MemberPicker";
+import { useActions } from "../redux";
+import * as unboundActions from "../actions/threads";
 
 const Container = styled.main`
   display: block;
@@ -34,10 +37,13 @@ const Input = styled.input`
 
 const nullValue = Plain.deserialize("");
 
-export default function ThreadForm() {
+function ThreadForm(props) {
+  const subjectEl = useRef(null);
   const [messageValue, setMessageValue] = useState(nullValue);
   const [subject, setSubject] = useState("");
   const [members, setMembers] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const { createThread, setSelectedThread } = useActions(unboundActions);
 
   function handleMessageChange({ value }) {
     setMessageValue(value);
@@ -47,7 +53,28 @@ export default function ThreadForm() {
     setSubject(e.target.value);
   }
 
-  function handleSend() {}
+  async function handleSend() {
+    setIsDisabled(true);
+
+    let thread;
+    try {
+      thread = await createThread({
+        subject,
+        users: members,
+        body: Plain.serialize(messageValue)
+      });
+    } catch (e) {
+      setIsDisabled(false);
+      return;
+    }
+
+    setSelectedThread(thread.id);
+    props.history.push("/convos");
+  }
+
+  useEffect(() => {
+    subjectEl.current.focus();
+  }, []);
 
   return (
     <Container>
@@ -61,6 +88,7 @@ export default function ThreadForm() {
               type="text"
               value={subject}
               onChange={handleSubjectChange}
+              ref={subjectEl}
               required
               maxLength="255"
             />
@@ -87,9 +115,15 @@ export default function ThreadForm() {
               marginTop: theme.space[3]
             }}
           />
-          <Controls value={messageValue} onClick={handleSend} />
+          <Controls
+            value={messageValue}
+            onClick={handleSend}
+            isDisabled={isDisabled}
+          />
         </Form>
       </FloatingPill>
     </Container>
   );
 }
+
+export default withRouter(ThreadForm);

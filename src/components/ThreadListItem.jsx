@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { format } from "date-fns";
 import { themeGet } from "@styled-system/theme-get";
+import { withRouter } from "react-router";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/threads";
@@ -75,17 +76,18 @@ const Timestamp = styled.span`
   color: ${themeGet("colors.mediumGray")};
 `;
 
-export default function ThreadListItem({ thread, isSelected }) {
+function ThreadListItem({ thread, isSelected, history }) {
   const { setSelectedThread } = useActions(unboundActions);
 
   function handleClick() {
     setSelectedThread(thread.id);
+    history.push("/convos");
   }
 
   return (
     <ListItem onClick={handleClick} isSelected={isSelected}>
       <FromContainer>
-        <From>{thread.users.map(user => user.firstName).join(",")}</From>
+        <From>{thread.users.map(user => user.firstName).join(", ")}</From>
         <Timestamp>
           {thread.preview && format(thread.preview.timestamp, "MMM D")}
         </Timestamp>
@@ -95,3 +97,5 @@ export default function ThreadListItem({ thread, isSelected }) {
     </ListItem>
   );
 }
+
+export default withRouter(ThreadListItem);

@@ -23,6 +23,7 @@ const Header = styled.header`
   width: calc(100% - ${themeGet("space.5")} * 2);
   max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.5")} * 2);
   margin: auto;
+  z-index: 30;
 `;
 
 const Slug = styled.div`

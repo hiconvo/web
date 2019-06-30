@@ -16,6 +16,14 @@ const Container = styled.div`
   font-family: ${themeGet("fonts.serif")};
   font-size: ${themeGet("fontSizes.3")};
   line-height: 1.5em;
+
+  p {
+    margin-bottom: ${themeGet("space.2")};
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const Relative = styled.div`

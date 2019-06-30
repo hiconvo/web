@@ -26,27 +26,40 @@ export default function reducer(state, action) {
           auth: false
         }
       });
-    case "RECEIVE_THREADS":
+    case "RECEIVE_THREADS": {
+      const threads = state.threads
+        .concat(action.payload)
+        .sort(
+          (a, b) =>
+            a.preview &&
+            b.preview &&
+            isBefore(a.preview.timestamp, b.preview.timestamp)
+        );
       return Object.assign({}, state, {
-        threads: state.threads.concat(action.payload),
+        threads,
         selectedThreadId: state.selectedThreadId
           ? state.selectedThreadId
-          : action.payload.length > 0 && action.payload[0].id,
+          : threads.length > 0 && threads[0].id,
         loading: {
           global: false,
           threads: false
         }
       });
-    case "RECEIVE_MESSAGES":
+    }
+    case "RECEIVE_MESSAGES": {
+      const messages = action.payload
+        ? state.messages
+            .concat(action.payload)
+            .sort((a, b) => isBefore(a.timestamp, b.timestamp))
+        : state.messages;
       return Object.assign({}, state, {
-        messages: state.messages
-          .concat(action.payload)
-          .sort((a, b) => isBefore(a.timestamp, b.timestamp)),
+        messages,
         loading: {
           global: false,
           messages: false
         }
       });
+    }
     case "RECEIVE_SELECTED_THREAD":
       return Object.assign({}, state, {
         selectedThreadId: action.payload
