@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { themeGet } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 import Sidebar from "../components/Sidebar";
 import ThreadForm from "../components/ThreadForm";

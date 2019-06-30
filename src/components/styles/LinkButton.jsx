@@ -6,7 +6,18 @@ import Button from "./Button";
 function LinkButton({ to, children, ...rest }) {
   return (
     <Button {...rest}>
-      <Link to={to} style={{ width: "100%", display: "inline-block" }}>
+      <Link
+        to={to}
+        style={{
+          width: "inherit",
+          height: "inherit",
+          display: "inherit",
+          position: "inherit",
+          textAlign: "inherit",
+          alignItems: "inherit",
+          justifyContent: "inherit"
+        }}
+      >
         {children}
       </Link>
     </Button>

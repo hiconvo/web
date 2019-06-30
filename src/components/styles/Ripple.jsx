@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { themeGet } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 const skBounce = keyframes`
   0%, 100% { 

@@ -1,27 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  space,
-  color,
-  width,
-  height,
-  fontSize,
-  flex,
-  alignSelf,
-  display,
-  themeGet
-} from "styled-system";
+import { space, color, layout, typography, flexbox } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 import { cursor, float } from "./utils";
 
 const Icon = styled.i`
-  ${display}
-  ${flex}
+  ${layout}
+  ${flexbox}
   ${space}
   ${color}
-  ${width}
-  ${height}
-  ${fontSize}
-  ${alignSelf}
+  ${typography}
   ${cursor}
   ${float}
   border: 0;

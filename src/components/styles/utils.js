@@ -30,6 +30,10 @@ export const textOverflow = style({
   cssProperty: "text-overflow"
 });
 
+export const overflow = style({
+  prop: "overflow"
+});
+
 export const maxWidth = style({
   prop: "maxWidth"
 });

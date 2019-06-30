@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { themeGet, fontSize } from "styled-system";
+import { typography } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 import Box from "./Box";
 import { Text } from "./typography";
 
 const Input = styled.input`
-  ${fontSize}
+  ${typography}
   padding: ${themeGet("space.2")};
   margin: ${themeGet("space.1")} 0;
   border: 0.1rem solid ${themeGet("colors.lightGray")};

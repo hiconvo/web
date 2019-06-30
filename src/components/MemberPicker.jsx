@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { themeGet } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 import { useDebounce } from "../hooks";
 import { userSearch } from "../api/search";
-import { Box } from "./styles";
+import { Box, UnstyledButton } from "./styles";
 
 const Input = styled.input`
   padding: ${themeGet("space.2")};
@@ -38,13 +38,14 @@ export default function MemberPicker({ members, setMembers }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query, 300);
 
   function handleAddMember(member) {
     return () => {
       if (!members.some(m => m.id === member.id)) {
         setMembers(members.concat(member));
         setQuery("");
+        setResults([]);
       }
     };
   }
@@ -77,7 +78,11 @@ export default function MemberPicker({ members, setMembers }) {
         <Box position="absolute" left="0" top="100%">
           <List isOpen={results.length > 0}>
             {results.map(result => (
-              <Item onClick={handleAddMember(result)}>{result.fullName}</Item>
+              <Item>
+                <UnstyledButton onClick={handleAddMember(result)}>
+                  {result.fullName}
+                </UnstyledButton>
+              </Item>
             ))}
           </List>
         </Box>

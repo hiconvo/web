@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { themeGet } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
@@ -48,7 +48,7 @@ export default function UserMenu() {
       {({ isOpen }) => (
         <List isOpen={isOpen}>
           <Item>
-            <LinkButton to="/settings" width="100%">
+            <LinkButton to="/settings" width="100%" justifyContent="flex-start">
               Settings
             </LinkButton>
           </Item>

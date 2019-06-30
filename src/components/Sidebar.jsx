@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { themeGet } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getThreadsCount } from "../selectors";
 import ThreadList from "./ThreadList";
-import { Button, Icon } from "./styles";
+import { LinkButton, Icon } from "./styles";
 
 const Container = styled.div``;
 
@@ -52,9 +52,17 @@ const BottomContainer = styled.div`
 function Top() {
   return (
     <TopContainer>
-      <Button variant="brand" width="100%" mb="0" fontSize={[1]}>
+      <LinkButton
+        to="/convos/new"
+        variant="brand"
+        width="100%"
+        alignItems="center"
+        display="flex"
+        mb="0"
+        fontSize={[1]}
+      >
         New Convo <Icon name="mail_outline" ml={1} fontSize="2.2rem" />
-      </Button>
+      </LinkButton>
     </TopContainer>
   );
 }

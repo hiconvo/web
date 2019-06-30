@@ -3,6 +3,7 @@ import { Text, Paragraph, Heading } from "./typography";
 import TextInput from "./TextInput";
 import Button from "./Button";
 import LinkButton from "./LinkButton";
+import UnstyledButton from "./UnstyledButton";
 import Icon from "./Icon";
 import Dropdown from "./Dropdown";
 import Ripple from "./Ripple";
@@ -25,5 +26,6 @@ export {
   theme,
   Ripple,
   Spinner,
-  FloatingPill
+  FloatingPill,
+  UnstyledButton
 };

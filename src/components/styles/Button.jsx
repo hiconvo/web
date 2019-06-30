@@ -2,14 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Box from "./Box";
 import Spinner from "./Spinner";
-import {
-  themeGet,
-  borders,
-  borderColor,
-  borderRadius,
-  buttonStyle,
-  display
-} from "styled-system";
+import { border, buttonStyle, layout } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 const Button = styled(Box)(
   props => ({
@@ -31,11 +25,9 @@ const Button = styled(Box)(
     whiteSpace: "nowrap",
     textAlign: props.textAlign || "center"
   }),
-  borders,
-  borderColor,
-  borderRadius,
+  border,
   buttonStyle,
-  display
+  layout
 );
 
 Button.defaultProps = {

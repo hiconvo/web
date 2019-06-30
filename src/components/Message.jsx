@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { themeGet } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 import marked from "marked";
 import { format } from "date-fns";
 

@@ -1,33 +1,15 @@
 import styled from "styled-components";
 import {
   space,
-  width,
-  height,
-  fontFamily,
-  fontWeight,
-  fontSize,
-  lineHeight,
-  borderRadius,
   color,
-  position,
-  flex,
-  justifyContent,
-  order,
-  alignSelf,
-  display,
-  flexDirection,
-  overflow,
-  flexWrap,
-  alignItems
+  layout,
+  typography,
+  flexbox,
+  border,
+  background,
+  position
 } from "styled-system";
-import {
-  float,
-  flexShrink,
-  cursor,
-  backgroundColor,
-  maxWidth,
-  zIndex
-} from "./utils";
+import { float, cursor, overflow } from "./utils";
 
 const Box = styled("div")(
   {
@@ -36,30 +18,16 @@ const Box = styled("div")(
     outline: 0
   },
   space,
-  width,
-  height,
-  position,
-  fontFamily,
-  fontWeight,
-  fontSize,
-  lineHeight,
-  borderRadius,
   color,
-  flex,
-  flexShrink,
-  flexWrap,
-  justifyContent,
-  alignItems,
-  alignSelf,
-  order,
-  display,
+  layout,
+  typography,
+  flexbox,
+  border,
+  background,
+  position,
   float,
   overflow,
-  cursor,
-  backgroundColor,
-  flexDirection,
-  maxWidth,
-  zIndex
+  cursor
 );
 
 Box.defaultProps = {

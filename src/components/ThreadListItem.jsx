@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { format } from "date-fns";
-import { themeGet } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/threads";
