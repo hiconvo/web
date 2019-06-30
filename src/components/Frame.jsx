@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import UserMenu from "./UserMenu";
 import Logo from "./Logo";
+import Toast from "./Toast";
 
 const Container = styled.div`
   width: calc(100% - ${themeGet("space.5")} * 2);
@@ -53,6 +54,7 @@ const WrappedLogo = () => (
 export default function Frame({ children }) {
   return (
     <Container>
+      <Toast />
       <Header>
         <WrappedLogo />
         <UserMenu />

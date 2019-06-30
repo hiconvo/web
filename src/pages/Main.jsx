@@ -8,7 +8,7 @@ import InfoBox from "../components/InfoBox";
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: ${themeGet("sidebarWidth")} auto ${themeGet(
+  grid-template-columns: ${themeGet("sidebarWidth")} minmax(0, 1fr) ${themeGet(
   "sidebarWidth"
 )}
   width: 100%;
