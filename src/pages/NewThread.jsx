@@ -33,8 +33,8 @@ export default function NewThread() {
             <Text as="pre" whiteSpace="pre-wrap" fontFamily="mono">
               my-subject-4231@mail.hiconvo.com
             </Text>
-            . Your personal email address is kept private, as well as those of
-            the participants.
+            . Your personal email address is kept private, as are those of the
+            participants.
           </Paragraph>
           <Paragraph fontSize={1} color="gray" lineHeight="1.3em">
             You can respond to the convo here, or via your email client, such as
