@@ -286,8 +286,6 @@ export default {
       fontWeight: "inherit",
       fontSize: "inherit",
       letterSpacing: "inherit",
-      padding: "inherit",
-      margin: "inherit",
       transition: `color ease ${animations.fast}`,
       backgroundColor: transparent,
       borderRadius: radii.normal,

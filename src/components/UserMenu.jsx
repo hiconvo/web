@@ -34,7 +34,6 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  padding: ${themeGet("space.2")};
   font-size: ${themeGet("fontSizes.1")};
 `;
 
@@ -48,7 +47,12 @@ export default function UserMenu() {
       {({ isOpen }) => (
         <List isOpen={isOpen}>
           <Item>
-            <LinkButton to="/settings" width="100%" justifyContent="flex-start">
+            <LinkButton
+              to="/settings"
+              width="100%"
+              justifyContent="flex-start"
+              mb={0}
+            >
               Settings
             </LinkButton>
           </Item>

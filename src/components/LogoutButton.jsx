@@ -7,12 +7,8 @@ import { Button, Text } from "./styles";
 export default function LogoutButton() {
   const { logoutUser } = useActions(unboundActions);
 
-  function handleLogout() {
-    logoutUser();
-  }
-
   return (
-    <Button variant="tertiary" width="100%" onClick={handleLogout}>
+    <Button variant="tertiary" width="100%" onClick={logoutUser}>
       <Text textAlign="left" width="100%" color="inherit">
         Logout
       </Text>

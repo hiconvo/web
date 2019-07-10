@@ -14,10 +14,11 @@ const Input = styled.input`
   border-radius: ${themeGet("radii.small")};
   outline: none;
   font-family: ${themeGet("fonts.sans")};
+  font-size: ${themeGet("fontSizes.2")};
   width: 100%;
 `;
 
-const List = styled.ul`
+const DropDown = styled.ul`
   width: 16rem;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
@@ -77,9 +78,9 @@ export default function MemberPicker({ members, setMembers }) {
   }
 
   function handleRemoveMember(member) {
-    return () => {
+    return e => {
+      e.preventDefault();
       setMembers(members.filter(m => m.id !== member.id));
-      inputEl.current.focus();
     };
   }
 
@@ -127,7 +128,7 @@ export default function MemberPicker({ members, setMembers }) {
           onChange={e => setQuery(e.target.value)}
         />
         <Box position="absolute" left="0" top="100%">
-          <List isOpen={isDropdownOpen}>
+          <DropDown isOpen={isDropdownOpen}>
             {results.length < 1 ? (
               <Text px={3} py={2} color="gray" fontSize={2} display="block">
                 No results
@@ -141,7 +142,7 @@ export default function MemberPicker({ members, setMembers }) {
                 />
               ))
             )}
-          </List>
+          </DropDown>
         </Box>
       </Box>
     </Box>

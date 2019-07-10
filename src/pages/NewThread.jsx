@@ -30,7 +30,7 @@ export default function NewThread() {
             Convo is email based. When you create a convo, we create a custom
             email address that only you and the people you invite can use -
             something like{" "}
-            <Text as="pre" whiteSpace="pre-wrap" fontFamily="mono">
+            <Text as="code" whiteSpace="pre-wrap" fontFamily="mono">
               my-subject-4231@mail.hiconvo.com
             </Text>
             . Your personal email address is kept private, as are those of the

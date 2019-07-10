@@ -76,6 +76,7 @@ export default function InfoBox() {
           {thread.users &&
             thread.users.map(member => (
               <MemberItemMedium
+                key={member.id}
                 member={member}
                 onDelete={
                   isOwner && member.id !== user.id && handleRemoveMember

@@ -33,6 +33,7 @@ const Input = styled.input`
   outline: none;
   font-family: ${themeGet("fonts.sans")};
   width: 100%;
+  font-size: ${themeGet("fontSizes.2")};
 `;
 
 const nullValue = Plain.deserialize("");
@@ -91,6 +92,7 @@ function ThreadForm(props) {
               ref={subjectEl}
               required
               maxLength="255"
+              fontSize={4}
             />
           </Label>
           <Label>

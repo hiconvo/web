@@ -5,22 +5,11 @@ import Button from "./Button";
 
 function LinkButton({ to, children, ...rest }) {
   return (
-    <Button {...rest}>
-      <Link
-        to={to}
-        style={{
-          width: "inherit",
-          height: "inherit",
-          display: "inherit",
-          position: "inherit",
-          textAlign: "inherit",
-          alignItems: "inherit",
-          justifyContent: "inherit"
-        }}
-      >
+    <Link to={to}>
+      <Button as="div" {...rest}>
         {children}
-      </Link>
-    </Button>
+      </Button>
+    </Link>
   );
 }
 
