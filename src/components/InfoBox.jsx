@@ -7,6 +7,13 @@ import { getSelectedThread, getUser } from "../selectors";
 import MemberItemMedium from "./MemberItemMedium";
 import { Box, Text, Heading, UnstyledButton, Icon } from "./styles";
 
+const Label = styled.span`
+  font-family: ${themeGet("fonts.sans")};
+  font-size: ${themeGet("fontSizes.0")};
+  color: ${themeGet("colors.gray")};
+  margin-bottom: ${themeGet("space.2")};
+`;
+
 const ActionButton = styled(UnstyledButton)`
   padding: ${themeGet("space.2")} ${themeGet("space.3")} ${themeGet("space.2")}
     ${themeGet("space.2")};
@@ -38,13 +45,6 @@ function Action({ iconName, text, onClick, ...rest }) {
     </Box>
   );
 }
-
-const Label = styled.span`
-  font-family: ${themeGet("fonts.sans")};
-  font-size: ${themeGet("fontSizes.0")};
-  color: ${themeGet("colors.gray")};
-  margin-bottom: ${themeGet("space.2")};
-`;
 
 export default function InfoBox() {
   const [thread, user] = useSelectors(getSelectedThread, getUser);
@@ -93,12 +93,6 @@ export default function InfoBox() {
             <React.Fragment>
               <Action
                 ml="-1.2rem"
-                onClick={handleDeleteThread}
-                text="Delete"
-                iconName="remove_circle"
-              />
-              <Action
-                ml="-1.2rem"
                 onClick={handleAddMember}
                 text="Invite others"
                 iconName="group_add"
@@ -108,6 +102,12 @@ export default function InfoBox() {
                 onClick={handleRenameThread}
                 text="Rename"
                 iconName="edit"
+              />
+              <Action
+                ml="-1.2rem"
+                onClick={handleDeleteThread}
+                text="Delete"
+                iconName="remove_circle"
               />
             </React.Fragment>
           )}
