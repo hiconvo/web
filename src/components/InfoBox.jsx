@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getSelectedThread, getUser } from "../selectors";
 import MemberItemMedium from "./MemberItemMedium";
+import ThreadRenameForm from "./ThreadRenameForm";
 import { Box, Text, Heading, UnstyledButton, Icon } from "./styles";
 
 const Label = styled.span`
@@ -48,6 +49,7 @@ function Action({ iconName, text, onClick, ...rest }) {
 
 export default function InfoBox() {
   const [thread, user] = useSelectors(getSelectedThread, getUser);
+  const [isRenameEditing, setIsRenameEditing] = useState(false);
 
   if (!thread.id) return null;
 
@@ -57,8 +59,6 @@ export default function InfoBox() {
 
   function handleAddMember() {}
 
-  function handleRenameThread() {}
-
   function handleLeaveThread() {}
 
   function handleDeleteThread() {}
@@ -66,10 +66,19 @@ export default function InfoBox() {
   return (
     <Box>
       <Box position="fixed" width="28rem">
-        <Label>Subject</Label>
-        <Heading fontFamily="sans" fontSize={4} mb={4} mt="0">
-          {thread.subject}
-        </Heading>
+        {isRenameEditing ? (
+          <ThreadRenameForm
+            thread={thread}
+            onBlur={() => setIsRenameEditing(false)}
+          />
+        ) : (
+          <React.Fragment>
+            <Label>Subject</Label>
+            <Heading fontFamily="sans" fontSize={4} mb={4} mt="0">
+              {thread.subject}
+            </Heading>
+          </React.Fragment>
+        )}
 
         <Label>Members</Label>
         <Box as="ul" mb={4}>
@@ -99,7 +108,7 @@ export default function InfoBox() {
               />
               <Action
                 ml="-1.2rem"
-                onClick={handleRenameThread}
+                onClick={() => setIsRenameEditing(true)}
                 text="Rename"
                 iconName="edit"
               />

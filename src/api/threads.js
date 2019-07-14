@@ -22,3 +22,15 @@ export function createThread(payload) {
     method: "POST"
   });
 }
+
+/*
+ * @param {string} id
+ * @param {Object} payload
+ * @param {string} payload.subject
+ */
+export function updateThread(id, payload) {
+  return apiRequest(`/threads/${id}`, {
+    body: payload,
+    method: "PATCH"
+  });
+}

@@ -28,6 +28,7 @@ export default function reducer(state, action) {
       });
     case "RECEIVE_THREADS": {
       const threads = state.threads
+        .filter(t => !action.payload.some(newThread => newThread.id === t.id))
         .concat(action.payload)
         .sort(
           (a, b) =>

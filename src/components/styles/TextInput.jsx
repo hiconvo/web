@@ -44,7 +44,7 @@ Label.defaultProps = {
 };
 
 function TextInput({
-  name,
+  name = "",
   value,
   error,
   type,
@@ -69,7 +69,7 @@ function TextInput({
 
   return (
     <Label {...rest}>
-      <Text fontSize={1}>{name}</Text>
+      {!!name && <Text fontSize={1}>{name}</Text>}
       <Input
         type={type}
         value={value}

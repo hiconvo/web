@@ -17,7 +17,7 @@ export const fetchThreads = dispatch =>
         payload: response.threads
       });
     } catch (error) {
-      dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
+      return Promise.reject(error);
     }
   };
 
@@ -60,15 +60,40 @@ export const createThread = dispatch =>
         payload: [thread]
       });
     } catch (error) {
-      dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
-      return Promise.reject();
+      return Promise.reject(error);
     }
 
     try {
       await createMessage(dispatch)(thread.id, { body: payload.body });
+
       return thread;
     } catch (error) {
-      dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
-      return Promise.reject();
+      return Promise.reject(error);
     }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const updateThread = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.id
+   * @param {string} payload.subject
+   * @returns {Object} Thread
+   */
+  async payload => {
+    let thread;
+    try {
+      thread = await API.updateThread(payload.id, { subject: payload.subject });
+      dispatch({
+        type: "RECEIVE_THREADS",
+        payload: [thread]
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+
+    return thread;
   };

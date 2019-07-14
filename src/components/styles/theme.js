@@ -72,6 +72,8 @@ const error500 = "#d40020";
 const error700 = "#bf001c";
 const error900 = "#a80019";
 
+const lightyellow = "lightyellow";
+
 const socialMediaColors = {
   facebook: "#3B5998",
   facebookHover: "#22407F",
@@ -171,6 +173,8 @@ export default {
     error500,
     error700,
     error900,
+
+    lightyellow,
 
     // Various gradients
     gradients: {
