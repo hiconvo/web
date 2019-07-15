@@ -27,7 +27,6 @@ export default function Composer() {
       await createMessage(threadId, { body: Plain.serialize(currentValue) });
     } catch (e) {
       setIsDisabled(false);
-      return e;
     }
 
     setIsDisabled(false);

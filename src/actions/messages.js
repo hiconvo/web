@@ -1,4 +1,6 @@
 import * as API from "../api/messages";
+import { dispatchNotification } from "./notifications";
+import { errorToString } from "../utils";
 
 /*
  * @param {function} dispatch
@@ -13,8 +15,9 @@ export const fetchMessages = dispatch =>
     try {
       const response = await API.getMessages(threadId);
       dispatch({ type: "RECEIVE_MESSAGES", payload: response.messages });
-    } catch (error) {
-      dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
     }
   };
 
@@ -33,8 +36,8 @@ export const createMessage = dispatch =>
     try {
       const message = await API.putMessage(threadId, payload);
       dispatch({ type: "RECEIVE_MESSAGES", payload: [message] });
-    } catch (error) {
-      dispatch({ type: "RECEIVE_GLOBAL_ERROR", payload: error.getPayload() });
-      return Promise.reject();
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
     }
   };

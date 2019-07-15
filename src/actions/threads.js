@@ -1,5 +1,7 @@
 import * as API from "../api/threads";
 import { createMessage } from "./messages";
+import { dispatchNotification } from "./notifications";
+import { errorToString } from "../utils";
 
 /*
  * @param {function} dispatch
@@ -16,8 +18,9 @@ export const fetchThreads = dispatch =>
         type: "RECEIVE_THREADS",
         payload: response.threads
       });
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
     }
   };
 
@@ -59,16 +62,18 @@ export const createThread = dispatch =>
         type: "RECEIVE_THREADS",
         payload: [thread]
       });
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
     }
 
     try {
       await createMessage(dispatch)(thread.id, { body: payload.body });
 
       return thread;
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
     }
   };
 
@@ -91,7 +96,9 @@ export const updateThread = dispatch =>
         type: "RECEIVE_THREADS",
         payload: [thread]
       });
+      dispatchNotification()({ type: "SUCCESS", message: "Changed subject" });
     } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
 

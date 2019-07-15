@@ -4,8 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useActions } from "../redux";
 import { Paragraph } from "./styles";
-import * as unboundNotificationActions from "../actions/notifications";
-import * as unboundThreadActions from "../actions/threads";
+import * as unboundActions from "../actions/threads";
 
 const Form = styled.form`
   display: flex;
@@ -38,21 +37,19 @@ const Input = styled.input`
 export default function ThreadRenameForm({ thread, onBlur }) {
   const subjectEl = useRef(null);
   const [subject, setSubject] = useState(thread.subject);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [inputBackground, setInputBackground] = useState("lightyellow");
-  const { dispatchNotification, updateThread } = useActions({
-    ...unboundNotificationActions,
-    ...unboundThreadActions
-  });
+  const { updateThread } = useActions(unboundActions);
 
   async function handleSubmit(e) {
     e && e.preventDefault();
 
     try {
+      setIsDisabled(true);
       await updateThread({ id: thread.id, subject });
-      dispatchNotification({ type: "SUCCESS", message: "Changed subject" });
       onBlur();
     } catch (e) {
-      dispatchNotification({ type: "ERROR", message: e.getPayload().message });
+      setIsDisabled(false);
     }
   }
 
@@ -78,6 +75,7 @@ export default function ThreadRenameForm({ thread, onBlur }) {
         ref={subjectEl}
         onBlur={handleSubmit}
         onFocus={handleFocus}
+        disabled={isDisabled}
         required
       />
       <Paragraph fontSize={1} color="gray" lineHeight="1.3em">
