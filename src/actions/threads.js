@@ -104,3 +104,68 @@ export const updateThread = dispatch =>
 
     return thread;
   };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const addUserToThread = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.thread
+   * @param {Object} payload.user
+   * @returns {Object} Thread
+   */
+  async payload => {
+    let thread;
+    try {
+      thread = await API.addUserToThread(payload.thread.id, payload.user.id);
+      dispatch({
+        type: "RECEIVE_THREADS",
+        payload: [thread]
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `Added ${payload.user.fullName} to ${payload.thread.subject}`
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+
+    return thread;
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const removeUserFromThread = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.thread
+   * @param {Object} payload.user
+   * @returns {Object} Thread
+   */
+  async payload => {
+    let thread;
+    try {
+      thread = await API.removeUserFromThread(
+        payload.thread.id,
+        payload.user.id
+      );
+      dispatch({
+        type: "RECEIVE_THREADS",
+        payload: [thread]
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `Removed ${payload.user.fullName} from ${payload.thread.subject}`
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+
+    return thread;
+  };

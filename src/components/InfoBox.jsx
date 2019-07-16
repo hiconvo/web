@@ -6,6 +6,7 @@ import { useSelectors } from "../redux";
 import { getSelectedThread, getUser } from "../selectors";
 import MemberItemMedium from "./MemberItemMedium";
 import ThreadRenameForm from "./ThreadRenameForm";
+import AddUserForm from "./AddUserForm";
 import { Box, Text, Heading, UnstyledButton, Icon } from "./styles";
 
 const Label = styled.span`
@@ -50,14 +51,15 @@ function Action({ iconName, text, onClick, ...rest }) {
 export default function InfoBox() {
   const [thread, user] = useSelectors(getSelectedThread, getUser);
   const [isRenameEditing, setIsRenameEditing] = useState(false);
+  const [isMemberEditing, setIsMemberEditing] = useState(false);
+
+  console.log(isMemberEditing);
 
   if (!thread.id) return null;
 
   const isOwner = user.id === thread.owner.id;
 
   function handleRemoveMember() {}
-
-  function handleAddMember() {}
 
   function handleLeaveThread() {}
 
@@ -94,6 +96,12 @@ export default function InfoBox() {
                 mb={1}
               />
             ))}
+          {isMemberEditing && (
+            <AddUserForm
+              thread={thread}
+              onBlur={() => setIsMemberEditing(false)}
+            />
+          )}
         </Box>
 
         <Label>Actions</Label>
@@ -102,7 +110,7 @@ export default function InfoBox() {
             <React.Fragment>
               <Action
                 ml="-1.2rem"
-                onClick={handleAddMember}
+                onClick={() => setIsMemberEditing(true)}
                 text="Invite others"
                 iconName="group_add"
               />

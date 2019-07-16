@@ -34,3 +34,25 @@ export function updateThread(id, payload) {
     method: "PATCH"
   });
 }
+
+/*
+ * @param {string} threadId
+ * @param {string} userId
+ */
+export function addUserToThread(threadId, userId) {
+  return apiRequest(`/threads/${threadId}/users/${userId}`, {
+    body: {},
+    method: "POST"
+  });
+}
+
+/*
+ * @param {string} threadId
+ * @param {string} userId
+ */
+export function removeUserFromThread(threadId, userId) {
+  return apiRequest(`/threads/${threadId}/users/${userId}`, {
+    body: {},
+    method: "DELETE"
+  });
+}
