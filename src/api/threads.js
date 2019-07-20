@@ -56,3 +56,13 @@ export function removeUserFromThread(threadId, userId) {
     method: "DELETE"
   });
 }
+
+/*
+ * @param {string} threadId
+ */
+export function deleteThread(threadId) {
+  return apiRequest(`/threads/${threadId}`, {
+    body: {},
+    method: "DELETE"
+  });
+}

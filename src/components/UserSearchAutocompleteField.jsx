@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -58,7 +58,7 @@ function DropDownItem({ member, onClick }) {
 /*
  * @Component UserSearchAutocompleteField
  *
- * See <MemberPicker /> for example usage
+ * See <MultiMemberPickerField /> for example usage
  *
  * @param {string} query
  * @param {(string) => string} onQueryChange
@@ -74,14 +74,16 @@ export default React.forwardRef(
 
     const debouncedQuery = useDebounce(query, 200);
 
+    const handleResultsChange = useCallback(onResultsChange);
+
     useEffect(() => {
       if (debouncedQuery) {
         userSearch(debouncedQuery).then(payload => {
-          onResultsChange(payload.users);
+          handleResultsChange(payload.users);
           setIsDropdownOpen(true);
         });
       }
-    }, [debouncedQuery]);
+    }, [debouncedQuery, handleResultsChange]);
 
     useEffect(() => {
       function handleCloseDropdown(e) {

@@ -3,7 +3,7 @@ import { Editor } from "slate-react";
 import Plain from "slate-plain-serializer";
 
 import { FloatingPill } from "./styles";
-import Controls from "./ComposerControls";
+import Controls from "./MessageComposerControls";
 import { useActions, useSelectors } from "../redux";
 import { getSelectedThread } from "../selectors";
 import * as unboundActions from "../actions/messages";

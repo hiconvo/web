@@ -280,7 +280,7 @@ export default {
     secondary: {
       color: black,
       backgroundColor: snow,
-      borderRadius: radii.normal,
+      borderRadius: radii.special,
       "&:hover": {
         backgroundColor: lightGray
       }

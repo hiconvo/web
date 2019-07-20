@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import Sidebar from "../components/Sidebar";
+import InboxSidebar from "../components/InboxSidebar";
 import ThreadForm from "../components/ThreadForm";
 import { Box, Paragraph, Heading, Text } from "../components/styles";
 
@@ -19,7 +19,7 @@ const Container = styled.div`
 export default function NewThread() {
   return (
     <Container>
-      <Sidebar />
+      <InboxSidebar />
       <ThreadForm />
       <Box>
         <Box position="fixed" width="28rem">

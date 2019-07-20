@@ -4,7 +4,7 @@ import MemberItemSmall from "./MemberItemSmall";
 import UserSearchAutocompleteField from "./UserSearchAutocompleteField";
 import { Box } from "./styles";
 
-export default function MemberPicker({ members, setMembers }) {
+export default function MultiMemberPickerField({ members, setMembers }) {
   const inputEl = useRef(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);

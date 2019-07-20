@@ -6,7 +6,8 @@ import { useSelectors } from "../redux";
 import { getSelectedThread, getUser } from "../selectors";
 import MemberItemMedium from "./MemberItemMedium";
 import ThreadRenameForm from "./ThreadRenameForm";
-import AddUserForm from "./AddUserForm";
+import AddUserToThreadForm from "./AddUserToThreadForm";
+import DeleteThreadButton from "./DeleteThreadButton";
 import { Box, Text, Heading, UnstyledButton, Icon } from "./styles";
 
 const Label = styled.span`
@@ -53,8 +54,6 @@ export default function InfoBox() {
   const [isRenameEditing, setIsRenameEditing] = useState(false);
   const [isMemberEditing, setIsMemberEditing] = useState(false);
 
-  console.log(isMemberEditing);
-
   if (!thread.id) return null;
 
   const isOwner = user.id === thread.owner.id;
@@ -62,8 +61,6 @@ export default function InfoBox() {
   function handleRemoveMember() {}
 
   function handleLeaveThread() {}
-
-  function handleDeleteThread() {}
 
   return (
     <Box>
@@ -97,7 +94,7 @@ export default function InfoBox() {
               />
             ))}
           {isMemberEditing && (
-            <AddUserForm
+            <AddUserToThreadForm
               thread={thread}
               onBlur={() => setIsMemberEditing(false)}
             />
@@ -120,11 +117,16 @@ export default function InfoBox() {
                 text="Rename"
                 iconName="edit"
               />
-              <Action
-                ml="-1.2rem"
-                onClick={handleDeleteThread}
-                text="Delete"
-                iconName="remove_circle"
+              <DeleteThreadButton
+                thread={thread}
+                render={onClick => (
+                  <Action
+                    ml="-1.2rem"
+                    onClick={onClick}
+                    text="Delete"
+                    iconName="remove_circle"
+                  />
+                )}
               />
             </React.Fragment>
           )}

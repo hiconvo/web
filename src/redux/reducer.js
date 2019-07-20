@@ -47,14 +47,34 @@ export default function reducer(state, action) {
         }
       });
     }
+    case "DELETE_THREAD": {
+      return Object.assign({}, state, {
+        threads: state.threads.filter(t => t.id !== action.payload)
+      });
+    }
     case "RECEIVE_MESSAGES": {
-      const messages = action.payload
-        ? state.messages
-            .concat(action.payload)
-            .sort((a, b) => isBefore(a.timestamp, b.timestamp))
-        : state.messages;
+      const messages = state.messages
+        .concat(action.payload)
+        .sort((a, b) => isBefore(a.timestamp, b.timestamp));
+
+      // Update thread previews. Could probably optimize this.
+      const threads = state.threads.map(thread => {
+        action.payload.forEach(message => {
+          if (message.threadId === thread.id) {
+            if (
+              !thread.preview ||
+              isBefore(thread.preview.timestamp, message.timestamp)
+            ) {
+              thread.preview = message;
+            }
+          }
+        });
+        return thread;
+      });
+
       return Object.assign({}, state, {
         messages,
+        threads,
         loading: {
           global: false,
           messages: false
@@ -63,7 +83,8 @@ export default function reducer(state, action) {
     }
     case "RECEIVE_SELECTED_THREAD":
       return Object.assign({}, state, {
-        selectedThreadId: action.payload
+        selectedThreadId:
+          action.payload || (state.threads.length ? state.threads[0].id : 0)
       });
     case "RECEIVE_AUTH_ERROR":
       return Object.assign({}, state, {

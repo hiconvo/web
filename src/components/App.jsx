@@ -1,6 +1,7 @@
 import React from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import { ModalProvider } from "styled-react-modal";
 
 import { theme, Reset } from "./styles";
 import { DataProvider } from "../redux";
@@ -16,21 +17,23 @@ export default function App() {
     <DataProvider>
       <ThemeProvider theme={theme}>
         <Reset>
-          <HashRouter>
-            <Frame>
-              <Switch>
-                <Route path="/login" component={Login} />
-                <AuthorizedRoute path="/settings" component={Settings} />
-                <AuthorizedRoute path="/convos" exact component={Main} />
-                <AuthorizedRoute
-                  path="/convos/new"
-                  exact
-                  component={NewThread}
-                />
-                <Redirect to="/convos" />
-              </Switch>
-            </Frame>
-          </HashRouter>
+          <ModalProvider>
+            <HashRouter>
+              <Frame>
+                <Switch>
+                  <Route path="/login" component={Login} />
+                  <AuthorizedRoute path="/settings" component={Settings} />
+                  <AuthorizedRoute path="/convos" exact component={Main} />
+                  <AuthorizedRoute
+                    path="/convos/new"
+                    exact
+                    component={NewThread}
+                  />
+                  <Redirect to="/convos" />
+                </Switch>
+              </Frame>
+            </HashRouter>
+          </ModalProvider>
         </Reset>
       </ThemeProvider>
     </DataProvider>

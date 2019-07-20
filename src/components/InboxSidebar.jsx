@@ -77,7 +77,7 @@ function Bottom() {
   );
 }
 
-export default function Sidebar() {
+export default function InboxSidebar() {
   return (
     <Container>
       <Fixed>

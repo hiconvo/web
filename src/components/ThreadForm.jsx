@@ -6,8 +6,8 @@ import Plain from "slate-plain-serializer";
 import { withRouter } from "react-router";
 
 import { theme, Text, FloatingPill } from "./styles";
-import Controls from "./ComposerControls";
-import MemberPicker from "./MemberPicker";
+import Controls from "./MessageComposerControls";
+import MultiMemberPickerField from "./MultiMemberPickerField";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/threads";
 
@@ -99,7 +99,7 @@ function ThreadForm(props) {
             <Text fontSize={1} mr={1}>
               To:
             </Text>
-            <MemberPicker members={members} setMembers={setMembers} />
+            <MultiMemberPickerField members={members} setMembers={setMembers} />
           </Label>
 
           <Editor

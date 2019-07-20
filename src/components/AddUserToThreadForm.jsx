@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -31,14 +31,15 @@ export default function AddUserForm({ thread, onBlur }) {
   const [backgroundColor, setBackgroundColor] = useState("lightyellow");
   const { addUserToThread } = useActions(unboundActions);
 
+  const handleBlur = useCallback(onBlur);
+
   async function handleAddUser(e, user) {
     e.preventDefault();
 
     try {
       setIsLoading(true);
-      console.log(thread, user);
       await addUserToThread({ thread, user });
-      onBlur();
+      handleBlur();
     } catch (e) {
       setIsLoading(false);
     }
@@ -52,7 +53,7 @@ export default function AddUserForm({ thread, onBlur }) {
   useEffect(() => {
     function handleClick(e) {
       if (!containerEl.current.contains(e.target)) {
-        onBlur();
+        handleBlur();
       }
     }
 
@@ -61,7 +62,7 @@ export default function AddUserForm({ thread, onBlur }) {
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  }, [containerEl]);
+  }, [containerEl, handleBlur]);
 
   return (
     <Box mt={2} ref={containerEl}>

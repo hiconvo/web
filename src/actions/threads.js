@@ -30,6 +30,7 @@ export const fetchThreads = dispatch =>
  */
 export const setSelectedThread = dispatch =>
   /*
+   * @param {string} threadId
    * @returns {undefined}
    */
   threadId => {
@@ -168,4 +169,32 @@ export const removeUserFromThread = dispatch =>
     }
 
     return thread;
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const deleteThread = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.thread
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      await API.deleteThread(payload.thread.id);
+      dispatch({
+        type: "DELETE_THREAD",
+        payload: payload.thread.id
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `Deleted ${payload.thread.subject}`
+      });
+      setSelectedThread(dispatch)();
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
   };

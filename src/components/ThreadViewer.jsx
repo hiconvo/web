@@ -10,7 +10,7 @@ import {
 } from "../selectors";
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
-import Composer from "./Composer";
+import MessageComposer from "./MessageComposer";
 import { Ripple } from "./styles";
 
 const Container = styled.main`
@@ -18,7 +18,7 @@ const Container = styled.main`
   padding: 0 ${themeGet("space.5")};
 `;
 
-export default function Viewer() {
+export default function ThreadViewer() {
   const [isLoading, setIsLoading] = useState(false);
   const [{ id }, messages, user] = useSelectors(
     getSelectedThread,
@@ -41,7 +41,7 @@ export default function Viewer() {
 
   return (
     <Container>
-      <Composer />
+      <MessageComposer />
       {isLoading && <Ripple />}
       {messages.map(message => (
         <Message
