@@ -4,7 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getSelectedThread, getUser } from "../selectors";
-import MemberItemMedium from "./MemberItemMedium";
+import ThreadInfoBoxMemberItem from "./ThreadInfoBoxMemberItem";
 import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserToThreadForm from "./AddUserToThreadForm";
 import DeleteThreadButton from "./DeleteThreadButton";
@@ -58,8 +58,6 @@ export default function InfoBox() {
 
   const isOwner = user.id === thread.owner.id;
 
-  function handleRemoveMember() {}
-
   function handleLeaveThread() {}
 
   return (
@@ -83,12 +81,11 @@ export default function InfoBox() {
         <Box as="ul" mb={4}>
           {thread.users &&
             thread.users.map(member => (
-              <MemberItemMedium
+              <ThreadInfoBoxMemberItem
                 key={member.id}
                 member={member}
-                onDelete={
-                  isOwner && member.id !== user.id && handleRemoveMember
-                }
+                thread={thread}
+                canDelete={isOwner && member.id !== user.id}
                 ml="-0.8rem"
                 mb={1}
               />

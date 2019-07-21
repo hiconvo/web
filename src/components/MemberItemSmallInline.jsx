@@ -26,7 +26,7 @@ const DeleteButton = styled.button`
   border: none;
 `;
 
-export default function MemberItemSmall({ member, onDelete }) {
+export default function MemberItemSmallInline({ member, onDelete }) {
   return (
     <Container>
       <Avatar src={member.avatar} />

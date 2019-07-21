@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import MemberItemSmall from "./MemberItemSmall";
+import MemberItemSmallInline from "./MemberItemSmallInline";
 import UserSearchAutocompleteField from "./UserSearchAutocompleteField";
 import { Box } from "./styles";
 
@@ -31,7 +31,7 @@ export default function MultiMemberPickerField({ members, setMembers }) {
     <Box flexDirection="row">
       <Box as="ul" flexDirection="row" alignItems="center">
         {members.map(member => (
-          <MemberItemSmall
+          <MemberItemSmallInline
             key={member.id}
             member={member}
             onDelete={handleRemoveMember(member)}
