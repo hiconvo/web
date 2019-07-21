@@ -8,6 +8,7 @@ import ThreadInfoBoxMemberItem from "./ThreadInfoBoxMemberItem";
 import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserToThreadForm from "./AddUserToThreadForm";
 import DeleteThreadButton from "./DeleteThreadButton";
+import LeaveThreadButton from "./LeaveThreadButton";
 import { Box, Text, Heading, UnstyledButton, Icon } from "./styles";
 
 const Label = styled.span`
@@ -57,8 +58,6 @@ export default function InfoBox() {
   if (!thread.id) return null;
 
   const isOwner = user.id === thread.owner.id;
-
-  function handleLeaveThread() {}
 
   return (
     <Box>
@@ -128,11 +127,17 @@ export default function InfoBox() {
             </React.Fragment>
           )}
           {!isOwner && (
-            <Action
-              ml="-1.2rem"
-              onClick={handleLeaveThread}
-              text="Leave"
-              iconName="clear"
+            <LeaveThreadButton
+              thread={thread}
+              user={user}
+              render={onClick => (
+                <Action
+                  ml="-1.2rem"
+                  onClick={onClick}
+                  text="Leave"
+                  iconName="clear"
+                />
+              )}
             />
           )}
         </Box>

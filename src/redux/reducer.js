@@ -49,10 +49,13 @@ export default function reducer(state, action) {
     }
     case "DELETE_THREAD": {
       return Object.assign({}, state, {
-        threads: state.threads.filter(t => t.id !== action.payload)
+        threads: state.threads.filter(t => t.id !== action.payload),
+        messages: state.messages.filter(m => m.threadId !== action.payload)
       });
     }
     case "RECEIVE_MESSAGES": {
+      if (!action.payload) return state;
+
       const messages = state.messages
         .concat(action.payload)
         .sort((a, b) => isBefore(a.timestamp, b.timestamp));

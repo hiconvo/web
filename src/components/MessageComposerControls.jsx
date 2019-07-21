@@ -26,7 +26,9 @@ export default function ComposerControls({ value, onClick, isDisabled }) {
         fontSize={[2]}
         mb="0"
         pr="0"
+        color="primary500"
         disabled={isDisabled}
+        isLoading={isDisabled}
       >
         Send <Icon name="send" ml={1} fontSize="2.0rem" />
       </Button>

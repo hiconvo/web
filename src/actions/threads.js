@@ -146,6 +146,7 @@ export const removeUserFromThread = dispatch =>
    * @param {Object} payload
    * @param {Object} payload.thread
    * @param {Object} payload.user
+   * @param {bool} payload.removeThread
    * @returns {Object} Thread
    */
   async payload => {
@@ -155,10 +156,19 @@ export const removeUserFromThread = dispatch =>
         payload.thread.id,
         payload.user.id
       );
-      dispatch({
-        type: "RECEIVE_THREADS",
-        payload: [thread]
-      });
+
+      if (payload.removeThread) {
+        dispatch({
+          type: "DELETE_THREAD",
+          payload: thread.id
+        });
+      } else {
+        dispatch({
+          type: "RECEIVE_THREADS",
+          payload: [thread]
+        });
+      }
+
       dispatchNotification()({
         type: "SUCCESS",
         message: `Removed ${payload.user.fullName} from ${payload.thread.subject}`
