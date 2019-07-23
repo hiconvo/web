@@ -1,4 +1,5 @@
 const toRems = arr => arr.map(px => (px / 10).toFixed(1).toString() + "rem");
+const toPx = arr => arr.map(px => px + "px");
 
 const space = toRems([0, 4, 8, 16, 32, 64, 128, 256, 512]);
 const fontSizes = toRems([12, 14, 16, 18, 24, 30, 36, 48, 64]);
@@ -7,11 +8,10 @@ const lineHeights = {
   title: 1.5,
   paragraph: 1.75
 };
-const breakpoints = toRems([640, 1024, 1920]);
+const breakpoints = toPx([768, 1280]);
 const media = {
-  tablet: `@media screen and (min-width: ${breakpoints[0]})`,
-  desktop: `@media screen and (min-width: ${breakpoints[1]})`,
-  widescreen: `@media screen and (min-width: ${breakpoints[2]})`
+  phone: `@media screen and (max-width: ${breakpoints[0]})`,
+  tablet: `@media screen and (max-width: ${breakpoints[1]})`
 };
 
 const sizeScale = toRems([18, 24, 30, 36, 48, 60, 72, 96, 128]);

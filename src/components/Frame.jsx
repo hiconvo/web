@@ -13,6 +13,11 @@ const Container = styled.div`
   height: 100vh;
   padding: 0 ${themeGet("space.5")};
   margin: auto;
+
+  ${themeGet("media.phone")} {
+    width: calc(100% - ${themeGet("space.4")} * 2);
+    padding: 0 ${themeGet("space.4")};
+  }
 `;
 
 const Header = styled.header`
@@ -25,6 +30,11 @@ const Header = styled.header`
   max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.5")} * 2);
   margin: auto;
   z-index: 30;
+
+  ${themeGet("media.phone")} {
+    width: calc(100% - ${themeGet("space.4")} * 2);
+    padding: 0;
+  }
 `;
 
 const Slug = styled.div`

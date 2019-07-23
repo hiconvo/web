@@ -55,7 +55,7 @@ export default function InfoBox() {
   const [isRenameEditing, setIsRenameEditing] = useState(false);
   const [isMemberEditing, setIsMemberEditing] = useState(false);
 
-  if (!thread.id) return null;
+  if (!thread.id) return <div />;
 
   const isOwner = user.id === thread.owner.id;
 
