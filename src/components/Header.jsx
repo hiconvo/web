@@ -4,6 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { Link } from "react-router-dom";
 
 import UserMenu from "./UserMenu";
+import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
 import Logo from "./Logo";
 import { Box } from "./styles";
@@ -32,6 +33,10 @@ const LogoWrapper = styled.div`
   &:hover {
     box-shadow: ${themeGet("shadows.normal")};
   }
+
+  ${themeGet("media.phone")} {
+    display: none;
+  }
 `;
 
 const WrappedLogo = () => (
@@ -44,7 +49,10 @@ const WrappedLogo = () => (
 
 export default () => (
   <Header>
-    <WrappedLogo />
+    <Box>
+      <WrappedLogo />
+      <MobileLogoMenu />
+    </Box>
     <Box flexDirection="row" alignItems="center">
       <HeaderInfoMenu />
       <UserMenu />

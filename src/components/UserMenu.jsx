@@ -21,15 +21,16 @@ const NullAvatar = styled.div`
 `;
 
 const List = styled.ul`
+  display: ${props => (props.isOpen ? "block" : "none")};
   width: 16rem;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isOpen ? "visible" : "hidden")};
+  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
   transform: ${props =>
-    props.isOpen ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isOpen ? "1" : "0")};
+    props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
+  opacity: ${props => (props.isVisible ? "1" : "0")};
   z-index: 30;
 `;
 
@@ -44,8 +45,8 @@ export default function UserMenu() {
 
   return (
     <Dropdown renderAnchor={({ onClick }) => <NullAvatar onClick={onClick} />}>
-      {({ isOpen }) => (
-        <List isOpen={isOpen}>
+      {({ isOpen, isVisible }) => (
+        <List isOpen={isOpen} isVisible={isVisible}>
           <Item>
             <LinkButton
               to="/settings"

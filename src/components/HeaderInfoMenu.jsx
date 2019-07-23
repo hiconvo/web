@@ -1,4 +1,5 @@
 import React from "react";
+import { Route } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -21,21 +22,41 @@ const InfoButton = styled(ActionButton)`
 `;
 
 const InfoBoxContainer = styled.div`
-  display: none;
-  ${themeGet("media.tablet")} {
-    display: flex;
-  }
-
   padding: ${themeGet("space.4")};
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isOpen ? "visible" : "hidden")};
+  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
   transform: ${props =>
-    props.isOpen ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isOpen ? "1" : "0")};
+    props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
+  opacity: ${props => (props.isVisible ? "1" : "0")};
   z-index: 30;
+
+  display: none;
+  ${themeGet("media.tablet")} {
+    display: ${props => (props.isOpen ? "flex" : "none")};
+  }
+
+  ${themeGet("media.phone")} {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: calc(100vw - ${themeGet("space.4")} * 2);
+    height: 100vh;
+  }
+`;
+
+const CloseButton = styled.div`
+  display: none;
+
+  ${themeGet("media.phone")} {
+    display: block;
+    position: fixed;
+    right: 2rem;
+    top: 2rem;
+    z-index: 40;
+  }
 `;
 
 function InfoDropdownButton({ onClick }) {
@@ -57,14 +78,24 @@ function InfoDropdownButton({ onClick }) {
 
 export default function HeaderInfoMenu() {
   return (
-    <Dropdown
-      renderAnchor={({ onClick }) => <InfoDropdownButton onClick={onClick} />}
-    >
-      {({ isOpen }) => (
-        <InfoBoxContainer isOpen={isOpen}>
-          <ThreadInfoBox position="static" />
-        </InfoBoxContainer>
+    <Route
+      path="/convos"
+      render={() => (
+        <Dropdown
+          renderAnchor={({ onClick }) => (
+            <InfoDropdownButton onClick={onClick} />
+          )}
+        >
+          {({ isOpen, isVisible, handleToggle }) => (
+            <InfoBoxContainer isOpen={isOpen} isVisible={isVisible}>
+              <CloseButton>
+                <Icon onClick={handleToggle} name="close" fontSize={5} />
+              </CloseButton>
+              <ThreadInfoBox position="static" />
+            </InfoBoxContainer>
+          )}
+        </Dropdown>
       )}
-    </Dropdown>
+    />
   );
 }

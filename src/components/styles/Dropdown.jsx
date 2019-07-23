@@ -11,33 +11,42 @@ const Setter = styled.div`
 
 export default function Dropdown({ renderAnchor, children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
 
-  const toggle = useCallback(
+  const handleToggle = useCallback(() => {
+    if (isOpen) {
+      setTimeout(() => setIsOpen(false), 200);
+      setIsVisible(false);
+    } else {
+      setIsOpen(true);
+      setTimeout(() => setIsVisible(true));
+    }
+  }, [isOpen]);
+
+  const handleClick = useCallback(
     e => {
       if (!containerRef.current.contains(e.target)) {
-        setIsOpen(!isOpen);
+        handleToggle();
       }
     },
-    [isOpen]
+    [handleToggle]
   );
-
-  const handleToggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("click", toggle);
+      document.addEventListener("click", handleClick);
     }
 
     return () => {
-      document.removeEventListener("click", toggle);
+      document.removeEventListener("click", handleClick);
     };
-  }, [isOpen, toggle]);
+  }, [isOpen, handleClick]);
 
   return (
     <Box position="relative" ref={containerRef}>
       <div>{renderAnchor({ onClick: handleToggle })}</div>
-      <Setter>{children({ isOpen, handleToggle })}</Setter>
+      <Setter>{children({ isOpen, isVisible, handleToggle })}</Setter>
     </Box>
   );
 }
