@@ -9,26 +9,13 @@ import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserToThreadForm from "./AddUserToThreadForm";
 import DeleteThreadButton from "./DeleteThreadButton";
 import LeaveThreadButton from "./LeaveThreadButton";
-import { Box, Text, Heading, UnstyledButton, Icon } from "./styles";
+import { Box, Text, Heading, ActionButton, Icon } from "./styles";
 
 const Label = styled.span`
   font-family: ${themeGet("fonts.sans")};
   font-size: ${themeGet("fontSizes.0")};
   color: ${themeGet("colors.gray")};
   margin-bottom: ${themeGet("space.2")};
-`;
-
-const ActionButton = styled(UnstyledButton)`
-  padding: ${themeGet("space.2")} ${themeGet("space.3")} ${themeGet("space.2")}
-    ${themeGet("space.2")};
-  border-radius: ${themeGet("radii.special")};
-  background-color: transparent;
-  transition: all ease 0.2s;
-  color: ${themeGet("colors.gray")};
-  &:hover {
-    background-color: ${themeGet("colors.veryLightGray")};
-    color: ${themeGet("colors.bodytext")};
-  }
 `;
 
 function Action({ iconName, text, onClick, ...rest }) {
@@ -50,7 +37,7 @@ function Action({ iconName, text, onClick, ...rest }) {
   );
 }
 
-export default function InfoBox() {
+export default function InfoBox({ position = "fixed" }) {
   const [thread, user] = useSelectors(getSelectedThread, getUser);
   const [isRenameEditing, setIsRenameEditing] = useState(false);
   const [isMemberEditing, setIsMemberEditing] = useState(false);
@@ -61,7 +48,7 @@ export default function InfoBox() {
 
   return (
     <Box>
-      <Box position="fixed" width="28rem">
+      <Box position={position} width="28rem">
         {isRenameEditing ? (
           <ThreadRenameForm
             thread={thread}

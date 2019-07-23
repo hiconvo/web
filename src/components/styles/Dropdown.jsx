@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
@@ -11,8 +11,18 @@ const Setter = styled.div`
 
 export default function Dropdown({ renderAnchor, children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
 
-  const toggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
+  const toggle = useCallback(
+    e => {
+      if (!containerRef.current.contains(e.target)) {
+        setIsOpen(!isOpen);
+      }
+    },
+    [isOpen]
+  );
+
+  const handleToggle = useCallback(() => setIsOpen(!isOpen), [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -25,9 +35,9 @@ export default function Dropdown({ renderAnchor, children }) {
   }, [isOpen, toggle]);
 
   return (
-    <Box position="relative">
-      <div>{renderAnchor({ onClick: toggle })}</div>
-      <Setter>{children({ isOpen })}</Setter>
+    <Box position="relative" ref={containerRef}>
+      <div>{renderAnchor({ onClick: handleToggle })}</div>
+      <Setter>{children({ isOpen, handleToggle })}</Setter>
     </Box>
   );
 }
