@@ -80,6 +80,7 @@ export default function HeaderInfoMenu() {
   return (
     <Route
       path="/convos"
+      exact
       render={() => (
         <Dropdown
           renderAnchor={({ onClick }) => (

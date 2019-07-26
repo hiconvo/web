@@ -20,7 +20,7 @@ export default function Dropdown({ renderAnchor, children }) {
       setIsVisible(false);
     } else {
       setIsOpen(true);
-      setTimeout(() => setIsVisible(true));
+      setTimeout(() => setIsVisible(true), 50);
     }
   }, [isOpen]);
 
