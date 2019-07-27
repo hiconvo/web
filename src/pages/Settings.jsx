@@ -75,7 +75,7 @@ export default function Settings() {
           mb={2}
         >
           <Text mb={3}>
-            {user.verifed ? "Email is verified" : "Email is not verified"}
+            {user.verified ? "Email is verified" : "Email is not verified"}
           </Text>
           {!user.verified && (
             <Button width="min-content" onClick={sendVerifyEmail}>
