@@ -75,3 +75,59 @@ export const sendVerifyEmail = dispatch =>
       return Promise.reject(e);
     }
   };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const verifyEmail = dispatch =>
+  /*
+   * Verifies email and logs in user if successful
+   *
+   * @param {Object} payload
+   * @param {string} payload.signature
+   * @param {string} payload.timestamp
+   * @param {string} payload.userID
+   * @returns {string} email
+   */
+  async payload => {
+    try {
+      const user = await API.verifyEmail(payload);
+      localStorage.setItem("userToken", user.token);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+      return user.email;
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const resetPassword = dispatch =>
+  /*
+   * Resets password and logs in user if successful
+   *
+   * @param {Object} payload
+   * @param {string} payload.signature
+   * @param {string} payload.timestamp
+   * @param {string} payload.userID
+   * @param {string} payload.password
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.resetPassword(payload);
+      localStorage.setItem("userToken", user.token);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };

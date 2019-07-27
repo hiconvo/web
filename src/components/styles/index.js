@@ -10,6 +10,7 @@ import Ripple from "./Ripple";
 import Spinner from "./Spinner";
 import FloatingPill from "./FloatingPill";
 import ActionButton from "./ActionButton";
+import CenterContent from "./CenterContent";
 import theme from "./theme";
 import Reset from "./Reset";
 
@@ -29,5 +30,6 @@ export {
   Spinner,
   FloatingPill,
   UnstyledButton,
-  ActionButton
+  ActionButton,
+  CenterContent
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { ModalProvider } from "styled-react-modal";
 
@@ -11,6 +11,8 @@ import Login from "../pages/Login";
 import Main from "../pages/Main";
 import NewThread from "../pages/NewThread";
 import Settings from "../pages/Settings";
+import VerifyEmail from "../pages/VerifyEmail";
+import ResetPassword from "../pages/ResetPassword";
 
 export default function App() {
   return (
@@ -18,10 +20,20 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <Reset>
           <ModalProvider>
-            <HashRouter>
+            <BrowserRouter>
               <Frame>
                 <Switch>
                   <Route path="/login" component={Login} />
+                  <Route
+                    path="/verify/:key/:timestamp/:signature"
+                    exact
+                    component={VerifyEmail}
+                  />
+                  <Route
+                    path="/reset/:key/:timestamp/:signature"
+                    exact
+                    component={ResetPassword}
+                  />
                   <AuthorizedRoute path="/settings" component={Settings} />
                   <AuthorizedRoute path="/convos" exact component={Main} />
                   <AuthorizedRoute
@@ -32,7 +44,7 @@ export default function App() {
                   <Redirect to="/convos" />
                 </Switch>
               </Frame>
-            </HashRouter>
+            </BrowserRouter>
           </ModalProvider>
         </Reset>
       </ThemeProvider>
