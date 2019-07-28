@@ -24,7 +24,7 @@ export default function NotificationsManager() {
     function enqueueNotificationDeletion(id) {
       setTimeout(() => {
         setNotifications(prevNotifs => prevNotifs.filter(n => n.id !== id));
-      }, 4000);
+      }, 5000);
     }
 
     function handleNotification(e) {

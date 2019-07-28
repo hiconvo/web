@@ -11,7 +11,7 @@ import {
   Box
 } from "../components/styles";
 
-export default function ResetPassword({ match }) {
+export default function ResetPassword({ match, history }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [password1, setPassword1] = useState("");
@@ -31,6 +31,7 @@ export default function ResetPassword({ match }) {
         timestamp,
         signature
       });
+      history.push("/convos");
     } catch (e) {
       setIsLoading(false);
       setError(errorToString(e));

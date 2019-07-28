@@ -98,7 +98,10 @@ export const verifyEmail = dispatch =>
         type: "RECEIVE_USER",
         payload: user
       });
-      return user.email;
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: "Your email is verified"
+      });
     } catch (e) {
       return Promise.reject(e);
     }
@@ -126,6 +129,10 @@ export const resetPassword = dispatch =>
       dispatch({
         type: "RECEIVE_USER",
         payload: user
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: "Your password has been set"
       });
     } catch (e) {
       return Promise.reject(e);

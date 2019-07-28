@@ -5,7 +5,7 @@ import { useActions } from "../redux";
 import * as unboundActions from "../actions/user";
 import { Ripple, CenterContent, Text } from "../components/styles";
 
-export default function VerifyEmail({ match }) {
+export default function VerifyEmail({ match, history }) {
   const [error, setError] = useState("");
   const { key, timestamp, signature } = match.params;
   const { verifyEmail } = useActions(unboundActions);
@@ -13,6 +13,7 @@ export default function VerifyEmail({ match }) {
   async function handleVerifyEmail() {
     try {
       await verifyEmail({ userID: key, timestamp, signature });
+      history.push("/convos");
     } catch (e) {
       setError(errorToString(e));
     }
