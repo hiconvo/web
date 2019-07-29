@@ -29,3 +29,15 @@ export function authenticate(payload) {
     method: "POST"
   });
 }
+
+/*
+ * @param {Object} payload
+ * @param {string} payload.token
+ * @param {string} payload.provider
+ */
+export function oauth(payload) {
+  return apiRequest(`/users/oauth`, {
+    body: payload,
+    method: "POST"
+  });
+}

@@ -37,13 +37,15 @@ Button.defaultProps = {
 
 Button.displayName = "Button";
 
-function WrappedButton({ isLoading, children, ...rest }) {
-  return (
-    <Button disabled={isLoading} {...rest}>
-      {isLoading ? <Spinner color={rest.color} size="1.2rem" /> : children}
-    </Button>
-  );
-}
+const WrappedButton = React.forwardRef(
+  ({ isLoading, children, ...rest }, ref) => {
+    return (
+      <Button disabled={isLoading} ref={ref} {...rest}>
+        {isLoading ? <Spinner color={rest.color} size="1.2rem" /> : children}
+      </Button>
+    );
+  }
+);
 
 WrappedButton.defaultProps = {
   variant: "primary",

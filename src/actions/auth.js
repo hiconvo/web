@@ -54,6 +54,31 @@ export const loginUserWithAuth = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const loginUserWithOAuth = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.token
+   * @param {string} payload.provider
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.oauth(payload);
+      localStorage.setItem("userToken", user.token);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+    } catch (error) {
+      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
+      logoutUser(dispatch)();
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const logoutUser = dispatch =>
   /*
    * @returns {undefined}
