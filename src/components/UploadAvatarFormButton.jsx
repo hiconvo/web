@@ -76,7 +76,12 @@ export default function UploadAvatarFormButton() {
 
   return (
     <React.Fragment>
-      <Button variant="tertiary" onClick={handleClick} width="min-content">
+      <Button
+        variant="tertiary"
+        onClick={handleClick}
+        width="min-content"
+        mb="0"
+      >
         <Icon name="add_a_photo" fontSize={4} mr={2} />
         <Text color="inherit">Upload new avatar</Text>
       </Button>

@@ -19,6 +19,11 @@ const Header = styled.header`
   max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.5")} * 2);
   margin: auto;
   z-index: 30;
+  background: linear-gradient(
+    #fafafa 15%,
+    rgba(250, 250, 250, 0.8) 70%,
+    rgba(250, 250, 250, 0)
+  );
 
   ${themeGet("media.phone")} {
     width: calc(100% - ${themeGet("space.4")} * 2);

@@ -80,6 +80,7 @@ export default function Settings() {
               variant={hasMadeChanges ? "primary" : "tertiary"}
               onClick={handleUpdateUser}
               width="min-content"
+              mb="0"
             >
               <Icon name="save_alt" fontSize={4} mr={2} />
               <Text color="inherit">Save changes</Text>
@@ -122,6 +123,7 @@ export default function Settings() {
               variant="tertiary"
               onClick={sendVerifyEmail}
               width="min-content"
+              mb="0"
             >
               <Icon name="alternate_email" fontSize={4} mr={2} />
               <Text color="inherit">Resend veify email</Text>
@@ -145,6 +147,7 @@ export default function Settings() {
             variant="tertiary"
             onClick={sendResetPasswordEmail}
             width="min-content"
+            mb="0"
           >
             <Icon name="vpn_key" fontSize={4} mr={2} />
             <Text color="inherit">Reset password</Text>
