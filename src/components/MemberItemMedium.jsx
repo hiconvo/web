@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { margin } from "styled-system";
 import { themeGet } from "@styled-system/theme-get";
 
-import { Text, Icon } from "./styles";
+import { Text, Icon, Avatar } from "./styles";
 
 const DeleteButton = styled.button`
   background: inherit;
@@ -31,17 +31,10 @@ const Container = styled.li`
   }
 `;
 
-const Avatar = styled.div`
-  border-radius: 100%;
-  background-color: ${themeGet("colors.lightGray")};
-  height: 3rem;
-  width: 3rem;
-`;
-
 export default function MemberItemMedium({ member, onDelete, ...rest }) {
   return (
     <Container {...rest}>
-      <Avatar src={member.avatar} />
+      <Avatar src={member.avatar} size="3rem" />
       <Text ml={2} fontSize={3}>
         {member.fullName}
       </Text>

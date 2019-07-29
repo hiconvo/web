@@ -1,26 +1,23 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors, useActions } from "../redux";
 import * as unboundActions from "../actions/user";
 import { getUser } from "../selectors";
-import { Heading, TextInput, Box, Text, Button } from "../components/styles";
+import {
+  Heading,
+  TextInput,
+  Box,
+  Text,
+  Button,
+  Avatar
+} from "../components/styles";
 import UploadAvatarFormButton from "../components/UploadAvatarFormButton";
 
 const Container = styled.main`
   margin: auto;
   width: 100%;
   max-width: 46rem;
-`;
-
-const Avatar = styled.div`
-  border-radius: 100%;
-  background-color: ${themeGet("colors.lightGray")};
-  height: 20rem;
-  width: 20rem;
-  background-image: url(${props => props.src});
-  background-position: center;
 `;
 
 export default function Settings() {
@@ -57,7 +54,7 @@ export default function Settings() {
           <UploadAvatarFormButton />
         </Box>
         <Box alignItems="center">
-          <Avatar src={user.avatar} />
+          <Avatar src={user.avatar} size="20rem" />
         </Box>
       </Box>
 

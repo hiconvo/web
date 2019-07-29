@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { Text, Icon } from "./styles";
+import { Text, Icon, Avatar } from "./styles";
 
 const Container = styled.li`
   display: flex;
@@ -14,13 +14,6 @@ const Container = styled.li`
   margin: 0 ${themeGet("space.1")};
 `;
 
-const Avatar = styled.div`
-  border-radius: 100%;
-  background-color: ${themeGet("colors.lightGray")};
-  height: 2rem;
-  width: 2rem;
-`;
-
 const DeleteButton = styled.button`
   background: inherit;
   border: none;
@@ -29,7 +22,7 @@ const DeleteButton = styled.button`
 export default function MemberItemSmallInline({ member, onDelete }) {
   return (
     <Container>
-      <Avatar src={member.avatar} />
+      <Avatar src={member.avatar} size="2rem" />
       <Text ml={2}>{member.fullName}</Text>
       {onDelete && (
         <DeleteButton onClick={onDelete}>

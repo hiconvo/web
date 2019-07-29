@@ -3,17 +3,20 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
-import { getIsLoggedIn } from "../selectors";
+import { getIsLoggedIn, getUser } from "../selectors";
 import { Dropdown, LinkButton } from "./styles";
 import LogoutButton from "./LogoutButton";
 
-const NullAvatar = styled.div`
+const Avatar = styled.div`
   background-color: ${themeGet("colors.lightGray")};
   height: 3.6rem;
   width: 3.6rem;
   border-radius: 100%;
   transition: all ease ${themeGet("animations.fast")};
   cursor: pointer;
+  background-image: url(${props => props.src});
+  background-position: center;
+  background-size: contain;
 
   &:hover {
     box-shadow: ${themeGet("shadows.normal")};
@@ -39,12 +42,16 @@ const Item = styled.li`
 `;
 
 export default function UserMenu() {
-  const [isLoggedIn] = useSelectors(getIsLoggedIn);
+  const [isLoggedIn, user] = useSelectors(getIsLoggedIn, getUser);
 
   if (!isLoggedIn) return null;
 
   return (
-    <Dropdown renderAnchor={({ onClick }) => <NullAvatar onClick={onClick} />}>
+    <Dropdown
+      renderAnchor={({ onClick }) => (
+        <Avatar src={user.avatar} onClick={onClick} />
+      )}
+    >
       {({ isOpen, isVisible }) => (
         <List isOpen={isOpen} isVisible={isVisible}>
           <Item>

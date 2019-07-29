@@ -11,6 +11,7 @@ import Spinner from "./Spinner";
 import FloatingPill from "./FloatingPill";
 import ActionButton from "./ActionButton";
 import CenterContent from "./CenterContent";
+import Avatar from "./Avatar";
 import theme from "./theme";
 import Reset from "./Reset";
 
@@ -31,5 +32,6 @@ export {
   FloatingPill,
   UnstyledButton,
   ActionButton,
-  CenterContent
+  CenterContent,
+  Avatar
 };
