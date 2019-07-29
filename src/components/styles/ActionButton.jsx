@@ -10,6 +10,9 @@ export default styled(UnstyledButton)`
   background-color: transparent;
   transition: all ease 0.2s;
   color: ${themeGet("colors.gray")};
+  display: flex;
+  align-items: center;
+  flex-direction: row;
   &:hover {
     background-color: ${themeGet("colors.veryLightGray")};
     color: ${themeGet("colors.bodytext")};

@@ -10,7 +10,8 @@ import {
   Box,
   Text,
   Button,
-  Avatar
+  Avatar,
+  Icon
 } from "../components/styles";
 import UploadAvatarFormButton from "../components/UploadAvatarFormButton";
 
@@ -29,6 +30,12 @@ export default function Settings() {
     unboundActions
   );
 
+  const hasMadeChanges = [
+    [email, user.email],
+    [firstName, user.firstName],
+    [lastName, user.lastName]
+  ].some(([a, b]) => a !== b);
+
   function handleUpdateUser(e) {
     e.preventDefault();
 
@@ -41,14 +48,14 @@ export default function Settings() {
 
   return (
     <Container>
-      <Box as="section" mb={4}>
+      <Box as="section" mb={5}>
         <Box
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
           mb={4}
         >
-          <Heading as="h2" fontSize={3} fontWeight="semiBold" mb={1}>
+          <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
             Avatar
           </Heading>
           <UploadAvatarFormButton />
@@ -59,17 +66,24 @@ export default function Settings() {
       </Box>
 
       <form onSubmit={handleUpdateUser}>
-        <Box as="section" mb={4} pt={4}>
+        <Box as="section" mb={5} pt={4}>
           <Box
             flexDirection="row"
             alignItems="center"
             justifyContent="space-between"
             mb={2}
           >
-            <Heading as="h2" fontSize={3} fontWeight="semiBold" mb={1}>
+            <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
               Profile
             </Heading>
-            <Button width="min-content">Save changes</Button>
+            <Button
+              variant={hasMadeChanges ? "primary" : "tertiary"}
+              onClick={handleUpdateUser}
+              width="min-content"
+            >
+              <Icon name="save_alt" fontSize={4} mr={2} />
+              <Text color="inherit">Save changes</Text>
+            </Button>
           </Box>
           <TextInput
             name="Email"
@@ -90,8 +104,8 @@ export default function Settings() {
         </Box>
       </form>
 
-      <Box as="section" mb={4}>
-        <Heading as="h2" fontSize={3} fontWeight="semiBold" mb={1}>
+      <Box as="section" mb={5}>
+        <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
           Verification
         </Heading>
         <Box
@@ -100,19 +114,24 @@ export default function Settings() {
           justifyContent="space-between"
           mb={2}
         >
-          <Text mb={3}>
+          <Text mb={3} pt={3}>
             {user.verified ? "Email is verified" : "Email is not verified"}
           </Text>
           {!user.verified && (
-            <Button width="min-content" onClick={sendVerifyEmail}>
-              Resend veify email
+            <Button
+              variant="tertiary"
+              onClick={sendVerifyEmail}
+              width="min-content"
+            >
+              <Icon name="alternate_email" fontSize={4} mr={2} />
+              <Text color="inherit">Resend veify email</Text>
             </Button>
           )}
         </Box>
       </Box>
 
       <Box as="section" mb={4}>
-        <Heading as="h2" fontSize={3} fontWeight="semiBold" mb={1}>
+        <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
           Password
         </Heading>
         <Box
@@ -122,8 +141,13 @@ export default function Settings() {
           mb={2}
         >
           <Text>Password is set</Text>
-          <Button width="min-content" onClick={sendResetPasswordEmail}>
-            Reset password
+          <Button
+            variant="tertiary"
+            onClick={sendResetPasswordEmail}
+            width="min-content"
+          >
+            <Icon name="vpn_key" fontSize={4} mr={2} />
+            <Text color="inherit">Reset password</Text>
           </Button>
         </Box>
       </Box>

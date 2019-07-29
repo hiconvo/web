@@ -5,10 +5,10 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/user";
-import { Button, Box } from "./styles";
+import { Button, Box, Icon, Text } from "./styles";
 
 const StyledModal = Modal.styled`
-  width: 100%;
+  width: auto;
   max-width: 80rem;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.special")};
@@ -76,8 +76,9 @@ export default function UploadAvatarFormButton() {
 
   return (
     <React.Fragment>
-      <Button onClick={handleClick} width="min-content">
-        Upload new picture
+      <Button variant="tertiary" onClick={handleClick} width="min-content">
+        <Icon name="add_a_photo" fontSize={4} mr={2} />
+        <Text color="inherit">Upload new avatar</Text>
       </Button>
       <StyledModal isOpen={isOpen}>
         <Cropper

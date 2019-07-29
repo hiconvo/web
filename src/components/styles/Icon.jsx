@@ -21,7 +21,8 @@ Icon.defaultProps = {
   className: "material-icons",
   cursor: "pointer",
   padding: 0,
-  fontSize: "inherit"
+  fontSize: "inherit",
+  color: "inherit"
 };
 
 export default props => {
