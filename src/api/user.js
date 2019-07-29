@@ -48,3 +48,17 @@ export function resetPassword(payload) {
     method: "POST"
   });
 }
+
+/*
+ * @param {Object} payload
+ * @param {string} payload.blob
+ * @param {string} payload.x
+ * @param {string} payload.y
+ * @param {string} payload.size
+ */
+export function uploadAvatar(payload) {
+  return apiRequest(`/users/avatar`, {
+    body: payload,
+    method: "POST"
+  });
+}

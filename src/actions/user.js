@@ -138,3 +138,33 @@ export const resetPassword = dispatch =>
       return Promise.reject(e);
     }
   };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const uploadAvatar = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.blob
+   * @param {string} payload.x
+   * @param {string} payload.y
+   * @param {string} payload.size
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.uploadAvatar(payload);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: "Avatar uploaded"
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };

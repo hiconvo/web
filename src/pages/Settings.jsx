@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors, useActions } from "../redux";
 import * as unboundActions from "../actions/user";
 import { getUser } from "../selectors";
 import { Heading, TextInput, Box, Text, Button } from "../components/styles";
+import UploadAvatarFormButton from "../components/UploadAvatarFormButton";
 
 const Container = styled.main`
   margin: auto;
   width: 100%;
   max-width: 46rem;
+`;
+
+const Avatar = styled.div`
+  border-radius: 100%;
+  background-color: ${themeGet("colors.lightGray")};
+  height: 20rem;
+  width: 20rem;
+  background-image: url(${props => props.src});
+  background-position: center;
 `;
 
 export default function Settings() {
@@ -33,6 +44,23 @@ export default function Settings() {
 
   return (
     <Container>
+      <Box as="section" mb={4}>
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={4}
+        >
+          <Heading as="h2" fontSize={3} fontWeight="semiBold" mb={1}>
+            Avatar
+          </Heading>
+          <UploadAvatarFormButton />
+        </Box>
+        <Box alignItems="center">
+          <Avatar src={user.avatar} />
+        </Box>
+      </Box>
+
       <form onSubmit={handleUpdateUser}>
         <Box as="section" mb={4} pt={4}>
           <Box
@@ -64,6 +92,7 @@ export default function Settings() {
           />
         </Box>
       </form>
+
       <Box as="section" mb={4}>
         <Heading as="h2" fontSize={3} fontWeight="semiBold" mb={1}>
           Verification
@@ -84,6 +113,7 @@ export default function Settings() {
           )}
         </Box>
       </Box>
+
       <Box as="section" mb={4}>
         <Heading as="h2" fontSize={3} fontWeight="semiBold" mb={1}>
           Password

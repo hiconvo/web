@@ -1,4 +1,5 @@
 const API_ORIGIN = "https://api.hiconvo.com";
+// const API_ORIGIN = "http://localhost:8080";
 
 class ApiError extends Error {
   constructor(payload, message, fileName, lineNumber) {
