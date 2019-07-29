@@ -49,10 +49,12 @@ export default function LoginForm() {
 
     const authResponse = googleUser.getAuthResponse();
 
-    await loginUserWithOAuth({
-      token: authResponse.id_token,
-      provider: "google"
-    });
+    try {
+      await loginUserWithOAuth({
+        token: authResponse.id_token,
+        provider: "google"
+      });
+    } catch (e) {}
 
     setIsLoading(false);
   }
@@ -64,10 +66,12 @@ export default function LoginForm() {
     window.FB.login(
       async response => {
         if (response.authResponse) {
-          await loginUserWithOAuth({
-            token: response.authResponse.accessToken,
-            provider: "facebook"
-          });
+          try {
+            await loginUserWithOAuth({
+              token: response.authResponse.accessToken,
+              provider: "facebook"
+            });
+          } catch (e) {}
           setIsLoading(false);
         } else {
           // User said no

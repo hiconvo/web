@@ -1,4 +1,6 @@
 import * as API from "../api/auth";
+import { dispatchNotification } from "./notifications";
+import { errorToString } from "../utils";
 
 /*
  * @param {function} dispatch
@@ -69,8 +71,8 @@ export const loginUserWithOAuth = dispatch =>
         type: "RECEIVE_USER",
         payload: user
       });
-    } catch (error) {
-      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       logoutUser(dispatch)();
     }
   };
