@@ -29,7 +29,7 @@ export default function MultiMemberPickerField({ members, setMembers }) {
 
   return (
     <Box flexDirection="row">
-      <Box as="ul" flexDirection="row" alignItems="center">
+      <Box as="ul" flexDirection="row" alignItems="center" flexWrap="wrap">
         {members.map(member => (
           <MemberItemSmallInline
             key={member.id}
@@ -37,15 +37,17 @@ export default function MultiMemberPickerField({ members, setMembers }) {
             onDelete={handleRemoveMember(member)}
           />
         ))}
+        <Box as="li">
+          <UserSearchAutocompleteField
+            ref={inputEl}
+            query={query}
+            onQueryChange={e => setQuery(e.target.value)}
+            results={results}
+            onResultsChange={setResults}
+            onClick={handleAddMember}
+          />
+        </Box>
       </Box>
-      <UserSearchAutocompleteField
-        ref={inputEl}
-        query={query}
-        onQueryChange={e => setQuery(e.target.value)}
-        results={results}
-        onResultsChange={setResults}
-        onClick={handleAddMember}
-      />
     </Box>
   );
 }
