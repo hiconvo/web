@@ -21,6 +21,36 @@ const Container = styled.main`
   max-width: 46rem;
 `;
 
+const SettingsHeading = ({ children }) => (
+  <Heading as="h2" fontSize={4} fontWeight="semiBold" mb="0">
+    {children}
+  </Heading>
+);
+
+const Group = ({ children }) => (
+  <Box
+    flexDirection="row"
+    alignItems="center"
+    justifyContent="space-between"
+    mb={4}
+  >
+    {children}
+  </Box>
+);
+
+const Section = ({ children }) => (
+  <Box as="section" mb={5}>
+    {children}
+  </Box>
+);
+
+const SettingsButton = ({ iconName, text, onClick, variant = "tertiary" }) => (
+  <Button variant={variant} onClick={onClick} width="min-content" mb="0" p="0">
+    <Icon name={iconName} fontSize={4} mr={2} />
+    <Text color="inherit">{text}</Text>
+  </Button>
+);
+
 export default function Settings() {
   const [user] = useSelectors(getUser);
   const [email, setEmail] = useState(user.email);
@@ -48,44 +78,29 @@ export default function Settings() {
 
   return (
     <Container>
-      <Box as="section" mb={5}>
-        <Box
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={4}
-        >
-          <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
-            Avatar
-          </Heading>
+      <Section>
+        <Group>
+          <SettingsHeading>Avatar</SettingsHeading>
           <UploadAvatarFormButton />
-        </Box>
-        <Box alignItems="center">
+        </Group>
+        <Box alignItems="center" mb={2}>
           <Avatar src={user.avatar} size="20rem" />
         </Box>
-      </Box>
+      </Section>
 
-      <form onSubmit={handleUpdateUser}>
-        <Box as="section" mb={5} pt={4}>
-          <Box
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
-            mb={2}
-          >
-            <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
+      <Section>
+        <Box as="form" onSubmit={handleUpdateUser}>
+          <Group>
+            <Heading as="h2" fontSize={4} fontWeight="semiBold" mb="0">
               Profile
             </Heading>
-            <Button
-              variant={hasMadeChanges ? "primary" : "tertiary"}
+            <SettingsButton
               onClick={handleUpdateUser}
-              width="min-content"
-              mb="0"
-            >
-              <Icon name="save_alt" fontSize={4} mr={2} />
-              <Text color="inherit">Save changes</Text>
-            </Button>
-          </Box>
+              iconName="save_alt"
+              text="Save changes"
+              variant={hasMadeChanges ? "brand" : "tertiary"}
+            />
+          </Group>
           <TextInput
             name="Email"
             value={email}
@@ -103,57 +118,41 @@ export default function Settings() {
             onChange={e => setLastName(e.target.value)}
           />
         </Box>
-      </form>
+      </Section>
 
-      <Box as="section" mb={5}>
+      <Section>
         <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
           Verification
         </Heading>
-        <Box
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={2}
-        >
+        <Group>
           <Text mb={3} pt={3}>
             {user.verified ? "Email is verified" : "Email is not verified"}
           </Text>
           {!user.verified && (
-            <Button
-              variant="tertiary"
+            <SettingsButton
               onClick={sendVerifyEmail}
-              width="min-content"
-              mb="0"
-            >
-              <Icon name="alternate_email" fontSize={4} mr={2} />
-              <Text color="inherit">Resend veify email</Text>
-            </Button>
+              iconName="alternate_email"
+              text="Resend verify email"
+            />
           )}
-        </Box>
-      </Box>
+        </Group>
+      </Section>
 
-      <Box as="section" mb={4}>
+      <Section>
         <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
           Password
         </Heading>
-        <Box
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={2}
-        >
-          <Text>Password is set</Text>
-          <Button
-            variant="tertiary"
+        <Group>
+          <Text mb={3} pt={3}>
+            Password is set
+          </Text>
+          <SettingsButton
             onClick={sendResetPasswordEmail}
-            width="min-content"
-            mb="0"
-          >
-            <Icon name="vpn_key" fontSize={4} mr={2} />
-            <Text color="inherit">Reset password</Text>
-          </Button>
-        </Box>
-      </Box>
+            iconName="vpn_key"
+            text="Reset password"
+          />
+        </Group>
+      </Section>
     </Container>
   );
 }
