@@ -8,4 +8,5 @@ export default styled.div`
   width: ${props => themeGet(props.size, props.size)(props)};
   background-image: url(${props => props.src});
   background-position: center;
+  background-size: contain;
 `;

@@ -5,6 +5,8 @@ import { themeGet } from "@styled-system/theme-get";
 
 import ThreadList from "./ThreadList";
 import { Icon, LinkButton } from "./styles";
+import { useSelectors } from "../redux";
+import { getIsLoggedIn } from "../selectors";
 
 const Container = styled.div`
   display: none;
@@ -31,6 +33,7 @@ const StyledModal = Modal.styled`
 export default function MobileLogoMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
   const afterOpen = () => setTimeout(() => setIsVisible(true));
   const beforeClose = () =>
@@ -53,7 +56,7 @@ export default function MobileLogoMenu() {
   return (
     <Container>
       <Icon
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => isLoggedIn && setIsOpen(!isOpen)}
         name="menu"
         fontSize={7}
         color="primary"
