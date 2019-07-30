@@ -305,6 +305,15 @@ export default {
       "&:hover": {
         color: primary700
       }
+    },
+    white: {
+      color: bodytext,
+      boxShadow: shadows.normal,
+      backgroundColor: trueWhite,
+      borderRadius: radii.special,
+      "&:hover": {
+        backgroundColor: lightGray
+      }
     }
   },
 
