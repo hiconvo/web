@@ -7,7 +7,7 @@ import UserMenu from "./UserMenu";
 import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
 import Logo from "./Logo";
-import { Box } from "./styles";
+import { Box, LinkButton } from "./styles";
 
 const Header = styled.header`
   position: fixed;
@@ -32,12 +32,15 @@ const Header = styled.header`
 `;
 
 const LogoWrapper = styled.div`
-  border-radius: 3rem;
-  transition: all ease ${themeGet("animations.fast")};
-
-  &:hover {
-    box-shadow: ${themeGet("shadows.normal")};
+  ${themeGet("media.phone")} {
+    display: none;
   }
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  flex-direction: row;
+  margin-left: ${themeGet("space.3")};
 
   ${themeGet("media.phone")} {
     display: none;
@@ -54,9 +57,14 @@ const WrappedLogo = () => (
 
 export default () => (
   <Header>
-    <Box>
+    <Box flexDirection="row">
       <WrappedLogo />
       <MobileLogoMenu />
+      <Nav>
+        <LinkButton to="/convos">Convos</LinkButton>
+        <LinkButton to="/contacts">Contacts</LinkButton>
+        <LinkButton to="/events">Events</LinkButton>
+      </Nav>
     </Box>
     <Box flexDirection="row" alignItems="center">
       <HeaderInfoMenu />

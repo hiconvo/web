@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import ThreadList from "./ThreadList";
-import { Icon, LinkButton } from "./styles";
+import { Icon, LinkButton, Box } from "./styles";
+import Logo from "./Logo";
 import { useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
 
@@ -28,6 +29,13 @@ const StyledModal = Modal.styled`
   transform: ${props =>
     props.isVisible ? "translateX(0rem)" : "translateX(-10rem)"};
   opacity: ${props => (props.isVisible ? "1" : "0")};
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  flex-direction: column;
+  padding: ${themeGet("space.2")};
+  border-bottom: 0.1rem solid ${themeGet("colors.veryLightGray")};
 `;
 
 export default function MobileLogoMenu() {
@@ -68,6 +76,20 @@ export default function MobileLogoMenu() {
         afterOpen={afterOpen}
         beforeClose={beforeClose}
       >
+        <Nav>
+          <Box width="7rem" p={3}>
+            <Logo />
+          </Box>
+          <LinkButton to="/convos" justifyContent="flex-start" mb="0">
+            Convos
+          </LinkButton>
+          <LinkButton to="/contacts" justifyContent="flex-start" mb="0">
+            Contacts
+          </LinkButton>
+          <LinkButton to="/events" justifyContent="flex-start" mb="0">
+            Events
+          </LinkButton>
+        </Nav>
         <LinkButton
           to="/convos/new"
           variant="brand"

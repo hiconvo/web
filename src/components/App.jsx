@@ -9,6 +9,8 @@ import AuthorizedRoute from "./AuthorizedRoute";
 import Frame from "./Frame";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
+import Contacts from "../pages/Contacts";
+import Events from "../pages/Events";
 import NewThread from "../pages/NewThread";
 import Settings from "../pages/Settings";
 import VerifyEmail from "../pages/VerifyEmail";
@@ -41,6 +43,12 @@ export default function App() {
                     exact
                     component={NewThread}
                   />
+                  <AuthorizedRoute
+                    path="/contacts"
+                    exact
+                    component={Contacts}
+                  />
+                  <AuthorizedRoute path="/events" exact component={Events} />
                   <Redirect to="/convos" />
                 </Switch>
               </Frame>
