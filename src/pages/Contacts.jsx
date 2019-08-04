@@ -94,7 +94,7 @@ export default function Contacts() {
           </Box>
           <Box>
             {contacts.map(c => (
-              <div>{c.fullName}</div>
+              <div onClick={() => setSelectedContact(c)}>{c.fullName}</div>
             ))}
           </Box>
           <Box>
@@ -106,7 +106,10 @@ export default function Contacts() {
           </Box>
         </FloatingBackground>
       </Main>
-      <ContactsSidebar selectedContact={selectedContact} />
+      <ContactsSidebar
+        selectedContact={selectedContact}
+        isContact={contacts.some(c => c.id === selectedContact.id)}
+      />
     </Container>
   );
 }
