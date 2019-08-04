@@ -5,7 +5,10 @@ import { themeGet } from "@styled-system/theme-get";
 import { FloatingPill, Box, Icon } from "../components/styles";
 import ContactsSidebar from "../components/ContactsSidebar";
 import { useDebounce } from "../hooks";
+import { useActions, useSelectors } from "../redux";
 import { userSearch } from "../api/search";
+import { getContacts } from "../selectors";
+import * as unboundActions from "../actions/contacts";
 
 const Container = styled.div`
   display: grid;
@@ -51,13 +54,18 @@ export default function Contacts() {
   const inputContainerEl = useRef(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [selectedContact, setSelectedContact] = useState({});
+  const { fetchContacts } = useActions(unboundActions);
+  const [contacts] = useSelectors(getContacts);
 
   function handleQueryChange(e) {
     setQuery(e.target.value);
   }
 
   useEffect(() => {
+    contacts.length === 0 && fetchContacts();
     inputContainerEl.current && inputContainerEl.current.focus();
+    // eslint-disable-next-line
   }, []);
 
   const debouncedQuery = useDebounce(query, 200);
@@ -85,13 +93,20 @@ export default function Contacts() {
             />
           </Box>
           <Box>
+            {contacts.map(c => (
+              <div>{c.fullName}</div>
+            ))}
+          </Box>
+          <Box>
             {results.map(result => (
-              <div>{result.fullName}</div>
+              <div onClick={() => setSelectedContact(result)}>
+                {result.fullName}
+              </div>
             ))}
           </Box>
         </FloatingBackground>
       </Main>
-      <ContactsSidebar />
+      <ContactsSidebar selectedContact={selectedContact} />
     </Container>
   );
 }

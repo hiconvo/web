@@ -22,7 +22,7 @@ export function getAuthErrors(store) {
 }
 
 export function getUser(store) {
-  return store.user
+  return store.user;
 }
 
 export function getThreads(store) {
@@ -44,4 +44,8 @@ export function getMessagesBySelectedThread(store) {
   return store.messages.filter(
     message => message.threadId === selectedThreadId
   );
+}
+
+export function getContacts(store) {
+  return store.contacts;
 }

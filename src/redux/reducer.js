@@ -89,6 +89,18 @@ export default function reducer(state, action) {
         selectedThreadId:
           action.payload || (state.threads.length ? state.threads[0].id : 0)
       });
+    case "RECEIVE_CONTACTS":
+      return Object.assign({}, state, {
+        contacts: action.payload
+      });
+    case "RECEIVE_CONTACT":
+      return Object.assign({}, state, {
+        contacts: state.contacts.concat([action.payload])
+      });
+    case "REMOVE_CONTACT":
+      return Object.assign({}, state, {
+        contacts: state.contacts.filter(c => c.id !== action.payload.id)
+      });
     case "RECEIVE_AUTH_ERROR":
       return Object.assign({}, state, {
         errors: { auth: action.payload },
