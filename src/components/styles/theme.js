@@ -215,7 +215,9 @@ export default {
   letterSpacings,
 
   // Borders
-  borders: {},
+  borders: {
+    lightGray: `1px solid ${lightGray}`
+  },
 
   // Radii
   radii,

@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { FloatingPill, Box, Icon } from "../components/styles";
+import { FloatingPill, Box, Icon, Text } from "../components/styles";
 import ContactsSidebar from "../components/ContactsSidebar";
-import { useDebounce } from "../hooks";
+import ContactCard from "../components/ContactCard";
+import { useDebounce, useWade } from "../hooks";
 import { useActions, useSelectors } from "../redux";
 import { userSearch } from "../api/search";
 import { getContacts } from "../selectors";
@@ -29,7 +30,7 @@ const Main = styled.main`
   display: block;
   padding-right: ${themeGet("space.5")};
 
-  ${themeGet("media.tablet")} {
+  ${themeGet("media.phone")} {
     padding-right: 0;
   }
 `;
@@ -70,6 +71,8 @@ export default function Contacts() {
 
   const debouncedQuery = useDebounce(query, 200);
 
+  const search = useWade(contacts);
+
   useEffect(() => {
     if (debouncedQuery) {
       userSearch(debouncedQuery).then(payload => {
@@ -78,11 +81,13 @@ export default function Contacts() {
     }
   }, [debouncedQuery, setResults]);
 
+  const filteredContacts = debouncedQuery ? search(debouncedQuery) : contacts;
+
   return (
     <Container>
       <Main>
         <FloatingBackground>
-          <Box flexDirection="row" alignItems="center" mb={3}>
+          <Box flexDirection="row" alignItems="center" mb={4}>
             <Icon name="search" fontSize={6} mr={2} />
             <Input
               type="text"
@@ -92,18 +97,64 @@ export default function Contacts() {
               onChange={handleQueryChange}
             />
           </Box>
-          <Box>
-            {contacts.map(c => (
-              <div onClick={() => setSelectedContact(c)}>{c.fullName}</div>
-            ))}
+          {results.length === 0 && filteredContacts.length === 0 && (
+            <Box
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              height="100%"
+            >
+              <Text mb={5} textAlign="center" p={2}>
+                You don't have any contacts yet
+              </Text>
+            </Box>
+          )}
+          <Box mb={3}>
+            {results.length > 0 && filteredContacts.length > 0 && (
+              <Text
+                color="darkGray"
+                fontSize={2}
+                mb={3}
+                pb={2}
+                borderBottom="lightGray"
+              >
+                My contacts
+              </Text>
+            )}
+            <Box as="ul" flexDirection="row" flexWrap="wrap">
+              {filteredContacts.map(c => (
+                <Box as="li" key={c.id} width={["50%", "50%", "25%"]}>
+                  <ContactCard
+                    contact={c}
+                    onClick={() => setSelectedContact(c)}
+                  />
+                </Box>
+              ))}
+            </Box>
           </Box>
-          <Box>
-            {results.map(result => (
-              <div onClick={() => setSelectedContact(result)}>
-                {result.fullName}
-              </div>
-            ))}
-          </Box>
+          {results.length > 0 && (
+            <Box mb={3}>
+              <Text
+                color="darkGray"
+                fontSize={2}
+                mb={3}
+                pb={2}
+                borderBottom="lightGray"
+              >
+                Convo network
+              </Text>
+              <Box as="ul" flexDirection="row" flexWrap="wrap">
+                {results.map(r => (
+                  <Box as="li" key={r.id} width={["50%", "50%", "25%"]}>
+                    <ContactCard
+                      contact={r}
+                      onClick={() => setSelectedContact(r)}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+          )}
         </FloatingBackground>
       </Main>
       <ContactsSidebar

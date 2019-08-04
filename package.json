@@ -21,7 +21,8 @@
     "slate-react": "^0.22.4",
     "styled-components": "4.2.1",
     "styled-react-modal": "^1.2.3",
-    "styled-system": "^5.0.12"
+    "styled-system": "^5.0.12",
+    "wade": "^0.3.3"
   },
   "devDependencies": {
     "typescript": "3.3.3"
