@@ -51,6 +51,36 @@ const Input = styled.input`
   background-color: transparent;
 `;
 
+function ContactsList({ contacts, onClick }) {
+  return (
+    <Box as="ul" flexDirection="row" flexWrap="wrap">
+      {contacts.map(c => (
+        <Box as="li" key={c.id} width={["50%", "50%", "25%"]}>
+          <ContactCard contact={c} onClick={() => onClick(c)} />
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+function Heading({ children }) {
+  return (
+    <Text color="darkGray" fontSize={2} mb={3} pb={2} borderBottom="lightGray">
+      {children}
+    </Text>
+  );
+}
+
+function NullState() {
+  return (
+    <Box justifyContent="center" alignItems="center" width="100%" height="100%">
+      <Text mb={5} textAlign="center" p={2}>
+        You don't have any contacts yet
+      </Text>
+    </Box>
+  );
+}
+
 export default function Contacts() {
   const inputContainerEl = useRef(null);
   const [query, setQuery] = useState("");
@@ -98,61 +128,21 @@ export default function Contacts() {
             />
           </Box>
           {results.length === 0 && filteredContacts.length === 0 && (
-            <Box
-              justifyContent="center"
-              alignItems="center"
-              width="100%"
-              height="100%"
-            >
-              <Text mb={5} textAlign="center" p={2}>
-                You don't have any contacts yet
-              </Text>
-            </Box>
+            <NullState />
           )}
           <Box mb={3}>
             {results.length > 0 && filteredContacts.length > 0 && (
-              <Text
-                color="darkGray"
-                fontSize={2}
-                mb={3}
-                pb={2}
-                borderBottom="lightGray"
-              >
-                My contacts
-              </Text>
+              <Heading>My contacts</Heading>
             )}
-            <Box as="ul" flexDirection="row" flexWrap="wrap">
-              {filteredContacts.map(c => (
-                <Box as="li" key={c.id} width={["50%", "50%", "25%"]}>
-                  <ContactCard
-                    contact={c}
-                    onClick={() => setSelectedContact(c)}
-                  />
-                </Box>
-              ))}
-            </Box>
+            <ContactsList
+              contacts={filteredContacts}
+              onClick={setSelectedContact}
+            />
           </Box>
           {results.length > 0 && (
             <Box mb={3}>
-              <Text
-                color="darkGray"
-                fontSize={2}
-                mb={3}
-                pb={2}
-                borderBottom="lightGray"
-              >
-                Convo network
-              </Text>
-              <Box as="ul" flexDirection="row" flexWrap="wrap">
-                {results.map(r => (
-                  <Box as="li" key={r.id} width={["50%", "50%", "25%"]}>
-                    <ContactCard
-                      contact={r}
-                      onClick={() => setSelectedContact(r)}
-                    />
-                  </Box>
-                ))}
-              </Box>
+              <Heading>Convo network</Heading>
+              <ContactsList contacts={results} onClick={setSelectedContact} />
             </Box>
           )}
         </FloatingBackground>
