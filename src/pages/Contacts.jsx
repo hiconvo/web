@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { FloatingPill, Box, Icon, Text } from "../components/styles";
-import ContactsSidebar from "../components/ContactsSidebar";
+import ContactInfoBox from "../components/ContactInfoBox";
 import ContactCard from "../components/ContactCard";
 import { useDebounce, useWade } from "../hooks";
 import { useActions, useSelectors } from "../redux";
@@ -147,10 +147,7 @@ export default function Contacts() {
           )}
         </FloatingBackground>
       </Main>
-      <ContactsSidebar
-        selectedContact={selectedContact}
-        isContact={contacts.some(c => c.id === selectedContact.id)}
-      />
+      <ContactInfoBox contact={selectedContact} />
     </Container>
   );
 }
