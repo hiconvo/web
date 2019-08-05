@@ -4,7 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useDebounce } from "../hooks";
 import { userSearch } from "../api/search";
-import { Box, Text } from "./styles";
+import { Box, Text, Avatar } from "./styles";
 
 const Input = styled.input`
   padding: ${themeGet("space.2")};
@@ -19,7 +19,7 @@ const Input = styled.input`
 `;
 
 const DropDown = styled.ul`
-  width: 16rem;
+  min-width: 16rem;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
@@ -40,6 +40,9 @@ const Item = styled.button`
   font-family: inherit;
   text-align: left;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   &:focus,
   &:hover {
@@ -50,7 +53,10 @@ const Item = styled.button`
 function DropDownItem({ member, onClick }) {
   return (
     <li>
-      <Item onClick={onClick}>{member.fullName}</Item>
+      <Item onClick={onClick}>
+        <Avatar src={member.avatar} size="3rem" />
+        <Text ml={2}>{member.fullName}</Text>
+      </Item>
     </li>
   );
 }
