@@ -6,10 +6,9 @@ import { FloatingPill, Box, Icon, Text } from "../components/styles";
 import ContactInfoBox from "../components/ContactInfoBox";
 import ContactCard from "../components/ContactCard";
 import { useDebounce, useWade } from "../hooks";
-import { useActions, useSelectors } from "../redux";
+import { useSelectors } from "../redux";
 import { userSearch } from "../api/search";
 import { getContacts } from "../selectors";
-import * as unboundActions from "../actions/contacts";
 
 const Container = styled.div`
   display: grid;
@@ -81,12 +80,25 @@ function NullState() {
   );
 }
 
+function NoResults() {
+  return (
+    <Box justifyContent="center" alignItems="center" width="100%" height="100%">
+      <Text mb={5} textAlign="center" p={2}>
+        No results{" "}
+        <span role="img" aria-label="sad face">
+          😕
+        </span>
+      </Text>
+    </Box>
+  );
+}
+
 export default function Contacts() {
   const inputContainerEl = useRef(null);
   const [query, setQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState([]);
   const [selectedContact, setSelectedContact] = useState({});
-  const { fetchContacts } = useActions(unboundActions);
   const [contacts] = useSelectors(getContacts);
 
   function handleQueryChange(e) {
@@ -94,24 +106,28 @@ export default function Contacts() {
   }
 
   useEffect(() => {
-    contacts.length === 0 && fetchContacts();
     inputContainerEl.current && inputContainerEl.current.focus();
     // eslint-disable-next-line
   }, []);
 
-  const debouncedQuery = useDebounce(query, 200);
+  const debouncedQuery = useDebounce(query, 300);
 
   const search = useWade(contacts);
+  const filteredContacts = debouncedQuery ? search(debouncedQuery) : contacts;
 
   useEffect(() => {
     if (debouncedQuery) {
+      setIsSearching(true);
+
       userSearch(debouncedQuery).then(payload => {
         setResults(payload.users);
+
+        setIsSearching(false);
       });
     }
   }, [debouncedQuery, setResults]);
 
-  const filteredContacts = debouncedQuery ? search(debouncedQuery) : contacts;
+  const debouncedIsSearching = useDebounce(isSearching, 500);
 
   return (
     <Container>
@@ -127,9 +143,14 @@ export default function Contacts() {
               onChange={handleQueryChange}
             />
           </Box>
-          {results.length === 0 && filteredContacts.length === 0 && (
-            <NullState />
-          )}
+          {results.length === 0 &&
+            filteredContacts.length === 0 &&
+            contacts.length === 0 && <NullState />}
+
+          {results.length === 0 &&
+            filteredContacts.length === 0 &&
+            !debouncedIsSearching && <NoResults />}
+
           <Box mb={3}>
             {results.length > 0 && filteredContacts.length > 0 && (
               <Heading>My contacts</Heading>
@@ -139,6 +160,7 @@ export default function Contacts() {
               onClick={setSelectedContact}
             />
           </Box>
+
           {results.length > 0 && (
             <Box mb={3}>
               <Heading>Convo network</Heading>

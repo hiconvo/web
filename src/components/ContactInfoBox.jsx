@@ -52,7 +52,7 @@ function ContactInfoBox({ contact, history, position = "fixed" }) {
         {isSelected && (
           <React.Fragment>
             <Label>Actions</Label>
-            <Box as="ul" mb={4}>
+            <Box as="ul">
               {isContact ? (
                 <Action
                   ml="-1.2rem"
