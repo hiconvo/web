@@ -67,6 +67,13 @@ const CloseButton = styled.div`
   }
 `;
 
+const Name = styled(Text)`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 21rem;
+  overflow: hidden;
+`;
+
 export default function MemberItemMedium({ member, onDelete, ...rest }) {
   return (
     <Dropdown
@@ -75,9 +82,9 @@ export default function MemberItemMedium({ member, onDelete, ...rest }) {
           <UnstyledButton position="relative" p={0} onClick={onClick}>
             <Box alignItems="center" flexDirection="row">
               <Avatar src={member.avatar} size="3rem" />
-              <Text ml={2} fontSize={3}>
+              <Name ml={2} fontSize={3}>
                 {member.fullName}
-              </Text>
+              </Name>
             </Box>
           </UnstyledButton>
           {onDelete && (
