@@ -11,9 +11,7 @@ const Container = styled.li`
   border-radius: ${themeGet("radii.normal")};
   padding: ${themeGet("space.2")};
   background-color: ${themeGet("colors.veryLightGray")};
-  margin-left: ${themeGet("space.1")};
-  margin-right: ${themeGet("space.1")};
-  margin-bottom: ${themeGet("space.2")};
+  margin: ${themeGet("space.1")};
 `;
 
 const DeleteButton = styled.button`

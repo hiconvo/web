@@ -62,3 +62,12 @@ export function uploadAvatar(payload) {
     method: "POST"
   });
 }
+
+/*
+ * @param {string} id
+ */
+export function getUser(id) {
+  return apiRequest(`/users/${id}`, {
+    method: "GET"
+  });
+}

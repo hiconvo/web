@@ -5,6 +5,7 @@ import { Editor } from "slate-react";
 import Plain from "slate-plain-serializer";
 import { withRouter } from "react-router";
 
+import { getUser } from "../api/user";
 import { theme, Text, FloatingPill } from "./styles";
 import Controls from "./MessageComposerControls";
 import MultiMemberPickerField from "./MultiMemberPickerField";
@@ -103,6 +104,12 @@ function ThreadForm(props) {
 
   useEffect(() => {
     subjectEl.current.focus();
+
+    if (props.history.location && props.history.location.search) {
+      const [, id] = props.history.location.search.match(/\?userId=(.+)/);
+      getUser(id).then(user => setMembers([user]));
+    }
+    // eslint-disable-next-line
   }, []);
 
   return (
