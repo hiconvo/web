@@ -10,6 +10,7 @@ import Controls from "./MessageComposerControls";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/threads";
+import * as unboundNotifActions from "../actions/notifications";
 
 const Container = styled.main`
   display: block;
@@ -54,6 +55,7 @@ function ThreadForm(props) {
   const [members, setMembers] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
   const { createThread, setSelectedThread } = useActions(unboundActions);
+  const { dispatchNotification } = useActions(unboundNotifActions);
 
   function handleMessageChange({ value }) {
     setMessageValue(value);
@@ -63,15 +65,32 @@ function ThreadForm(props) {
     setSubject(e.target.value);
   }
 
-  async function handleSend() {
-    setIsDisabled(true);
+  async function handleSend(e) {
+    e.preventDefault();
 
+    const body = Plain.serialize(messageValue);
+
+    if (body.length === 0) {
+      return dispatchNotification({
+        type: "ERROR",
+        message: "Your message cannot be empty"
+      });
+    }
+
+    if (members.length === 0) {
+      return dispatchNotification({
+        type: "ERROR",
+        message: "You need to add at least one member"
+      });
+    }
+
+    setIsDisabled(true);
     let thread;
     try {
       thread = await createThread({
         subject,
         users: members,
-        body: Plain.serialize(messageValue)
+        body
       });
     } catch (e) {
       setIsDisabled(false);
