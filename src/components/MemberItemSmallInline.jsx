@@ -14,9 +14,10 @@ const Container = styled.li`
   margin: ${themeGet("space.1")};
 `;
 
-const DeleteButton = styled.button`
+const DeleteButton = styled.div`
   background: inherit;
   border: none;
+  margin-left: ${themeGet("space.1")};
 `;
 
 export default function MemberItemSmallInline({ member, onDelete }) {
@@ -25,7 +26,7 @@ export default function MemberItemSmallInline({ member, onDelete }) {
       <Avatar src={member.avatar} size="2rem" />
       <Text ml={2}>{member.fullName}</Text>
       {onDelete && (
-        <DeleteButton onClick={onDelete}>
+        <DeleteButton role="button" onClick={onDelete}>
           <Icon name="clear" fontSize="1.8rem" display="flex" />
         </DeleteButton>
       )}

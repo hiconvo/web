@@ -7,6 +7,7 @@ const Setter = styled.div`
   position: absolute;
   top: 100%;
   right: 0rem;
+  z-index: 30;
 `;
 
 export default function Dropdown({ renderAnchor, children }) {

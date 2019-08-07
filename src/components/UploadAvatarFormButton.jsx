@@ -69,7 +69,8 @@ export default function UploadAvatarFormButton() {
     const inputEl = document.createElement("input");
     inputEl.type = "file";
     inputEl.name = "avatar";
-    inputEl.accept = "image/png, image/jpeg";
+    inputEl.accept = "image/*";
+    inputEl.capture = "camera";
     inputEl.addEventListener("change", handleFileSelection);
     inputEl.click();
   }
