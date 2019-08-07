@@ -5,10 +5,10 @@ import { themeGet } from "@styled-system/theme-get";
 import { FloatingPill, Box, Icon, Text } from "../components/styles";
 import ContactInfoBox from "../components/ContactInfoBox";
 import ContactCard from "../components/ContactCard";
-import { useDebounce, useWade } from "../hooks";
+import { useDebounce } from "../hooks";
 import { useSelectors } from "../redux";
-import { userSearch } from "../api/search";
 import { getContacts } from "../selectors";
+import useUserSearch from "../hooks/userSearch";
 
 const Container = styled.div`
   display: grid;
@@ -96,8 +96,6 @@ function NoResults() {
 export default function Contacts() {
   const inputContainerEl = useRef(null);
   const [query, setQuery] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-  const [results, setResults] = useState([]);
   const [selectedContact, setSelectedContact] = useState({});
   const [contacts] = useSelectors(getContacts);
 
@@ -111,23 +109,9 @@ export default function Contacts() {
   }, []);
 
   const debouncedQuery = useDebounce(query, 300);
-
-  const search = useWade(contacts);
-  const filteredContacts = debouncedQuery ? search(debouncedQuery) : contacts;
-
-  useEffect(() => {
-    if (debouncedQuery) {
-      setIsSearching(true);
-
-      userSearch(debouncedQuery).then(payload => {
-        setResults(payload.users);
-
-        setIsSearching(false);
-      });
-    }
-  }, [debouncedQuery, setResults]);
-
-  const debouncedIsSearching = useDebounce(isSearching, 500);
+  const { contactsResults, networkResults, isLoading } = useUserSearch(
+    debouncedQuery
+  );
 
   return (
     <Container>
@@ -143,28 +127,32 @@ export default function Contacts() {
               onChange={handleQueryChange}
             />
           </Box>
-          {results.length === 0 &&
-            filteredContacts.length === 0 &&
-            contacts.length === 0 && <NullState />}
+          {contactsResults.length === 0 &&
+            networkResults.length === 0 &&
+            contacts.length === 0 &&
+            !debouncedQuery && <NullState />}
 
-          {results.length === 0 &&
-            filteredContacts.length === 0 &&
-            !debouncedIsSearching && <NoResults />}
+          {!isLoading &&
+            contactsResults.length === 0 &&
+            networkResults.length === 0 &&
+            debouncedQuery &&
+            query && <NoResults />}
 
           <Box mb={3}>
-            {results.length > 0 && filteredContacts.length > 0 && (
-              <Heading>My contacts</Heading>
-            )}
+            {contactsResults.length > 0 && <Heading>My contacts</Heading>}
             <ContactsList
-              contacts={filteredContacts}
+              contacts={query ? contactsResults : contacts}
               onClick={setSelectedContact}
             />
           </Box>
 
-          {results.length > 0 && (
+          {networkResults.length > 0 && (
             <Box mb={3}>
               <Heading>Convo network</Heading>
-              <ContactsList contacts={results} onClick={setSelectedContact} />
+              <ContactsList
+                contacts={networkResults}
+                onClick={setSelectedContact}
+              />
             </Box>
           )}
         </FloatingBackground>

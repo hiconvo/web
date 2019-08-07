@@ -70,7 +70,6 @@ export default function UploadAvatarFormButton() {
     inputEl.type = "file";
     inputEl.name = "avatar";
     inputEl.accept = "image/*";
-    inputEl.capture = "camera";
     inputEl.addEventListener("change", handleFileSelection);
     inputEl.click();
   }

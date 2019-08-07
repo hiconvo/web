@@ -21,3 +21,13 @@ export const errorToString = e => {
 
   return e.toString();
 };
+
+export function isMobileDevice() {
+  const mobileRegEx = /Android|webOS|iPhone|iPad|BlackBerry|Windows Phone|Opera Mini|IEMobile|Mobile/i;
+
+  return mobileRegEx.test(navigator.userAgent);
+}
+
+export function isBrowserType(browser) {
+  return navigator.userAgent.indexOf(browser) > -1;
+}
