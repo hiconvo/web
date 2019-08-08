@@ -1,15 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useMemo } from "react";
 import Wade from "wade";
 
 export default function useWade(items) {
-  const search = useRef(null);
+  return useMemo(() => {
+    const search = Wade(items.map(i => i.fullName));
 
-  useEffect(() => {
-    search.current = Wade(items.map(i => i.fullName));
-  }, [items, search]);
-
-  return query => {
-    const results = search.current ? search.current(query) : [];
-    return results.map(({ index }) => items[index]);
-  };
+    return query => {
+      const results = search(query) || [];
+      return results.map(({ index }) => items[index]);
+    };
+  }, [items]);
 }

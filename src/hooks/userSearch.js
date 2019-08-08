@@ -7,7 +7,10 @@ import useWade from "./wade";
 
 export default function useUserSearch(query) {
   const [isLoading, setIsLoading] = useState(false);
-  const [remoteResults, setRemoteResults] = useState([]);
+  const [results, setResults] = useState({
+    contactsResults: [],
+    networkResults: []
+  });
   const [contacts] = useSelectors(getContacts);
   const localSearch = useWade(contacts);
 
@@ -15,15 +18,17 @@ export default function useUserSearch(query) {
     if (query) {
       setIsLoading(true);
       userSearch(query).then(payload => {
-        setRemoteResults(payload.users);
+        setResults({
+          contactsResults: localSearch(query),
+          networkResults: payload.users
+        });
         setIsLoading(false);
       });
     }
-  }, [query, setRemoteResults]);
+  }, [query, setResults, localSearch]);
 
   return {
-    contactsResults: localSearch(query),
-    networkResults: remoteResults,
+    ...results,
     isLoading
   };
 }
