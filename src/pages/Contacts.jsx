@@ -5,10 +5,9 @@ import { themeGet } from "@styled-system/theme-get";
 import { FloatingPill, Box, Icon, Text } from "../components/styles";
 import ContactInfoBox from "../components/ContactInfoBox";
 import ContactCard from "../components/ContactCard";
-import { useDebounce } from "../hooks";
+import { useDebounce, useUserSearch } from "../hooks";
 import { useSelectors } from "../redux";
 import { getContacts } from "../selectors";
-import useUserSearch from "../hooks/userSearch";
 
 const Container = styled.div`
   display: grid;

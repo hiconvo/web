@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import uniqBy from "lodash/uniqBy";
 
-import { useDebounce } from "../hooks";
-import { userSearch } from "../api/search";
+import { useDebounce, useUserSearch } from "../hooks";
 import { Box, Text, Avatar } from "./styles";
 
 const Input = styled.input`
@@ -79,17 +79,17 @@ export default React.forwardRef(
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const debouncedQuery = useDebounce(query, 200);
-
     const handleResultsChange = useCallback(onResultsChange);
+    const { contactsResults, networkResults } = useUserSearch(debouncedQuery);
 
     useEffect(() => {
       if (debouncedQuery) {
-        userSearch(debouncedQuery).then(payload => {
-          handleResultsChange(payload.users);
-          setIsDropdownOpen(true);
-        });
+        handleResultsChange(
+          uniqBy(contactsResults.concat(networkResults), "id")
+        );
+        setIsDropdownOpen(true);
       }
-    }, [debouncedQuery, handleResultsChange]);
+    }, [debouncedQuery, networkResults, contactsResults, handleResultsChange]);
 
     useEffect(() => {
       function handleCloseDropdown(e) {
