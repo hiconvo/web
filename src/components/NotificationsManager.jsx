@@ -14,7 +14,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   visibility: ${props => (props.isOpen ? "visible" : "hidden")};
+  pointer-events: none;
 `;
 
 export default function NotificationsManager() {
