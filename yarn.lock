@@ -3893,6 +3893,11 @@ execa@^1.0.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
+exif-js@^2.2.1:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/exif-js/-/exif-js-2.3.0.tgz#9d10819bf571f873813e7640241255ab9ce1a814"
+  integrity sha1-nRCBm/Vx+HOBPnZAJBJVq5zhqBQ=
+
 exit@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
@@ -4859,6 +4864,13 @@ ignore@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
+
+image-file-to-base64-exif@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/image-file-to-base64-exif/-/image-file-to-base64-exif-1.0.3.tgz#4ba3973ba60ff50a5a45fc092efce1451c096001"
+  integrity sha512-CL17GynTvGGgH24HOFEEhdCLbG6x0P8aa7RiO7aXCPefyXBPZPRxgX5j5m6lD7/j+lNpZ1xyRqVjfFlu3/egrw==
+  dependencies:
+    exif-js "^2.2.1"
 
 immer@1.10.0:
   version "1.10.0"

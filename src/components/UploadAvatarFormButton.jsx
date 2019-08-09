@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import Modal from "styled-react-modal";
 import Cropper from "react-image-crop";
 import { themeGet } from "@styled-system/theme-get";
+import imageFileToBase64 from "image-file-to-base64-exif";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/user";
@@ -50,18 +51,11 @@ export default function UploadAvatarFormButton() {
     setIsOpen(false);
   }
 
-  function handleFileSelection(e) {
+  async function handleFileSelection(e) {
     const [file] = e.target.files;
-    const reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        setSrc(reader.result);
-        setIsOpen(true);
-      },
-      false
-    );
-    reader.readAsDataURL(file);
+    const src = await imageFileToBase64(file, 1000, 1000, 85);
+    setSrc(src);
+    setIsOpen(true);
   }
 
   function handleClick(e) {
