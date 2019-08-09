@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Modal from "styled-react-modal";
 import Cropper from "react-image-crop";
 import { themeGet } from "@styled-system/theme-get";
@@ -21,6 +21,7 @@ const StyledModal = Modal.styled`
 `;
 
 export default function UploadAvatarFormButton() {
+  const inputEl = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [src, setSrc] = useState("");
@@ -65,13 +66,7 @@ export default function UploadAvatarFormButton() {
 
   function handleClick(e) {
     e.preventDefault();
-
-    const inputEl = document.createElement("input");
-    inputEl.type = "file";
-    inputEl.name = "avatar";
-    inputEl.accept = "image/*";
-    inputEl.addEventListener("change", handleFileSelection);
-    inputEl.click();
+    inputEl.current && inputEl.current.click();
   }
 
   return (
@@ -108,6 +103,14 @@ export default function UploadAvatarFormButton() {
           </Button>
         </Box>
       </StyledModal>
+      <input
+        type="file"
+        name="avatar"
+        accept="image/*"
+        onChange={handleFileSelection}
+        style={{ display: "none" }}
+        ref={inputEl}
+      />
     </React.Fragment>
   );
 }
