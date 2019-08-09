@@ -40,7 +40,7 @@ export default function UploadAvatarFormButton() {
     setIsLoading(true);
 
     await uploadAvatar({
-      blob: src,
+      blob: src.split(",").pop(),
       x: crop.x,
       y: crop.y,
       size: crop.width
