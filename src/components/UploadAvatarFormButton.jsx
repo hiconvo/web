@@ -40,12 +40,16 @@ export default function UploadAvatarFormButton() {
 
     setIsLoading(true);
 
-    await uploadAvatar({
-      blob: src.split(",").pop(),
-      x: crop.x,
-      y: crop.y,
-      size: crop.width
-    });
+    try {
+      await uploadAvatar({
+        blob: src.split(",").pop(),
+        x: crop.x,
+        y: crop.y,
+        size: crop.width
+      });
+    } catch {
+      setIsLoading(false);
+    }
 
     setIsLoading(false);
     setIsOpen(false);
@@ -53,7 +57,7 @@ export default function UploadAvatarFormButton() {
 
   async function handleFileSelection(e) {
     const [file] = e.target.files;
-    const src = await imageFileToBase64(file);
+    const src = await imageFileToBase64(file, 700, 700, 85);
     setSrc(src);
     setIsOpen(true);
   }
@@ -76,13 +80,7 @@ export default function UploadAvatarFormButton() {
         <Text color="inherit">Upload new avatar</Text>
       </Button>
       <StyledModal isOpen={isOpen}>
-        <Cropper
-          src={src}
-          crop={crop}
-          onChange={setCrop}
-          keepSelection
-          circularCrop
-        />
+        <Cropper src={src} crop={crop} onChange={setCrop} circularCrop />
         <Box flexDirection="row" justifyContent="center" pt={2}>
           <Button
             variant="secondary"
