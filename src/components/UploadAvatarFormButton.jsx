@@ -53,7 +53,7 @@ export default function UploadAvatarFormButton() {
 
   async function handleFileSelection(e) {
     const [file] = e.target.files;
-    const src = await imageFileToBase64(file, 1000, 1000, 85);
+    const src = await imageFileToBase64(file);
     setSrc(src);
     setIsOpen(true);
   }
