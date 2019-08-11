@@ -40,12 +40,16 @@ export const loginUserWithAuth = dispatch =>
    */
   async payload => {
     try {
-      const user = await API.authenticate(payload);
-      localStorage.setItem("userToken", user.token);
-      dispatch({
-        type: "RECEIVE_USER",
-        payload: user
-      });
+      const maybeUser = await API.authenticate(payload);
+      if (maybeUser.id) {
+        localStorage.setItem("userToken", maybeUser.token);
+        dispatch({
+          type: "RECEIVE_USER",
+          payload: maybeUser
+        });
+      }
+
+      return maybeUser;
     } catch (error) {
       dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
       logoutUser(dispatch)();
