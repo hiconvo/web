@@ -23,7 +23,15 @@ export default function MultiMemberPickerField({ members, setMembers }) {
   function handleRemoveMember(member) {
     return e => {
       e.preventDefault();
-      setMembers(members.filter(m => m.id !== member.id));
+      setMembers(
+        members.filter(m => {
+          if (m.email && member.email) {
+            return m.email !== member.email;
+          } else {
+            return m.id !== member.id;
+          }
+        })
+      );
     };
   }
 

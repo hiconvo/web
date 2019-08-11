@@ -47,12 +47,18 @@ export const loginUserWithAuth = dispatch =>
           type: "RECEIVE_USER",
           payload: maybeUser
         });
+      } else if (maybeUser.message) {
+        dispatchNotification(dispatch)({
+          type: "ERROR",
+          message: maybeUser.message
+        });
       }
 
       return maybeUser;
     } catch (error) {
       dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
       logoutUser(dispatch)();
+      return {};
     }
   };
 
@@ -110,11 +116,15 @@ export const registerUser = dispatch =>
   async payload => {
     try {
       const user = await API.createUser(payload);
-      localStorage.setItem("userToken", user.token);
-      dispatch({
-        type: "RECEIVE_USER",
-        payload: user
-      });
+      if (user.message) {
+        return user;
+      } else {
+        localStorage.setItem("userToken", user.token);
+        dispatch({
+          type: "RECEIVE_USER",
+          payload: user
+        });
+      }
     } catch (error) {
       dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
       logoutUser(dispatch)();

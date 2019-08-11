@@ -61,6 +61,8 @@ function DropDownItem({ member, onClick }) {
   );
 }
 
+const EMAIL_REGEXP = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 /*
  * @Component UserSearchAutocompleteField
  *
@@ -84,9 +86,20 @@ export default React.forwardRef(
 
     useEffect(() => {
       if (debouncedQuery) {
-        handleResultsChange(
-          uniqBy(contactsResults.concat(networkResults), "id")
-        );
+        const isEmail = EMAIL_REGEXP.test(debouncedQuery);
+        if (isEmail) {
+          handleResultsChange([
+            {
+              email: debouncedQuery,
+              fullName: debouncedQuery,
+              id: debouncedQuery
+            }
+          ]);
+        } else {
+          handleResultsChange(
+            uniqBy(contactsResults.concat(networkResults), "id")
+          );
+        }
         setIsDropdownOpen(true);
       }
     }, [debouncedQuery, networkResults, contactsResults, handleResultsChange]);

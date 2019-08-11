@@ -61,7 +61,7 @@ export default function ResetPassword({ match, history }) {
           mb={4}
         />
         <Button mt={2} mb={4} type="submit" isLoading={isLoading}>
-          Reset password
+          Set password
         </Button>
       </Box>
     </CenterContent>

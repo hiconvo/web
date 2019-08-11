@@ -3,14 +3,7 @@ import React, { useState } from "react";
 import { useSelectors, useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getAuthErrors } from "../selectors";
-import {
-  Box,
-  TextInput,
-  Button,
-  LinkButton,
-  Text,
-  CenterContent
-} from "./styles";
+import { Box, TextInput, Button, LinkButton, Text } from "./styles";
 import LoginWithGoogle from "./LoginGoogle";
 import LoginWithFacebook from "./LoginFacebook";
 
@@ -20,7 +13,6 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [securityMessage, setSecurityMessage] = useState("");
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -33,19 +25,8 @@ export default function LoginForm() {
   async function handleLoginWithEmail(e) {
     e.preventDefault();
     setIsLoading(true);
-    const maybeUser = await loginUserWithAuth({ email, password });
-    if (maybeUser.message) {
-      setIsLoading(false);
-      setSecurityMessage(maybeUser.message);
-    }
-  }
-
-  if (securityMessage) {
-    return (
-      <CenterContent>
-        <Text fontSize={3}>{securityMessage}</Text>
-      </CenterContent>
-    );
+    await loginUserWithAuth({ email, password });
+    setIsLoading(false);
   }
 
   return (

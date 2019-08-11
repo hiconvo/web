@@ -3,7 +3,14 @@ import React, { useState } from "react";
 import { useActions, useSelectors } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getAuthErrors } from "../selectors";
-import { Box, TextInput, Button, LinkButton, Text } from "./styles";
+import {
+  Box,
+  TextInput,
+  Button,
+  LinkButton,
+  Text,
+  CenterContent
+} from "./styles";
 
 export default function RegistrationForm() {
   const [authErrors] = useSelectors(getAuthErrors);
@@ -13,12 +20,30 @@ export default function RegistrationForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [securityMessage, setSecurityMessage] = useState("");
 
   async function handleRegistration(e) {
     e.preventDefault();
     setIsLoading(true);
-    await registerUser({ firstName, lastName, email, password });
+    const maybeUser = await registerUser({
+      firstName,
+      lastName,
+      email,
+      password
+    });
+    if (maybeUser.message) {
+      setSecurityMessage(maybeUser.message);
+    }
+
     setIsLoading(false);
+  }
+
+  if (securityMessage) {
+    return (
+      <CenterContent>
+        <Text fontSize={3}>{securityMessage}</Text>
+      </CenterContent>
+    );
   }
 
   return (
