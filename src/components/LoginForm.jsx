@@ -58,8 +58,11 @@ export default function LoginForm() {
       </Box>
       <LoginWithGoogle />
       <LoginWithFacebook />
-      <LinkButton to="/login/register" textAlign="center" fontSize={1}>
+      <LinkButton to="/login/register" textAlign="center">
         Sign up with email
+      </LinkButton>
+      <LinkButton to="/forgot" textAlign="center" mt={3}>
+        Forgot password
       </LinkButton>
     </Box>
   );

@@ -50,7 +50,7 @@ export default function LoginFacebook() {
       disabled={isLoading}
     >
       <Box as="img" src={facebookLogo} width="2.2rem" mr={2} />
-      Login with Facebook
+      Continue with Facebook
     </Button>
   );
 }

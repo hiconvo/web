@@ -48,6 +48,16 @@ export function resetPassword(payload) {
     method: "POST"
   });
 }
+/*
+ * @param {Object} payload
+ * @param {string} payload.email
+ */
+export function forgotPassword(payload) {
+  return apiRequest(`/users/forgot`, {
+    body: payload,
+    method: "POST"
+  });
+}
 
 /*
  * @param {Object} payload

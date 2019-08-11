@@ -143,6 +143,32 @@ export const resetPassword = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const forgotPassword = dispatch =>
+  /*
+   * ForgotPassword send an email to the user whose email
+   * matches with a link to set their password.
+   *
+   * @param {Object} payload
+   * @param {string} payload.email
+   * @returns {Object} response
+   */
+  async payload => {
+    try {
+      const response = await API.forgotPassword(payload);
+      return response;
+    } catch (e) {
+      dispatchNotification(dispatch)({
+        type: "ERROR",
+        message: errorToString(e)
+      });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const uploadAvatar = dispatch =>
   /*
    * @param {Object} payload

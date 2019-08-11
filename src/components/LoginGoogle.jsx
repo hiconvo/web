@@ -57,7 +57,7 @@ export default function LoginGoogle() {
   return (
     <Button variant="white" mb={3} ref={googleButton} disabled={isLoading}>
       <Box as="img" src={googleLogo} width="2.2rem" mr={2} />
-      Login with Google
+      Continue with Google
     </Button>
   );
 }

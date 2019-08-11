@@ -25,15 +25,18 @@ export default function RegistrationForm() {
   async function handleRegistration(e) {
     e.preventDefault();
     setIsLoading(true);
-    const maybeUser = await registerUser({
-      firstName,
-      lastName,
-      email,
-      password
-    });
-    if (maybeUser.message) {
-      setSecurityMessage(maybeUser.message);
-    }
+
+    try {
+      const maybeUser = await registerUser({
+        firstName,
+        lastName,
+        email,
+        password
+      });
+      if (maybeUser.message) {
+        setSecurityMessage(maybeUser.message);
+      }
+    } catch (e) {}
 
     setIsLoading(false);
   }
