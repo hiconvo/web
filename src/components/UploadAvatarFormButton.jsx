@@ -37,15 +37,20 @@ export default function UploadAvatarFormButton() {
 
   async function handleUpload(e) {
     e.preventDefault();
-
     setIsLoading(true);
+
+    // Handle cropping when image is condensed on a small screen
+    const imgEl = document.querySelector(".ReactCrop__image");
+    const width = imgEl.clientWidth;
+    const naturalWidth = imgEl.naturalWidth;
+    const scalingFactor = naturalWidth > width ? naturalWidth / width : 1;
 
     try {
       await uploadAvatar({
         blob: src.split(",").pop(),
-        x: crop.x,
-        y: crop.y,
-        size: crop.width
+        x: crop.x * scalingFactor,
+        y: crop.y * scalingFactor,
+        size: crop.width * scalingFactor
       });
     } catch {
       setIsLoading(false);

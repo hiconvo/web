@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelectors, useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
 import { getAuthErrors } from "../selectors";
-import { Box, TextInput, Button, LinkButton, Text } from "./styles";
+import { Box, TextInput, Button, LinkButton, Text, Icon } from "./styles";
 import LoginWithGoogle from "./LoginGoogle";
 import LoginWithFacebook from "./LoginFacebook";
 
@@ -58,12 +58,11 @@ export default function LoginForm() {
       </Box>
       <LoginWithGoogle />
       <LoginWithFacebook />
-      <LinkButton to="/login/register" textAlign="center">
+      <LinkButton to="/login/register" variant="white">
+        <Icon name="email" fontSize="2.2rem" mr={2} />
         Sign up with email
       </LinkButton>
-      <LinkButton to="/forgot" textAlign="center" mt={3}>
-        Forgot password
-      </LinkButton>
+      <LinkButton to="/forgot">I forgot my password</LinkButton>
     </Box>
   );
 }

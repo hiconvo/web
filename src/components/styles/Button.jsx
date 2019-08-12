@@ -2,7 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import Box from "./Box";
 import Spinner from "./Spinner";
-import { border, buttonStyle, layout, flexbox } from "styled-system";
+import {
+  border,
+  buttonStyle,
+  layout,
+  flexbox,
+  color,
+  typography
+} from "styled-system";
 import { themeGet } from "@styled-system/theme-get";
 
 const Button = styled(Box)(
@@ -28,7 +35,9 @@ const Button = styled(Box)(
   border,
   buttonStyle,
   layout,
-  flexbox
+  flexbox,
+  typography,
+  color
 );
 
 Button.defaultProps = {
