@@ -15,6 +15,9 @@ import {
 } from "../components/styles";
 import UploadAvatarFormButton from "../components/UploadAvatarFormButton";
 
+import googleLogo from "../media/google-logo.svg";
+import facebookLogo from "../media/facebook-logo.svg";
+
 const Container = styled.main`
   margin: auto;
   width: 100%;
@@ -144,14 +147,32 @@ export default function Settings() {
         </Heading>
         <Group>
           <Text mb={3} pt={3}>
-            Password is set
+            {user.isPasswordSet ? "Password is set" : "Password is not set"}
           </Text>
           <SettingsButton
             onClick={sendResetPasswordEmail}
             iconName="vpn_key"
-            text="Reset password"
+            text={user.isPasswordSet ? "Reset password" : "Set password"}
           />
         </Group>
+      </Section>
+
+      <Section>
+        <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
+          Connected accounts
+        </Heading>
+        <Box pt={3} flexDirection="row" alignItems="center" mb={4}>
+          <Box as="img" src={googleLogo} width="2.2rem" mr={2} />
+          <Text>
+            Google account {user.isGoogleLinked ? "is" : "is not"} connected
+          </Text>
+        </Box>
+        <Box flexDirection="row" alignItems="center" mb={4}>
+          <Box as="img" src={facebookLogo} width="2.2rem" mr={2} />
+          <Text>
+            Facebook account {user.isFacebookLinked ? "is" : "is not"} connected
+          </Text>
+        </Box>
       </Section>
     </Container>
   );
