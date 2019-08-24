@@ -49,3 +49,7 @@ export function getMessagesBySelectedThread(store) {
 export function getContacts(store) {
   return store.contacts;
 }
+
+export function getIsContactsFetched(store) {
+  return store.isContactsFetched;
+}

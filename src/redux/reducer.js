@@ -13,7 +13,8 @@ export const initialState = {
   selectedThreadId: null,
   threads: [],
   messages: [],
-  contacts: []
+  contacts: [],
+  isContactsFetched: false
 };
 
 export default function reducer(state, action) {
@@ -91,7 +92,8 @@ export default function reducer(state, action) {
       });
     case "RECEIVE_CONTACTS":
       return Object.assign({}, state, {
-        contacts: action.payload
+        contacts: action.payload,
+        isContactsFetched: true
       });
     case "RECEIVE_CONTACT":
       return Object.assign({}, state, {
