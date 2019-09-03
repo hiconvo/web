@@ -12,6 +12,11 @@ import FloatingPill from "./FloatingPill";
 import ActionButton from "./ActionButton";
 import CenterContent from "./CenterContent";
 import Avatar from "./Avatar";
+import {
+  AutoCompleteInput,
+  AutoCompleteDropDown,
+  AutoCompleteItem
+} from "./AutoComplete";
 import theme from "./theme";
 import Reset from "./Reset";
 
@@ -33,5 +38,8 @@ export {
   UnstyledButton,
   ActionButton,
   CenterContent,
+  AutoCompleteInput,
+  AutoCompleteDropDown,
+  AutoCompleteItem,
   Avatar
 };

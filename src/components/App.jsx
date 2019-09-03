@@ -12,6 +12,7 @@ import Main from "../pages/Main";
 import Contacts from "../pages/Contacts";
 import Events from "../pages/Events";
 import NewThread from "../pages/NewThread";
+import NewEvent from "../pages/NewEvent";
 import Settings from "../pages/Settings";
 import VerifyEmail from "../pages/VerifyEmail";
 import ResetPassword from "../pages/ResetPassword";
@@ -39,12 +40,17 @@ export default function App() {
                     component={ResetPassword}
                   />
                   <AuthorizedRoute path="/settings" component={Settings} />
-                  <AuthorizedRoute path="/convos" exact component={Main} />
                   <AuthorizedRoute
                     path="/convos/new"
                     exact
                     component={NewThread}
                   />
+                  <AuthorizedRoute
+                    path="/events/new"
+                    exact
+                    component={NewEvent}
+                  />
+                  <AuthorizedRoute path="/convos" exact component={Main} />
                   <AuthorizedRoute
                     path="/contacts"
                     exact
