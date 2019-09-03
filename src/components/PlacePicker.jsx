@@ -21,10 +21,19 @@ function DropDownItem({ suggestion, ...rest }) {
 
 export default function PlacePicker({ value, onChange, onSelect }) {
   return (
-    <PlacesAutocomplete value={value} onChange={onChange} onSelect={onSelect}>
+    <PlacesAutocomplete
+      value={value}
+      onChange={onChange}
+      onSelect={onSelect}
+      debounce={200}
+    >
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-        <Box position="relative">
-          <AutoCompleteInput type="text" {...getInputProps()} />
+        <Box position="relative" width="100%">
+          <AutoCompleteInput
+            type="text"
+            placeholder="Type a place or address"
+            {...getInputProps()}
+          />
           <Box position="absolute" left="0" top="100%">
             <AutoCompleteDropDown isOpen={suggestions.length > 0}>
               {suggestions.map(suggestion => (

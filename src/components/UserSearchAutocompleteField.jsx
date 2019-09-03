@@ -82,10 +82,11 @@ export default React.forwardRef(
     }, [isDropdownOpen, setIsDropdownOpen, inputContainerEl]);
 
     return (
-      <Box position="relative" ref={inputContainerEl}>
+      <Box position="relative" minWidth="28rem" ref={inputContainerEl}>
         <AutoCompleteInput
           ref={ref}
           type="text"
+          placeholder="Type someone's name or email"
           value={query}
           onChange={onQueryChange}
         />

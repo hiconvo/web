@@ -122,6 +122,7 @@ function ThreadForm(props) {
             </Text>
             <Input
               type="text"
+              placeholder="Give your Convo a subject"
               value={subject}
               onChange={handleSubjectChange}
               ref={subjectEl}

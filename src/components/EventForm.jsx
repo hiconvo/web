@@ -6,7 +6,9 @@ import Plain from "slate-plain-serializer";
 import { format } from "date-fns";
 
 import MultiMemberPickerField from "./MultiMemberPickerField";
+import Controls from "./MessageComposerControls";
 import PlacePicker from "./PlacePicker";
+import Map from "./Map";
 import { theme, FloatingPill, Text, Box } from "./styles";
 
 const Container = styled.main`
@@ -53,12 +55,20 @@ export default function EventForm() {
   const [time, setTime] = useState(format(new Date(), "HH:mm"));
   const [place, setPlace] = useState("");
   const [placeId, setPlaceId] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  function handleSend() {}
+
+  function handleSelect(placeString, placeId) {
+    setPlace(placeString);
+    setPlaceId(placeId);
+  }
 
   return (
     <Container>
       <FloatingPill>
         <Form>
-          <Box>
+          <Box mt="-1rem">
             <Label>
               <Text fontSize={1} mr={1} flexShrink={0}>
                 Name:
@@ -69,13 +79,27 @@ export default function EventForm() {
                 onChange={e => setName(e.target.value)}
                 required
                 maxLength="255"
-                fontSize={3}
-                placeholder="My great event"
+                fontSize={2}
+                placeholder="Give your event a name"
               />
             </Label>
           </Box>
 
-          <Box flexDirection="row">
+          <Box mb={3}>
+            <Label>
+              <Text fontSize={1} mr={1}>
+                Where:
+              </Text>
+              <PlacePicker
+                value={place}
+                onChange={newPlace => setPlace(newPlace)}
+                onSelect={handleSelect}
+              />
+            </Label>
+            <Map placeId={placeId} />
+          </Box>
+
+          <Box flexDirection="row" mb={1}>
             <Label>
               <Text fontSize={1} mr={1}>
                 When:
@@ -104,33 +128,22 @@ export default function EventForm() {
             </Label>
           </Box>
 
-          <Box flexDirection="row">
+          <Box>
             <Label>
               <Text fontSize={1} mr={1}>
-                Where:
+                Invitees:
               </Text>
-              <PlacePicker
-                value={place}
-                onChange={newPlace => setPlace(newPlace)}
-                onSelect={(placeString, placeId) => {
-                  setPlace(placeString);
-                  setPlaceId(placeId);
-                }}
+              <MultiMemberPickerField
+                members={members}
+                setMembers={setMembers}
               />
             </Label>
           </Box>
 
-          <Label>
-            <Text fontSize={1} mr={1}>
-              Invitees:
-            </Text>
-            <MultiMemberPickerField members={members} setMembers={setMembers} />
-          </Label>
-
           <Editor
             onChange={({ value }) => setMessageValue(value)}
             value={messageValue}
-            placeholder="Describe your event..."
+            placeholder="Tell your invitees what your event is about..."
             style={{
               width: `calc(100% - ${theme.space[3]} * 2)`,
               marginBottom: "1rem",
@@ -141,6 +154,12 @@ export default function EventForm() {
               minHeight: "16rem",
               marginTop: theme.space[3]
             }}
+          />
+
+          <Controls
+            value={messageValue}
+            onClick={handleSend}
+            isDisabled={isDisabled}
           />
         </Form>
       </FloatingPill>
