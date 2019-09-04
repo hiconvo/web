@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { Editor } from "slate-react";
 import Plain from "slate-plain-serializer";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import Controls from "./MessageComposerControls";
@@ -77,7 +77,22 @@ export default function EventForm() {
   const [placeId, setPlaceId] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
 
-  function handleSend() {}
+  function handleSend(e) {
+    e.preventDefault();
+
+    const description = Plain.serialize(messageValue);
+    const datetime = parse(`${date} ${time}`, "YYYY-MM-DD p");
+
+    const payload = {
+      name,
+      members,
+      description,
+      placeID: placeId,
+      time: datetime.toISOString()
+    };
+
+    console.log(payload);
+  }
 
   function handleSelect(placeString, placeId) {
     setPlace(placeString);
@@ -208,6 +223,7 @@ export default function EventForm() {
           <Box as="ul">
             {contacts.map(contact => (
               <MemberItemMedium
+                key={contact.id}
                 member={contact}
                 isChecked={members.some(m => m.id === contact.id)}
                 onClickOverride={() => handleMemberClick(contact)}

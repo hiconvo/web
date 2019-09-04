@@ -1,4 +1,4 @@
-import { isBefore } from "date-fns";
+import { isBefore } from "../utils";
 
 export const initialState = {
   loading: {
@@ -62,19 +62,26 @@ export default function reducer(state, action) {
         .sort((a, b) => isBefore(a.timestamp, b.timestamp));
 
       // Update thread previews. Could probably optimize this.
-      const threads = state.threads.map(thread => {
-        action.payload.forEach(message => {
-          if (message.threadId === thread.id) {
-            if (
-              !thread.preview ||
-              isBefore(thread.preview.timestamp, message.timestamp)
-            ) {
-              thread.preview = message;
+      const threads = state.threads
+        .map(thread => {
+          action.payload.forEach(message => {
+            if (message.threadId === thread.id) {
+              if (
+                !thread.preview ||
+                isBefore(thread.preview.timestamp, message.timestamp) > 0
+              ) {
+                thread.preview = message;
+              }
             }
-          }
-        });
-        return thread;
-      });
+          });
+          return thread;
+        })
+        .sort(
+          (a, b) =>
+            a.preview &&
+            b.preview &&
+            isBefore(a.preview.timestamp, b.preview.timestamp)
+        );
 
       return Object.assign({}, state, {
         messages,

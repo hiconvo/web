@@ -1,3 +1,5 @@
+import { isBefore as before, parseISO } from "date-fns";
+
 export function generateId() {
   return (
     Math.random()
@@ -30,4 +32,8 @@ export function isMobileDevice() {
 
 export function isBrowserType(browser) {
   return navigator.userAgent.indexOf(browser) > -1;
+}
+
+export function isBefore(a, b) {
+  return a && b && before(parseISO(a), parseISO(b)) ? 1 : -1;
 }
