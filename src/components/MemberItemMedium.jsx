@@ -74,12 +74,22 @@ const Name = styled(Text)`
   overflow: hidden;
 `;
 
-export default function MemberItemMedium({ member, onDelete, ...rest }) {
+export default function MemberItemMedium({
+  member,
+  onDelete,
+  onClickOverride,
+  isChecked,
+  ...rest
+}) {
   return (
     <Dropdown
       renderAnchor={({ onClick }) => (
         <Container {...rest}>
-          <UnstyledButton position="relative" p={0} onClick={onClick}>
+          <UnstyledButton
+            position="relative"
+            p={0}
+            onClick={onClickOverride || onClick}
+          >
             <Box alignItems="center" flexDirection="row">
               <Avatar src={member.avatar} size="3rem" />
               <Name ml={2} fontSize={3}>
@@ -91,6 +101,9 @@ export default function MemberItemMedium({ member, onDelete, ...rest }) {
             <DeleteButton onClick={onDelete}>
               <Icon name="clear" fontSize={4} display="flex" />
             </DeleteButton>
+          )}
+          {isChecked && (
+            <Icon name="check" fontSize={4} display="flex" ml={2} />
           )}
         </Container>
       )}
