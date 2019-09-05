@@ -63,7 +63,6 @@ export default () => (
       <Nav>
         <LinkButton to="/convos">Convos</LinkButton>
         <LinkButton to="/contacts">Contacts</LinkButton>
-        <LinkButton to="/events">Events</LinkButton>
       </Nav>
     </Box>
     <Box flexDirection="row" alignItems="center">

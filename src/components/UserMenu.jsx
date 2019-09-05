@@ -52,8 +52,8 @@ export default function UserMenu() {
         <Avatar src={user.avatar} onClick={onClick} />
       )}
     >
-      {({ isOpen, isVisible }) => (
-        <List isOpen={isOpen} isVisible={isVisible}>
+      {({ isOpen, isVisible, handleToggle }) => (
+        <List isOpen={isOpen} isVisible={isVisible} onClick={handleToggle}>
           <Item>
             <LinkButton
               to="/settings"

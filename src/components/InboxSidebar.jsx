@@ -5,7 +5,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { useSelectors } from "../redux";
 import { getThreadsCount } from "../selectors";
 import ThreadList from "./ThreadList";
-import { LinkButton, Icon } from "./styles";
+import { LinkButton, Icon, Box, Dropdown, Button } from "./styles";
 
 const Container = styled.div``;
 
@@ -37,6 +37,7 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 const BottomContainer = styled.div`
@@ -49,20 +50,63 @@ const BottomContainer = styled.div`
   font-size: ${themeGet("fontSizes.0")};
 `;
 
+const DropdownItemsContainer = styled.div`
+  flex-direction: column;
+  margin-top: -0.2rem;
+  background-color: ${themeGet("colors.trueWhite")};
+  box-shadow: ${themeGet("shadows.normal")};
+  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
+  transition: all ease ${themeGet("animations.fast")};
+  transform: ${props =>
+    props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
+  opacity: ${props => (props.isVisible ? "1" : "0")};
+  z-index: 30;
+  display: ${props => (props.isOpen ? "flex" : "none")};
+  border-top: ${themeGet("borders.lightGray")};
+`;
+
 function Top() {
   return (
     <TopContainer>
-      <LinkButton
-        to="/convos/new"
-        variant="brand"
+      <Dropdown
         width="100%"
-        alignItems="center"
-        display="flex"
-        mb="0"
-        fontSize={[1]}
+        side="left"
+        stretch
+        renderAnchor={({ onClick }) => (
+          <Button variant="brand" mb={0} width="100%" onClick={onClick}>
+            <Icon name="add" mr={1} fontSize="2.2rem" /> Create
+          </Button>
+        )}
       >
-        New Convo <Icon name="mail_outline" ml={1} fontSize="2.2rem" />
-      </LinkButton>
+        {({ isOpen, isVisible, handleToggle }) => (
+          <DropdownItemsContainer
+            isOpen={isOpen}
+            isVisible={isVisible}
+            onClick={handleToggle}
+          >
+            <LinkButton
+              to="/convos/new"
+              variant="brand"
+              alignItems="flex-start"
+              display="flex"
+              mb="0"
+              fontSize={[1]}
+            >
+              <Icon name="mail_outline" mr={1} fontSize="2.2rem" /> New Convo
+            </LinkButton>
+            <LinkButton
+              to="/events/new"
+              variant="brand"
+              alignItems="flex-start"
+              display="flex"
+              mb="0"
+              fontSize={[1]}
+            >
+              <Icon name="event" mr={1} fontSize="2.2rem" /> New Event
+            </LinkButton>
+          </DropdownItemsContainer>
+        )}
+      </Dropdown>
     </TopContainer>
   );
 }

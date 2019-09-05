@@ -6,11 +6,18 @@ import Box from "./Box";
 const Setter = styled.div`
   position: absolute;
   top: 100%;
-  right: 0rem;
   z-index: 30;
+  ${props => (props.side === "left" ? "left: 0rem;" : "right: 0rem;")}
+  ${props => (props.stretch ? "width: 100%;" : "")}
 `;
 
-export default function Dropdown({ renderAnchor, children }) {
+export default function Dropdown({
+  renderAnchor,
+  children,
+  stretch,
+  side = "right",
+  ...rest
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
@@ -45,9 +52,11 @@ export default function Dropdown({ renderAnchor, children }) {
   }, [isOpen, handleClick]);
 
   return (
-    <Box position="relative" ref={containerRef}>
+    <Box position="relative" ref={containerRef} {...rest}>
       <div>{renderAnchor({ onClick: handleToggle })}</div>
-      <Setter>{children({ isOpen, isVisible, handleToggle })}</Setter>
+      <Setter side={side} stretch={stretch}>
+        {children({ isOpen, isVisible, handleToggle })}
+      </Setter>
     </Box>
   );
 }
