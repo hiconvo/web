@@ -103,7 +103,8 @@ export default function Message({ message, isAuthor }) {
   return (
     <Relative isAuthor={isAuthor}>
       <Metadata isAuthor={isAuthor}>
-        {message.user.firstName} @ {format(message.timestamp, "MMM D")}
+        {message.user.firstName} @{" "}
+        {format(new Date(message.timestamp), "MMM d")}
       </Metadata>
       <Container
         isAuthor={isAuthor}

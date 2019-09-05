@@ -71,7 +71,7 @@ export default function EventForm() {
   const [name, setName] = useState("");
   const [messageValue, setMessageValue] = useState(nullValue);
   const [members, setMembers] = useState([]);
-  const [date, setDate] = useState(format(new Date(), "YYYY-MM-DD"));
+  const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [time, setTime] = useState(format(new Date(), "HH:mm"));
   const [place, setPlace] = useState("");
   const [placeId, setPlaceId] = useState("");
@@ -81,7 +81,7 @@ export default function EventForm() {
     e.preventDefault();
 
     const description = Plain.serialize(messageValue);
-    const datetime = parse(`${date} ${time}`, "YYYY-MM-DD p");
+    const datetime = parse(`${date} ${time}`, "yyyy-MM-dd HH:mm", new Date());
 
     const payload = {
       name,

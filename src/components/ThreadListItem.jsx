@@ -89,7 +89,8 @@ function ThreadListItem({ thread, isSelected, history }) {
       <FromContainer>
         <From>{thread.users.map(user => user.firstName).join(", ")}</From>
         <Timestamp>
-          {thread.preview && format(thread.preview.timestamp, "MMM D")}
+          {thread.preview &&
+            format(new Date(thread.preview.timestamp), "MMM d")}
         </Timestamp>
       </FromContainer>
       <Subject>{thread.subject}</Subject>
