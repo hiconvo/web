@@ -10,8 +10,9 @@ export const initialState = {
     auth: null
   },
   user: null,
-  selectedThreadId: null,
+  selectedResourceId: null,
   threads: [],
+  events: [],
   messages: [],
   contacts: [],
   isContactsFetched: false
@@ -39,8 +40,8 @@ export default function reducer(state, action) {
         );
       return Object.assign({}, state, {
         threads,
-        selectedThreadId: state.selectedThreadId
-          ? state.selectedThreadId
+        selectedResourceId: state.selectedResourceId
+          ? state.selectedResourceId
           : threads.length > 0 && threads[0].id,
         loading: {
           global: false,
@@ -52,6 +53,28 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {
         threads: state.threads.filter(t => t.id !== action.payload),
         messages: state.messages.filter(m => m.threadId !== action.payload)
+      });
+    }
+    case "RECEIVE_EVENTS": {
+      const events = state.events
+        .filter(t => !action.payload.some(newEvent => newEvent.id === t.id))
+        .concat(action.payload)
+        .sort((a, b) => a.time && b.time && isBefore(a.time, b.time));
+      return Object.assign({}, state, {
+        events,
+        selectedResourceId: state.selectedResourceId
+          ? state.selectedResourceId
+          : events.length > 0 && events[0].id,
+        loading: {
+          global: false,
+          events: false
+        }
+      });
+    }
+    case "DELETE_EVENT": {
+      return Object.assign({}, state, {
+        events: state.events.filter(t => t.id !== action.payload),
+        messages: state.messages.filter(m => m.eventId !== action.payload)
       });
     }
     case "RECEIVE_MESSAGES": {
@@ -92,9 +115,9 @@ export default function reducer(state, action) {
         }
       });
     }
-    case "RECEIVE_SELECTED_THREAD":
+    case "RECEIVE_SELECTED_RESOURCE":
       return Object.assign({}, state, {
-        selectedThreadId:
+        selectedResourceId:
           action.payload || (state.threads.length ? state.threads[0].id : 0)
       });
     case "RECEIVE_CONTACTS":

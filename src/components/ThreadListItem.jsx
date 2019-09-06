@@ -5,7 +5,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { withRouter } from "react-router";
 
 import { useActions } from "../redux";
-import * as unboundActions from "../actions/threads";
+import * as unboundActions from "../actions/general";
 
 const timestampWidth = "6rem";
 
@@ -77,10 +77,10 @@ const Timestamp = styled.span`
 `;
 
 function ThreadListItem({ thread, isSelected, history }) {
-  const { setSelectedThread } = useActions(unboundActions);
+  const { setSelectedResource } = useActions(unboundActions);
 
   function handleClick() {
-    setSelectedThread(thread.id);
+    setSelectedResource(thread.id);
     history.push("/convos");
   }
 

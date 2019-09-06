@@ -4,7 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors, useActions } from "../redux";
 import {
-  getSelectedThread,
+  getSelectedResource,
   getMessagesBySelectedThread,
   getUser
 } from "../selectors";
@@ -30,7 +30,7 @@ const Container = styled.main`
 export default function ThreadViewer() {
   const [isLoading, setIsLoading] = useState(false);
   const [{ id }, messages, user] = useSelectors(
-    getSelectedThread,
+    getSelectedResource,
     getMessagesBySelectedThread,
     getUser
   );

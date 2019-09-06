@@ -11,6 +11,7 @@ import Controls from "./MessageComposerControls";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/threads";
+import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 
 const Container = styled.main`
@@ -55,8 +56,9 @@ function ThreadForm(props) {
   const [subject, setSubject] = useState("");
   const [members, setMembers] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
-  const { createThread, setSelectedThread } = useActions(unboundActions);
+  const { createThread } = useActions(unboundActions);
   const { dispatchNotification } = useActions(unboundNotifActions);
+  const { setSelectedResource } = useActions(unboundGeneralActions);
 
   function handleMessageChange({ value }) {
     setMessageValue(value);
@@ -98,7 +100,7 @@ function ThreadForm(props) {
       return;
     }
 
-    setSelectedThread(thread.id);
+    setSelectedResource(thread.id);
     props.history.push("/convos");
   }
 

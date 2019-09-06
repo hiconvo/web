@@ -1,5 +1,4 @@
-import * as API from "../api/threads";
-import { createMessage } from "./messages";
+import * as API from "../api/events";
 import { dispatchNotification } from "./notifications";
 import { errorToString } from "../utils";
 import { setSelectedResource } from "./general";
@@ -8,16 +7,16 @@ import { setSelectedResource } from "./general";
  * @param {function} dispatch
  * @returns {function}
  */
-export const fetchThreads = dispatch =>
+export const fetchEvents = dispatch =>
   /*
    * @returns {undefined}
    */
   async () => {
     try {
-      const response = await API.getThreads();
+      const response = await API.getEvents();
       dispatch({
-        type: "RECEIVE_THREADS",
-        payload: response.threads
+        type: "RECEIVE_EVENTS",
+        payload: response.events
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
@@ -29,34 +28,25 @@ export const fetchThreads = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const createThread = dispatch =>
+export const createEvent = dispatch =>
   /*
    * @param {Object} payload
-   * @param {string} payload.subject
+   * @param {string} payload.name
+   * @param {string} payload.placeId
+   * @param {string} payload.address
+   * @param {datetime} payload.time
    * @param {Contact[]} payload.users
-   * @param {string} payload.body
-   * @returns {Object} Thread
+   * @param {string} payload.description
+   * @returns {Object} Event
    */
   async payload => {
-    let thread;
+    let event;
     try {
-      thread = await API.createThread({
-        subject: payload.subject,
-        users: payload.users
-      });
+      event = await API.createEvent(payload);
       dispatch({
-        type: "RECEIVE_THREADS",
-        payload: [thread]
+        type: "RECEIVE_EVENTS",
+        payload: [event]
       });
-    } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
-      return Promise.reject(e);
-    }
-
-    try {
-      await createMessage(dispatch)(thread.id, { body: payload.body });
-
-      return thread;
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
@@ -67,125 +57,126 @@ export const createThread = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const updateThread = dispatch =>
+export const updateEvent = dispatch =>
   /*
    * @param {Object} payload
-   * @param {string} payload.id
-   * @param {string} payload.subject
-   * @returns {Object} Thread
+   * @param {Object} payload.id
+   * @param {string} payload.name
+   * @param {string} payload.placeId
+   * @param {string} payload.address
+   * @param {datetime} payload.time
+   * @param {string} payload.description
+   * @returns {Object} Event
    */
   async payload => {
-    let thread;
+    let event;
     try {
-      thread = await API.updateThread(payload.id, { subject: payload.subject });
+      event = await API.updateEvent(payload.id, payload);
       dispatch({
-        type: "RECEIVE_THREADS",
-        payload: [thread]
+        type: "RECEIVE_EVENTS",
+        payload: [event]
       });
-      dispatchNotification()({ type: "SUCCESS", message: "Changed subject" });
+      dispatchNotification()({ type: "SUCCESS", message: "Updated event" });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
 
-    return thread;
+    return event;
   };
 
 /*
  * @param {function} dispatch
  * @returns {function}
  */
-export const addUserToThread = dispatch =>
+export const addUserToEvent = dispatch =>
   /*
    * @param {Object} payload
-   * @param {Object} payload.thread
+   * @param {Object} payload.event
    * @param {Object} payload.user
-   * @returns {Object} Thread
+   * @returns {Object} Event
    */
   async payload => {
-    let thread;
+    let event;
     try {
-      thread = await API.addUserToThread(payload.thread.id, payload.user.id);
+      event = await API.addUserToEvent(payload.event.id, payload.user.id);
       dispatch({
-        type: "RECEIVE_THREADS",
-        payload: [thread]
+        type: "RECEIVE_EVENTS",
+        payload: [event]
       });
       dispatchNotification()({
         type: "SUCCESS",
-        message: `Added ${payload.user.fullName} to ${payload.thread.subject}`
+        message: `Added ${payload.user.fullName} to ${payload.event.name}`
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
 
-    return thread;
+    return event;
   };
 
 /*
  * @param {function} dispatch
  * @returns {function}
  */
-export const removeUserFromThread = dispatch =>
+export const removeUserFromEvent = dispatch =>
   /*
    * @param {Object} payload
-   * @param {Object} payload.thread
+   * @param {Object} payload.event
    * @param {Object} payload.user
-   * @param {bool} payload.removeThread
-   * @returns {Object} Thread
+   * @param {bool} payload.removeEvent
+   * @returns {Object} Event
    */
   async payload => {
-    let thread;
+    let event;
     try {
-      thread = await API.removeUserFromThread(
-        payload.thread.id,
-        payload.user.id
-      );
+      event = await API.removeUserFromEvent(payload.event.id, payload.user.id);
 
-      if (payload.removeThread) {
+      if (payload.removeEvent) {
         dispatch({
-          type: "DELETE_THREAD",
-          payload: thread.id
+          type: "DELETE_EVENT",
+          payload: event.id
         });
       } else {
         dispatch({
-          type: "RECEIVE_THREADS",
-          payload: [thread]
+          type: "RECEIVE_EVENTS",
+          payload: [event]
         });
       }
 
       dispatchNotification()({
         type: "SUCCESS",
-        message: `Removed ${payload.user.fullName} from ${payload.thread.subject}`
+        message: `Removed ${payload.user.fullName} from ${payload.event.name}`
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
 
-    return thread;
+    return event;
   };
 
 /*
  * @param {function} dispatch
  * @returns {function}
  */
-export const deleteThread = dispatch =>
+export const deleteEvent = dispatch =>
   /*
    * @param {Object} payload
-   * @param {Object} payload.thread
+   * @param {Object} payload.event
    * @returns {undefined}
    */
   async payload => {
     try {
-      await API.deleteThread(payload.thread.id);
+      await API.deleteEvent(payload.event.id);
       dispatch({
-        type: "DELETE_THREAD",
-        payload: payload.thread.id
+        type: "DELETE_EVENT",
+        payload: payload.event.id
       });
       dispatchNotification()({
         type: "SUCCESS",
-        message: `Deleted ${payload.thread.subject}`
+        message: `Deleted ${payload.event.name}`
       });
       setSelectedResource(dispatch)();
     } catch (e) {

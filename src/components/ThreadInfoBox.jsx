@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
-import { getSelectedThread, getUser } from "../selectors";
+import { getSelectedResource, getUser } from "../selectors";
 import ThreadInfoBoxMemberItem from "./ThreadInfoBoxMemberItem";
 import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserToThreadForm from "./AddUserToThreadForm";
@@ -38,7 +38,7 @@ function Action({ iconName, text, onClick, ...rest }) {
 }
 
 export default function InfoBox({ position = "fixed" }) {
-  const [thread, user] = useSelectors(getSelectedThread, getUser);
+  const [thread, user] = useSelectors(getSelectedResource, getUser);
   const [isRenameEditing, setIsRenameEditing] = useState(false);
   const [isMemberEditing, setIsMemberEditing] = useState(false);
 

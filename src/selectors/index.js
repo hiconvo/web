@@ -34,15 +34,15 @@ export const getThreadsCount = createSelector(
   res => res.length
 );
 
-export function getSelectedThread(store) {
-  const { selectedThreadId } = store;
-  return store.threads.find(thread => thread.id === selectedThreadId) || {};
+export function getSelectedResource(store) {
+  const { selectedResourceId } = store;
+  return store.threads.find(thread => thread.id === selectedResourceId) || {};
 }
 
 export function getMessagesBySelectedThread(store) {
-  const { selectedThreadId } = store;
+  const { selectedResourceId } = store;
   return store.messages.filter(
-    message => message.threadId === selectedThreadId
+    message => message.threadId === selectedResourceId
   );
 }
 
