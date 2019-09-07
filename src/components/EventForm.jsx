@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { Editor } from "slate-react";
 import Plain from "slate-plain-serializer";
 import { format, parse } from "date-fns";
 
+import { useActions, useSelectors } from "../redux";
+import { getContacts } from "../selectors";
+import * as unboundEventActions from "../actions/events";
+import * as unboundGeneralActions from "../actions/general";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import Controls from "./MessageComposerControls";
 import PlacePicker from "./PlacePicker";
 import Map from "./Map";
 import { theme, FloatingPill, Text, Box, Heading, Paragraph } from "./styles";
-import { useSelectors } from "../redux";
-import { getContacts } from "../selectors";
 import MemberItemMedium from "./MemberItemMedium";
 
 const OuterContainer = styled.div`
@@ -65,8 +68,12 @@ const Form = styled.form``;
 
 const nullValue = Plain.deserialize("");
 
-export default function EventForm() {
+function EventForm(props) {
   const [contacts] = useSelectors(getContacts);
+  const { createEvent, setSelectedResource } = useActions({
+    ...unboundEventActions,
+    ...unboundGeneralActions
+  });
 
   const [name, setName] = useState("");
   const [messageValue, setMessageValue] = useState(nullValue);
@@ -77,21 +84,29 @@ export default function EventForm() {
   const [placeId, setPlaceId] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
 
-  function handleSend(e) {
+  async function handleSend(e) {
     e.preventDefault();
 
     const description = Plain.serialize(messageValue);
     const datetime = parse(`${date} ${time}`, "yyyy-MM-dd HH:mm", new Date());
 
-    const payload = {
-      name,
-      members,
-      description,
-      placeID: placeId,
-      time: datetime.toISOString()
-    };
+    setIsDisabled(true);
+    let event;
+    try {
+      event = await createEvent({
+        name,
+        description,
+        placeID: placeId,
+        users: members,
+        time: datetime.toISOString()
+      });
+    } catch (e) {
+      setIsDisabled(false);
+      return;
+    }
 
-    console.log(payload);
+    setSelectedResource(event.id);
+    props.history.push("/convos");
   }
 
   function handleSelect(placeString, placeId) {
@@ -235,3 +250,5 @@ export default function EventForm() {
     </OuterContainer>
   );
 }
+
+export default withRouter(EventForm);

@@ -5,7 +5,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { useSelectors } from "../redux";
 import { getThreadsCount } from "../selectors";
 import ThreadList from "./ThreadList";
-import { LinkButton, Icon, Box, Dropdown, Button } from "./styles";
+import { LinkButton, Icon, Dropdown, Button } from "./styles";
 
 const Container = styled.div``;
 

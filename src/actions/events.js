@@ -33,7 +33,6 @@ export const createEvent = dispatch =>
    * @param {Object} payload
    * @param {string} payload.name
    * @param {string} payload.placeId
-   * @param {string} payload.address
    * @param {datetime} payload.time
    * @param {Contact[]} payload.users
    * @param {string} payload.description
@@ -51,6 +50,8 @@ export const createEvent = dispatch =>
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
+
+    return event;
   };
 
 /*
