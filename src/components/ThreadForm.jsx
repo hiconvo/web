@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { themeGet } from "@styled-system/theme-get";
 import { Editor } from "slate-react";
 import Plain from "slate-plain-serializer";
 import { withRouter } from "react-router";
 
 import { getUser } from "../api/user";
 import { theme, Text, FloatingPill } from "./styles";
+import { Container, Label, Input } from "./styles/CreateForm";
 import Controls from "./MessageComposerControls";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import { useActions } from "../redux";
@@ -14,39 +14,7 @@ import * as unboundActions from "../actions/threads";
 import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 
-const Container = styled.main`
-  display: block;
-  padding: 0 ${themeGet("space.5")};
-
-  ${themeGet("media.tablet")} {
-    padding-left: ${themeGet("space.5")};
-    padding-right: 0;
-  }
-
-  ${themeGet("media.phone")} {
-    padding: 0;
-  }
-`;
-
 const Form = styled.form``;
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  margin-bottom: ${themeGet("space.1")};
-  width: 100%;
-`;
-
-const Input = styled.input`
-  padding: ${themeGet("space.2")};
-  margin: ${themeGet("space.1")} 0;
-  border: none;
-  border-radius: ${themeGet("radii.small")};
-  outline: none;
-  font-family: ${themeGet("fonts.sans")};
-  width: 100%;
-  font-size: ${themeGet("fontSizes.2")};
-`;
 
 const nullValue = Plain.deserialize("");
 
@@ -130,7 +98,7 @@ function ThreadForm(props) {
               ref={subjectEl}
               required
               maxLength="255"
-              fontSize={4}
+              fontSize={2}
             />
           </Label>
           <Label>

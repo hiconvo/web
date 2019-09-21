@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
@@ -15,6 +15,7 @@ import Controls from "./MessageComposerControls";
 import PlacePicker from "./PlacePicker";
 import Map from "./Map";
 import { theme, FloatingPill, Text, Box, Heading, Paragraph } from "./styles";
+import { Container, Label, Input } from "./styles/CreateForm";
 import MemberItemMedium from "./MemberItemMedium";
 
 const OuterContainer = styled.div`
@@ -32,43 +33,12 @@ const OuterContainer = styled.div`
   }
 `;
 
-const Container = styled.main`
-  display: block;
-  padding: 0 ${themeGet("space.5")};
-
-  ${themeGet("media.tablet")} {
-    padding-left: ${themeGet("space.5")};
-    padding-right: 0;
-  }
-
-  ${themeGet("media.phone")} {
-    padding: 0;
-  }
-`;
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  margin-bottom: ${themeGet("space.1")};
-  width: 100%;
-`;
-
-const Input = styled.input`
-  padding: ${themeGet("space.2")};
-  margin: ${themeGet("space.1")} 0;
-  border: none;
-  border-radius: ${themeGet("radii.small")};
-  outline: none;
-  font-family: ${themeGet("fonts.sans")};
-  width: 100%;
-  font-size: ${props => themeGet(`fontSizes.${props.fontSize}`)(props)};
-`;
-
 const Form = styled.form``;
 
 const nullValue = Plain.deserialize("");
 
 function EventForm(props) {
+  const nameEl = useRef(null);
   const [contacts] = useSelectors(getContacts);
   const { createEvent, setSelectedResource } = useActions({
     ...unboundEventActions,
@@ -84,7 +54,11 @@ function EventForm(props) {
   const [placeId, setPlaceId] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
 
-  async function handleSend(e) {
+  useEffect(() => {
+    nameEl.current.focus();
+  }, []);
+
+  async function handleCreate(e) {
     e.preventDefault();
 
     const description = Plain.serialize(messageValue);
@@ -141,6 +115,7 @@ function EventForm(props) {
                   maxLength="255"
                   fontSize={2}
                   placeholder="Give your event a name"
+                  ref={nameEl}
                 />
               </Label>
             </Box>
@@ -218,7 +193,7 @@ function EventForm(props) {
 
             <Controls
               value={messageValue}
-              onClick={handleSend}
+              onClick={handleCreate}
               isDisabled={isDisabled}
             />
           </Form>
