@@ -8,7 +8,7 @@ export const dispatchNotification = dispatch =>
   /*
    * @param {Object} notification
    * @param {string} notification.message
-   * @param {string} notification.type, one of "NEUTRAL", "FAILURE", or "SUCCESS"
+   * @param {string} notification.type, one of "NEUTRAL", "ERROR", or "SUCCESS"
    * @returns {undefined}
    */
   ({ message = "", type = "NEUTRAL" }) => {

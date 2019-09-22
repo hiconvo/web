@@ -10,6 +10,7 @@ import { useActions, useSelectors } from "../redux";
 import { getContacts } from "../selectors";
 import * as unboundEventActions from "../actions/events";
 import * as unboundGeneralActions from "../actions/general";
+import * as unboundNotifActions from "../actions/notifications";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import Controls from "./MessageComposerControls";
 import PlacePicker from "./PlacePicker";
@@ -40,10 +41,13 @@ const nullValue = Plain.deserialize("");
 function EventForm(props) {
   const nameEl = useRef(null);
   const [contacts] = useSelectors(getContacts);
-  const { createEvent, setSelectedResource } = useActions({
-    ...unboundEventActions,
-    ...unboundGeneralActions
-  });
+  const { createEvent, setSelectedResource, dispatchNotification } = useActions(
+    {
+      ...unboundEventActions,
+      ...unboundGeneralActions,
+      ...unboundNotifActions
+    }
+  );
 
   const [name, setName] = useState("");
   const [messageValue, setMessageValue] = useState(nullValue);
@@ -64,6 +68,36 @@ function EventForm(props) {
     const description = Plain.serialize(messageValue);
     const datetime = parse(`${date} ${time}`, "yyyy-MM-dd HH:mm", new Date());
 
+    // Validation
+    if (!name) {
+      return dispatchNotification({
+        message: "Please give your event a name",
+        type: "ERROR"
+      });
+    }
+
+    if (!placeId) {
+      return dispatchNotification({
+        message: "Please choose a location",
+        type: "ERROR"
+      });
+    }
+
+    if (!members.length) {
+      return dispatchNotification({
+        message: "Please invite some people",
+        type: "ERROR"
+      });
+    }
+
+    if (!description) {
+      return dispatchNotification({
+        message: "Please add a description",
+        type: "ERROR"
+      });
+    }
+
+    // Send request
     setIsDisabled(true);
     let event;
     try {
