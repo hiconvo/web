@@ -15,7 +15,9 @@ export const initialState = {
   events: [],
   messages: [],
   contacts: [],
-  isContactsFetched: false
+  isContactsFetched: false,
+  isThreadsFetched: false,
+  isEventsFetched: false
 };
 
 export default function reducer(state, action) {
@@ -46,7 +48,8 @@ export default function reducer(state, action) {
         loading: {
           global: false,
           threads: false
-        }
+        },
+        isThreadsFetched: true
       });
     }
     case "DELETE_THREAD": {
@@ -68,7 +71,8 @@ export default function reducer(state, action) {
         loading: {
           global: false,
           events: false
-        }
+        },
+        isEventsFetched: true
       });
     }
     case "DELETE_EVENT": {

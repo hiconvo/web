@@ -3,7 +3,7 @@ import Modal from "styled-react-modal";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import ThreadList from "./ThreadList";
+import InboxList from "./InboxList";
 import { Icon, LinkButton, Box } from "./styles";
 import Logo from "./Logo";
 import { useSelectors } from "../redux";
@@ -101,7 +101,7 @@ export default function MobileLogoMenu() {
         >
           New Convo <Icon name="mail_outline" ml={1} fontSize="2.2rem" />
         </LinkButton>
-        <ThreadList />
+        <InboxList />
       </StyledModal>
     </Container>
   );

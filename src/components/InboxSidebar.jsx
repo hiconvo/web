@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
-import { getThreadsCount } from "../selectors";
-import ThreadList from "./ThreadList";
-import { LinkButton, Icon, Dropdown, Button } from "./styles";
+import { getThreadsCount, getEventsCount } from "../selectors";
+import InboxList from "./InboxList";
+import { LinkButton, Icon, Dropdown, Button, Box } from "./styles";
 
 const Container = styled.div``;
 
@@ -112,11 +112,21 @@ function Top() {
 }
 
 function Bottom() {
-  const [threadsCount] = useSelectors(getThreadsCount);
-  const descriptor = threadsCount === 1 ? "Convo" : "Convos";
+  const [threadsCount, eventsCount] = useSelectors(
+    getThreadsCount,
+    getEventsCount
+  );
+  const threadsDescriptor = threadsCount === 1 ? "Convo" : "Convos";
+  const eventsDescriptor = eventsCount === 1 ? "Event" : "Events";
   return (
     <BottomContainer>
-      {threadsCount} {descriptor}
+      <Box width="40%" fontSize={0} color="mediumGray" textAlign="center">
+        {threadsCount} {threadsDescriptor}
+      </Box>{" "}
+      |
+      <Box width="40%" fontSize={0} color="mediumGray" textAlign="center">
+        {eventsCount} {eventsDescriptor}
+      </Box>
     </BottomContainer>
   );
 }
@@ -126,7 +136,7 @@ export default function InboxSidebar() {
     <Container>
       <Fixed>
         <Top />
-        <ThreadList />
+        <InboxList />
         <Bottom />
       </Fixed>
     </Container>

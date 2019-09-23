@@ -216,7 +216,9 @@ export default {
 
   // Borders
   borders: {
-    lightGray: `1px solid ${lightGray}`
+    lightGray: `1px solid ${lightGray}`,
+    veryLightGray: `1px solid ${veryLightGray}`,
+    snow: `1px solid ${snow}`
   },
 
   // Radii

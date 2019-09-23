@@ -6,6 +6,7 @@ import { withRouter } from "react-router";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/general";
+import { Icon, Box, Text } from "./styles";
 
 const timestampWidth = "6rem";
 
@@ -76,27 +77,74 @@ const Timestamp = styled.span`
   color: ${themeGet("colors.mediumGray")};
 `;
 
-function ThreadListItem({ thread, isSelected, history }) {
+const EventContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: ${themeGet("radii.normal")};
+  padding: ${themeGet("space.2")};
+  background-color: ${themeGet("colors.veryLightGray")};
+`;
+
+const EventDate = styled.span`
+  font-size: ${themeGet("fontSizes.0")};
+  color: ${themeGet("colors.gray")};
+`;
+
+function InboxListItem({ resource, isSelected, history }) {
   const { setSelectedResource } = useActions(unboundActions);
 
   function handleClick() {
-    setSelectedResource(thread.id);
+    setSelectedResource(resource.id);
     history.push("/convos");
   }
 
-  return (
-    <ListItem onClick={handleClick} isSelected={isSelected}>
-      <FromContainer>
-        <From>{thread.users.map(user => user.firstName).join(", ")}</From>
-        <Timestamp>
-          {thread.preview &&
-            format(new Date(thread.preview.timestamp), "MMM d")}
-        </Timestamp>
-      </FromContainer>
-      <Subject>{thread.subject}</Subject>
-      <Preview>{thread.preview && thread.preview.body}</Preview>
-    </ListItem>
-  );
+  if (resource.subject) {
+    // Thread
+    return (
+      <ListItem onClick={handleClick} isSelected={isSelected}>
+        <FromContainer>
+          <From>{resource.users.map(user => user.firstName).join(", ")}</From>
+          <Timestamp>
+            {resource.preview &&
+              format(new Date(resource.preview.timestamp), "MMM d")}
+          </Timestamp>
+        </FromContainer>
+        <Subject>{resource.subject}</Subject>
+        <Preview>{resource.preview && resource.preview.body}</Preview>
+      </ListItem>
+    );
+  } else {
+    // Event
+    return (
+      <ListItem onClick={handleClick} isSelected={isSelected}>
+        <FromContainer>
+          <From>{resource.owner.fullName}</From>
+          <Timestamp>{format(new Date(resource.time), "MMM d")}</Timestamp>
+        </FromContainer>
+
+        <EventContainer>
+          <Box flexShrink="0">
+            <Icon name="event" mr={2} fontSize={3} />
+          </Box>
+          <Box flexDirection="column" overflow="hidden">
+            <Text
+              weight="semiBold"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              textOverflow="ellipsis"
+              fontSize={1}
+            >
+              {resource.name}
+            </Text>
+            <EventDate>
+              {format(new Date(resource.time), "MMM d @ h:mm a")}
+            </EventDate>
+          </Box>
+        </EventContainer>
+      </ListItem>
+    );
+  }
 }
 
-export default withRouter(ThreadListItem);
+export default withRouter(InboxListItem);
