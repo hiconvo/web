@@ -36,11 +36,6 @@ export const getThreadsCount = createSelector(
   res => res.length
 );
 
-export function getSelectedResource(store) {
-  const { selectedResourceId } = store;
-  return store.threads.find(thread => thread.id === selectedResourceId) || {};
-}
-
 export function getMessagesBySelectedThread(store) {
   const { selectedResourceId } = store;
   return store.messages.filter(
@@ -67,6 +62,17 @@ export const getInboxContents = createSelector(
       return isBefore(aTime, bTime);
     });
   }
+);
+
+export function getSelectedResourceId(store) {
+  return store.selectedResourceId;
+}
+
+export const getSelectedResource = createSelector(
+  getSelectedResourceId,
+  getInboxContents,
+  (selectedResourceId, resources) =>
+    resources.find(resource => resource.id === selectedResourceId) || {}
 );
 
 export function getContacts(store) {

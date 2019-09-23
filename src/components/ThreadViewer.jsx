@@ -35,18 +35,21 @@ export default function ThreadViewer() {
     getUser
   );
   const { fetchMessages } = useActions(unboundActions);
+  const hasMessages = messages.length > 0;
 
   useEffect(() => {
     async function handleFetchMessages() {
       setIsLoading(true);
-      await fetchMessages(id);
+      try {
+        await fetchMessages(id);
+      } catch (e) {}
       setIsLoading(false);
     }
 
-    if (id && messages.length === 0) {
+    if (id && !hasMessages) {
       handleFetchMessages();
     }
-  }, [id, messages.length, fetchMessages]);
+  }, [id, hasMessages, fetchMessages]);
 
   return (
     <Container>
