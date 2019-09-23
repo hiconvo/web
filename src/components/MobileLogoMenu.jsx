@@ -18,7 +18,8 @@ const Container = styled.div`
 `;
 
 const StyledModal = Modal.styled`
-  height: 100vh;
+  height: 100%;
+  overflow-y: scroll;
   width: calc(100vw - 2rem);
   max-width: ${themeGet("sidebarWidth")};
   position: fixed;
@@ -86,21 +87,35 @@ export default function MobileLogoMenu() {
           <LinkButton to="/contacts" justifyContent="flex-start" mb="0">
             Contacts
           </LinkButton>
-          <LinkButton to="/events" justifyContent="flex-start" mb="0">
-            Events
+        </Nav>
+        <Nav>
+          <LinkButton
+            to="/convos/new"
+            variant="brand"
+            width="100%"
+            alignItems="center"
+            justifyContent="flexStart"
+            display="flex"
+            mb="0"
+            fontSize={[1]}
+          >
+            <Icon name="mail_outline" mr={1} fontSize="2.2rem" />
+            New Convo
+          </LinkButton>
+          <LinkButton
+            to="/events/new"
+            variant="brand"
+            width="100%"
+            alignItems="center"
+            justifyContent="flexStart"
+            display="flex"
+            mb="0"
+            fontSize={[1]}
+          >
+            <Icon name="event" mr={1} fontSize="2.2rem" />
+            New Event
           </LinkButton>
         </Nav>
-        <LinkButton
-          to="/convos/new"
-          variant="brand"
-          width="100%"
-          alignItems="center"
-          display="flex"
-          mb="0"
-          fontSize={[1]}
-        >
-          New Convo <Icon name="mail_outline" ml={1} fontSize="2.2rem" />
-        </LinkButton>
         <InboxList />
       </StyledModal>
     </Container>

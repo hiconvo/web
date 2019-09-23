@@ -87,7 +87,6 @@ function Top() {
             <LinkButton
               to="/convos/new"
               variant="brand"
-              alignItems="flex-start"
               display="flex"
               mb="0"
               fontSize={[1]}
@@ -97,7 +96,6 @@ function Top() {
             <LinkButton
               to="/events/new"
               variant="brand"
-              alignItems="flex-start"
               display="flex"
               mb="0"
               fontSize={[1]}

@@ -18,7 +18,7 @@ const Button = styled(Box)(
     border: 0,
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: props.justifyContent || "center",
     fontFamily: themeGet("fonts.sans")(props),
     fontWeight: themeGet("fontWeights.semiBold")(props),
     letterSpacing: themeGet("letterSpacings.spaced")(props),

@@ -302,12 +302,12 @@ export default {
       }
     },
     brand: {
-      color: primary500,
+      color: primary700,
       fontWeight: fontWeights.regular,
       backgroundColor: "inherit",
       borderRadius: radii.normal,
       "&:hover": {
-        color: primary700
+        color: primary900
       }
     },
     white: {
