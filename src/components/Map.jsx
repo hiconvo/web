@@ -35,6 +35,7 @@ export default function Map({ placeId }) {
         if (results.length) {
           map.setCenter(results[0].geometry.location);
           marker.setPosition(results[0].geometry.location);
+          map.setZoom(15);
         }
       });
     }

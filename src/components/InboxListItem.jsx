@@ -83,7 +83,14 @@ const EventContainer = styled.div`
   align-items: center;
   border-radius: ${themeGet("radii.normal")};
   padding: ${themeGet("space.2")};
-  background-color: ${themeGet("colors.veryLightGray")};
+  border: ${props =>
+    props.isSelected
+      ? themeGet("borders.lightGray")(props)
+      : themeGet("borders.veryLightGray")(props)};
+  background-color: ${props =>
+    props.isSelected
+      ? themeGet("colors.trueWhite")(props)
+      : themeGet("colors.veryLightGray")(props)};
 `;
 
 const EventDate = styled.span`
@@ -99,7 +106,7 @@ function InboxListItem({ resource, isSelected, history }) {
     history.push("/convos");
   }
 
-  if (resource.subject) {
+  if (resource.resourceType === "Thread") {
     // Thread
     return (
       <ListItem onClick={handleClick} isSelected={isSelected}>
@@ -123,7 +130,7 @@ function InboxListItem({ resource, isSelected, history }) {
           <Timestamp>{format(new Date(resource.time), "MMM d")}</Timestamp>
         </FromContainer>
 
-        <EventContainer>
+        <EventContainer isSelected={isSelected}>
           <Box flexShrink="0">
             <Icon name="event" mr={2} fontSize={3} />
           </Box>

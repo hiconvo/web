@@ -41,7 +41,8 @@ Heading.defaultProps = {
   mb: [2, null, 3],
   lineHeight: "title",
   textAlign: "left",
-  color: "bodytext"
+  color: "bodytext",
+  fontFamily: "sans"
 };
 
 export { Text, Paragraph, Heading };

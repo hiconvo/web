@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import InboxSidebar from "../components/InboxSidebar";
-import ThreadViewer from "../components/ThreadViewer";
+import ResourceViewer from "../components/ResourceViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
 
 const Container = styled.div`
@@ -37,7 +37,7 @@ export default function Main() {
   return (
     <Container>
       <InboxSidebar />
-      <ThreadViewer />
+      <ResourceViewer />
       <ThreadInfoBox />
     </Container>
   );

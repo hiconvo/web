@@ -218,7 +218,8 @@ export default {
   borders: {
     lightGray: `1px solid ${lightGray}`,
     veryLightGray: `1px solid ${veryLightGray}`,
-    snow: `1px solid ${snow}`
+    snow: `1px solid ${snow}`,
+    brandColor: `1px solid ${primary500}`
   },
 
   // Radii

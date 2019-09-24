@@ -7,7 +7,10 @@ export default styled(UnstyledButton)`
   padding: ${themeGet("space.2")} ${themeGet("space.3")} ${themeGet("space.2")}
     ${themeGet("space.2")};
   border-radius: ${themeGet("radii.special")};
-  background-color: transparent;
+  background-color: ${props =>
+    props.backgroundColor
+      ? themeGet(`colors.${props.backgroundColor}`)(props)
+      : "transparent"};
   transition: all ease 0.2s;
   color: ${themeGet("colors.gray")};
   display: flex;
