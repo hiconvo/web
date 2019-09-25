@@ -5,11 +5,12 @@ import { useSelectors } from "../redux";
 import { getUser } from "../selectors";
 import Markdown from "./Markdown";
 import Map from "./Map";
+import Composer from "./Composer";
 import { FloatingPill, Text, Heading, Icon, Box, ActionButton } from "./styles";
 
 export default function EventViewer({ event }) {
   const [user] = useSelectors(getUser);
-  const isGoing = event.rsvps.some(rsvp => rsvp.id === user.id);
+  const isGoing = event && event.rsvps.some(rsvp => rsvp.id === user.id);
 
   return (
     <FloatingPill>
@@ -70,13 +71,19 @@ export default function EventViewer({ event }) {
 
       <Map placeId={event.placeID} />
 
-      <Box my={4}>
+      <Box mt="2.4rem" mb={2}>
         <Markdown
           text={
             event.description || "This event did not include a description."
           }
         />
       </Box>
+
+      <Composer
+        height="6rem"
+        backgroundColor="gray"
+        placeholder="Send a message to the guests..."
+      />
     </FloatingPill>
   );
 }

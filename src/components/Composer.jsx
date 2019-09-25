@@ -5,23 +5,28 @@ import Plain from "slate-plain-serializer";
 import Controls from "./MessageComposerControls";
 import { theme } from "./styles";
 
-const grayBackgroundStyle = {
+const grayBackgroundStyle = height => ({
   width: `calc(100% - ${theme.space[3]} * 2)`,
   marginBottom: "1rem",
   backgroundColor: theme.colors.snow,
   border: `0.1rem solid ${theme.colors.veryLightGray}`,
   borderRadius: theme.radii.normal,
   padding: theme.space[3],
-  minHeight: "16rem",
+  minHeight: height,
   marginTop: theme.space[3]
-};
+});
 
-const whiteBackgroundStyle = { width: "100%", marginBottom: "1rem" };
+const whiteBackgroundStyle = height => ({
+  width: "100%",
+  minHeight: height,
+  marginBottom: "1rem"
+});
 
 const nullValue = Plain.deserialize("");
 
 export default function Composer({
   backgroundColor = "white",
+  height = "4rem",
   onClick,
   isDisabled,
   placeholder
@@ -41,8 +46,8 @@ export default function Composer({
         placeholder={placeholder}
         style={
           backgroundColor === "white"
-            ? whiteBackgroundStyle
-            : grayBackgroundStyle
+            ? whiteBackgroundStyle(height)
+            : grayBackgroundStyle(height)
         }
       />
       <Controls

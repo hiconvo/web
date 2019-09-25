@@ -99,6 +99,7 @@ function ThreadForm(props) {
           <Composer
             placeholder="Compose your message..."
             backgroundColor="gray"
+            height="16rem"
             onClick={handleSend}
             isDisabled={isDisabled}
           />

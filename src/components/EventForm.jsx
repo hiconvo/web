@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import { Editor } from "slate-react";
-import Plain from "slate-plain-serializer";
 import { format, parse } from "date-fns";
 
 import { useActions, useSelectors } from "../redux";
@@ -12,12 +10,12 @@ import * as unboundEventActions from "../actions/events";
 import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 import MultiMemberPickerField from "./MultiMemberPickerField";
-import Controls from "./MessageComposerControls";
 import PlacePicker from "./PlacePicker";
 import Map from "./Map";
-import { theme, FloatingPill, Text, Box, Heading, Paragraph } from "./styles";
+import { FloatingPill, Text, Box, Heading, Paragraph } from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
 import MemberItemMedium from "./MemberItemMedium";
+import Composer from "./Composer";
 
 const OuterContainer = styled.div`
   display: grid;
@@ -36,8 +34,6 @@ const OuterContainer = styled.div`
 
 const Form = styled.form``;
 
-const nullValue = Plain.deserialize("");
-
 function EventForm(props) {
   const nameEl = useRef(null);
   const [contacts] = useSelectors(getContacts);
@@ -50,7 +46,6 @@ function EventForm(props) {
   );
 
   const [name, setName] = useState("");
-  const [messageValue, setMessageValue] = useState(nullValue);
   const [members, setMembers] = useState([]);
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [time, setTime] = useState(format(new Date(), "HH:mm"));
@@ -62,10 +57,7 @@ function EventForm(props) {
     nameEl.current.focus();
   }, []);
 
-  async function handleCreate(e) {
-    e.preventDefault();
-
-    const description = Plain.serialize(messageValue);
+  async function handleCreate(description) {
     const datetime = parse(`${date} ${time}`, "yyyy-MM-dd HH:mm", new Date());
 
     // Validation
@@ -209,24 +201,10 @@ function EventForm(props) {
               </Label>
             </Box>
 
-            <Editor
-              onChange={({ value }) => setMessageValue(value)}
-              value={messageValue}
+            <Composer
+              backgroundColor="gray"
+              height="16rem"
               placeholder="Tell your invitees what your event is about..."
-              style={{
-                width: `calc(100% - ${theme.space[3]} * 2)`,
-                marginBottom: "1rem",
-                backgroundColor: theme.colors.snow,
-                border: `0.1rem solid ${theme.colors.veryLightGray}`,
-                borderRadius: theme.radii.normal,
-                padding: theme.space[3],
-                minHeight: "16rem",
-                marginTop: theme.space[3]
-              }}
-            />
-
-            <Controls
-              value={messageValue}
               onClick={handleCreate}
               isDisabled={isDisabled}
             />
