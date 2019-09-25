@@ -22,8 +22,9 @@ export default function ComposerControls({ value, onClick, isDisabled }) {
       <Button
         onClick={onClick}
         variant="brand"
+        color="primary700"
         width="8rem"
-        fontSize={[2]}
+        fontSize={2}
         mb="0"
         pr="0"
         disabled={isDisabled}

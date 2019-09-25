@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { Editor } from "slate-react";
-import Plain from "slate-plain-serializer";
 import { withRouter } from "react-router";
 
 import { getUser } from "../api/user";
-import { theme, Text, FloatingPill } from "./styles";
+import { Text, FloatingPill } from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
-import Controls from "./MessageComposerControls";
+import Composer from "./Composer";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/threads";
@@ -16,11 +14,8 @@ import * as unboundNotifActions from "../actions/notifications";
 
 const Form = styled.form``;
 
-const nullValue = Plain.deserialize("");
-
 function ThreadForm(props) {
   const subjectEl = useRef(null);
-  const [messageValue, setMessageValue] = useState(nullValue);
   const [subject, setSubject] = useState("");
   const [members, setMembers] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -28,19 +23,11 @@ function ThreadForm(props) {
   const { dispatchNotification } = useActions(unboundNotifActions);
   const { setSelectedResource } = useActions(unboundGeneralActions);
 
-  function handleMessageChange({ value }) {
-    setMessageValue(value);
-  }
-
   function handleSubjectChange(e) {
     setSubject(e.target.value);
   }
 
-  async function handleSend(e) {
-    e.preventDefault();
-
-    const body = Plain.serialize(messageValue);
-
+  async function handleSend(body) {
     if (body.length === 0) {
       return dispatchNotification({
         type: "ERROR",
@@ -101,6 +88,7 @@ function ThreadForm(props) {
               fontSize={2}
             />
           </Label>
+
           <Label>
             <Text fontSize={1} mr={1}>
               To:
@@ -108,23 +96,9 @@ function ThreadForm(props) {
             <MultiMemberPickerField members={members} setMembers={setMembers} />
           </Label>
 
-          <Editor
-            onChange={handleMessageChange}
-            value={messageValue}
+          <Composer
             placeholder="Compose your message..."
-            style={{
-              width: `calc(100% - ${theme.space[3]} * 2)`,
-              marginBottom: "1rem",
-              backgroundColor: theme.colors.snow,
-              border: `0.1rem solid ${theme.colors.veryLightGray}`,
-              borderRadius: theme.radii.normal,
-              padding: theme.space[3],
-              minHeight: "16rem",
-              marginTop: theme.space[3]
-            }}
-          />
-          <Controls
-            value={messageValue}
+            backgroundColor="gray"
             onClick={handleSend}
             isDisabled={isDisabled}
           />

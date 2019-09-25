@@ -1,48 +1,35 @@
 import React, { useState } from "react";
-import { Editor } from "slate-react";
-import Plain from "slate-plain-serializer";
 
 import { FloatingPill } from "./styles";
-import Controls from "./MessageComposerControls";
 import { useActions, useSelectors } from "../redux";
 import { getSelectedResource } from "../selectors";
 import * as unboundActions from "../actions/messages";
+import Composer from "./Composer";
 
-const nullValue = Plain.deserialize("");
-
-export default function Composer() {
-  const [currentValue, setValue] = useState(nullValue);
+export default function MessageComposer() {
   const [{ id: threadId }] = useSelectors(getSelectedResource);
   const [isDisabled, setIsDisabled] = useState(false);
   const { createMessage } = useActions(unboundActions);
 
-  function handleChange({ value }) {
-    setValue(value);
-  }
-
-  async function handleSend() {
+  async function handleSend(body, clearBody) {
     setIsDisabled(true);
 
     try {
-      await createMessage(threadId, { body: Plain.serialize(currentValue) });
+      await createMessage(threadId, { body });
     } catch (e) {
       setIsDisabled(false);
+      return;
     }
 
     setIsDisabled(false);
-    setValue(nullValue);
+    clearBody();
   }
 
   return (
     <FloatingPill>
-      <Editor
-        onChange={handleChange}
-        value={currentValue}
+      <Composer
+        backgroundColor="white"
         placeholder="Compose your response..."
-        style={{ width: "100%", marginBottom: "1rem" }}
-      />
-      <Controls
-        value={currentValue}
         onClick={handleSend}
         isDisabled={isDisabled}
       />
