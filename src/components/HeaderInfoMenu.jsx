@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { ActionButton, Icon, Text, Dropdown } from "./styles";
-import ThreadInfoBox from "./ThreadInfoBox";
+import ResourceInfoBox from "./ResourceInfoBox";
 
 const InfoButton = styled(ActionButton)`
   display: none;
@@ -92,7 +92,7 @@ export default function HeaderInfoMenu() {
               <CloseButton>
                 <Icon onClick={handleToggle} name="close" fontSize={5} />
               </CloseButton>
-              <ThreadInfoBox position="static" />
+              <ResourceInfoBox position="static" />
             </InfoBoxContainer>
           )}
         </Dropdown>

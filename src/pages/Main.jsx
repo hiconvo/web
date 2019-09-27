@@ -4,7 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 
 import InboxSidebar from "../components/InboxSidebar";
 import ResourceViewer from "../components/ResourceViewer";
-import ThreadInfoBox from "../components/ThreadInfoBox";
+import ResourceInfoBox from "../components/ResourceInfoBox";
 
 const Container = styled.div`
   display: grid;
@@ -38,7 +38,7 @@ export default function Main() {
     <Container>
       <InboxSidebar />
       <ResourceViewer />
-      <ThreadInfoBox />
+      <ResourceInfoBox />
     </Container>
   );
 }
