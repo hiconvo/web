@@ -1,39 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { themeGet } from "@styled-system/theme-get";
 
 import ThreadInfoBoxMemberItem from "./ThreadInfoBoxMemberItem";
 import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserToThreadForm from "./AddUserToThreadForm";
 import DeleteThreadButton from "./DeleteThreadButton";
 import LeaveThreadButton from "./LeaveThreadButton";
-import { Box, Text, Heading, ActionButton, Icon } from "./styles";
-
-const Label = styled.span`
-  font-family: ${themeGet("fonts.sans")};
-  font-size: ${themeGet("fontSizes.0")};
-  color: ${themeGet("colors.gray")};
-  margin-bottom: ${themeGet("space.2")};
-`;
-
-function Action({ iconName, text, onClick, ...rest }) {
-  return (
-    <Box as="li" display="block" {...rest}>
-      <ActionButton
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        mb={1}
-        onClick={onClick}
-      >
-        <Icon name={iconName} fontSize={4} mr={2} color="inherit" />
-        <Text fontSize={3} color="inherit">
-          {text}
-        </Text>
-      </ActionButton>
-    </Box>
-  );
-}
+import { Box, Heading } from "./styles";
+import { Label, Action } from "./styles/InfoBox";
 
 export default function ThreadInfoBox({ thread, user }) {
   const [isRenameEditing, setIsRenameEditing] = useState(false);
