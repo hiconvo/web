@@ -1,18 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
-import { withRouter } from "react-router";
+import { useHistory, useRouteMatch } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import { format, parse } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 
 import { useActions, useSelectors } from "../redux";
-import { getContacts } from "../selectors";
+import { getSelectedResource, getContacts } from "../selectors";
 import * as unboundEventActions from "../actions/events";
 import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import PlacePicker from "./PlacePicker";
 import Map from "./Map";
-import { FloatingPill, Text, Box, Heading, Paragraph } from "./styles";
+import {
+  FloatingPill,
+  Text,
+  Box,
+  Heading,
+  Paragraph,
+  CenterContent
+} from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
 import MemberItemMedium from "./MemberItemMedium";
 import Composer from "./Composer";
@@ -34,79 +41,116 @@ const OuterContainer = styled.div`
 
 const Form = styled.form``;
 
-function EventForm(props) {
-  const nameEl = useRef(null);
-  const [contacts] = useSelectors(getContacts);
-  const { createEvent, setSelectedResource, dispatchNotification } = useActions(
-    {
-      ...unboundEventActions,
-      ...unboundGeneralActions,
-      ...unboundNotifActions
-    }
-  );
+function validate(payload) {
+  if (!payload.name) {
+    return { message: "Please give your event a name" };
+  } else if (!payload.placeID) {
+    return { message: "Please choose a location" };
+  } else if (!payload.users.length) {
+    return { message: "Please invite some people" };
+  } else if (!payload.description) {
+    return { message: "Please add a description" };
+  } else {
+    return null;
+  }
+}
 
-  const [name, setName] = useState("");
-  const [members, setMembers] = useState([]);
-  const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [time, setTime] = useState(format(new Date(), "HH:mm"));
-  const [place, setPlace] = useState("");
-  const [placeId, setPlaceId] = useState("");
+function getDate(str, isEditing) {
+  let dateArg = new Date();
+
+  if (isEditing && str) {
+    dateArg = parseISO(str);
+  }
+
+  return dateArg;
+}
+
+function getInitialDate(str, isEditing) {
+  return format(getDate(str, isEditing), "yyyy-MM-dd");
+}
+
+function getInitialTime(str, isEditing) {
+  return format(getDate(str, isEditing), "HH:mm");
+}
+
+function getInitVal(val, isEditing, fallback) {
+  if (!isEditing || (isEditing && !val)) {
+    return fallback;
+  }
+
+  return val;
+}
+
+export default function EventForm() {
+  const history = useHistory();
+  const isEditing = useRouteMatch("/events/edit");
+
+  const persistErrorState = useRef(null);
+  const nameEl = useRef(null);
+  const [event, contacts] = useSelectors(getSelectedResource, getContacts);
+
+  const {
+    createEvent,
+    updateEvent,
+    setSelectedResource,
+    dispatchNotification
+  } = useActions({
+    ...unboundEventActions,
+    ...unboundGeneralActions,
+    ...unboundNotifActions
+  });
+
+  const [name, setName] = useState(getInitVal(event.name, isEditing, ""));
+  const [members, setMembers] = useState(
+    getInitVal(event.users, isEditing, [])
+  );
+  const [date, setDate] = useState(getInitialDate(event.time, isEditing));
+  const [time, setTime] = useState(getInitialTime(event.time, isEditing));
+  const [place, setPlace] = useState(getInitVal(event.address, isEditing, ""));
+  const [placeId, setPlaceId] = useState(
+    getInitVal(event.placeID, isEditing, "")
+  );
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    nameEl.current.focus();
+    nameEl.current && nameEl.current.focus();
   }, []);
 
-  async function handleCreate(description) {
+  async function handleSubmit(description) {
     const datetime = parse(`${date} ${time}`, "yyyy-MM-dd HH:mm", new Date());
 
-    // Validation
-    if (!name) {
+    const payload = {
+      name,
+      description,
+      placeID: placeId,
+      users: members,
+      time: datetime.toISOString()
+    };
+
+    const error = validate(payload);
+    if (error) {
       return dispatchNotification({
-        message: "Please give your event a name",
+        message: error.message,
         type: "ERROR"
       });
     }
 
-    if (!placeId) {
-      return dispatchNotification({
-        message: "Please choose a location",
-        type: "ERROR"
-      });
-    }
-
-    if (!members.length) {
-      return dispatchNotification({
-        message: "Please invite some people",
-        type: "ERROR"
-      });
-    }
-
-    if (!description) {
-      return dispatchNotification({
-        message: "Please add a description",
-        type: "ERROR"
-      });
-    }
-
-    // Send request
     setIsDisabled(true);
-    let event;
+
+    let newEvent;
     try {
-      event = await createEvent({
-        name,
-        description,
-        placeID: placeId,
-        users: members,
-        time: datetime.toISOString()
-      });
+      if (isEditing) {
+        newEvent = await updateEvent({ ...payload, id: event.id });
+      } else {
+        newEvent = await createEvent(payload);
+      }
     } catch (e) {
       setIsDisabled(false);
       return;
     }
 
-    setSelectedResource(event.id);
-    props.history.push("/convos");
+    setSelectedResource(newEvent.id);
+    history.push("/convos");
   }
 
   function handleSelect(placeString, placeId) {
@@ -120,6 +164,29 @@ function EventForm(props) {
       isAdded
         ? members.filter(m => m.id !== member.id)
         : members.concat([member])
+    );
+  }
+
+  if (
+    persistErrorState.current ||
+    (isEditing && (!event || event.resourceType !== "Event"))
+  ) {
+    persistErrorState.current = true;
+
+    return (
+      <CenterContent>
+        <Box flexDirection="column" alignItems="center">
+          <Text fontSize={4} mb={3}>
+            Whoops{" "}
+            <span role="img" aria-label="sad face">
+              🙁
+            </span>
+          </Text>
+          <Text>
+            It looks like you're trying to edit a non-existent event. Try again?
+          </Text>
+        </Box>
+      </CenterContent>
     );
   }
 
@@ -192,7 +259,7 @@ function EventForm(props) {
             <Box>
               <Label>
                 <Text fontSize={1} mr={1}>
-                  Invitees:
+                  Guests:
                 </Text>
                 <MultiMemberPickerField
                   members={members}
@@ -204,8 +271,8 @@ function EventForm(props) {
             <Composer
               backgroundColor="gray"
               height="16rem"
-              placeholder="Tell your invitees what your event is about..."
-              onClick={handleCreate}
+              placeholder="Tell your guests what your event is about..."
+              onClick={handleSubmit}
               isDisabled={isDisabled}
             />
           </Form>
@@ -214,7 +281,7 @@ function EventForm(props) {
       <Box>
         <Box position="fixed" width="28rem">
           <Heading fontSize={4} color="darkGray">
-            Create an event
+            {isEditing ? "Update your event" : "Create an event"}
           </Heading>
           <Paragraph fontSize={1} color="gray" lineHeight="1.3em" mb={4}>
             Click on your contacts below to invite them to your event.
@@ -237,5 +304,3 @@ function EventForm(props) {
     </OuterContainer>
   );
 }
-
-export default withRouter(EventForm);

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 
 import AddUserForm from "./AddUserForm";
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
@@ -7,6 +8,7 @@ import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
 export default function EventInfoBox({ event, user }) {
+  const history = useHistory();
   const [isGuestEditing, setIsGuestEditing] = useState(false);
   const { owner } = event;
   const isOwner = user.id === owner.id;
@@ -58,7 +60,12 @@ export default function EventInfoBox({ event, user }) {
                 text="Invite others"
                 iconName="group_add"
               />
-              <Action ml="-1.2rem" text="Edit" iconName="edit" />
+              <Action
+                onClick={() => history.push("/events/edit")}
+                ml="-1.2rem"
+                text="Edit"
+                iconName="edit"
+              />
               <DeleteEventButton
                 event={event}
                 render={onClick => (

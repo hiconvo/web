@@ -10,7 +10,6 @@ import Frame from "./Frame";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
 import Contacts from "../pages/Contacts";
-import Events from "../pages/Events";
 import NewThread from "../pages/NewThread";
 import NewEvent from "../pages/NewEvent";
 import Settings from "../pages/Settings";
@@ -50,13 +49,17 @@ export default function App() {
                     exact
                     component={NewEvent}
                   />
+                  <AuthorizedRoute
+                    path="/events/edit"
+                    exact
+                    component={NewEvent}
+                  />
                   <AuthorizedRoute path="/convos" exact component={Main} />
                   <AuthorizedRoute
                     path="/contacts"
                     exact
                     component={Contacts}
                   />
-                  <AuthorizedRoute path="/events" exact component={Events} />
                   <Redirect to="/convos" />
                 </Switch>
               </Frame>

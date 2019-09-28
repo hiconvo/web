@@ -94,7 +94,10 @@ export default React.forwardRef(
           <AutoCompleteDropDown isOpen={isDropdownOpen}>
             {results.length < 1 ? (
               <Text px={3} py={2} color="gray" fontSize={2} display="block">
-                No results
+                No results{" "}
+                <span role="img" aria-label="sad face">
+                  🙁
+                </span>
               </Text>
             ) : (
               results.map(result => (
