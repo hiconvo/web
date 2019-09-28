@@ -1,17 +1,13 @@
 import React from "react";
 import { format, parseISO } from "date-fns";
 
-import { useSelectors } from "../redux";
-import { getUser } from "../selectors";
 import Markdown from "./Markdown";
 import Map from "./Map";
 import Composer from "./Composer";
-import { FloatingPill, Text, Heading, Icon, Box, ActionButton } from "./styles";
+import RsvpPanel from "./RsvpPanel";
+import { FloatingPill, Text, Heading, Icon, Box } from "./styles";
 
 export default function EventViewer({ event }) {
-  const [user] = useSelectors(getUser);
-  const isGoing = event && event.rsvps.some(rsvp => rsvp.id === user.id);
-
   return (
     <FloatingPill>
       <Heading mb={3} fontSize={4} fontWeight="semiBold">
@@ -33,41 +29,7 @@ export default function EventViewer({ event }) {
         </Box>
       </Box>
 
-      <Box
-        flexDirection="row"
-        alignItems="center"
-        mb={4}
-        backgroundColor="veryLightGray"
-        borderRadius="normal"
-        px={3}
-        py={2}
-      >
-        <Box mr={3}>
-          <Text fontWeight="bold">RSVP:</Text>
-        </Box>
-        <ActionButton backgroundColor={isGoing ? "white" : ""}>
-          <Icon
-            name="check"
-            fontSize={4}
-            mr={2}
-            color={isGoing ? "trueBlack" : "inherit"}
-          />
-          <Text fontSize={3} color={isGoing ? "trueBlack" : "inherit"}>
-            I'm going
-          </Text>
-        </ActionButton>
-        <ActionButton backgroundColor={isGoing ? "" : "white"}>
-          <Icon
-            name="close"
-            fontSize={4}
-            mr={2}
-            color={isGoing ? "inherit" : "trueBlack"}
-          />
-          <Text fontSize={3} color={isGoing ? "inherit" : "trueBlack"}>
-            I'm not going
-          </Text>
-        </ActionButton>
-      </Box>
+      <RsvpPanel event={event} />
 
       <Map placeId={event.placeID} />
 

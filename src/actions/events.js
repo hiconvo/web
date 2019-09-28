@@ -162,6 +162,68 @@ export const removeUserFromEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const addRSVPToEvent = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.event
+   * @param {Object} payload.user
+   * @returns {Object} Event
+   */
+  async payload => {
+    let event;
+    try {
+      event = await API.addRSVPToEvent(payload.event.id, payload.user.id);
+      dispatch({
+        type: "RECEIVE_EVENTS",
+        payload: [event]
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `RSVP'd to ${payload.event.name}`
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+
+    return event;
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const removeRSVPFromEvent = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.event
+   * @param {Object} payload.user
+   * @returns {Object} Event
+   */
+  async payload => {
+    let event;
+    try {
+      event = await API.removeRSVPFromEvent(payload.event.id, payload.user.id);
+      dispatch({
+        type: "RECEIVE_EVENTS",
+        payload: [event]
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `Removed RSVP from ${payload.event.name}`
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+
+    return event;
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const deleteEvent = dispatch =>
   /*
    * @param {Object} payload

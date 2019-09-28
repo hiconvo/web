@@ -67,6 +67,28 @@ export function removeUserFromEvent(eventId, userId) {
 
 /*
  * @param {string} eventId
+ * @param {string} userId
+ */
+export function addRSVPToEvent(eventId, userId) {
+  return apiRequest(`/events/${eventId}/rsvps`, {
+    body: {},
+    method: "POST"
+  });
+}
+
+/*
+ * @param {string} eventId
+ * @param {string} userId
+ */
+export function removeRSVPFromEvent(eventId) {
+  return apiRequest(`/events/${eventId}/rsvps`, {
+    body: {},
+    method: "DELETE"
+  });
+}
+
+/*
+ * @param {string} eventId
  */
 export function deleteEvent(eventId) {
   return apiRequest(`/events/${eventId}`, {
