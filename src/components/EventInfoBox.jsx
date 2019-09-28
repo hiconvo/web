@@ -1,6 +1,7 @@
 import React from "react";
 
 import ThreadInfoBoxMemberItem from "./ThreadInfoBoxMemberItem";
+import DeleteEventButton from "./DeleteEventButton";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
@@ -36,7 +37,17 @@ export default function EventInfoBox({ event, user }) {
             <React.Fragment>
               <Action ml="-1.2rem" text="Invite others" iconName="group_add" />
               <Action ml="-1.2rem" text="Edit" iconName="edit" />
-              <Action ml="-1.2rem" text="Delete" iconName="remove_circle" />
+              <DeleteEventButton
+                event={event}
+                render={onClick => (
+                  <Action
+                    onClick={onClick}
+                    ml="-1.2rem"
+                    text="Delete"
+                    iconName="remove_circle"
+                  />
+                )}
+              />
             </React.Fragment>
           </Box>
         </React.Fragment>
