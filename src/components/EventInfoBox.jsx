@@ -36,7 +36,7 @@ export default function EventInfoBox({ event, user }) {
                 key={guest.id}
                 member={guest}
                 event={event}
-                canDelete={isOwner && guest.id !== user.id}
+                canDelete={isOwner}
                 ml="-0.8rem"
                 mb={1}
               />
