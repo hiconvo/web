@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
-import ThreadInfoBoxMemberItem from "./ThreadInfoBoxMemberItem";
+import AddUserForm from "./AddUserForm";
+import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import DeleteEventButton from "./DeleteEventButton";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
 export default function EventInfoBox({ event, user }) {
+  const [isGuestEditing, setIsGuestEditing] = useState(false);
   const { owner } = event;
   const isOwner = user.id === owner.id;
 
@@ -18,12 +20,7 @@ export default function EventInfoBox({ event, user }) {
 
       <Label>Host</Label>
       <Box as="ul" mb={4}>
-        <ThreadInfoBoxMemberItem
-          member={owner}
-          event={event}
-          ml="-0.8rem"
-          mb={1}
-        />
+        <InfoBoxMemberItem member={owner} event={event} ml="-0.8rem" mb={1} />
       </Box>
 
       <Label>Guests</Label>
@@ -32,7 +29,7 @@ export default function EventInfoBox({ event, user }) {
           event.users
             .filter(guest => guest.id !== owner.id)
             .map(guest => (
-              <ThreadInfoBoxMemberItem
+              <InfoBoxMemberItem
                 key={guest.id}
                 member={guest}
                 event={event}
@@ -41,6 +38,13 @@ export default function EventInfoBox({ event, user }) {
                 mb={1}
               />
             ))}
+        {isGuestEditing && (
+          <AddUserForm
+            resourceType={event.resourceType}
+            resource={event}
+            onBlur={() => setIsGuestEditing(false)}
+          />
+        )}
       </Box>
 
       {isOwner && (
@@ -48,7 +52,12 @@ export default function EventInfoBox({ event, user }) {
           <Label>Actions</Label>
           <Box as="ul" mb={4}>
             <React.Fragment>
-              <Action ml="-1.2rem" text="Invite others" iconName="group_add" />
+              <Action
+                onClick={() => setIsGuestEditing(true)}
+                ml="-1.2rem"
+                text="Invite others"
+                iconName="group_add"
+              />
               <Action ml="-1.2rem" text="Edit" iconName="edit" />
               <DeleteEventButton
                 event={event}

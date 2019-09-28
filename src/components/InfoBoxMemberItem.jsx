@@ -7,7 +7,7 @@ import MemberItemMedium from "./MemberItemMedium";
 import ConfirmationModal from "./ConfirmationModal";
 import { Paragraph } from "./styles";
 
-export default function ThreadInfoBoxMemberItem({
+export default function InfoBoxMemberItem({
   member,
   thread,
   event,

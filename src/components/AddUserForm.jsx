@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { useActions } from "../redux";
-import * as unboundActions from "../actions/threads";
+import * as unboundThreadActions from "../actions/threads";
+import * as unboundEventActions from "../actions/events";
 import UserSearchAutocompleteField from "./UserSearchAutocompleteField";
 import { Box, Icon, Paragraph, Spinner } from "./styles";
 
@@ -22,14 +23,15 @@ const Container = styled.div`
   margin-bottom: ${themeGet("space.3")};
 `;
 
-export default function AddUserForm({ thread, onBlur }) {
+export default function AddUserForm({ resourceType, resource, onBlur }) {
   const containerEl = useRef(null);
   const inputEl = useRef(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("lightyellow");
-  const { addUserToThread } = useActions(unboundActions);
+  const { addUserToThread } = useActions(unboundThreadActions);
+  const { addUserToEvent } = useActions(unboundEventActions);
 
   const handleBlur = useCallback(onBlur);
 
@@ -38,7 +40,11 @@ export default function AddUserForm({ thread, onBlur }) {
 
     try {
       setIsLoading(true);
-      await addUserToThread({ thread, user });
+      if (resourceType === "Event") {
+        await addUserToEvent({ event: resource, user });
+      } else {
+        await addUserToThread({ thread: resource, user });
+      }
       handleBlur();
     } catch (e) {
       setIsLoading(false);

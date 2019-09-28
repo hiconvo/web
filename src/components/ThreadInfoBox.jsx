@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import ThreadInfoBoxMemberItem from "./ThreadInfoBoxMemberItem";
+import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import ThreadRenameForm from "./ThreadRenameForm";
-import AddUserToThreadForm from "./AddUserToThreadForm";
+import AddUserForm from "./AddUserForm";
 import DeleteThreadButton from "./DeleteThreadButton";
 import LeaveThreadButton from "./LeaveThreadButton";
 import { Box, Heading } from "./styles";
@@ -36,7 +36,7 @@ export default function ThreadInfoBox({ thread, user }) {
       <Box as="ul" mb={4}>
         {thread.users &&
           thread.users.map(member => (
-            <ThreadInfoBoxMemberItem
+            <InfoBoxMemberItem
               key={member.id}
               member={member}
               thread={thread}
@@ -46,8 +46,9 @@ export default function ThreadInfoBox({ thread, user }) {
             />
           ))}
         {isMemberEditing && (
-          <AddUserToThreadForm
-            thread={thread}
+          <AddUserForm
+            resourceType={thread.resourceType}
+            resource={thread}
             onBlur={() => setIsMemberEditing(false)}
           />
         )}
