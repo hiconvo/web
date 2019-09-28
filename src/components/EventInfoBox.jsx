@@ -6,7 +6,8 @@ import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
 export default function EventInfoBox({ event, user }) {
-  const isOwner = user.id === event.owner.id;
+  const { owner } = event;
+  const isOwner = user.id === owner.id;
 
   return (
     <React.Fragment>
@@ -15,19 +16,31 @@ export default function EventInfoBox({ event, user }) {
         {event.name}
       </Heading>
 
+      <Label>Host</Label>
+      <Box as="ul" mb={4}>
+        <ThreadInfoBoxMemberItem
+          member={owner}
+          event={event}
+          ml="-0.8rem"
+          mb={1}
+        />
+      </Box>
+
       <Label>Guests</Label>
       <Box as="ul" mb={4}>
         {event.users &&
-          event.users.map(guest => (
-            <ThreadInfoBoxMemberItem
-              key={guest.id}
-              member={guest}
-              event={event}
-              canDelete={isOwner && guest.id !== user.id}
-              ml="-0.8rem"
-              mb={1}
-            />
-          ))}
+          event.users
+            .filter(guest => guest.id !== owner.id)
+            .map(guest => (
+              <ThreadInfoBoxMemberItem
+                key={guest.id}
+                member={guest}
+                event={event}
+                canDelete={isOwner && guest.id !== user.id}
+                ml="-0.8rem"
+                mb={1}
+              />
+            ))}
       </Box>
 
       {isOwner && (
