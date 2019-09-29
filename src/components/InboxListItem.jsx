@@ -127,7 +127,7 @@ function InboxListItem({ resource, isSelected, history }) {
       <ListItem onClick={handleClick} isSelected={isSelected}>
         <FromContainer>
           <From>{resource.owner.fullName}</From>
-          <Timestamp>{format(new Date(resource.time), "MMM d")}</Timestamp>
+          <Timestamp>{format(new Date(resource.timestamp), "MMM d")}</Timestamp>
         </FromContainer>
 
         <EventContainer isSelected={isSelected}>
@@ -145,7 +145,7 @@ function InboxListItem({ resource, isSelected, history }) {
               {resource.name}
             </Text>
             <EventDate>
-              {format(new Date(resource.time), "MMM d @ h:mm a")}
+              {format(new Date(resource.timestamp), "MMM d @ h:mm a")}
             </EventDate>
           </Box>
         </EventContainer>

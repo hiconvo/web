@@ -33,7 +33,7 @@ export const createEvent = dispatch =>
    * @param {Object} payload
    * @param {string} payload.name
    * @param {string} payload.placeId
-   * @param {datetime} payload.time
+   * @param {datetime} payload.timestamp
    * @param {Contact[]} payload.users
    * @param {string} payload.description
    * @returns {Object} Event
@@ -65,7 +65,7 @@ export const updateEvent = dispatch =>
    * @param {string} payload.name
    * @param {string} payload.placeId
    * @param {string} payload.address
-   * @param {datetime} payload.time
+   * @param {datetime} payload.timestamp
    * @param {string} payload.description
    * @returns {Object} Event
    */

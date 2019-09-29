@@ -16,7 +16,7 @@ export function getEvent(id) {
  * @param {string} payload.name
  * @param {string} payload.placeId
  * @param {string} payload.address
- * @param {datetime} payload.time
+ * @param {datetime} payload.timestamp
  * @param {Contact[]} payload.users
  * @param {string} payload.description
  */
@@ -33,7 +33,7 @@ export function createEvent(payload) {
  * @param {string} payload.placeId
  * @param {string} payload.address
  * @param {string} payload.subject
- * @param {datetime} payload.time
+ * @param {datetime} payload.timestamp
  * @param {string} payload.description
  */
 export function updateEvent(id, payload) {

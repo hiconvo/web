@@ -29,9 +29,10 @@ export default function Composer({
   height = "4rem",
   onClick,
   isDisabled,
-  placeholder
+  placeholder,
+  initialValue = ""
 }) {
-  const [currentValue, setValue] = useState(nullValue);
+  const [currentValue, setValue] = useState(Plain.deserialize(initialValue));
 
   function handleClick(e) {
     e.preventDefault();

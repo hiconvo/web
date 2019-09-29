@@ -26,7 +26,7 @@ const Container = styled.ul`
     display: none;
   }
 
-  ${themeGet("media.tablet")} {
+  ${themeGet("media.phone")} {
     height: auto;
     overflow-y: visible;
   }

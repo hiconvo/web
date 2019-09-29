@@ -46,7 +46,10 @@ export default function reducer(state, action) {
       const events = state.events
         .filter(t => !action.payload.some(newEvent => newEvent.id === t.id))
         .concat(action.payload)
-        .sort((a, b) => a.time && b.time && isBefore(a.time, b.time))
+        .sort(
+          (a, b) =>
+            a.timestamp && b.timestamp && isBefore(a.timestamp, b.timestamp)
+        )
         .map(event => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {
         events,

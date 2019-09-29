@@ -104,8 +104,8 @@ export default function EventForm() {
   const [members, setMembers] = useState(
     getInitVal(event.users, isEditing, [])
   );
-  const [date, setDate] = useState(getInitialDate(event.time, isEditing));
-  const [time, setTime] = useState(getInitialTime(event.time, isEditing));
+  const [date, setDate] = useState(getInitialDate(event.timestamp, isEditing));
+  const [time, setTime] = useState(getInitialTime(event.timestamp, isEditing));
   const [place, setPlace] = useState(getInitVal(event.address, isEditing, ""));
   const [placeId, setPlaceId] = useState(
     getInitVal(event.placeID, isEditing, "")
@@ -124,7 +124,7 @@ export default function EventForm() {
       description,
       placeID: placeId,
       users: members,
-      time: datetime.toISOString()
+      timestamp: datetime.toISOString()
     };
 
     const error = validate(payload);
@@ -274,6 +274,7 @@ export default function EventForm() {
               placeholder="Tell your guests what your event is about..."
               onClick={handleSubmit}
               isDisabled={isDisabled}
+              initialValue={getInitVal(event.description, isEditing, "")}
             />
           </Form>
         </FloatingPill>

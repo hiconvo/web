@@ -26,10 +26,10 @@ export default function ThreadViewer({ thread }) {
       setIsLoading(false);
     }
 
-    if (id && !hasMessages) {
+    if (id && !hasMessages && !isLoading) {
       handleFetchMessages();
     }
-  }, [id, hasMessages, fetchMessages]);
+  }, [id, hasMessages, fetchMessages, isLoading]);
 
   return (
     <div>

@@ -59,8 +59,8 @@ export const getInboxContents = createSelector(
   getEvents,
   (threads, events) => {
     return [].concat(threads, events).sort((a, b) => {
-      const aTime = a.preview ? a.preview.timestamp : a.time;
-      const bTime = b.preview ? b.preview.timestamp : b.time;
+      const aTime = a.preview ? a.preview.timestamp : a.timestamp;
+      const bTime = b.preview ? b.preview.timestamp : b.timestamp;
       return isBefore(aTime, bTime);
     });
   }

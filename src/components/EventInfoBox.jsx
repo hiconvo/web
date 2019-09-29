@@ -26,7 +26,7 @@ export default function EventInfoBox({ event, user }) {
       </Box>
 
       <Label>Guests</Label>
-      <Box as="ul" mb={4}>
+      <Box as="ul" mb={4} maxHeight="30rem">
         {event.users &&
           event.users
             .filter(guest => guest.id !== owner.id)
