@@ -25,6 +25,11 @@ const Container = styled.ul`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  ${themeGet("media.tablet")} {
+    height: auto;
+    overflow-y: visible;
+  }
 `;
 
 export default function InboxList() {
