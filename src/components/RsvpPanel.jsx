@@ -35,7 +35,9 @@ export default function RsvpPanel({ event }) {
       py={2}
     >
       <Box mr={3}>
-        <Text fontWeight="bold">RSVP:</Text>
+        <Text fontSize={[1, 2, 3, 3]} fontWeight="bold">
+          RSVP:
+        </Text>
       </Box>
       <ActionButton
         backgroundColor={isGoing ? "white" : ""}
@@ -47,7 +49,7 @@ export default function RsvpPanel({ event }) {
           mr={2}
           color={isGoing ? "trueBlack" : "inherit"}
         />
-        <Text fontSize={3} color={isGoing ? "trueBlack" : "inherit"}>
+        <Text fontSize={[1, 2, 3, 3]} color={isGoing ? "trueBlack" : "inherit"}>
           I'm going
         </Text>
       </ActionButton>
@@ -61,7 +63,7 @@ export default function RsvpPanel({ event }) {
           mr={2}
           color={isGoing ? "inherit" : "trueBlack"}
         />
-        <Text fontSize={3} color={isGoing ? "inherit" : "trueBlack"}>
+        <Text fontSize={[1, 2, 3, 3]} color={isGoing ? "inherit" : "trueBlack"}>
           I'm not going
         </Text>
       </ActionButton>

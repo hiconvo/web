@@ -93,7 +93,7 @@ export default function MemberItemMedium({
             <Box alignItems="center" flexDirection="row">
               <Avatar src={member.avatar} size="3rem" />
               <Name ml={2} fontSize={3}>
-                {member.fullName}
+                {member.fullName || "Unregistered"}
               </Name>
             </Box>
           </UnstyledButton>

@@ -46,7 +46,7 @@ function validate(payload) {
     return { message: "Please give your event a name" };
   } else if (!payload.placeID) {
     return { message: "Please choose a location" };
-  } else if (!payload.users.length) {
+  } else if (payload.users && !payload.users.length) {
     return { message: "Please invite some people" };
   } else if (!payload.description) {
     return { message: "Please add a description" };
@@ -123,9 +123,12 @@ export default function EventForm() {
       name,
       description,
       placeID: placeId,
-      users: members,
       timestamp: datetime.toISOString()
     };
+
+    if (!isEditing) {
+      payload.users = members;
+    }
 
     const error = validate(payload);
     if (error) {
@@ -256,17 +259,19 @@ export default function EventForm() {
               </Label>
             </Box>
 
-            <Box>
-              <Label>
-                <Text fontSize={1} mr={1}>
-                  Guests:
-                </Text>
-                <MultiMemberPickerField
-                  members={members}
-                  setMembers={setMembers}
-                />
-              </Label>
-            </Box>
+            {!isEditing && (
+              <Box>
+                <Label>
+                  <Text fontSize={1} mr={1}>
+                    Guests:
+                  </Text>
+                  <MultiMemberPickerField
+                    members={members}
+                    setMembers={setMembers}
+                  />
+                </Label>
+              </Box>
+            )}
 
             <Composer
               backgroundColor="gray"
@@ -285,21 +290,27 @@ export default function EventForm() {
             {isEditing ? "Update your event" : "Create an event"}
           </Heading>
           <Paragraph fontSize={1} color="gray" lineHeight="1.3em" mb={4}>
-            Click on your contacts below to invite them to your event.
+            {isEditing
+              ? "Your guests will receive an updated invite email. Please be mindful of excessive and repetitive email and keep updates to a minimum."
+              : "Click on your contacts below to invite them to your event."}
           </Paragraph>
-          <Text color="gray" mb={2} fontSize={0}>
-            Your contacts
-          </Text>
-          <Box as="ul">
-            {contacts.map(contact => (
-              <MemberItemMedium
-                key={contact.id}
-                member={contact}
-                isChecked={members.some(m => m.id === contact.id)}
-                onClickOverride={() => handleMemberClick(contact)}
-              />
-            ))}
-          </Box>
+          {!isEditing && (
+            <React.Fragment>
+              <Text color="gray" mb={2} fontSize={0}>
+                Your contacts
+              </Text>
+              <Box as="ul">
+                {contacts.map(contact => (
+                  <MemberItemMedium
+                    key={contact.id}
+                    member={contact}
+                    isChecked={members.some(m => m.id === contact.id)}
+                    onClickOverride={() => handleMemberClick(contact)}
+                  />
+                ))}
+              </Box>
+            </React.Fragment>
+          )}
         </Box>
       </Box>
     </OuterContainer>

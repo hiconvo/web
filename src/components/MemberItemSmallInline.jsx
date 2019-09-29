@@ -24,7 +24,7 @@ export default function MemberItemSmallInline({ member, onDelete }) {
   return (
     <Container>
       <Avatar src={member.avatar} size="2rem" />
-      <Text ml={2}>{member.fullName}</Text>
+      <Text ml={2}>{member.fullName || "Unregistered"}</Text>
       {onDelete && (
         <DeleteButton role="button" onClick={onDelete}>
           <Icon name="clear" fontSize="1.8rem" display="flex" />
