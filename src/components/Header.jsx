@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { Link } from "react-router-dom";
+import { useRouteMatch } from "react-router";
 
 import UserMenu from "./UserMenu";
 import MobileLogoMenu from "./MobileLogoMenu";
@@ -55,19 +56,27 @@ const WrappedLogo = () => (
   </LogoWrapper>
 );
 
-export default () => (
-  <Header>
-    <Box flexDirection="row">
-      <WrappedLogo />
-      <MobileLogoMenu />
-      <Nav>
-        <LinkButton to="/convos">Convos</LinkButton>
-        <LinkButton to="/contacts">Contacts</LinkButton>
-      </Nav>
-    </Box>
-    <Box flexDirection="row" alignItems="center">
-      <HeaderInfoMenu />
-      <UserMenu />
-    </Box>
-  </Header>
-);
+export default () => {
+  const isLoginPage = useRouteMatch("/login");
+  const isForgotPage = useRouteMatch("/forgot");
+  const showNav = !(isLoginPage || isForgotPage);
+
+  return (
+    <Header>
+      <Box flexDirection="row">
+        <WrappedLogo />
+        <MobileLogoMenu />
+        {showNav && (
+          <Nav>
+            <LinkButton to="/convos">Convos</LinkButton>
+            <LinkButton to="/contacts">Contacts</LinkButton>
+          </Nav>
+        )}
+      </Box>
+      <Box flexDirection="row" alignItems="center">
+        <HeaderInfoMenu />
+        <UserMenu />
+      </Box>
+    </Header>
+  );
+};
