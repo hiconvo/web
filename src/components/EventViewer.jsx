@@ -16,12 +16,12 @@ export default function EventViewer({ event }) {
 
       <Box mb={3}>
         <Box flexDirection="row" alignItems="center" mb={2}>
-          <Icon name="public" fontSize={3} mr={2} />
-          <Text>{event.address}</Text>
-        </Box>
-        <Box flexDirection="row" alignItems="center" mb={2}>
           <Icon name="schedule" fontSize={3} mr={2} />
           <Text>{format(parseISO(event.time), "MMMM do @ h:mm a")}</Text>
+        </Box>
+        <Box flexDirection="row" alignItems="center" mb={2}>
+          <Icon name="public" fontSize={3} mr={2} />
+          <Text>{event.address}</Text>
         </Box>
         <Box flexDirection="row" alignItems="center" mb={2}>
           <Icon name="group" fontSize={3} mr={2} />

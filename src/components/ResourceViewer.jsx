@@ -7,6 +7,7 @@ import { getSelectedResource } from "../selectors";
 
 import ThreadViewer from "./ThreadViewer";
 import EventViewer from "./EventViewer";
+import { Ripple, CenterContent } from "./styles";
 
 const Container = styled.main`
   display: block;
@@ -22,16 +23,27 @@ const Container = styled.main`
   }
 `;
 
+function Content({ resource }) {
+  switch (resource.resourceType) {
+    case "Event":
+      return <EventViewer event={resource} />;
+    case "Thread":
+      return <ThreadViewer thread={resource} />;
+    default:
+      return (
+        <CenterContent>
+          <Ripple />
+        </CenterContent>
+      );
+  }
+}
+
 export default function ResourceViewer() {
   const [resource] = useSelectors(getSelectedResource);
 
   return (
     <Container>
-      {resource.resourceType === "Event" ? (
-        <EventViewer event={resource} />
-      ) : (
-        <ThreadViewer thread={resource} />
-      )}
+      <Content resource={resource} />
     </Container>
   );
 }

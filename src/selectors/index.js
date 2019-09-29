@@ -86,7 +86,7 @@ export function getIsContactsFetched(store) {
 }
 
 export function getIsThreadsFetched(store) {
-  return store.getIsThreadsFetched;
+  return store.isThreadsFetched;
 }
 
 export function getIsEventsFetched(store) {

@@ -11,6 +11,7 @@ import {
 } from "../selectors";
 import * as unboundThreadActions from "../actions/threads";
 import * as unboundEventActions from "../actions/events";
+import * as unboundGeneralActions from "../actions/general";
 import InboxListItem from "./InboxListItem";
 
 const Container = styled.ul`
@@ -35,6 +36,7 @@ export default function InboxList() {
   );
   const { fetchThreads } = useActions(unboundThreadActions);
   const { fetchEvents } = useActions(unboundEventActions);
+  const { setSelectedResource } = useActions(unboundGeneralActions);
 
   useEffect(() => {
     !isThreadsFetched && fetchThreads();
@@ -43,6 +45,12 @@ export default function InboxList() {
   useEffect(() => {
     !isEventsFetched && fetchEvents();
   }, [isEventsFetched, fetchEvents]);
+
+  useEffect(() => {
+    if (isEventsFetched && isThreadsFetched && !id && contents.length > 0) {
+      setSelectedResource(contents[0].id);
+    }
+  }, [setSelectedResource, isEventsFetched, isThreadsFetched, id, contents]);
 
   return (
     <Container>

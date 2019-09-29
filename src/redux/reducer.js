@@ -43,13 +43,6 @@ export default function reducer(state, action) {
         .map(thread => ({ ...thread, resourceType: "Thread" }));
       return Object.assign({}, state, {
         threads,
-        selectedResourceId: state.selectedResourceId
-          ? state.selectedResourceId
-          : threads.length > 0 && threads[0].id,
-        loading: {
-          global: false,
-          threads: false
-        },
         isThreadsFetched: true
       });
     }
@@ -67,13 +60,6 @@ export default function reducer(state, action) {
         .map(event => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {
         events,
-        selectedResourceId: state.selectedResourceId
-          ? state.selectedResourceId
-          : events.length > 0 && events[0].id,
-        loading: {
-          global: false,
-          events: false
-        },
         isEventsFetched: true
       });
     }
@@ -114,18 +100,11 @@ export default function reducer(state, action) {
 
       return Object.assign({}, state, {
         messages,
-        threads,
-        loading: {
-          global: false,
-          messages: false
-        }
+        threads
       });
     }
     case "RECEIVE_SELECTED_RESOURCE":
-      return Object.assign({}, state, {
-        selectedResourceId:
-          action.payload || (state.threads.length ? state.threads[0].id : 0)
-      });
+      return Object.assign({}, state, { selectedResourceId: action.payload });
     case "RECEIVE_CONTACTS":
       return Object.assign({}, state, {
         contacts: action.payload,
@@ -158,8 +137,7 @@ export default function reducer(state, action) {
       return Object.assign({}, initialState, {
         errors: state.errors,
         loading: {
-          global: false,
-          auth: false
+          global: false
         }
       });
     case "RECEIVE_LOADING_STATE":

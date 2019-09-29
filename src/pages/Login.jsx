@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router";
 import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
@@ -22,14 +23,15 @@ const Container = styled.div`
   padding: ${themeGet("space.2")};
 `;
 
-export default function Login(props) {
+export default function Login() {
+  const history = useHistory();
   const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
   useEffect(() => {
     if (isLoggedIn) {
-      props.history.push("/");
+      history.push("/");
     }
-  }, [isLoggedIn, props.history]);
+  }, [isLoggedIn, history]);
 
   return (
     <CenterContent>
