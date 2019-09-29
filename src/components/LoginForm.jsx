@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 
-import { useSelectors, useActions } from "../redux";
+import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
-import { getAuthErrors } from "../selectors";
 import { Box, TextInput, Button, LinkButton, Text, Icon } from "./styles";
 import LoginWithGoogle from "./LoginGoogle";
 import LoginWithFacebook from "./LoginFacebook";
 
 export default function LoginForm() {
-  const [authErrors] = useSelectors(getAuthErrors);
   const { loginUserWithAuth } = useActions(unboundActions);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [authErrors, setAuthErrors] = useState({});
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -25,7 +24,13 @@ export default function LoginForm() {
   async function handleLoginWithEmail(e) {
     e.preventDefault();
     setIsLoading(true);
-    await loginUserWithAuth({ email, password });
+    try {
+      await loginUserWithAuth({ email, password });
+    } catch (e) {
+      if (e.getPayload) {
+        setAuthErrors(e.getPayload());
+      }
+    }
     setIsLoading(false);
   }
 

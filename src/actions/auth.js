@@ -2,6 +2,16 @@ import * as API from "../api/auth";
 import { dispatchNotification } from "./notifications";
 import { errorToString } from "../utils";
 
+function handleAuthError(e, dispatch) {
+  logoutUser(dispatch)();
+
+  if (!e.getPayload) {
+    dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+  }
+
+  return Promise.reject(e);
+}
+
 /*
  * @param {function} dispatch
  * @returns {function}
@@ -19,8 +29,7 @@ export const loginUserWithToken = dispatch =>
           payload: user
         });
       } catch (error) {
-        dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
-        logoutUser(dispatch)();
+        return handleAuthError(error, dispatch);
       }
     } else {
       logoutUser(dispatch)();
@@ -56,9 +65,7 @@ export const loginUserWithAuth = dispatch =>
 
       return maybeUser;
     } catch (error) {
-      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
-      logoutUser(dispatch)();
-      return {};
+      return handleAuthError(error, dispatch);
     }
   };
 
@@ -81,9 +88,8 @@ export const loginUserWithOAuth = dispatch =>
         type: "RECEIVE_USER",
         payload: user
       });
-    } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
-      logoutUser(dispatch)();
+    } catch (error) {
+      return handleAuthError(error, dispatch);
     }
   };
 
@@ -126,7 +132,6 @@ export const registerUser = dispatch =>
         });
       }
     } catch (error) {
-      dispatch({ type: "RECEIVE_AUTH_ERROR", payload: error.getPayload() });
-      logoutUser(dispatch)();
+      return handleAuthError(error, dispatch);
     }
   };

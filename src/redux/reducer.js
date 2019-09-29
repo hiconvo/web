@@ -1,14 +1,7 @@
 import { isBefore } from "../utils";
 
 export const initialState = {
-  loading: {
-    global: true,
-    auth: false
-  },
-  errors: {
-    global: null,
-    auth: null
-  },
+  loading: { global: true },
   user: null,
   selectedResourceId: null,
   threads: [],
@@ -25,10 +18,7 @@ export default function reducer(state, action) {
     case "RECEIVE_USER":
       return Object.assign({}, state, {
         user: action.payload,
-        loading: {
-          global: false,
-          auth: false
-        }
+        loading: { global: false }
       });
     case "RECEIVE_THREADS": {
       const threads = state.threads
@@ -118,27 +108,9 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {
         contacts: state.contacts.filter(c => c.id !== action.payload.id)
       });
-    case "RECEIVE_AUTH_ERROR":
-      return Object.assign({}, state, {
-        errors: { auth: action.payload },
-        loading: {
-          global: false,
-          auth: false
-        }
-      });
-    case "RECEIVE_GLOBAL_ERROR":
-      return Object.assign({}, state, {
-        errors: { global: action.payload },
-        loading: {
-          global: false
-        }
-      });
     case "LOGOUT":
       return Object.assign({}, initialState, {
-        errors: state.errors,
-        loading: {
-          global: false
-        }
+        loading: { global: false }
       });
     case "RECEIVE_LOADING_STATE":
       return Object.assign({}, state, { ...state.loading, ...action.payload });

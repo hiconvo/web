@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import { useActions, useSelectors } from "../redux";
+import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
-import { getAuthErrors } from "../selectors";
 import {
   Box,
   TextInput,
@@ -13,7 +12,6 @@ import {
 } from "./styles";
 
 export default function RegistrationForm() {
-  const [authErrors] = useSelectors(getAuthErrors);
   const { registerUser } = useActions(unboundActions);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,6 +19,7 @@ export default function RegistrationForm() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [securityMessage, setSecurityMessage] = useState("");
+  const [authErrors, setAuthErrors] = useState({});
 
   async function handleRegistration(e) {
     e.preventDefault();
@@ -36,7 +35,11 @@ export default function RegistrationForm() {
       if (maybeUser.message) {
         setSecurityMessage(maybeUser.message);
       }
-    } catch (e) {}
+    } catch (e) {
+      if (e.getPayload) {
+        setAuthErrors(e.getPayload());
+      }
+    }
 
     setIsLoading(false);
   }
