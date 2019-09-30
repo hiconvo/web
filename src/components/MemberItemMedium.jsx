@@ -97,13 +97,13 @@ export default function MemberItemMedium({
               </Name>
             </Box>
           </UnstyledButton>
+          {isChecked && (
+            <Icon name="check" fontSize={4} display="flex" ml={2} />
+          )}
           {onDelete && (
             <DeleteButton onClick={onDelete}>
               <Icon name="clear" fontSize={4} display="flex" />
             </DeleteButton>
-          )}
-          {isChecked && (
-            <Icon name="check" fontSize={4} display="flex" ml={2} />
           )}
         </Container>
       )}
