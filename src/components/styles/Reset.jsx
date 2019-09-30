@@ -61,6 +61,12 @@ const Globals = createGlobalStyle`
     color: inherit;
     text-decoration: inherit;
   }
+
+  ${theme.media.phone} {
+    html {
+      font-size: 8px;
+    }
+  }
 `;
 
 export default ({ children }) => (

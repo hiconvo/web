@@ -35,6 +35,7 @@ export default function Dropdown({
 
   useEffect(() => {
     if (initialState === "open") handleToggle();
+    // eslint-disable-next-line
   }, [initialState]);
 
   const handleClick = useCallback(
