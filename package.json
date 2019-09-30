@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@sentry/browser": "^5.6.3",
     "@styled-system/theme-get": "^5.0.12",
     "date-fns": "^2.0.1",
     "image-file-to-base64-exif": "^1.0.3",
