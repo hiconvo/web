@@ -2,7 +2,6 @@ import * as API from "../api/threads";
 import { createMessage } from "./messages";
 import { dispatchNotification } from "./notifications";
 import { errorToString } from "../utils";
-import { setSelectedResource } from "./general";
 
 /*
  * @param {function} dispatch
@@ -187,7 +186,6 @@ export const deleteThread = dispatch =>
         type: "SUCCESS",
         message: `Deleted ${payload.thread.subject}`
       });
-      setSelectedResource(dispatch)();
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);

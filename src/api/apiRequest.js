@@ -43,11 +43,17 @@ export default function apiRequest(url, data = {}) {
     })
       .then(response => {
         if (response.status >= 400) {
-          response.json().then(parsed => reject(new ApiError(parsed)));
+          response
+            .json()
+            .then(parsed => reject(new ApiError(parsed)))
+            .catch(e => reject(e));
         } else if (response.status === 204) {
           resolve(response);
         } else {
-          response.json().then(parsed => resolve(parsed));
+          response
+            .json()
+            .then(parsed => resolve(parsed))
+            .catch(e => reject(e));
         }
       })
       .catch(err => reject(err));

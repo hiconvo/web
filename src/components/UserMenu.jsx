@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useSelectors } from "../redux";
+import { useSelectors, useActions } from "../redux";
 import { getIsLoggedIn, getUser } from "../selectors";
-import { Dropdown, LinkButton } from "./styles";
+import * as unboundActions from "../actions/user";
+import {
+  Dropdown,
+  LinkButton,
+  Box,
+  Heading,
+  Paragraph,
+  Button,
+  Icon,
+  Text
+} from "./styles";
 import LogoutButton from "./LogoutButton";
+import LoginWithGoogle from "./LoginGoogle";
+import LoginWithFacebook from "./LoginFacebook";
 
 const Avatar = styled.div`
   background-color: ${themeGet("colors.lightGray")};
@@ -37,14 +49,82 @@ const List = styled.ul`
   z-index: 30;
 `;
 
+const SignUpContainer = styled.div`
+  display: ${props => (props.isOpen ? "block" : "none")};
+  width: auto;
+  background-color: ${themeGet("colors.primary100")};
+  border-radius: ${themeGet("radii.normal")};
+  box-shadow: ${themeGet("shadows.normal")};
+  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
+  transition: all ease ${themeGet("animations.fast")};
+  transform: ${props =>
+    props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
+  opacity: ${props => (props.isVisible ? "1" : "0")};
+  z-index: 30;
+  padding: ${themeGet("space.3")};
+`;
+
 const Item = styled.li`
   font-size: ${themeGet("fontSizes.1")};
 `;
 
 export default function UserMenu() {
   const [isLoggedIn, user] = useSelectors(getIsLoggedIn, getUser);
+  const { sendResetPasswordEmail } = useActions(unboundActions);
+  const [isInitialOpen, setIsInitialOpen] = useState(false);
+  const timeout = useRef(null);
 
   if (!isLoggedIn) return null;
+
+  if (!(user.isPasswordSet || user.isGoogleLinked || user.isFacebookLinked)) {
+    if (!timeout.current) {
+      timeout.current = setTimeout(() => setIsInitialOpen(true), 4000);
+    }
+
+    return (
+      <Dropdown
+        initialState={isInitialOpen ? "open" : "closed"}
+        renderAnchor={({ onClick }) => (
+          <Avatar src={user.avatar} onClick={onClick} />
+        )}
+      >
+        {({ isOpen, isVisible, handleToggle }) => (
+          <SignUpContainer
+            isOpen={isOpen}
+            isVisible={isVisible}
+            onClick={handleToggle}
+          >
+            <Box>
+              <Heading
+                as="h2"
+                fontSize={3}
+                fontWeight="semiBold"
+                color="trueBlack"
+              >
+                Create your Convo account in one click
+              </Heading>
+              <Paragraph fontSize={1} color="darkGray">
+                Create convos and events of your own by linking your Google or
+                Facebook account associated with{" "}
+                <Text as="code" fontFamily="mono">
+                  {user.email}
+                </Text>
+                , or by setting a password with your email address.
+              </Paragraph>
+            </Box>
+            <Box>
+              <LoginWithGoogle />
+              <LoginWithFacebook />
+              <Button variant="white" onClick={sendResetPasswordEmail}>
+                <Icon name="email" fontSize="2.2rem" mr={2} />
+                Continue with email
+              </Button>
+            </Box>
+          </SignUpContainer>
+        )}
+      </Dropdown>
+    );
+  }
 
   return (
     <Dropdown

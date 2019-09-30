@@ -8,13 +8,19 @@ import { useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
 import LoginForm from "../components/LoginForm";
 import RegistrationForm from "../components/RegistrationForm";
+import { Heading, Text, Box } from "../components/styles";
 
 const CenterContent = styled.div`
   height: calc(100vh - ${themeGet("headerHeight")});
   width: 100%;
-  justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  ${themeGet("media.tablet")} {
+    justify-content: unset;
+  }
 `;
 
 const Container = styled.div`
@@ -35,6 +41,12 @@ export default function Login() {
 
   return (
     <CenterContent>
+      <Box mb={4} alignItems="center">
+        <Heading fontSize={4} fontWeight="semiBold" mb={1}>
+          Convo
+        </Heading>
+        <Text color="darkGray">Messaging + Events</Text>
+      </Box>
       <Container>
         <Switch>
           <Route exact path="/login" component={LoginForm} />

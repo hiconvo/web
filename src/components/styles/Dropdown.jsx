@@ -16,6 +16,7 @@ export default function Dropdown({
   children,
   stretch,
   side = "right",
+  initialState = "closed",
   ...rest
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +32,10 @@ export default function Dropdown({
       setTimeout(() => setIsVisible(true), 50);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (initialState === "open") handleToggle();
+  }, [initialState]);
 
   const handleClick = useCallback(
     e => {
