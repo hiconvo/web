@@ -16,6 +16,7 @@ import Settings from "../pages/Settings";
 import VerifyEmail from "../pages/VerifyEmail";
 import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
+import Rsvp from "../pages/Rsvp";
 
 export default function App() {
   return (
@@ -37,6 +38,11 @@ export default function App() {
                     path="/reset/:key/:timestamp/:signature"
                     exact
                     component={ResetPassword}
+                  />
+                  <Route
+                    path="/rsvp/:eventId/:key/:timestamp/:signature"
+                    exact
+                    component={Rsvp}
                   />
                   <AuthorizedRoute path="/settings" component={Settings} />
                   <AuthorizedRoute

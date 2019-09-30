@@ -247,3 +247,40 @@ export const deleteEvent = dispatch =>
       return Promise.reject(e);
     }
   };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const magicRsvp = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.eventID
+   * @param {Object} payload.userID
+   * @param {Object} payload.timestamp
+   * @param {Object} payload.signature
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.magicRsvp(payload);
+      localStorage.setItem("userToken", user.token);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+
+      const event = await API.getEvent(payload.eventID);
+      dispatch({
+        type: "RECEIVE_EVENTS",
+        payload: [event]
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `RSVP'd to ${event.name}`
+      });
+      setSelectedResource(dispatch)(event.id);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };

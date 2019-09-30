@@ -96,3 +96,17 @@ export function deleteEvent(eventId) {
     method: "DELETE"
   });
 }
+
+/*
+ * @param {Object} payload
+ * @param {Object} payload.eventID
+ * @param {Object} payload.userID
+ * @param {Object} payload.timestamp
+ * @param {Object} payload.signature
+ */
+export function magicRsvp(payload) {
+  return apiRequest(`/events/rsvps`, {
+    body: payload,
+    method: "POST"
+  });
+}
