@@ -216,6 +216,8 @@ export default {
 
   // Borders
   borders: {
+    darkGray: `1px solid ${darkGray}`,
+    gray: `1px solid ${gray}`,
     lightGray: `1px solid ${lightGray}`,
     veryLightGray: `1px solid ${veryLightGray}`,
     snow: `1px solid ${snow}`,

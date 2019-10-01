@@ -41,6 +41,7 @@ export default function RsvpPanel({ event }) {
       </Box>
       <ActionButton
         backgroundColor={isGoing ? "white" : ""}
+        border={isGoing ? "lightGray" : ""}
         onClick={handleAddRSVP}
       >
         <Icon
@@ -55,6 +56,7 @@ export default function RsvpPanel({ event }) {
       </ActionButton>
       <ActionButton
         backgroundColor={isGoing ? "" : "white"}
+        border={isGoing ? "" : "lightGray"}
         onClick={handleRemoveRSVP}
       >
         <Icon
