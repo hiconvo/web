@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { useSelectors, useActions } from "../redux";
 import { getUser, getMessagesByThreadId } from "../selectors";
@@ -8,6 +8,7 @@ import MessageComposer from "./MessageComposer";
 import { Ripple } from "./styles";
 
 export default function ThreadViewer({ thread }) {
+  const fetched = useRef({});
   const [isLoading, setIsLoading] = useState(false);
   const [messages, user] = useSelectors(
     getMessagesByThreadId(thread.id),
@@ -26,10 +27,11 @@ export default function ThreadViewer({ thread }) {
       setIsLoading(false);
     }
 
-    if (id && !hasMessages && !isLoading) {
+    if (id && !isLoading && !hasMessages && !fetched.current[id]) {
+      fetched.current[id] = true;
       handleFetchMessages();
     }
-  }, [id, hasMessages, fetchMessages, isLoading]);
+  }, [id, fetchMessages, isLoading, hasMessages, fetched]);
 
   return (
     <div>
