@@ -37,7 +37,7 @@ export const getThreadsCount = createSelector(
 );
 
 export function getMessagesByThreadId(id) {
-  return store => store.messages.filter(message => message.threadId === id);
+  return store => store.messages.filter(message => message.parentId === id);
 }
 
 export function getMessagesBySelectedThread(store) {

@@ -73,7 +73,7 @@ export default function reducer(state, action) {
       const threads = state.threads
         .map(thread => {
           action.payload.forEach(message => {
-            if (message.threadId === thread.id) {
+            if (message.parentId === thread.id) {
               if (
                 !thread.preview ||
                 isBefore(thread.preview.timestamp, message.timestamp) > 0
