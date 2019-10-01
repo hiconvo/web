@@ -1,5 +1,5 @@
 import * as API from "../api/threads";
-import { createMessage } from "./messages";
+import { createThreadMessage } from "./messages";
 import { dispatchNotification } from "./notifications";
 import { errorToString } from "../utils";
 
@@ -53,7 +53,7 @@ export const createThread = dispatch =>
     }
 
     try {
-      await createMessage(dispatch)(thread.id, { body: payload.body });
+      await createThreadMessage(dispatch)(thread.id, { body: payload.body });
 
       return thread;
     } catch (e) {

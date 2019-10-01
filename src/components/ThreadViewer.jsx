@@ -14,7 +14,7 @@ export default function ThreadViewer({ thread }) {
     getMessagesByThreadId(thread.id),
     getUser
   );
-  const { fetchMessages } = useActions(unboundActions);
+  const { fetchThreadMessages } = useActions(unboundActions);
   const { id } = thread;
   const hasMessages = messages.length > 0;
 
@@ -22,7 +22,7 @@ export default function ThreadViewer({ thread }) {
     async function handleFetchMessages() {
       setIsLoading(true);
       try {
-        await fetchMessages(id);
+        await fetchThreadMessages(id);
       } catch (e) {}
       setIsLoading(false);
     }
@@ -31,7 +31,7 @@ export default function ThreadViewer({ thread }) {
       fetched.current[id] = true;
       handleFetchMessages();
     }
-  }, [id, fetchMessages, isLoading, hasMessages, fetched]);
+  }, [id, fetchThreadMessages, isLoading, hasMessages, fetched]);
 
   return (
     <div>

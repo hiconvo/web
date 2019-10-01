@@ -9,13 +9,13 @@ import Composer from "./Composer";
 export default function MessageComposer() {
   const [{ id: threadId }] = useSelectors(getSelectedResource);
   const [isDisabled, setIsDisabled] = useState(false);
-  const { createMessage } = useActions(unboundActions);
+  const { createThreadMessage } = useActions(unboundActions);
 
   async function handleSend(body, clearBody) {
     setIsDisabled(true);
 
     try {
-      await createMessage(threadId, { body });
+      await createThreadMessage(threadId, { body });
     } catch (e) {
       setIsDisabled(false);
       return;
