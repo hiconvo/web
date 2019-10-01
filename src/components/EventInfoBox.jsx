@@ -36,7 +36,9 @@ export default function EventInfoBox({ event, user }) {
                 member={guest}
                 event={event}
                 canDelete={isOwner}
-                isChecked={event.rsvps.some(rsvp => rsvp.id === guest.id)}
+                isChecked={
+                  event.rsvps && event.rsvps.some(rsvp => rsvp.id === guest.id)
+                }
                 ml="-0.8rem"
                 mb={1}
               />
