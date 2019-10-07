@@ -270,17 +270,20 @@ export const magicRsvp = dispatch =>
         payload: user
       });
 
-      const event = await API.getEvent(payload.eventID);
+      const { events } = await API.getEvents();
       dispatch({
         type: "RECEIVE_EVENTS",
-        payload: [event]
+        payload: events
       });
+
+      const event = events.find(ev => ev.id === payload.eventID);
       dispatchNotification()({
         type: "SUCCESS",
         message: `RSVP'd to ${event.name}`
       });
-      setSelectedResource(dispatch)(event.id);
     } catch (e) {
       return Promise.reject(e);
+    } finally {
+      setSelectedResource(dispatch)(payload.eventID);
     }
   };

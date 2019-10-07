@@ -1,13 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 
-import { errorToString } from "../utils";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/events";
-import { Ripple, CenterContent, Text } from "../components/styles";
+import { Ripple, CenterContent } from "../components/styles";
 
 export default function Rsvp({ match, history }) {
   const isInFlight = useRef(false);
-  const [error, setError] = useState("");
   const { eventId, key, timestamp, signature } = match.params;
   const { magicRsvp } = useActions(unboundActions);
 
@@ -17,9 +15,9 @@ export default function Rsvp({ match, history }) {
     try {
       isInFlight.current = true;
       await magicRsvp({ userID: key, eventID: eventId, timestamp, signature });
-      history.push("/convos");
     } catch (e) {
-      setError(errorToString(e));
+    } finally {
+      history.push("/convos");
     }
   }
 
@@ -27,7 +25,7 @@ export default function Rsvp({ match, history }) {
 
   return (
     <CenterContent>
-      {error ? <Text fontSize={3}>{error}</Text> : <Ripple />}
+      <Ripple />
     </CenterContent>
   );
 }
