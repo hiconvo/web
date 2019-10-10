@@ -110,3 +110,13 @@ export function magicRsvp(payload) {
     method: "POST"
   });
 }
+
+/*
+ * @param {string} eventId
+ */
+export function markAsRead(eventId) {
+  return apiRequest(`/events/${eventId}/reads`, {
+    body: {},
+    method: "POST"
+  });
+}

@@ -191,3 +191,28 @@ export const deleteThread = dispatch =>
       return Promise.reject(e);
     }
   };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const markThreadAsRead = dispatch =>
+  /*
+   * @param {Object} payload.id
+   * @returns {Object} Thread
+   */
+  async payload => {
+    let thread;
+    try {
+      thread = await API.markAsRead(payload.id);
+      dispatch({
+        type: "RECEIVE_THREADS",
+        payload: [thread]
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+
+    return thread;
+  };

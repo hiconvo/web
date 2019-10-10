@@ -287,3 +287,28 @@ export const magicRsvp = dispatch =>
       setSelectedResource(dispatch)(payload.eventID);
     }
   };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const markEventAsRead = dispatch =>
+  /*
+   * @param {Object} payload.id
+   * @returns {Object} Event
+   */
+  async payload => {
+    let event;
+    try {
+      event = await API.markAsRead(payload.id);
+      dispatch({
+        type: "RECEIVE_EVENTS",
+        payload: [event]
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+
+    return event;
+  };

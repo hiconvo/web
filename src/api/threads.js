@@ -66,3 +66,13 @@ export function deleteThread(threadId) {
     method: "DELETE"
   });
 }
+
+/*
+ * @param {string} threadId
+ */
+export function markAsRead(threadId) {
+  return apiRequest(`/threads/${threadId}/reads`, {
+    body: {},
+    method: "POST"
+  });
+}

@@ -9,6 +9,7 @@ import Map from "./Map";
 import Composer from "./Composer";
 import RsvpPanel from "./RsvpPanel";
 import Message from "./Message";
+import { useReadReporting } from "../hooks";
 import { FloatingPill, Text, Heading, Icon, Box, Ripple } from "./styles";
 
 export default function EventViewer({ event }) {
@@ -50,6 +51,8 @@ export default function EventViewer({ event }) {
     setIsDisabled(false);
     clearBody();
   }
+
+  useReadReporting(event);
 
   return (
     <Box>

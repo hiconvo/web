@@ -5,6 +5,7 @@ import { getUser, getMessagesByThreadId } from "../selectors";
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
 import MessageComposer from "./MessageComposer";
+import { useReadReporting } from "../hooks";
 import { Ripple } from "./styles";
 
 export default function ThreadViewer({ thread }) {
@@ -32,6 +33,8 @@ export default function ThreadViewer({ thread }) {
       handleFetchMessages();
     }
   }, [id, fetchThreadMessages, isLoading, hasMessages, fetched]);
+
+  useReadReporting(thread);
 
   return (
     <div>

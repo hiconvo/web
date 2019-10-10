@@ -4,7 +4,8 @@ import { format } from "date-fns";
 import { themeGet } from "@styled-system/theme-get";
 import { withRouter } from "react-router";
 
-import { useActions } from "../redux";
+import { useActions, useSelectors } from "../redux";
+import { getUser } from "../selectors";
 import * as unboundActions from "../actions/general";
 import { Icon, Box, Text } from "./styles";
 
@@ -43,7 +44,7 @@ const From = styled.span`
   color: ${themeGet("colors.bodytext")};
   float: left;
   width: calc(100% - ${timestampWidth});
-  font-weight: bold;
+  font-weight: ${props => (props.hasRead ? "normal" : "bold")};
   font-size: ${themeGet("fontSizes.1")};
 `;
 
@@ -100,6 +101,8 @@ const EventDate = styled.span`
 
 function InboxListItem({ resource, isSelected, history }) {
   const { setSelectedResource } = useActions(unboundActions);
+  const [user] = useSelectors(getUser);
+  const hasRead = resource.reads.some(r => r.id === user.id);
 
   function handleClick() {
     setSelectedResource(resource.id);
@@ -111,7 +114,9 @@ function InboxListItem({ resource, isSelected, history }) {
     return (
       <ListItem onClick={handleClick} isSelected={isSelected}>
         <FromContainer>
-          <From>{resource.users.map(user => user.firstName).join(", ")}</From>
+          <From hasRead={hasRead}>
+            {resource.users.map(user => user.firstName).join(", ")}
+          </From>
           <Timestamp>
             {resource.preview &&
               format(new Date(resource.preview.timestamp), "MMM d")}
@@ -126,7 +131,7 @@ function InboxListItem({ resource, isSelected, history }) {
     return (
       <ListItem onClick={handleClick} isSelected={isSelected}>
         <FromContainer>
-          <From>{resource.owner.fullName}</From>
+          <From hasRead={hasRead}>{resource.owner.fullName}</From>
           <Timestamp>{format(new Date(resource.timestamp), "MMM d")}</Timestamp>
         </FromContainer>
 
