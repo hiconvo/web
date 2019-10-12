@@ -12,7 +12,7 @@ export default function useReadReporting(resource) {
   const { markEventAsRead } = useActions(eventActions);
   const { markThreadAsRead } = useActions(threadActions);
 
-  const hasRead = reads.some(r => r.id === user.id);
+  const hasRead = reads && reads.some(r => r.id === user.id);
 
   useEffect(() => {
     if (!hasRead) {

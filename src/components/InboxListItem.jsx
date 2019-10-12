@@ -102,7 +102,7 @@ const EventDate = styled.span`
 function InboxListItem({ resource, isSelected, history }) {
   const { setSelectedResource } = useActions(unboundActions);
   const [user] = useSelectors(getUser);
-  const hasRead = resource.reads.some(r => r.id === user.id);
+  const hasRead = resource.reads && resource.reads.some(r => r.id === user.id);
 
   function handleClick() {
     setSelectedResource(resource.id);
