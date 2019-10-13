@@ -328,6 +328,7 @@ export default {
   pageMaxWidth: "144rem",
   pageMaxWidthPx: "1440px",
   headerHeight: "12rem",
+  footerHeight: "6rem",
   sidebarWidth: "28rem",
   sidebarChromeHeight: "5rem"
 };

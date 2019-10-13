@@ -10,7 +10,9 @@ const Container = styled.div`
   grid-template-columns: ${themeGet("sidebarWidth")} minmax(0, 1fr);
   width: 100%;
   height: auto;
-  min-height: calc(100vh - ${themeGet("headerHeight")});
+  min-height: calc(
+    100vh - (${themeGet("headerHeight")} + ${themeGet("footerHeight")})
+  );
 
   ${themeGet("media.phone")} {
     grid-template-columns: 0 minmax(0, 1fr);

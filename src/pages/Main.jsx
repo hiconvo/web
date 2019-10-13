@@ -13,7 +13,9 @@ const Container = styled.div`
     )};
   width: 100%;
   height: auto;
-  min-height: calc(100vh - ${themeGet("headerHeight")});
+  min-height: calc(
+    100vh - (${themeGet("headerHeight")} + ${themeGet("footerHeight")})
+  );
 
   ${themeGet("media.tablet")} {
     grid-template-columns: ${themeGet("sidebarWidth")} minmax(0, 1fr) 0;
