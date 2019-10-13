@@ -13,6 +13,7 @@ import {
 import { themeGet } from "@styled-system/theme-get";
 
 const Button = styled(Box)(
+  color,
   props => ({
     appearance: "none",
     border: 0,
@@ -36,8 +37,7 @@ const Button = styled(Box)(
   buttonStyle,
   layout,
   flexbox,
-  typography,
-  color
+  typography
 );
 
 Button.defaultProps = {
@@ -61,7 +61,8 @@ WrappedButton.defaultProps = {
   width: [1, "auto"],
   p: 3,
   mb: 2,
-  fontSize: 2
+  fontSize: 2,
+  flexDirection: "row"
 };
 
 export default WrappedButton;
