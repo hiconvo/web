@@ -11,6 +11,7 @@ import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import PlacePicker from "./PlacePicker";
+import RegisterWarning from "./RegisterWarning";
 import Map from "./Map";
 import {
   FloatingPill,
@@ -196,6 +197,7 @@ export default function EventForm() {
   return (
     <OuterContainer>
       <Container>
+        <RegisterWarning />
         <FloatingPill>
           <Form>
             <Box mt="-1rem">

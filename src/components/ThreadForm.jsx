@@ -5,6 +5,7 @@ import { withRouter } from "react-router";
 import { getUser } from "../api/user";
 import { Text, FloatingPill } from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
+import RegisterWarning from "../components/RegisterWarning";
 import Composer from "./Composer";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import { useActions } from "../redux";
@@ -71,6 +72,7 @@ function ThreadForm(props) {
 
   return (
     <Container>
+      <RegisterWarning />
       <FloatingPill>
         <Form>
           <Label>

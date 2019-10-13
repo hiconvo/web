@@ -78,7 +78,7 @@ export default function UserMenu() {
 
   if (!(user.isPasswordSet || user.isGoogleLinked || user.isFacebookLinked)) {
     if (!timeout.current) {
-      timeout.current = setTimeout(() => setIsInitialOpen(true), 4000);
+      timeout.current = setTimeout(() => setIsInitialOpen(true), 3000);
     }
 
     return (
@@ -103,18 +103,25 @@ export default function UserMenu() {
               >
                 Create your Convo account in one click
               </Heading>
-              <Paragraph fontSize={1} color="darkGray">
-                Create convos and events of your own by linking your Google or
-                Facebook account associated with{" "}
-                <Text as="code" fontFamily="mono">
+              <Paragraph fontSize={0} color="darkGray">
+                Link your Google or Facebook account associated with{" "}
+                <Text fontFamily="mono" fontSize={0}>
                   {user.email}
-                </Text>
-                , or by setting a password with your email address.
+                </Text>{" "}
+                to complete your profile, send messages, and create convos and
+                events of your own.
               </Paragraph>
             </Box>
             <Box>
               <LoginWithGoogle />
               <LoginWithFacebook />
+            </Box>
+            <Box>
+              <Paragraph fontSize={0} color="darkGray">
+                You can also create your account with your email address. Click
+                the link below to send an email with a link to set your
+                password.
+              </Paragraph>
               <Button variant="white" onClick={sendResetPasswordEmail}>
                 <Icon name="email" fontSize="2.2rem" mr={2} />
                 Continue with email

@@ -66,7 +66,7 @@ const warning500 = "#d44a00";
 const warning700 = "#bf4200";
 const warning900 = "#a73a00";
 
-const error100 = "#ed96a3";
+const error100 = "#fbeaec";
 const error300 = "#e5697c";
 const error500 = "#d40020";
 const error700 = "#bf001c";
@@ -221,7 +221,8 @@ export default {
     lightGray: `1px solid ${lightGray}`,
     veryLightGray: `1px solid ${veryLightGray}`,
     snow: `1px solid ${snow}`,
-    brandColor: `1px solid ${primary500}`
+    brandColor: `1px solid ${primary500}`,
+    error: `1px solid ${error900}`
   },
 
   // Radii

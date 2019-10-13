@@ -46,7 +46,7 @@ export const sendResetPasswordEmail = dispatch =>
       });
       dispatchNotification()({
         type: "SUCCESS",
-        message: "Sent password reset email"
+        message: "Sent password email"
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
