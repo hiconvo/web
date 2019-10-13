@@ -1,10 +1,11 @@
 import React from "react";
-import Plain from "slate-plain-serializer";
 
 import { Box, Text, Button, Icon } from "./styles";
 
 export default function ComposerControls({ value, onClick, isDisabled }) {
-  const wordCount = Plain.serialize(value)
+  const wordCount = value
+    .getCurrentContent()
+    .getPlainText()
     .trim()
     .split(/\s+/).length;
   const estimate = (wordCount / 300).toFixed(1);

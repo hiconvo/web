@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Editor } from "slate-react";
-import Plain from "slate-plain-serializer";
+import { Editor, EditorState, ContentState } from "draft-js";
 
 import Controls from "./MessageComposerControls";
 import { theme } from "./styles";
@@ -22,8 +21,6 @@ const whiteBackgroundStyle = height => ({
   marginBottom: "1rem"
 });
 
-const nullValue = Plain.deserialize("");
-
 export default function Composer({
   backgroundColor = "white",
   height = "4rem",
@@ -32,25 +29,36 @@ export default function Composer({
   placeholder,
   initialValue = ""
 }) {
-  const [currentValue, setValue] = useState(Plain.deserialize(initialValue));
+  const [currentValue, setValue] = useState(
+    EditorState.createWithContent(ContentState.createFromText(initialValue))
+  );
 
   function handleClick(e) {
     e.preventDefault();
-    onClick(Plain.serialize(currentValue), () => setValue(nullValue));
+    onClick(
+      currentValue
+        .getCurrentContent()
+        .getPlainText()
+        .trim(),
+      () => setValue(EditorState.createEmpty())
+    );
   }
 
   return (
     <React.Fragment>
-      <Editor
-        onChange={({ value }) => setValue(value)}
-        value={currentValue}
-        placeholder={placeholder}
+      <div
         style={
           backgroundColor === "white"
             ? whiteBackgroundStyle(height)
             : grayBackgroundStyle(height)
         }
-      />
+      >
+        <Editor
+          onChange={setValue}
+          editorState={currentValue}
+          placeholder={placeholder}
+        />
+      </div>
       <Controls
         value={currentValue}
         onClick={handleClick}
