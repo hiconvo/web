@@ -26,10 +26,9 @@ const StyledModal = Modal.styled`
   top: 0;
   left: 0;
   background-color: ${themeGet("colors.trueWhite")};
-  transition: all ease ${themeGet("animations.fast")};
-  transform: ${props =>
-    props.isVisible ? "translateX(0rem)" : "translateX(-10rem)"};
-  opacity: ${props => (props.isVisible ? "1" : "0")};
+  transition: opacity ease ${themeGet("animations.fast")};
+  backface-visibility: hidden;
+  perspective: 1000;
 `;
 
 const Nav = styled.nav`
@@ -79,7 +78,7 @@ export default function MobileLogoMenu() {
       >
         <Nav>
           <Box width="7rem" p={3}>
-            <Logo />
+            <Logo height="6rem" />
           </Box>
           <LinkButton to="/convos" justifyContent="flex-start" mb="0">
             Convos

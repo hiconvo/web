@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Logo({ width }) {
+export default function Logo({ width, height = "auto" }) {
   return (
     <svg
       width={width}
-      height="auto"
+      height={height}
       viewBox="0 0 136 136"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
