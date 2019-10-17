@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import AddUserForm from "./AddUserForm";
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import DeleteEventButton from "./DeleteEventButton";
+import UserOverflowList from "./UserOverflowList";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
@@ -26,31 +27,33 @@ export default function EventInfoBox({ event, user }) {
       </Box>
 
       <Label>Guests</Label>
-      <Box as="ul" mb={4} maxHeight="30rem">
-        {event.users &&
-          event.users
-            .filter(guest => guest.id !== owner.id)
-            .map(guest => (
-              <InfoBoxMemberItem
-                key={guest.id}
-                member={guest}
-                event={event}
-                canDelete={isOwner}
-                isChecked={
-                  event.rsvps && event.rsvps.some(rsvp => rsvp.id === guest.id)
-                }
-                ml="-0.8rem"
-                mb={1}
-              />
-            ))}
-        {isGuestEditing && (
-          <AddUserForm
-            resourceType={event.resourceType}
-            resource={event}
-            onBlur={() => setIsGuestEditing(false)}
+      <UserOverflowList
+        users={
+          event.users && event.users.filter(guest => guest.id !== owner.id)
+        }
+        renderItem={guest => (
+          <InfoBoxMemberItem
+            key={guest.id}
+            member={guest}
+            event={event}
+            canDelete={isOwner}
+            isChecked={
+              event.rsvps && event.rsvps.some(rsvp => rsvp.id === guest.id)
+            }
+            ml="-0.8rem"
+            mb={1}
           />
         )}
-      </Box>
+        renderExtraChildren={() =>
+          isGuestEditing && (
+            <AddUserForm
+              resourceType={event.resourceType}
+              resource={event}
+              onBlur={() => setIsGuestEditing(false)}
+            />
+          )
+        }
+      />
 
       {isOwner && (
         <React.Fragment>

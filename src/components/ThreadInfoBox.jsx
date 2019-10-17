@@ -5,6 +5,7 @@ import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserForm from "./AddUserForm";
 import DeleteThreadButton from "./DeleteThreadButton";
 import LeaveThreadButton from "./LeaveThreadButton";
+import UserOverflowList from "./UserOverflowList";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
@@ -33,26 +34,28 @@ export default function ThreadInfoBox({ thread, user }) {
       )}
 
       <Label>Members</Label>
-      <Box as="ul" mb={4}>
-        {thread.users &&
-          thread.users.map(member => (
-            <InfoBoxMemberItem
-              key={member.id}
-              member={member}
-              thread={thread}
-              canDelete={isOwner && member.id !== user.id}
-              ml="-0.8rem"
-              mb={1}
-            />
-          ))}
-        {isMemberEditing && (
-          <AddUserForm
-            resourceType={thread.resourceType}
-            resource={thread}
-            onBlur={() => setIsMemberEditing(false)}
+      <UserOverflowList
+        users={thread.users}
+        renderItem={member => (
+          <InfoBoxMemberItem
+            key={member.id}
+            member={member}
+            thread={thread}
+            canDelete={isOwner && member.id !== user.id}
+            ml="-0.8rem"
+            mb={1}
           />
         )}
-      </Box>
+        renderExtraChildren={() =>
+          isMemberEditing && (
+            <AddUserForm
+              resourceType={thread.resourceType}
+              resource={thread}
+              onBlur={() => setIsMemberEditing(false)}
+            />
+          )
+        }
+      />
 
       <Label>Actions</Label>
       <Box as="ul" mb={4}>
