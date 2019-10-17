@@ -3,6 +3,8 @@ import { Route } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
+import { useSelectors } from "../redux";
+import { getIsOwnerOfSelectedResource } from "../selectors";
 import { ActionButton, Icon, Text, Dropdown } from "./styles";
 import ResourceInfoBox from "./ResourceInfoBox";
 
@@ -19,6 +21,8 @@ const InfoButton = styled(ActionButton)`
     background-color: ${themeGet("colors.lightGray")};
     color: ${themeGet("colors.bodytext")};
   }
+
+  color: ${themeGet("colors.bodytext")};
 `;
 
 const InfoBoxContainer = styled.div`
@@ -60,6 +64,7 @@ const CloseButton = styled.div`
 `;
 
 function InfoDropdownButton({ onClick }) {
+  const [isOwner] = useSelectors(getIsOwnerOfSelectedResource);
   return (
     <InfoButton
       onClick={onClick}
@@ -68,7 +73,12 @@ function InfoDropdownButton({ onClick }) {
       alignItems="center"
       mr={2}
     >
-      <Icon name="group" fontSize={4} mr={2} color="inherit" />
+      <Icon
+        name={isOwner ? "edit" : "group"}
+        fontSize={4}
+        mr={2}
+        color="inherit"
+      />
       <Text fontSize={3} color="inherit">
         Info
       </Text>

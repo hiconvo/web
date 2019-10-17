@@ -77,6 +77,13 @@ export const getSelectedResource = createSelector(
     resources.find(resource => resource.id === selectedResourceId) || {}
 );
 
+export const getIsOwnerOfSelectedResource = createSelector(
+  getSelectedResource,
+  getUser,
+  (resource, user) =>
+    user && resource && resource.owner && user.id === resource.owner.id
+);
+
 export function getContacts(store) {
   return store.contacts;
 }

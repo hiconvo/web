@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Modal from "styled-react-modal";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 import { themeGet } from "@styled-system/theme-get";
 
 import InboxList from "./InboxList";
@@ -39,16 +40,10 @@ const Nav = styled.nav`
 `;
 
 export default function MobileLogoMenu() {
+  const { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
-  const afterOpen = () => setTimeout(() => setIsVisible(true));
-  const beforeClose = () =>
-    new Promise(resolve => {
-      setIsVisible(false);
-      setTimeout(resolve, 200);
-    });
   const handleClick = useCallback(() => setIsOpen(!isOpen), [isOpen]);
 
   useEffect(() => {
@@ -69,23 +64,20 @@ export default function MobileLogoMenu() {
         fontSize={7}
         color="primary"
       />
-      <StyledModal
-        isOpen={isOpen}
-        isVisible={isVisible}
-        onBackgroundClick={() => setIsOpen(false)}
-        afterOpen={afterOpen}
-        beforeClose={beforeClose}
-      >
+      <StyledModal isOpen={isOpen} onBackgroundClick={() => setIsOpen(false)}>
         <Nav>
           <Box width="7rem" p={3}>
             <Logo height="6rem" />
           </Box>
-          <LinkButton to="/convos" justifyContent="flex-start" mb="0">
-            Convos
-          </LinkButton>
-          <LinkButton to="/contacts" justifyContent="flex-start" mb="0">
-            Contacts
-          </LinkButton>
+          {pathname.endsWith("contacts") ? (
+            <LinkButton to="/convos" justifyContent="flex-start" mb="0">
+              Convos
+            </LinkButton>
+          ) : (
+            <LinkButton to="/contacts" justifyContent="flex-start" mb="0">
+              Contacts
+            </LinkButton>
+          )}
         </Nav>
         <Nav>
           <LinkButton
