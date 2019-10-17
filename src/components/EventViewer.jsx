@@ -64,7 +64,9 @@ export default function EventViewer({ event }) {
         <Box mb={3}>
           <Box flexDirection="row" alignItems="center" mb={2}>
             <Icon name="schedule" fontSize={3} mr={2} />
-            <Text>{format(parseISO(event.timestamp), "MMMM do @ h:mm a")}</Text>
+            <Text>
+              {format(parseISO(event.timestamp), "EEEE, MMMM do @ h:mm a")}
+            </Text>
           </Box>
           <Box flexDirection="row" alignItems="center" mb={2}>
             <Icon name="public" fontSize={3} mr={2} />
