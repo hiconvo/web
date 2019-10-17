@@ -9,6 +9,7 @@ const Button = styled(Box)`
   background-color: inherit;
   border: inherit;
   cursor: pointer;
+  align-items: center;
 `;
 
 Button.defaultProps = {
