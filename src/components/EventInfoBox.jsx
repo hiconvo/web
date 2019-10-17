@@ -31,19 +31,13 @@ export default function EventInfoBox({ event, user }) {
         users={
           event.users && event.users.filter(guest => guest.id !== owner.id)
         }
-        renderItem={guest => (
-          <InfoBoxMemberItem
-            key={guest.id}
-            member={guest}
-            event={event}
-            canDelete={isOwner}
-            isChecked={
-              event.rsvps && event.rsvps.some(rsvp => rsvp.id === guest.id)
-            }
-            ml="-0.8rem"
-            mb={1}
-          />
-        )}
+        transformUserProps={props => ({
+          ...props,
+          event,
+          canDelete: isOwner,
+          isChecked:
+            event.rsvps && event.rsvps.some(rsvp => rsvp.id === props.user.id)
+        })}
         renderExtraChildren={() =>
           isGuestEditing && (
             <AddUserForm

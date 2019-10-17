@@ -13,3 +13,7 @@ yarn
 # Start the server
 yarn start
 ```
+
+### Code Smells
+
+- `<InfoBoxMemberItem />` takes `member` prop instead of `user`, which is inconsistent.

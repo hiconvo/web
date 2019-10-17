@@ -79,6 +79,7 @@ export default function EventViewer({ event }) {
               <a
                 href={getGoogleMapsUrl(event.lat, event.lng, event.placeID)}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <Text>{event.address}</Text>
                 <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">

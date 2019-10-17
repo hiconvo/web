@@ -29,7 +29,7 @@ export default function Map({ placeId, lat, lng }) {
       setMap(gmap);
       setMarker(gmarker);
     }
-  }, [mapRef, map]);
+  }, [mapRef, map, geoloc]);
 
   useEffect(() => {
     if (map && marker && placeId) {

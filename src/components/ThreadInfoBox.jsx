@@ -36,16 +36,11 @@ export default function ThreadInfoBox({ thread, user }) {
       <Label>Members</Label>
       <UserOverflowList
         users={thread.users}
-        renderItem={member => (
-          <InfoBoxMemberItem
-            key={member.id}
-            member={member}
-            thread={thread}
-            canDelete={isOwner && member.id !== user.id}
-            ml="-0.8rem"
-            mb={1}
-          />
-        )}
+        transformUserProps={props => ({
+          ...props,
+          thread,
+          canDelete: isOwner && props.user.id !== user.id
+        })}
         renderExtraChildren={() =>
           isMemberEditing && (
             <AddUserForm
