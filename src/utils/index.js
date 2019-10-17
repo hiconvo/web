@@ -37,3 +37,7 @@ export function isBrowserType(browser) {
 export function isBefore(a, b) {
   return a && b && before(parseISO(a), parseISO(b)) ? 1 : -1;
 }
+
+export function getGoogleMapsUrl(lat, lng, placeId) {
+  return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${placeId}`;
+}

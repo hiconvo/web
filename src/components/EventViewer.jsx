@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, formatDistanceToNow } from "date-fns";
 
 import { useActions, useSelectors } from "../redux";
 import { getUser, getMessagesByThreadId } from "../selectors";
+import { getGoogleMapsUrl } from "../utils";
 import * as unboundActions from "../actions/messages";
 import Markdown from "./Markdown";
 import Map from "./Map";
@@ -18,7 +19,8 @@ export default function EventViewer({ event }) {
   const { createEventMessage, fetchEventMessages } = useActions(unboundActions);
   const fetched = useRef({});
 
-  const { id } = event;
+  const { id, timestamp } = event;
+  const date = parseISO(timestamp);
 
   const [user, messages] = useSelectors(getUser, getMessagesByThreadId(id));
   const hasMessages = messages.length > 0;
@@ -64,13 +66,26 @@ export default function EventViewer({ event }) {
         <Box mb={3}>
           <Box flexDirection="row" alignItems="center" mb={2}>
             <Icon name="schedule" fontSize={3} mr={2} />
-            <Text>
-              {format(parseISO(event.timestamp), "EEEE, MMMM do @ h:mm a")}
-            </Text>
+            <Box display="block">
+              <Text>{format(date, "EEEE, MMMM do @ h:mm a")}</Text>
+              <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
+                {formatDistanceToNow(date, { addSuffix: true })}
+              </Text>
+            </Box>
           </Box>
           <Box flexDirection="row" alignItems="center" mb={2}>
             <Icon name="public" fontSize={3} mr={2} />
-            <Text>{event.address}</Text>
+            <Box display="block">
+              <a
+                href={getGoogleMapsUrl(event.lat, event.lng, event.placeID)}
+                target="_blank"
+              >
+                <Text>{event.address}</Text>
+                <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
+                  Get directions <Icon name="call_made" fontSize={1} />
+                </Text>
+              </a>
+            </Box>
           </Box>
           <Box flexDirection="row" alignItems="center" mb={2}>
             <Icon name="group" fontSize={3} mr={2} />
@@ -80,7 +95,7 @@ export default function EventViewer({ event }) {
 
         <RsvpPanel event={event} />
 
-        <Map placeId={event.placeID} />
+        <Map placeId={event.placeID} lat={event.lat} lng={event.lng} />
 
         <Box mt="2.4rem" mb={2}>
           <Markdown

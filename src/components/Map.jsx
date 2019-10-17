@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { geocodeByPlaceId } from "react-places-autocomplete";
 
+import { getGoogleMapsUrl } from "../utils";
 import { Box } from "./styles";
 
 const NYC = { lat: 40.71, lng: -74.0 };
 
-export default function Map({ placeId }) {
+export default function Map({ placeId, lat, lng }) {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
+  const geoloc = lat && lng && { lat, lng };
 
   useEffect(() => {
     if (!map && mapRef.current) {
@@ -21,7 +23,7 @@ export default function Map({ placeId }) {
       });
       const gmarker = new window.google.maps.Marker({
         map: gmap,
-        position: NYC
+        position: geoloc || NYC
       });
 
       setMap(gmap);
@@ -31,15 +33,36 @@ export default function Map({ placeId }) {
 
   useEffect(() => {
     if (map && marker && placeId) {
-      geocodeByPlaceId(placeId).then(results => {
-        if (results.length) {
-          map.setCenter(results[0].geometry.location);
-          marker.setPosition(results[0].geometry.location);
-          map.setZoom(15);
-        }
-      });
-    }
-  }, [placeId, map, marker]);
+      function setMapLocation(__geoloc) {
+        map.setCenter(__geoloc);
+        marker.setPosition(__geoloc);
+        map.setZoom(15);
+      }
 
-  return <Box ref={mapRef} width="100%" height="20rem" borderRadius="normal" />;
+      if (!geoloc) {
+        geocodeByPlaceId(placeId).then(results => {
+          if (results.length) {
+            setMapLocation(results[0].geometry.location);
+          }
+        });
+      } else {
+        setMapLocation(geoloc);
+      }
+    }
+  }, [placeId, map, marker, geoloc]);
+
+  function handleClick() {
+    window.open(getGoogleMapsUrl(lat, lng, placeId), "_blank");
+  }
+
+  return (
+    <Box
+      ref={mapRef}
+      onClick={handleClick}
+      width="100%"
+      height="20rem"
+      borderRadius="normal"
+      cursor="pointer"
+    />
+  );
 }
