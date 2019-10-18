@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import Modal from "styled-react-modal";
 
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
-import { Box, Icon, Heading, UnstyledButton } from "./styles";
+import ContactInfoBox from "./ContactInfoBox";
+import { Box, Icon, Heading, UnstyledButton, theme } from "./styles";
 
 const StyledModal = Modal.styled`
   max-width: 95vw;
@@ -12,6 +13,14 @@ const StyledModal = Modal.styled`
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.special")};
   box-shadow: ${themeGet("shadows.normal")};
+`;
+
+const ContactModal = Modal.styled`
+  padding: ${themeGet("space.4")};
+  background-color: ${themeGet("colors.trueWhite")};
+  border-radius: ${themeGet("radii.normal")};
+  box-shadow: ${themeGet("shadows.normal")};
+  position: relative;
 `;
 
 const List = styled.ul`
@@ -25,8 +34,30 @@ export default function UserOverflowModal({
   users,
   transformUserProps = p => p
 }) {
-  function handleClick(e) {
-    e.stopPropagation();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
+  const mql = window.matchMedia(`(max-width: ${theme.breakpoints[0]})`);
+
+  function generateClickHandler(user) {
+    let handleClick;
+    // If we're on mobile, show the default user screen take over.
+    // If we're on desktop, show the nested modal.
+    if (mql.matches) {
+      handleClick = null;
+    } else {
+      handleClick = e => {
+        e.stopPropagation();
+
+        setSelectedContact(user);
+        setIsContactModalOpen(true);
+      };
+    }
+
+    return handleClick;
+  }
+
+  function handleClose() {
+    setIsContactModalOpen(false);
   }
 
   return (
@@ -52,7 +83,7 @@ export default function UserOverflowModal({
         <List>
           {users.map(user => (
             <InfoBoxMemberItem
-              onClickOverride={handleClick}
+              onClickOverride={generateClickHandler(user)}
               {...transformUserProps({
                 user,
                 member: user,
@@ -61,6 +92,16 @@ export default function UserOverflowModal({
             />
           ))}
         </List>
+        <ContactModal
+          isOpen={isContactModalOpen}
+          onBackgroundClick={handleClose}
+          onEscapeKeydown={handleClose}
+        >
+          <Box position="absolute" top="0" right="0" p={3}>
+            <Icon onClick={handleClose} name="close" fontSize={5} />
+          </Box>
+          <ContactInfoBox position="static" contact={selectedContact} />
+        </ContactModal>
       </Box>
     </StyledModal>
   );
