@@ -59,7 +59,6 @@ const CloseButton = styled.div`
     position: fixed;
     right: 2rem;
     top: 2rem;
-    z-index: 40;
   }
 `;
 

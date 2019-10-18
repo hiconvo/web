@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserForm from "./AddUserForm";
 import DeleteThreadButton from "./DeleteThreadButton";

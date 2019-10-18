@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import { ModalProvider } from "styled-react-modal";
+import styled, { ThemeProvider } from "styled-components";
+import { ModalProvider, BaseModalBackground } from "styled-react-modal";
 
 import { theme, Reset } from "./styles";
 import { DataProvider } from "../redux";
@@ -18,12 +18,17 @@ import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
 import Rsvp from "../pages/Rsvp";
 
+const ModalBackground = styled(BaseModalBackground).attrs(props => ({
+  ...props,
+  id: "ModalBackground"
+}))``;
+
 export default function App() {
   return (
     <DataProvider>
       <ThemeProvider theme={theme}>
         <Reset>
-          <ModalProvider>
+          <ModalProvider backgroundComponent={ModalBackground}>
             <BrowserRouter>
               <Frame>
                 <Switch>

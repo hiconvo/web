@@ -23,15 +23,20 @@ export default function Dropdown({
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
 
-  const handleToggle = useCallback(() => {
-    if (isOpen) {
-      setTimeout(() => setIsOpen(false), 200);
-      setIsVisible(false);
-    } else {
-      setIsOpen(true);
-      setTimeout(() => setIsVisible(true), 50);
-    }
-  }, [isOpen]);
+  const handleToggle = useCallback(
+    e => {
+      e && e.stopPropagation();
+
+      if (isOpen) {
+        setTimeout(() => setIsOpen(false), 200);
+        setIsVisible(false);
+      } else {
+        setIsOpen(true);
+        setTimeout(() => setIsVisible(true), 50);
+      }
+    },
+    [isOpen]
+  );
 
   useEffect(() => {
     if (initialState === "open") handleToggle();
@@ -40,7 +45,14 @@ export default function Dropdown({
 
   const handleClick = useCallback(
     e => {
-      if (!containerRef.current.contains(e.target)) {
+      // This bgEl stuff covers the case of clicking inside of a modal that is
+      // inside a dropdown. Since the modal is rendered to the modal node
+      // the containerRef does not contain it. So clicking anywhere closes
+      // the dropdown behind the modal, which is a weird UX.
+      const bgEl = document.getElementById("ModalBackground");
+      const clickInModal = bgEl && bgEl.contains(e.target);
+
+      if (!containerRef.current.contains(e.target) && !clickInModal) {
         handleToggle();
       }
     },
