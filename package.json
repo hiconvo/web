@@ -4,6 +4,7 @@
   "description": "",
   "keywords": [],
   "main": "src/index.js",
+  "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
     "@sentry/browser": "^5.6.3",
     "@styled-system/theme-get": "^5.1.2",
