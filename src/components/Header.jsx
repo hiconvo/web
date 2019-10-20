@@ -8,7 +8,7 @@ import UserMenu from "./UserMenu";
 import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
 import Logo from "./Logo";
-import { Box, LinkButton } from "./styles";
+import { Box, LinkButton, Paragraph } from "./styles";
 
 const Header = styled.header`
   position: fixed;
@@ -76,6 +76,11 @@ export default () => {
       <Box flexDirection="row" alignItems="center">
         <HeaderInfoMenu />
         <UserMenu />
+        {!showNav && (
+          <Paragraph mb="0rem">
+            <a href="https://hiconvo.com">What is Convo?</a>
+          </Paragraph>
+        )}
       </Box>
     </Header>
   );

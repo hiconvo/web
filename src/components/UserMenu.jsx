@@ -2,19 +2,9 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useSelectors, useActions } from "../redux";
+import { useSelectors } from "../redux";
 import { getIsLoggedIn, getUser } from "../selectors";
-import * as unboundActions from "../actions/user";
-import {
-  Dropdown,
-  LinkButton,
-  Box,
-  Heading,
-  Paragraph,
-  Button,
-  Icon,
-  Text
-} from "./styles";
+import { Dropdown, LinkButton, Box, Heading, Paragraph, Text } from "./styles";
 import LogoutButton from "./LogoutButton";
 import LoginWithGoogle from "./LoginGoogle";
 import LoginWithFacebook from "./LoginFacebook";
@@ -70,7 +60,6 @@ const Item = styled.li`
 
 export default function UserMenu() {
   const [isLoggedIn, user] = useSelectors(getIsLoggedIn, getUser);
-  const { sendResetPasswordEmail } = useActions(unboundActions);
   const [isInitialOpen, setIsInitialOpen] = useState(false);
   const timeout = useRef(null);
 
@@ -115,17 +104,6 @@ export default function UserMenu() {
             <Box>
               <LoginWithGoogle />
               <LoginWithFacebook />
-            </Box>
-            <Box>
-              <Paragraph fontSize={0} color="darkGray">
-                You can also create your account with your email address. Click
-                the link below to send an email with a link to set your
-                password.
-              </Paragraph>
-              <Button variant="white" onClick={sendResetPasswordEmail}>
-                <Icon name="email" fontSize="2.2rem" mr={2} />
-                Continue with email
-              </Button>
             </Box>
           </SignUpContainer>
         )}

@@ -7,6 +7,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
 import LoginForm from "../components/LoginForm";
+import OauthForm from "../components/OauthForm";
 import RegistrationForm from "../components/RegistrationForm";
 import { Heading, Text, Box } from "../components/styles";
 
@@ -47,11 +48,17 @@ export default function Login() {
         <Heading fontSize={4} fontWeight="semiBold" mb={1}>
           Convo
         </Heading>
-        <Text color="darkGray">Messaging + Events</Text>
+        <Text color="darkGray">
+          Login or sign up for Convo{" "}
+          <span role="img" aria-label="sparkles">
+            ✨
+          </span>
+        </Text>
       </Box>
       <Container>
         <Switch>
-          <Route exact path="/login" component={LoginForm} />
+          <Route exact path="/login" component={OauthForm} />
+          <Route exact path="/login/email" component={LoginForm} />
           <Route path="/login/register" component={RegistrationForm} />
         </Switch>
       </Container>

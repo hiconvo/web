@@ -2,9 +2,15 @@ import React, { useState } from "react";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
-import { Box, TextInput, Button, LinkButton, Text, Icon } from "./styles";
-import LoginWithGoogle from "./LoginGoogle";
-import LoginWithFacebook from "./LoginFacebook";
+import {
+  Box,
+  TextInput,
+  Button,
+  LinkButton,
+  Text,
+  Icon,
+  Paragraph
+} from "./styles";
 
 export default function LoginForm() {
   const { loginUserWithAuth } = useActions(unboundActions);
@@ -36,6 +42,13 @@ export default function LoginForm() {
 
   return (
     <Box>
+      <LinkButton to="/login/register" variant="white">
+        <Icon name="email" fontSize="2.2rem" mr={2} />
+        Sign up with email
+      </LinkButton>
+      <Paragraph textAlign="center" fontSize={2} mt={4} mb={3} color="darkGray">
+        &mdash; Or login to your account below &mdash;
+      </Paragraph>
       <Box as="form" onSubmit={handleLoginWithEmail}>
         <Text color="error" fontSize={2} mb={2} textAlign="center">
           {authErrors.message}
@@ -61,13 +74,10 @@ export default function LoginForm() {
           Login
         </Button>
       </Box>
-      <LoginWithGoogle />
-      <LoginWithFacebook />
-      <LinkButton to="/login/register" variant="white">
-        <Icon name="email" fontSize="2.2rem" mr={2} />
-        Sign up with email
+      <LinkButton to="/login">
+        <Icon name="arrow_back" mr={1} />
+        Back
       </LinkButton>
-      <LinkButton to="/forgot">I forgot my password</LinkButton>
     </Box>
   );
 }

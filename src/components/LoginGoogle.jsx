@@ -55,7 +55,13 @@ export default function LoginGoogle() {
   }, []);
 
   return (
-    <Button variant="white" mb={3} ref={googleButton} disabled={isLoading}>
+    <Button
+      variant="white"
+      mb={3}
+      ref={googleButton}
+      isLoading={isLoading}
+      color="bodytext"
+    >
       <Box as="img" src={googleLogo} width="2.2rem" mr={2} />
       Continue with Google
     </Button>

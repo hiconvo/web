@@ -47,7 +47,8 @@ export default function LoginFacebook() {
       variant="white"
       mb={3}
       onClick={handleLoginWithFacebook}
-      disabled={isLoading}
+      isLoading={isLoading}
+      color="bodytext"
     >
       <Box as="img" src={facebookLogo} width="2.2rem" mr={2} />
       Continue with Facebook

@@ -8,7 +8,8 @@ import {
   Button,
   LinkButton,
   Text,
-  CenterContent
+  CenterContent,
+  Icon
 } from "./styles";
 
 export default function RegistrationForm() {
@@ -90,8 +91,9 @@ export default function RegistrationForm() {
       <Button mt={2} mb={4} type="submit" isLoading={isLoading}>
         Sign up
       </Button>
-      <LinkButton to="/login" textAlign="center" fontSize={1}>
-        Login
+      <LinkButton to="/login/email" textAlign="center" fontSize={1}>
+        <Icon name="arrow_back" mr={1} />
+        Back
       </LinkButton>
     </Box>
   );
