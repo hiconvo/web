@@ -89,7 +89,7 @@ export const loginUserWithOAuth = dispatch =>
       const newToken = user.token;
       localStorage.setItem("userToken", newToken);
 
-      if (oldToken !== newToken) {
+      if (oldToken && oldToken !== newToken) {
         // Since the new token is set, the <AuthorizedRoute /> component
         // should log the user in with the new token and fetch all the
         // needed stuff.
