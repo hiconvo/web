@@ -94,7 +94,7 @@ export const loginUserWithOAuth = dispatch =>
         // should log the user in with the new token and fetch all the
         // needed stuff.
         dispatch({
-          type: "LOGOUT",
+          type: "RECEIVE_MISMATCHED_USER",
           payload: user
         });
       } else {

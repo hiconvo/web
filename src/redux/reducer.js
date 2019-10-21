@@ -20,6 +20,11 @@ export default function reducer(state, action) {
         user: action.payload,
         loading: { global: false }
       });
+    case "RECEIVE_MISMATCHED_USER":
+      return Object.assign({}, initialState, {
+        user: action.payload,
+        loading: { global: false }
+      });
     case "RECEIVE_THREADS": {
       const threads = state.threads
         .filter(t => !action.payload.some(newThread => newThread.id === t.id))

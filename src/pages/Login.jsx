@@ -37,7 +37,7 @@ export default function Login() {
   const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn || localStorage.getItem("userToken")) {
       history.push("/");
     }
   }, [isLoggedIn, history]);
