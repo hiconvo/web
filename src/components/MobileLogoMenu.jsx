@@ -69,7 +69,7 @@ export default function MobileLogoMenu() {
           <Box width="7rem" p={3}>
             <Logo height="6rem" />
           </Box>
-          {pathname.endsWith("contacts") ? (
+          {!pathname.endsWith("convos") ? (
             <LinkButton to="/convos" justifyContent="flex-start" mb="0">
               Convos
             </LinkButton>
