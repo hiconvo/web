@@ -35,7 +35,7 @@ export default function App() {
                   <Route path="/login" component={Login} />
                   <Route path="/forgot" component={ForgotPassword} />
                   <Route
-                    path="/verify/:key/:timestamp/:signature"
+                    path="/verify/:email/:key/:timestamp/:signature"
                     exact
                     component={VerifyEmail}
                   />

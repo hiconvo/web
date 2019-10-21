@@ -14,6 +14,7 @@ import {
   Icon
 } from "../components/styles";
 import UploadAvatarFormButton from "../components/UploadAvatarFormButton";
+import EmailSettings from "../components/EmailSettings";
 
 import googleLogo from "../media/google-logo.svg";
 import facebookLogo from "../media/facebook-logo.svg";
@@ -56,15 +57,11 @@ const SettingsButton = ({ iconName, text, onClick, variant = "tertiary" }) => (
 
 export default function Settings() {
   const [user] = useSelectors(getUser);
-  const [email, setEmail] = useState(user.email);
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
-  const { updateUser, sendVerifyEmail, sendResetPasswordEmail } = useActions(
-    unboundActions
-  );
+  const { updateUser, sendResetPasswordEmail } = useActions(unboundActions);
 
   const hasMadeChanges = [
-    [email, user.email],
     [firstName, user.firstName],
     [lastName, user.lastName]
   ].some(([a, b]) => a !== b);
@@ -73,7 +70,6 @@ export default function Settings() {
     e.preventDefault();
 
     updateUser({
-      email,
       firstName,
       lastName
     });
@@ -105,12 +101,6 @@ export default function Settings() {
             />
           </Group>
           <TextInput
-            name="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            type="email"
-          />
-          <TextInput
             name="First name"
             value={firstName}
             onChange={e => setFirstName(e.target.value)}
@@ -123,23 +113,7 @@ export default function Settings() {
         </Box>
       </Section>
 
-      <Section>
-        <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>
-          Verification
-        </Heading>
-        <Group>
-          <Text mb={3} pt={3}>
-            {user.verified ? "Email is verified" : "Email is not verified"}
-          </Text>
-          {!user.verified && (
-            <SettingsButton
-              onClick={sendVerifyEmail}
-              iconName="alternate_email"
-              text="Resend verify email"
-            />
-          )}
-        </Group>
-      </Section>
+      <EmailSettings />
 
       <Section>
         <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>

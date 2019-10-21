@@ -33,6 +33,87 @@ export const updateUser = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const addEmail = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.email
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.addEmail(payload);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `Verify email sent to ${payload.email}`
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const removeEmail = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.email
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.removeEmail(payload);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `Removed ${payload.email}`
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const makeEmailPrimary = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.email
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const user = await API.makeEmailPrimary(payload);
+      dispatch({
+        type: "RECEIVE_USER",
+        payload: user
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `${payload.email} is primary`
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const sendResetPasswordEmail = dispatch =>
   /*
    * @returns {undefined}

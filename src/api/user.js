@@ -24,6 +24,39 @@ export function sendVerifyEmail() {
 
 /*
  * @param {Object} payload
+ * @param {string} payload.email
+ */
+export function addEmail(payload) {
+  return apiRequest(`/users/emails`, {
+    body: payload,
+    method: "POST"
+  });
+}
+
+/*
+ * @param {Object} payload
+ * @param {string} payload.email
+ */
+export function removeEmail(payload) {
+  return apiRequest(`/users/emails`, {
+    body: payload,
+    method: "DELETE"
+  });
+}
+
+/*
+ * @param {Object} payload
+ * @param {string} payload.email
+ */
+export function makeEmailPrimary(payload) {
+  return apiRequest(`/users/emails`, {
+    body: payload,
+    method: "PATCH"
+  });
+}
+
+/*
+ * @param {Object} payload
  * @param {string} payload.signature
  * @param {string} payload.timestamp
  * @param {string} payload.userID

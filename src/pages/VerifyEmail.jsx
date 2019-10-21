@@ -7,12 +7,12 @@ import { Ripple, CenterContent, Text } from "../components/styles";
 
 export default function VerifyEmail({ match, history }) {
   const [error, setError] = useState("");
-  const { key, timestamp, signature } = match.params;
+  const { email, key, timestamp, signature } = match.params;
   const { verifyEmail } = useActions(unboundActions);
 
   async function handleVerifyEmail() {
     try {
-      await verifyEmail({ userID: key, timestamp, signature });
+      await verifyEmail({ userID: key, timestamp, signature, email });
       history.push("/convos");
     } catch (e) {
       setError(errorToString(e));
