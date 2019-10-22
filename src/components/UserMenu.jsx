@@ -4,7 +4,15 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getIsLoggedIn, getUser } from "../selectors";
-import { Dropdown, LinkButton, Box, Heading, Paragraph, Text } from "./styles";
+import {
+  Dropdown,
+  LinkButton,
+  Button,
+  Box,
+  Heading,
+  Paragraph,
+  Text
+} from "./styles";
 import LogoutButton from "./LogoutButton";
 import LoginWithGoogle from "./LoginGoogle";
 import LoginWithFacebook from "./LoginFacebook";
@@ -67,7 +75,7 @@ export default function UserMenu() {
 
   if (!(user.isPasswordSet || user.isGoogleLinked || user.isFacebookLinked)) {
     if (!timeout.current) {
-      timeout.current = setTimeout(() => setIsInitialOpen(true), 3000);
+      timeout.current = setTimeout(() => setIsInitialOpen(true), 2000);
     }
 
     return (
@@ -89,16 +97,30 @@ export default function UserMenu() {
                 fontSize={3}
                 fontWeight="semiBold"
                 color="trueBlack"
+                mb={1}
               >
                 Create your Convo account in one click
               </Heading>
-              <Paragraph fontSize={0} color="darkGray">
+              <Paragraph fontSize={1} color="darkGray">
                 Link your Google or Facebook account associated with{" "}
-                <Text fontFamily="mono" fontSize={0}>
+                <Text
+                  fontFamily="mono"
+                  fontSize={1}
+                  style={{ wordBreak: "break-all" }}
+                >
                   {user.email}
                 </Text>{" "}
                 to complete your profile, send messages, and create convos and
-                events of your own.
+                events of your own.{" "}
+                <Text
+                  as="a"
+                  href="https://hiconvo.com"
+                  target="_blank"
+                  fontWeight="semiBold"
+                  fontSize={1}
+                >
+                  Learn more.
+                </Text>
               </Paragraph>
             </Box>
             <Box>
@@ -120,6 +142,17 @@ export default function UserMenu() {
       {({ isOpen, isVisible, handleToggle }) => (
         <List isOpen={isOpen} isVisible={isVisible} onClick={handleToggle}>
           <Item>
+            <Button
+              as="a"
+              variant="tertiary"
+              textAlign="left"
+              href="https://hiconvo.com"
+              width="100%"
+              justifyContent="flex-start"
+              mb={0}
+            >
+              What is Convo?
+            </Button>
             <LinkButton
               to="/settings"
               width="100%"
