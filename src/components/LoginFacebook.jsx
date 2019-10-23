@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
@@ -9,6 +9,7 @@ import facebookLogo from "../media/facebook-logo.svg";
 export default function LoginFacebook() {
   const [isLoading, setIsLoading] = useState(false);
   const { loginUserWithOAuth } = useActions(unboundActions);
+  const fbHasLoaded = useRef(false);
 
   function handleLoginWithFacebook(e) {
     e.preventDefault();
@@ -34,13 +35,17 @@ export default function LoginFacebook() {
   }
 
   useEffect(() => {
-    window.FB.init({
-      appId: "406328056661427",
-      autoLogAppEvents: true,
-      xfbml: true,
-      version: "v3.3"
-    });
-  }, []);
+    if (window.FB && !fbHasLoaded.current) {
+      window.FB.init({
+        appId: "406328056661427",
+        autoLogAppEvents: true,
+        xfbml: true,
+        version: "v3.3"
+      });
+
+      fbHasLoaded.current = true;
+    }
+  });
 
   return (
     <Button
