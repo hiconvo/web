@@ -22,7 +22,8 @@ function DropDownItem({ member, onClick }) {
   );
 }
 
-const EMAIL_REGEXP = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const EMAIL_REGEXP = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+| |,|;)*$/;
+const DELIMITERS_REGEXP = /^[*]|,|;| $/;
 
 /*
  * @Component UserSearchAutocompleteField
@@ -49,13 +50,23 @@ export default React.forwardRef(
       if (debouncedQuery) {
         const isEmail = EMAIL_REGEXP.test(debouncedQuery);
         if (isEmail) {
-          handleResultsChange([
-            {
-              email: debouncedQuery,
-              fullName: debouncedQuery,
-              id: debouncedQuery
-            }
-          ]);
+          // If the user put a space, comma, or semicolin, return the email.
+          if (DELIMITERS_REGEXP.test(debouncedQuery)) {
+            const email = debouncedQuery.slice(0, debouncedQuery.length - 1);
+            onClick(null, {
+              email,
+              fullName: email,
+              id: email
+            });
+          } else {
+            handleResultsChange([
+              {
+                email: debouncedQuery,
+                fullName: debouncedQuery,
+                id: debouncedQuery
+              }
+            ]);
+          }
         } else {
           handleResultsChange(
             uniqBy(contactsResults.concat(networkResults), "id")

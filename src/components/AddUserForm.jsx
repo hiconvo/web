@@ -36,7 +36,7 @@ export default function AddUserForm({ resourceType, resource, onBlur }) {
   const handleBlur = useCallback(onBlur);
 
   async function handleAddUser(e, user) {
-    e.preventDefault();
+    e && e.preventDefault();
 
     try {
       setIsLoading(true);
