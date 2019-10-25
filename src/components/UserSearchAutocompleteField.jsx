@@ -45,6 +45,7 @@ export default React.forwardRef(
     const debouncedQuery = useDebounce(query, 200);
     const handleResultsChange = useCallback(onResultsChange);
     const { contactsResults, networkResults } = useUserSearch(debouncedQuery);
+    const handleClick = useCallback(onClick, [query]);
 
     useEffect(() => {
       if (debouncedQuery) {
@@ -53,7 +54,8 @@ export default React.forwardRef(
           // If the user put a space, comma, or semicolin, return the email.
           if (DELIMITERS_REGEXP.test(debouncedQuery)) {
             const email = debouncedQuery.slice(0, debouncedQuery.length - 1);
-            onClick(null, {
+
+            handleClick(null, {
               email,
               fullName: email,
               id: email
@@ -74,7 +76,13 @@ export default React.forwardRef(
         }
         setIsDropdownOpen(true);
       }
-    }, [debouncedQuery, networkResults, contactsResults, handleResultsChange]);
+    }, [
+      debouncedQuery,
+      networkResults,
+      contactsResults,
+      handleResultsChange,
+      handleClick
+    ]);
 
     useEffect(() => {
       function handleCloseDropdown(e) {
@@ -115,7 +123,7 @@ export default React.forwardRef(
                 <DropDownItem
                   key={result.id}
                   member={result}
-                  onClick={e => onClick(e, result)}
+                  onClick={e => handleClick(e, result)}
                 />
               ))
             )}
