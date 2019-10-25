@@ -1,17 +1,8 @@
 import { createSelector } from "reselect";
-
-import { isBefore } from "../utils";
+import orderBy from "lodash/orderBy";
 
 export function getGeneralError(store) {
   return (store.errors.auth && store.errors.auth.message) || "";
-}
-
-export function getIsLoggedIn(store) {
-  return Boolean(store.user);
-}
-
-export function getIsLoading(store) {
-  return store.loading.global;
 }
 
 export function getAuthErrors(store) {
@@ -23,6 +14,14 @@ export function getAuthErrors(store) {
   }, {});
 }
 
+export function getIsLoggedIn(store) {
+  return Boolean(store.user);
+}
+
+export function getIsLoading(store) {
+  return store.loading.global;
+}
+
 export function getUser(store) {
   return store.user;
 }
@@ -31,58 +30,13 @@ export function getThreads(store) {
   return store.threads;
 }
 
-export const getThreadsCount = createSelector(
-  getThreads,
-  res => res.length
-);
-
-export function getMessagesByThreadId(id) {
-  return store => store.messages.filter(message => message.parentId === id);
-}
-
-export function getMessagesBySelectedThread(store) {
-  const { selectedResourceId } = store;
-  return getMessagesByThreadId(selectedResourceId)(store);
-}
-
 export function getEvents(store) {
   return store.events;
 }
 
-export const getEventsCount = createSelector(
-  getEvents,
-  res => res.length
-);
-
-export const getInboxContents = createSelector(
-  getThreads,
-  getEvents,
-  (threads, events) => {
-    return [].concat(threads, events).sort((a, b) => {
-      const aTime = a.preview ? a.preview.timestamp : a.timestamp;
-      const bTime = b.preview ? b.preview.timestamp : b.timestamp;
-      return isBefore(aTime, bTime);
-    });
-  }
-);
-
-export function getSelectedResourceId(store) {
-  return store.selectedResourceId;
+export function getMessages(store) {
+  return store.messages;
 }
-
-export const getSelectedResource = createSelector(
-  getSelectedResourceId,
-  getInboxContents,
-  (selectedResourceId, resources) =>
-    resources.find(resource => resource.id === selectedResourceId) || {}
-);
-
-export const getIsOwnerOfSelectedResource = createSelector(
-  getSelectedResource,
-  getUser,
-  (resource, user) =>
-    user && resource && resource.owner && user.id === resource.owner.id
-);
 
 export function getContacts(store) {
   return store.contacts;
@@ -99,3 +53,56 @@ export function getIsThreadsFetched(store) {
 export function getIsEventsFetched(store) {
   return store.isEventsFetched;
 }
+
+export function getSelectedResourceId(store) {
+  return store.selectedResourceId;
+}
+
+export const getThreadsCount = createSelector(
+  getThreads,
+  res => res.length
+);
+
+export const getEventsCount = createSelector(
+  getEvents,
+  res => res.length
+);
+
+export function getMessagesByThreadId(id) {
+  return store => store.messages.filter(message => message.parentId === id);
+}
+
+export const getMessagesBySelectedThread = createSelector(
+  getMessages,
+  getSelectedResourceId,
+  (messages, id) => messages.filter(message => message.parentId === id)
+);
+
+export const getInboxContents = createSelector(
+  getUser,
+  getThreads,
+  getEvents,
+  (user, threads, events) =>
+    orderBy(
+      [].concat(threads, events),
+      [
+        o => o.reads && o.reads.some(r => r.id === (user && user.id)),
+        o => (o.preview ? o.preview.timestamp : o.timestamp)
+      ],
+      ["asc", "desc"]
+    )
+);
+
+export const getSelectedResource = createSelector(
+  getSelectedResourceId,
+  getInboxContents,
+  (selectedResourceId, resources) =>
+    resources.find(resource => resource.id === selectedResourceId) || {}
+);
+
+export const getIsOwnerOfSelectedResource = createSelector(
+  getSelectedResource,
+  getUser,
+  (resource, user) =>
+    user && resource && resource.owner && user.id === resource.owner.id
+);
