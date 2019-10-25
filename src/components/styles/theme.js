@@ -295,7 +295,7 @@ export default {
     },
     tertiary: {
       color: black,
-      fontWeight: "inherit",
+      fontWeight: fontWeights.regular,
       fontSize: "inherit",
       letterSpacing: "inherit",
       transition: `color ease ${animations.fast}`,
@@ -307,7 +307,7 @@ export default {
     },
     brand: {
       color: primary700,
-      fontWeight: fontWeights.regular,
+      fontWeight: fontWeights.semiBold,
       backgroundColor: "inherit",
       borderRadius: radii.normal,
       "&:hover": {

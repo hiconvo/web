@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import {
   space,
-  color,
   layout,
   typography,
   flexbox,
   border,
   background,
+  color,
   position
 } from "styled-system";
 import { float, cursor, overflow } from "./utils";
@@ -18,11 +18,11 @@ const Box = styled("div")(
     outline: 0
   },
   space,
-  color,
   layout,
   typography,
   flexbox,
   border,
+  color,
   background,
   position,
   float,
@@ -36,7 +36,6 @@ Box.defaultProps = {
   fontSize: 2,
   lineHeight: "normal",
   fontWeight: "regular",
-  color: "bodytext",
   display: "flex",
   flexDirection: "column"
 };

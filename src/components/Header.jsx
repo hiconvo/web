@@ -59,6 +59,8 @@ const WrappedLogo = () => (
 export default () => {
   const isLoginPage = useRouteMatch("/login");
   const isForgotPage = useRouteMatch("/forgot");
+  const isConvosPage = useRouteMatch("/convos");
+  const isContactsPage = useRouteMatch("/contacts");
   const showNav = !(isLoginPage || isForgotPage);
 
   return (
@@ -68,8 +70,18 @@ export default () => {
         <MobileLogoMenu />
         {showNav && (
           <Nav>
-            <LinkButton to="/convos">Convos</LinkButton>
-            <LinkButton to="/contacts">Contacts</LinkButton>
+            <LinkButton
+              to="/convos"
+              color={isConvosPage ? "trueBlack" : "gray"}
+            >
+              Convos
+            </LinkButton>
+            <LinkButton
+              to="/contacts"
+              color={isContactsPage ? "trueBlack" : "gray"}
+            >
+              Contacts
+            </LinkButton>
           </Nav>
         )}
       </Box>

@@ -63,7 +63,7 @@ const SignUpContainer = styled.div`
 `;
 
 const Item = styled.li`
-  font-size: ${themeGet("fontSizes.1")};
+  font-size: ${themeGet("fontSizes.2")};
 `;
 
 export default function UserMenu() {
