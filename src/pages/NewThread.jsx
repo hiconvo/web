@@ -1,43 +1,13 @@
 import React from "react";
-import styled from "styled-components";
-import { themeGet } from "@styled-system/theme-get";
 
+import { ContainerDualSidebars } from "./styles"
 import InboxSidebar from "../components/InboxSidebar";
 import ThreadForm from "../components/ThreadForm";
 import { Box, Paragraph, Heading, Text } from "../components/styles";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: ${themeGet("sidebarWidth")} minmax(0, 1fr) ${themeGet(
-      "sidebarWidth"
-    )};
-  width: 100%;
-  height: auto;
-  min-height: calc(
-    100vh - (${themeGet("headerHeight")} + ${themeGet("footerHeight")})
-  );
-
-  ${themeGet("media.tablet")} {
-    grid-template-columns: ${themeGet("sidebarWidth")} minmax(0, 1fr) 0;
-    & > div:nth-child(3) {
-      visibility: hidden;
-    }
-  }
-
-  ${themeGet("media.phone")} {
-    grid-template-columns: 0 minmax(0, 1fr) 0;
-    & > div:nth-child(1) {
-      visibility: hidden;
-    }
-    & > div:nth-child(3) {
-      visibility: hidden;
-    }
-  }
-`;
-
 export default function NewThread() {
   return (
-    <Container>
+    <ContainerDualSidebars>
       <InboxSidebar />
       <ThreadForm />
       <Box>
@@ -66,6 +36,6 @@ export default function NewThread() {
           </Paragraph>
         </Box>
       </Box>
-    </Container>
+    </ContainerDualSidebars>
   );
 }

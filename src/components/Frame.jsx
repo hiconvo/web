@@ -35,7 +35,7 @@ export default function Frame({ children }) {
       <NotificationsManager />
       <Header />
       <Slug />
-      {children}
+      <main>{children}</main>
       <Footer>
         <Paragraph fontSize={0} color="mediumGray" textAlign="center">
           Made with{" "}

@@ -3,30 +3,14 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { FloatingPill, Box, Icon, Text } from "../components/styles";
+import { ContainerSidebarRight } from "./styles";
 import ContactInfoBox from "../components/ContactInfoBox";
 import ContactCard from "../components/ContactCard";
 import { useDebounce, useUserSearch } from "../hooks";
 import { useSelectors } from "../redux";
 import { getContacts } from "../selectors";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) ${themeGet("sidebarWidth")};
-  width: 100%;
-  height: auto;
-  min-height: calc(
-    100vh - (${themeGet("headerHeight")} + ${themeGet("footerHeight")})
-  );
-
-  ${themeGet("media.phone")} {
-    grid-template-columns: minmax(0, 1fr) 0;
-    & > div:nth-child(2) {
-      visibility: hidden;
-    }
-  }
-`;
-
-const Main = styled.main`
+const Main = styled.div`
   display: block;
   padding-right: ${themeGet("space.5")};
 
@@ -115,7 +99,7 @@ export default function Contacts() {
   );
 
   return (
-    <Container>
+    <ContainerSidebarRight>
       <Main>
         <FloatingBackground>
           <Box flexDirection="row" alignItems="center" mb={4}>
@@ -159,6 +143,6 @@ export default function Contacts() {
         </FloatingBackground>
       </Main>
       <ContactInfoBox contact={selectedContact} />
-    </Container>
+    </ContainerSidebarRight>
   );
 }

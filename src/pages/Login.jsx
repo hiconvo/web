@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
+import { baseMinHeight } from "./styles";
 import { useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
 import LoginForm from "../components/LoginForm";
@@ -12,9 +13,7 @@ import RegistrationForm from "../components/RegistrationForm";
 import { Heading, Text, Box } from "../components/styles";
 
 const CenterContent = styled.div`
-  min-height: calc(
-    100vh - (${themeGet("headerHeight")} + ${themeGet("footerHeight")})
-  );
+  ${baseMinHeight}
   width: 100%;
   align-items: center;
   display: flex;
