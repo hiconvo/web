@@ -59,13 +59,15 @@ export default function InboxList() {
 
   return (
     <Container>
-      {contents.map(resource => (
-        <InboxListItem
-          key={resource.id}
-          resource={resource}
-          isSelected={resource.id === id}
-        />
-      ))}
+      {isThreadsFetched &&
+        isEventsFetched &&
+        contents.map(resource => (
+          <InboxListItem
+            key={resource.id}
+            resource={resource}
+            isSelected={resource.id === id}
+          />
+        ))}
     </Container>
   );
 }

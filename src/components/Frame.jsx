@@ -7,7 +7,7 @@ import NotificationsManager from "./NotificationsManager";
 import Header from "./Header";
 import { Paragraph } from "./styles";
 
-const Container = styled.div`
+const Container = styled.main`
   width: calc(100% - ${themeGet("space.5")} * 2);
   max-width: calc(${themeGet("pageMaxWidth")} - ${themeGet("space.5")} * 2);
   height: 100vh;
@@ -35,7 +35,7 @@ export default function Frame({ children }) {
       <NotificationsManager />
       <Header />
       <Slug />
-      <main>{children}</main>
+      {children}
       <Footer>
         <Paragraph fontSize={0} color="mediumGray" textAlign="center">
           Made with{" "}
