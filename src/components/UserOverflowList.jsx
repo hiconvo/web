@@ -39,7 +39,12 @@ export default function UserOverflowList({
     <Box as="ul" mb={4}>
       {users.slice(0, MAX_LENGTH).map(user => (
         <InfoBoxMemberItem
-          {...transformUserProps({ user, member: user, key: user.id })}
+          {...transformUserProps({
+            user,
+            member: user,
+            key: user.id,
+            ml: "-0.8rem"
+          })}
         />
       ))}
       {users.length > MAX_LENGTH && (
