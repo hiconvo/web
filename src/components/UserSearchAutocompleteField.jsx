@@ -16,7 +16,14 @@ function DropDownItem({ member, onClick }) {
     <li>
       <AutoCompleteItem onClick={onClick}>
         <Avatar src={member.avatar} size="3rem" />
-        <Text ml={2}>{member.fullName}</Text>
+        <Box ml={2}>
+          <Text>{member.fullName || "Unregistered"}</Text>
+          {member.googleContact && (
+            <Text color="darkGray" fontSize={0}>
+              {member.email}
+            </Text>
+          )}
+        </Box>
       </AutoCompleteItem>
     </li>
   );
@@ -44,7 +51,9 @@ export default React.forwardRef(
 
     const debouncedQuery = useDebounce(query, 200);
     const handleResultsChange = useCallback(onResultsChange);
-    const { contactsResults, networkResults } = useUserSearch(debouncedQuery);
+    const { contactsResults, networkResults, googleResults } = useUserSearch(
+      debouncedQuery
+    );
     const handleClick = useCallback(onClick, [query]);
 
     useEffect(() => {
@@ -71,7 +80,7 @@ export default React.forwardRef(
           }
         } else {
           handleResultsChange(
-            uniqBy(contactsResults.concat(networkResults), "id")
+            uniqBy(contactsResults.concat(networkResults, googleResults), "id")
           );
         }
         setIsDropdownOpen(true);
@@ -80,6 +89,7 @@ export default React.forwardRef(
       debouncedQuery,
       networkResults,
       contactsResults,
+      googleResults,
       handleResultsChange,
       handleClick
     ]);
