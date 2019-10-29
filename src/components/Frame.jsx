@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import NotificationsManager from "./NotificationsManager";
 import Header from "./Header";
-import { Paragraph } from "./styles";
+import { Paragraph, Text } from "./styles";
 
 const Container = styled.main`
   width: calc(100% - ${themeGet("space.5")} * 2);
@@ -48,7 +48,25 @@ export default function Frame({ children }) {
           </Link>{" "}
           in Seattle, WA.
           <br />
-          Copyright &copy; {new Date().getFullYear()}. All rights reserved.
+          Copyright &copy; {new Date().getFullYear()}. All rights reserved.{" "}
+          <Text
+            as="a"
+            href="https://hiconvo.com/privacy"
+            fontSize={0}
+            color="mediumGray"
+          >
+            Privacy policy
+          </Text>
+          .{" "}
+          <Text
+            as="a"
+            href="https://hiconvo.com/terms"
+            fontSize={0}
+            color="mediumGray"
+          >
+            Terms of service
+          </Text>
+          .
         </Paragraph>
       </Footer>
     </Container>
