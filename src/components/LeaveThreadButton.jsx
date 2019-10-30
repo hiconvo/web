@@ -34,7 +34,7 @@ export default function LeaveThreadButton({ thread, user, render }) {
         onConfirm={handleRemoveUserFromThread}
         onCancel={toggleIsOpen}
       >
-        <Paragraph color="gray">
+        <Paragraph color="darkGray">
           If you leave, you will not be able to send or receive messages in "
           {thread.subject}" again, nor will you be able to view this convo on
           this website. Whatever copies of this convo you have among your emails

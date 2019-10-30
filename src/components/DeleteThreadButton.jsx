@@ -36,7 +36,7 @@ export default function DeleteThreadButton({ thread, render }) {
         onConfirm={handleDeleteThread}
         onCancel={toggleIsOpen}
       >
-        <Paragraph color="gray">
+        <Paragraph color="darkGray">
           This will delete "{thread.subject}" and all of its messages. None of
           this convo's members will be able send messages to this convo again,
           nor will they be able to view this convo on this website. However,

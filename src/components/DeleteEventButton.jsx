@@ -36,9 +36,10 @@ export default function DeleteEventButton({ event, render }) {
         onConfirm={handleDeleteEvent}
         onCancel={toggleIsOpen}
       >
-        <Paragraph color="gray">
+        <Paragraph color="darkGray">
           This will delete "{event.name}." Your guests will receive a
-          cancellation email. This action cannot be undone.
+          cancellation email if this event is in the future. If it is in the
+          past, they won't receive any email. This action cannot be undone.
         </Paragraph>
       </ConfirmationModal>
     </React.Fragment>
