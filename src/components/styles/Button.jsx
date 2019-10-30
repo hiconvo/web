@@ -10,7 +10,7 @@ import { whiteSpace } from "./utils";
 const Button = styled(Box)(whiteSpace, buttonStyle, color, props => ({
   appearance: "none",
   userSelect: "none",
-  transition: `background ${themeGet("animations.fast")(props)} ease-in-out`,
+  transition: `all ${themeGet("animations.fast")(props)} ease-in-out`,
   cursor: props.disabled ? "default" : "pointer",
   opacity: props.disabled ? themeGet("opacities.1")(props) : 1,
   pointerEvents: props.disabled ? "none" : "initial"

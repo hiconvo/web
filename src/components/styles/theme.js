@@ -294,15 +294,14 @@ export default {
       }
     },
     tertiary: {
-      color: black,
+      color: bodytext,
       fontWeight: fontWeights.regular,
       fontSize: "inherit",
       letterSpacing: "inherit",
-      transition: `color ease ${animations.fast}`,
       backgroundColor: transparent,
       borderRadius: radii.normal,
       "&:hover": {
-        color: mediumGray
+        color: gray
       }
     },
     brand: {

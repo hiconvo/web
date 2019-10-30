@@ -8,7 +8,7 @@ import UserMenu from "./UserMenu";
 import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
 import Logo from "./Logo";
-import { Box, LinkButton, Paragraph } from "./styles";
+import { Box, Button, Paragraph, theme } from "./styles";
 
 const Header = styled.header`
   position: fixed;
@@ -48,6 +48,35 @@ const Nav = styled.nav`
   }
 `;
 
+const NavItemInner = styled.div`
+  padding: ${themeGet("space.3")};
+  color: ${props =>
+    props.active
+      ? themeGet("colors.black")(props)
+      : themeGet("colors.gray")(props)};
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${themeGet("colors.black")};
+  }
+`;
+
+const NavItem = ({ to, text, active }) => (
+  <Link to={to}>
+    <NavItemInner active={active}>
+      <Box
+        style={{
+          borderBottom: `0.1rem solid ${
+            active ? theme.colors.black : "transparent"
+          }`
+        }}
+      >
+        {text}
+      </Box>
+    </NavItemInner>
+  </Link>
+);
+
 const WrappedLogo = () => (
   <LogoWrapper>
     <Link style={{ width: "5rem", height: "5rem", display: "block" }} to="/">
@@ -70,18 +99,8 @@ export default () => {
         <MobileLogoMenu />
         {showNav && (
           <Nav>
-            <LinkButton
-              to="/convos"
-              color={isConvosPage ? "trueBlack" : "gray"}
-            >
-              Convos
-            </LinkButton>
-            <LinkButton
-              to="/contacts"
-              color={isContactsPage ? "trueBlack" : "gray"}
-            >
-              Contacts
-            </LinkButton>
+            <NavItem to="/convos" text="Convos" active={isConvosPage} />
+            <NavItem to="/contacts" text="Contacts" active={isContactsPage} />
           </Nav>
         )}
       </Box>
