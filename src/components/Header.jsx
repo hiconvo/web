@@ -7,6 +7,7 @@ import { useRouteMatch } from "react-router";
 import UserMenu from "./UserMenu";
 import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
+import RealtimeNotifications from "./RealtimeNotifications";
 import Logo from "./Logo";
 import { Box, Button, Paragraph, theme } from "./styles";
 
@@ -106,6 +107,7 @@ export default () => {
       </Box>
       <Box flexDirection="row" alignItems="center">
         <HeaderInfoMenu />
+        <RealtimeNotifications />
         <UserMenu />
         {!showNav && (
           <Paragraph mb="0rem">
