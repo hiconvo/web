@@ -9,7 +9,7 @@ import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
 import RealtimeNotifications from "./RealtimeNotifications";
 import Logo from "./Logo";
-import { Box, Button, Paragraph, theme } from "./styles";
+import { Box, Paragraph, theme } from "./styles";
 
 const Header = styled.header`
   position: fixed;

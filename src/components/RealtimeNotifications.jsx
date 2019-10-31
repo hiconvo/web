@@ -4,9 +4,28 @@ import stream from "getstream";
 import { themeGet } from "@styled-system/theme-get";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
-import { useSelectors } from "../redux";
+import { useSelectors, useActions } from "../redux";
 import { getUser, getIsLoggedIn } from "../selectors";
-import { Dropdown, Text, Box, UnstyledButton } from "./styles";
+import * as unboundMessageActions from "../actions/messages";
+import * as unboundGenActions from "../actions/general";
+import { Dropdown, Text, Box, UnstyledButton, Icon } from "./styles";
+
+const getReadableVerb = verb => {
+  switch (verb) {
+    case "AddRSVP":
+      return "is going to";
+    case "RemoveRSVP":
+      return "can't make it to";
+    case "NewMessage":
+      return "sent a message to";
+    case "DeleteEvent":
+      return "canceled";
+    case "NewEvent":
+      return "invited you to";
+    default:
+      return "did something in";
+  }
+};
 
 const Circle = styled(UnstyledButton)`
   background-color: ${props =>
@@ -46,47 +65,82 @@ const DropdownItemsContainer = styled.ul`
   padding: ${themeGet("space.2")};
 `;
 
-const getReadableVerb = verb => {
-  switch (verb) {
-    case "AddRSVP":
-      return "is going to";
-    case "RemoveRSVP":
-      return "can't make it to";
-    default:
-      return "did something in";
-  }
-};
+const NotifNullState = () => (
+  <Box height="10rem" alignItems="center" justifyContent="center">
+    <Text>
+      No notifications{" "}
+      <span role="img" aria-label="annoyed face">
+        😑
+      </span>
+    </Text>
+  </Box>
+);
 
-const Notif = ({ notif }) => (
+const Notif = ({ notif, onClick }) => (
   <Box as="li">
     {notif.activities.map(act => (
-      <Box key={act.id} p={2}>
-        <Box>
-          <Text fontSize={1}>
-            <Text fontSize={1} fontWeight="bold">
-              {act.actor}
-            </Text>{" "}
-            {getReadableVerb(act.verb)} {act.targetName}
-          </Text>
+      <UnstyledButton
+        key={act.id}
+        onClick={() => onClick(act)}
+        p={2}
+        alignItems="flex-start"
+      >
+        <Box flexDirection="row">
+          <Box mr={2}>
+            <Icon
+              name={act.verb === "NewMessage" ? "mail" : "event"}
+              fontSize={3}
+            />
+          </Box>
+          <Box>
+            <Box>
+              <Text fontSize={1}>
+                <Text fontSize={1} fontWeight="bold">
+                  {act.actor}
+                </Text>{" "}
+                {getReadableVerb(act.verb)} {act.targetName}
+              </Text>
+            </Box>
+            <Box>
+              <Text fontSize={0} color="gray">
+                {formatDistanceToNow(parseISO(act.time), { addSuffix: true })}
+              </Text>
+            </Box>
+          </Box>
         </Box>
-        <Box>
-          <Text fontSize={0} color="gray">
-            {formatDistanceToNow(parseISO(act.time), { addSuffix: true })}
-          </Text>
-        </Box>
-      </Box>
+      </UnstyledButton>
     ))}
   </Box>
 );
 
-let client, feed, subscription;
+let client, feed;
 
 export default function RealtimeNotifications() {
   const [isLoggedIn, user] = useSelectors(getIsLoggedIn, getUser);
+  const { fetchEventMessages, fetchThreadMessages } = useActions(
+    unboundMessageActions
+  );
+  const { setSelectedResource } = useActions(unboundGenActions);
   const [notifs, setNotifs] = useState([]);
 
+  function markAllAsRead() {
+    setNotifs(notifs.map(n => ({ ...n, is_read: true, is_seen: true })));
+    feed && feed.get({ mark_seen: true, mark_read: true });
+  }
+
+  function handleNotifClick({ object }) {
+    const [resourceType, id] = object.split(":");
+    if (resourceType === "event") {
+      fetchEventMessages(id);
+    } else if (resourceType === "thread") {
+      fetchThreadMessages(id);
+    }
+
+    setSelectedResource(id);
+  }
+
   useEffect(() => {
-    if (isLoggedIn && !(client || feed || subscription)) {
+    if (isLoggedIn && !(client || feed)) {
       client = stream.connect("kqm59q4584ah", null, "62737");
       feed = client.feed("notification", user.id, user.realtimeToken);
 
@@ -95,19 +149,29 @@ export default function RealtimeNotifications() {
         .then(newNotifs => setNotifs(newNotifs.results));
 
       feed
-        .subscribe(newNotifs => setNotifs(notifs.concat(newNotifs.results)))
+        .subscribe(newNotifs => {
+          setNotifs(notifs =>
+            [].concat(
+              newNotifs.new.map(n => ({
+                is_read: false,
+                is_seen: false,
+                activities: [n]
+              })),
+              notifs
+            )
+          );
+        })
         .then(
           () => console.log("listening..."),
           e => console.log("not listening: ", e)
         );
     }
+    // eslint-disable-next-line
   }, [isLoggedIn, user]);
 
   if (!isLoggedIn) {
     return <div />;
   }
-
-  console.log(notifs);
 
   const filteredNotifs = notifs.filter(n => !(n.is_read || n.is_seen));
 
@@ -115,7 +179,13 @@ export default function RealtimeNotifications() {
     <Box>
       <Dropdown
         renderAnchor={({ onClick }) => (
-          <Circle active={filteredNotifs.length > 0} onClick={onClick}>
+          <Circle
+            active={filteredNotifs.length > 0}
+            onClick={() => {
+              markAllAsRead();
+              onClick();
+            }}
+          >
             {filteredNotifs.length}
           </Circle>
         )}
@@ -127,8 +197,9 @@ export default function RealtimeNotifications() {
             onClick={handleToggle}
           >
             {notifs.map(notif => (
-              <Notif key={notif.id} notif={notif} />
+              <Notif key={notif.id} notif={notif} onClick={handleNotifClick} />
             ))}
+            {notifs.length === 0 && <NotifNullState key="null" />}
           </DropdownItemsContainer>
         )}
       </Dropdown>

@@ -71,6 +71,7 @@ export default function reducer(state, action) {
       if (!action.payload) return state;
 
       const messages = state.messages
+        .filter(m => !action.payload.some(newMessage => newMessage.id === m.id))
         .concat(action.payload)
         .sort((a, b) => isBefore(a.timestamp, b.timestamp));
 
