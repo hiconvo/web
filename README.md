@@ -6,6 +6,17 @@ This repo holds the source code for Convo's web app [app.hiconvo.com](https://ap
 
 ## Development
 
+In order to run the project locally, you need to create an `.env` file and place it at the root of the project. The `.env` file should contain a Google API key and a Google Client ID. It should look something like this:
+
+```
+REACT_APP_GOOGLE_API_KEY=<YOUR API KEY>
+REACT_APP_GOOGLE_CLIENT_ID=<YOUR CLIENT ID>
+```
+
+If you don't include this file, Google maps won't work.
+
+To start development, all you have to do is run the following commands.
+
 ```
 # Install dependencies
 yarn
@@ -14,6 +25,3 @@ yarn
 yarn start
 ```
 
-### Code Smells
-
-- `<InfoBoxMemberItem />` takes `member` prop instead of `user`, which is inconsistent.

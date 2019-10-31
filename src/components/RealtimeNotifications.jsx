@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import stream from "getstream";
 import { themeGet } from "@styled-system/theme-get";
@@ -126,6 +126,7 @@ export default function RealtimeNotifications() {
   );
   const { setSelectedResource } = useActions(unboundGenActions);
   const [notifs, setNotifs] = useState([]);
+  const subscription = useRef(null);
 
   function markAllAsRead() {
     setNotifs(notifs.map(n => ({ ...n, is_read: true, is_seen: true })));
@@ -144,7 +145,7 @@ export default function RealtimeNotifications() {
   }
 
   useEffect(() => {
-    if (isLoggedIn && !(client || feed)) {
+    if (isLoggedIn && !(client || feed || subscription.current)) {
       client = stream.connect("kqm59q4584ah", null, "62737");
       feed = client.feed("notification", user.id, user.realtimeToken);
 
@@ -152,26 +153,27 @@ export default function RealtimeNotifications() {
         .get({ mark_seen: true, mark_read: true })
         .then(newNotifs => setNotifs(newNotifs.results));
 
-      feed
-        .subscribe(newNotifs => {
-          setNotifs(notifs =>
-            [].concat(
-              newNotifs.new.map(n => ({
-                is_read: false,
-                is_seen: false,
-                activities: [n]
-              })),
-              notifs
-            )
-          );
-        })
-        .then(
-          () => console.log("listening..."),
-          e => console.log("not listening: ", e)
+      subscription.current = feed.subscribe(newNotifs => {
+        setNotifs(notifs =>
+          [].concat(
+            newNotifs.new.map(n => ({
+              is_read: false,
+              is_seen: false,
+              activities: [n]
+            })),
+            notifs
+          )
         );
+      });
     }
-    // eslint-disable-next-line
-  }, [isLoggedIn, user]);
+
+    return () => {
+      subscription.current && subscription.current.cancel();
+      subscription.current = null;
+      feed = null;
+      client = null;
+    };
+  }, [isLoggedIn, user, subscription]);
 
   if (!isLoggedIn) {
     return <div />;
