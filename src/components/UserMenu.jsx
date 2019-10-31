@@ -11,13 +11,15 @@ import {
   Box,
   Heading,
   Paragraph,
-  Text
+  Text,
+  Icon
 } from "./styles";
 import LogoutButton from "./LogoutButton";
 import LoginWithGoogle from "./LoginGoogle";
 import LoginWithFacebook from "./LoginFacebook";
 
 const Avatar = styled.div`
+  display: flex;
   background-color: ${themeGet("colors.lightGray")};
   height: 3.6rem;
   width: 3.6rem;
@@ -27,6 +29,8 @@ const Avatar = styled.div`
   background-image: url(${props => props.src});
   background-position: center;
   background-size: contain;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     box-shadow: ${themeGet("shadows.normal")};
@@ -136,7 +140,9 @@ export default function UserMenu() {
   return (
     <Dropdown
       renderAnchor={({ onClick }) => (
-        <Avatar src={user.avatar} onClick={onClick} />
+        <Avatar src={user.avatar} onClick={onClick}>
+          {!user.avatar && <Icon name="person" fontSize={4} />}
+        </Avatar>
       )}
     >
       {({ isOpen, isVisible, handleToggle }) => (

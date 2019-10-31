@@ -22,6 +22,8 @@ const getReadableVerb = verb => {
       return "canceled";
     case "NewEvent":
       return "invited you to";
+    case "UpdatedEvent":
+      return "updated";
     default:
       return "did something in";
   }
@@ -85,26 +87,28 @@ const Notif = ({ notif, onClick }) => (
         p={2}
         alignItems="flex-start"
       >
-        <Box flexDirection="row">
-          <Box mr={2}>
-            <Icon
-              name={act.verb === "NewMessage" ? "mail" : "event"}
-              fontSize={3}
-            />
-          </Box>
-          <Box>
-            <Box>
-              <Text fontSize={1}>
-                <Text fontSize={1} fontWeight="bold">
-                  {act.actor}
-                </Text>{" "}
-                {getReadableVerb(act.verb)} {act.targetName}
-              </Text>
+        <Box width="100%">
+          <Box flexDirection="row">
+            <Box width="2rem" mr={2}>
+              <Icon
+                name={act.verb === "NewMessage" ? "mail" : "event"}
+                fontSize={3}
+              />
             </Box>
             <Box>
-              <Text fontSize={0} color="gray">
-                {formatDistanceToNow(parseISO(act.time), { addSuffix: true })}
-              </Text>
+              <Box>
+                <Text fontSize={1}>
+                  <Text fontSize={1} fontWeight="bold">
+                    {act.actor}
+                  </Text>{" "}
+                  {getReadableVerb(act.verb)} {act.targetName}
+                </Text>
+              </Box>
+              <Box>
+                <Text fontSize={0} color="gray">
+                  {formatDistanceToNow(parseISO(act.time), { addSuffix: true })}
+                </Text>
+              </Box>
             </Box>
           </Box>
         </Box>
