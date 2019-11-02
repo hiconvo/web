@@ -1,5 +1,5 @@
-const API_ORIGIN = "https://api.hiconvo.com";
-// const API_ORIGIN = "http://localhost:8080";
+const API_ORIGIN =
+  process.env.REACT_APP_API_ORIGIN || "https://api.hiconvo.com";
 
 class ApiError extends Error {
   constructor(payload, message, fileName, lineNumber) {

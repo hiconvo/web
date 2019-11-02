@@ -29,7 +29,7 @@ export default function AuthorizedRoute(props) {
   useEffect(() => {
     if (!isLoggedIn) {
       try {
-        loginUserWithToken();
+        loginUserWithToken().catch(() => {});
       } catch (e) {}
     } else {
       !isContactsFetched && fetchContacts();
