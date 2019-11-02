@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import AddUserForm from "./AddUserForm";
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import DeleteEventButton from "./DeleteEventButton";
+import LeaveEventButton from "./LeaveEventButton";
 import UserOverflowList from "./UserOverflowList";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
@@ -79,6 +80,24 @@ export default function EventInfoBox({ event, user }) {
               />
             </React.Fragment>
           </Box>
+        </React.Fragment>
+      )}
+
+      {!isOwner && (
+        <React.Fragment>
+          <Label>Actions</Label>
+          <LeaveEventButton
+            event={event}
+            user={user}
+            render={onClick => (
+              <Action
+                onClick={onClick}
+                ml="-1.2rem"
+                text="Leave"
+                iconName="remove_circle"
+              />
+            )}
+          />
         </React.Fragment>
       )}
     </React.Fragment>
