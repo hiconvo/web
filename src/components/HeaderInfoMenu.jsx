@@ -14,15 +14,14 @@ const InfoButton = styled(ActionButton)`
     display: flex;
   }
 
-  padding: ${themeGet("space.2")} ${themeGet("space.3")};
-  background-color: ${themeGet("colors.veryLightGray")};
+  padding: 0.6rem ${themeGet("space.3")};
+  background-color: ${themeGet("colors.lightGray")};
+  color: ${themeGet("colors.bodytext")};
 
   &:hover {
-    background-color: ${themeGet("colors.lightGray")};
-    color: ${themeGet("colors.bodytext")};
+    background-color: ${themeGet("colors.mediumGray")};
+    color: ${themeGet("colors.white")};
   }
-
-  color: ${themeGet("colors.bodytext")};
 `;
 
 const InfoBoxContainer = styled.div`

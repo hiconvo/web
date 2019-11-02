@@ -49,6 +49,7 @@ const Circle = styled(UnstyledButton)`
   &:hover {
     background-color: ${props =>
       themeGet(`colors.${props.active ? "primary900" : "mediumGray"}`)(props)}
+    color: ${themeGet("colors.white")};
   }
 `;
 
