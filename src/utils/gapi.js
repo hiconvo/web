@@ -11,7 +11,7 @@ export function getGapiAuth2() {
 
       resolve(auth2);
     } else {
-      window.gapi.load("auth2", () => {
+      window.gapi.load("client:auth2", () => {
         const auth2 = window.gapi.auth2.init({
           clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           cookiepolicy: "single_host_origin"

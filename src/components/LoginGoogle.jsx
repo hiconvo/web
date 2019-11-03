@@ -32,18 +32,21 @@ export default function LoginGoogle() {
   }
 
   useEffect(() => {
-    getGapiAuth2().attachClickHandler(
-      googleButton.current,
-      {},
-      handleLoginWithGoogle,
-      () => {
-        // TODO: Capture error with sentry
-        dispatchNotification({
-          type: "ERROR",
-          message: "Something went wrong trying to login with Google"
-        });
-      }
-    );
+    getGapiAuth2().then(authInstance => {
+      authInstance.attachClickHandler(
+        googleButton.current,
+        {},
+        handleLoginWithGoogle,
+        () => {
+          // TODO: Capture error with sentry
+          dispatchNotification({
+            type: "ERROR",
+            message: "Something went wrong trying to login with Google"
+          });
+        }
+      );
+    });
+    // eslint-disable-next-line
   }, []);
 
   return (

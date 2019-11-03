@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { getGapiClient, getGapiAuth2, SCOPES } from "../utils/gapi";
-import { useActions } from "../redux";
+import { useActions, useSelectors } from "../redux";
+import { getIsLoggedIn } from "../selectors";
 import * as unboundAuthActions from "../actions/auth";
 import * as unboundNotificationActions from "../actions/notifications";
 import useWade from "./wade";
@@ -31,55 +32,56 @@ export default function useGoogleContacts() {
     ...unboundAuthActions,
     ...unboundNotificationActions
   });
+  const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
   function initGoogleContacts() {
     setEnabled(true);
-    window.localStorage.setItem("googleContacts", "true");
   }
 
   useEffect(() => {
+    console.log("wut", enabled, ready);
     if (enabled && !ready) {
-      getGapiClient().then(() => {
-        getGapiAuth2().then(authInstance => {
-          if (authInstance.isSignedIn.get()) {
-            setReady(true);
-          } else {
-            authInstance
-              .signIn({
-                scope: SCOPES
-              })
-              .then(googleUser => {
-                const authResponse = googleUser.getAuthResponse();
+      console.log("trying to get gapi auth2");
+      getGapiAuth2().then(authInstance => {
+        if (authInstance.isSignedIn.get()) {
+          console.log("setting ready");
+          setReady(true);
+        } else {
+          authInstance
+            .signIn({
+              scope: SCOPES
+            })
+            .then(googleUser => {
+              const authResponse = googleUser.getAuthResponse();
 
-                loginUserWithOAuth({
-                  token: authResponse.id_token,
-                  provider: "google"
+              loginUserWithOAuth({
+                token: authResponse.id_token,
+                provider: "google"
+              })
+                .then(() => {
+                  setReady(true);
                 })
-                  .then(() => {
-                    setReady(true);
-                    dispatchNotification({
-                      message: "Connected your Google contacts"
-                    });
-                  })
-                  .catch(() => {
-                    dispatchNotification({
-                      message:
-                        "Something went wrong trying to login with Google",
-                      type: "ERROR"
-                    });
+                .catch(() => {
+                  dispatchNotification({
+                    message: "Something went wrong trying to login with Google",
+                    type: "ERROR"
                   });
-              });
-          }
-        });
+                });
+            });
+        }
       });
     }
   }, [enabled]);
 
   useEffect(() => {
+    console.log("triggered");
     if (cachedResults) {
+      console.log("cachedResults");
       setResults(cachedResults);
     } else if (ready && !cachedResults) {
+      console.log("getting gapi client");
       getGapiClient().then(client => {
+        console.log("got client");
         client.people.people.connections
           .list({
             resourceName: "people/me",
@@ -88,12 +90,23 @@ export default function useGoogleContacts() {
             sortOrder: "LAST_MODIFIED_DESCENDING"
           })
           .then(response => {
+            console.log("got response");
             cachedResults = massageConnections(response.result.connections);
             setResults(cachedResults);
+            window.localStorage.setItem("googleContacts", "true");
+            dispatchNotification({
+              message: "Loaded your Google contacts"
+            });
           });
       });
     }
   }, [ready]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      cachedResults = null;
+    }
+  }, [isLoggedIn]);
 
   return [enabled, initGoogleContacts, useWade(results)];
 }
