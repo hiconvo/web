@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import uniqBy from "lodash/uniqBy";
 
-import { useDebounce, useUserSearch } from "../hooks";
+import { useDebounce, useUserSearch, useGoogleContacts } from "../hooks";
 import {
   Box,
   Text,
   Avatar,
+  Button,
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteDropDown
@@ -51,9 +52,12 @@ export default React.forwardRef(
 
     const debouncedQuery = useDebounce(query, 200);
     const handleResultsChange = useCallback(onResultsChange);
-    const { contactsResults, networkResults, googleResults } = useUserSearch(
-      debouncedQuery
-    );
+    const { contactsResults, networkResults } = useUserSearch(debouncedQuery);
+    const [
+      isEnabledGoogleContacts,
+      initGoogleContacts,
+      searchGoogleContacts
+    ] = useGoogleContacts();
     const handleClick = useCallback(onClick, [query]);
 
     useEffect(() => {
@@ -80,7 +84,13 @@ export default React.forwardRef(
           }
         } else {
           handleResultsChange(
-            uniqBy(contactsResults.concat(networkResults, googleResults), "id")
+            uniqBy(
+              contactsResults.concat(
+                networkResults,
+                searchGoogleContacts(query)
+              ),
+              "id"
+            )
           );
         }
         setIsDropdownOpen(true);
@@ -89,7 +99,6 @@ export default React.forwardRef(
       debouncedQuery,
       networkResults,
       contactsResults,
-      googleResults,
       handleResultsChange,
       handleClick
     ]);
@@ -136,6 +145,9 @@ export default React.forwardRef(
                   onClick={e => handleClick(e, result)}
                 />
               ))
+            )}
+            {isEnabledGoogleContacts && (
+              <Button onClick={initGoogleContacts}>Google contacts</Button>
             )}
           </AutoCompleteDropDown>
         </Box>

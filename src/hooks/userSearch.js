@@ -4,7 +4,6 @@ import { useSelectors } from "../redux";
 import { getContacts } from "../selectors";
 import { userSearch } from "../api/search";
 import useWade from "./wade";
-import useGoogleContacts from "./googleContacts";
 
 export default function useUserSearch(query) {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +14,6 @@ export default function useUserSearch(query) {
   });
   const [contacts] = useSelectors(getContacts);
   const localSearch = useWade(contacts);
-  const googleContactsSearch = useGoogleContacts();
 
   useEffect(() => {
     if (query) {
@@ -23,8 +21,7 @@ export default function useUserSearch(query) {
       userSearch(query).then(payload => {
         setResults({
           contactsResults: localSearch(query),
-          networkResults: payload.users,
-          googleResults: googleContactsSearch(query)
+          networkResults: payload.users
         });
         setIsLoading(false);
       });

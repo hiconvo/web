@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 import useWade from "./wade";
-import useGapi from "./gapi";
+
+const SCOPES = "https://www.googleapis.com/auth/contacts.readonly";
 
 function massageConnections(connections) {
   return connections
@@ -18,16 +19,40 @@ function massageConnections(connections) {
 }
 
 let cachedResults = null;
+let hasLoaded = false;
 
 export default function useGoogleContacts() {
   const [results, setResults] = useState([]);
-  const { ready, gapi } = useGapi();
+  const [enabled, setEnabled] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  function initGoogleContacts() {
+    setEnabled(true);
+  }
+
+  useEffect(() => {
+    if (enabled && !hasLoaded) {
+      window.gapi.load("client", () => {
+        window.gapi.client
+          .init({
+            apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+            clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+            scope: SCOPES
+          })
+          .then(() => {
+            setReady(true);
+
+            hasLoaded = true;
+          });
+      });
+    }
+  }, [enabled]);
 
   useEffect(() => {
     if (cachedResults) {
       setResults(cachedResults);
     } else if (ready && !cachedResults) {
-      gapi.client.people.people.connections
+      window.gapi.client.people.people.connections
         .list({
           resourceName: "people/me",
           pageSize: 100,
@@ -41,5 +66,5 @@ export default function useGoogleContacts() {
     }
   }, [ready]);
 
-  return useWade(results);
+  return [enabled, initGoogleContacts, useWade(results)];
 }
