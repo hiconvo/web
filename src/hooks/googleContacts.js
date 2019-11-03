@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { getGapiClient, getGapiAuth2, SCOPES } from "../utils/gapi";
+import {
+  getGapiClient,
+  getGapiAuth2,
+  grantContactsPerm,
+  hasEnabledGoogleContacts,
+  setHasEnabledGoogleContacts,
+  INTIAL_SCOPES,
+  CONTACTS_SCOPES
+} from "../utils/gapi";
 import { useActions, useSelectors } from "../redux";
 import { getIsLoggedIn } from "../selectors";
 import * as unboundAuthActions from "../actions/auth";
@@ -21,7 +29,8 @@ function massageConnections(connections) {
     }));
 }
 
-const alreadyEnabled = "true" === window.localStorage.getItem("googleContacts");
+const alreadyEnabled = hasEnabledGoogleContacts();
+
 let cachedResults = null;
 
 export default function useGoogleContacts() {
@@ -39,17 +48,24 @@ export default function useGoogleContacts() {
   }
 
   useEffect(() => {
-    console.log("wut", enabled, ready);
     if (enabled && !ready) {
-      console.log("trying to get gapi auth2");
       getGapiAuth2().then(authInstance => {
+        // If the user is signed in, ask for permission to use their contacts
+        // if they haven't done so already.
         if (authInstance.isSignedIn.get()) {
-          console.log("setting ready");
-          setReady(true);
+          const googleUser = authInstance.currentUser.get();
+
+          if (googleUser.hasGrantedScopes(CONTACTS_SCOPES)) {
+            grantContactsPerm(googleUser).then(() => {
+              setReady(true);
+            });
+          }
         } else {
+          // The user has not signed in with Google. Log them in with the
+          // contacts scopes plus the usual.
           authInstance
             .signIn({
-              scope: SCOPES
+              scope: INTIAL_SCOPES + " " + CONTACTS_SCOPES
             })
             .then(googleUser => {
               const authResponse = googleUser.getAuthResponse();
@@ -74,14 +90,10 @@ export default function useGoogleContacts() {
   }, [enabled]);
 
   useEffect(() => {
-    console.log("triggered");
     if (cachedResults) {
-      console.log("cachedResults");
       setResults(cachedResults);
     } else if (ready && !cachedResults) {
-      console.log("getting gapi client");
       getGapiClient().then(client => {
-        console.log("got client");
         client.people.people.connections
           .list({
             resourceName: "people/me",
@@ -90,10 +102,14 @@ export default function useGoogleContacts() {
             sortOrder: "LAST_MODIFIED_DESCENDING"
           })
           .then(response => {
-            console.log("got response");
             cachedResults = massageConnections(response.result.connections);
             setResults(cachedResults);
-            window.localStorage.setItem("googleContacts", "true");
+
+            // Save to the broser that contacts has been enabled so that
+            // we don't ask again when the user comes back etc. The user
+            // will have to initialize again if they logout.
+            setHasEnabledGoogleContacts(true);
+
             dispatchNotification({
               message: "Loaded your Google contacts"
             });
@@ -104,6 +120,7 @@ export default function useGoogleContacts() {
 
   useEffect(() => {
     if (!isLoggedIn) {
+      // Clear the cachedResults if the user logs out.
       cachedResults = null;
     }
   }, [isLoggedIn]);

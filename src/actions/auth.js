@@ -1,7 +1,7 @@
 import * as API from "../api/auth";
 import { dispatchNotification } from "./notifications";
 import { errorToString } from "../utils";
-import { getGapiAuth2 } from "../utils/gapi";
+import { getGapiAuth2, setHasEnabledGoogleContacts } from "../utils/gapi";
 
 function handleAuthError(e, dispatch) {
   logoutUser(dispatch)();
@@ -119,7 +119,7 @@ export const logoutUser = dispatch =>
    */
   () => {
     localStorage.removeItem("userToken");
-    localStorage.removeItem("googleContacts");
+    setHasEnabledGoogleContacts(false);
     getGapiAuth2().then(authInstance => {
       if (authInstance.isSignedIn.get()) {
         authInstance.signOut();
