@@ -146,7 +146,7 @@ export default React.forwardRef(
                 />
               ))
             )}
-            {isEnabledGoogleContacts && (
+            {!isEnabledGoogleContacts && (
               <Button onClick={initGoogleContacts}>Google contacts</Button>
             )}
           </AutoCompleteDropDown>
