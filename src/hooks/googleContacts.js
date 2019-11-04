@@ -55,10 +55,12 @@ export default function useGoogleContacts() {
         if (authInstance.isSignedIn.get()) {
           const googleUser = authInstance.currentUser.get();
 
-          if (googleUser.hasGrantedScopes(CONTACTS_SCOPES)) {
+          if (!googleUser.hasGrantedScopes(CONTACTS_SCOPES)) {
             grantContactsPerm(googleUser).then(() => {
               setReady(true);
             });
+          } else {
+            setReady(true);
           }
         } else {
           // The user has not signed in with Google. Log them in with the
@@ -87,7 +89,7 @@ export default function useGoogleContacts() {
         }
       });
     }
-  }, [enabled]);
+  }, [enabled, dispatchNotification, loginUserWithOAuth, ready]);
 
   useEffect(() => {
     if (cachedResults) {
@@ -111,12 +113,12 @@ export default function useGoogleContacts() {
             setHasEnabledGoogleContacts(true);
 
             dispatchNotification({
-              message: "Loaded your Google contacts"
+              message: "Your Google contacts are available via autocomplete"
             });
           });
       });
     }
-  }, [ready]);
+  }, [ready, dispatchNotification]);
 
   useEffect(() => {
     if (!isLoggedIn) {

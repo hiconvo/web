@@ -22,20 +22,21 @@ export default function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
+  const timeout = useRef(null);
 
   const handleToggle = useCallback(
     e => {
       e && e.stopPropagation();
 
       if (isOpen) {
-        setTimeout(() => setIsOpen(false), 200);
         setIsVisible(false);
+        timeout.current = setTimeout(() => setIsOpen(false), 200);
       } else {
         setIsOpen(true);
-        setTimeout(() => setIsVisible(true), 50);
+        timeout.current = setTimeout(() => setIsVisible(true), 50);
       }
     },
-    [isOpen]
+    [isOpen, timeout]
   );
 
   useEffect(() => {
@@ -66,6 +67,9 @@ export default function Dropdown({
 
     return () => {
       document.removeEventListener("click", handleClick);
+      if (isOpen) {
+        timeout.current && clearTimeout(timeout.current);
+      }
     };
   }, [isOpen, handleClick]);
 

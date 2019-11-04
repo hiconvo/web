@@ -118,7 +118,7 @@ export default React.forwardRef(
             emailAddress: [],
             contactsResults,
             networkResults,
-            googleResults: searchGoogleContacts(query)
+            googleResults: searchGoogleContacts(debouncedQuery)
           });
         }
         setIsDropdownOpen(true);
@@ -128,7 +128,8 @@ export default React.forwardRef(
       networkResults,
       contactsResults,
       handleResultsChange,
-      handleClick
+      handleClick,
+      searchGoogleContacts
     ]);
 
     useEffect(() => {
