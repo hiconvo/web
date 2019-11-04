@@ -5,7 +5,9 @@ import { themeGet } from "@styled-system/theme-get";
 import { useActions } from "../redux";
 import * as unboundThreadActions from "../actions/threads";
 import * as unboundEventActions from "../actions/events";
-import UserSearchAutocompleteField from "./UserSearchAutocompleteField";
+import UserSearchAutocompleteField, {
+  USER_SEARCH_DEFAULT_STATE
+} from "./UserSearchAutocompleteField";
 import { Box, Icon, Paragraph, Spinner } from "./styles";
 
 const Container = styled.div`
@@ -27,7 +29,7 @@ export default function AddUserForm({ resourceType, resource, onBlur }) {
   const containerEl = useRef(null);
   const inputEl = useRef(null);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(USER_SEARCH_DEFAULT_STATE);
   const [isLoading, setIsLoading] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState("lightyellow");
   const { addUserToThread } = useActions(unboundThreadActions);

@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
 
 import MemberItemSmallInline from "./MemberItemSmallInline";
-import UserSearchAutocompleteField from "./UserSearchAutocompleteField";
+import UserSearchAutocompleteField, {
+  USER_SEARCH_DEFAULT_STATE
+} from "./UserSearchAutocompleteField";
 import { Box } from "./styles";
 
 export default function MultiMemberPickerField({ members, setMembers }) {
   const inputEl = useRef(null);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(USER_SEARCH_DEFAULT_STATE);
 
   function handleAddMember(e, member) {
     e && e.preventDefault();
@@ -15,7 +17,7 @@ export default function MultiMemberPickerField({ members, setMembers }) {
     if (!members.some(m => m.id === member.id)) {
       setMembers(members.concat(member));
       setQuery("");
-      setResults([]);
+      setResults(USER_SEARCH_DEFAULT_STATE);
       inputEl.current && inputEl.current.focus();
     }
   }

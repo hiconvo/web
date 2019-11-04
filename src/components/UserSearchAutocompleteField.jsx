@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import uniqBy from "lodash/uniqBy";
 
 import { useDebounce, useUserSearch, useGoogleContacts } from "../hooks";
 import {
@@ -11,6 +10,7 @@ import {
   AutoCompleteItem,
   AutoCompleteDropDown
 } from "./styles";
+import googleLogo from "../media/google-logo.svg";
 
 function DropDownItem({ member, onClick }) {
   return (
@@ -30,8 +30,34 @@ function DropDownItem({ member, onClick }) {
   );
 }
 
+function ResultSection({ sectionName, results, onClick }) {
+  return (
+    <Box mb={2}>
+      <Text fontSize={0} color="gray" px={3} pb={1}>
+        {sectionName}
+      </Text>
+      <Box as="ul">
+        {results.map(result => (
+          <DropDownItem
+            key={result.id}
+            member={result}
+            onClick={e => onClick(e, result)}
+          />
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
 const EMAIL_REGEXP = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+| |,|;)*$/;
 const DELIMITERS_REGEXP = /^[*]|,|;| $/;
+
+export const USER_SEARCH_DEFAULT_STATE = {
+  emailAddress: [],
+  contactsResults: [],
+  networkResults: [],
+  googleResults: []
+};
 
 /*
  * @Component UserSearchAutocompleteField
@@ -40,8 +66,8 @@ const DELIMITERS_REGEXP = /^[*]|,|;| $/;
  *
  * @param {string} query
  * @param {(string) => string} onQueryChange
- * @param {any[]} results
- * @param {any[] => any[]} onResultsChange
+ * @param {Object} results - form of USER_SEARCH_DEFAULT_STATE
+ * @param {Object => Object} onResultsChange - form of USER_SEARCH_DEFAULT_STATE
  * @param {clickedResult => undefined} onClick
  * @param {ref} ref
  */
@@ -74,24 +100,26 @@ export default React.forwardRef(
               id: email
             });
           } else {
-            handleResultsChange([
-              {
-                email: debouncedQuery,
-                fullName: debouncedQuery,
-                id: debouncedQuery
-              }
-            ]);
+            handleResultsChange({
+              emailAddress: [
+                {
+                  email: debouncedQuery,
+                  fullName: debouncedQuery,
+                  id: debouncedQuery
+                }
+              ],
+              contactsResults: [],
+              networkResults: [],
+              googleResults: []
+            });
           }
         } else {
-          handleResultsChange(
-            uniqBy(
-              contactsResults.concat(
-                networkResults,
-                searchGoogleContacts(query)
-              ),
-              "id"
-            )
-          );
+          handleResultsChange({
+            emailAddress: [],
+            contactsResults,
+            networkResults,
+            googleResults: searchGoogleContacts(query)
+          });
         }
         setIsDropdownOpen(true);
       }
@@ -130,24 +158,58 @@ export default React.forwardRef(
         />
         <Box position="absolute" left="0" top="100%">
           <AutoCompleteDropDown isOpen={isDropdownOpen}>
-            {results.length < 1 ? (
-              <Text px={3} py={2} color="gray" fontSize={2} display="block">
-                No results{" "}
-                <span role="img" aria-label="sad face">
-                  🙁
-                </span>
-              </Text>
-            ) : (
-              results.map(result => (
-                <DropDownItem
-                  key={result.id}
-                  member={result}
-                  onClick={e => handleClick(e, result)}
-                />
-              ))
+            {results.contactsResults.length < 1 &&
+              results.googleResults.length < 1 &&
+              results.emailAddress.length < 1 &&
+              results.networkResults.length < 1 && (
+                <Text px={3} py={2} color="gray" fontSize={2} display="block">
+                  No results{" "}
+                  <span role="img" aria-label="sad face">
+                    🙁
+                  </span>
+                </Text>
+              )}
+
+            {results.emailAddress.length > 0 && (
+              <ResultSection
+                sectionName="Email address"
+                results={results.emailAddress}
+                onClick={handleClick}
+              />
             )}
+
+            {results.contactsResults.length > 0 && (
+              <ResultSection
+                sectionName="From your Convo contacts"
+                results={results.contactsResults}
+                onClick={handleClick}
+              />
+            )}
+
+            {results.googleResults.length > 0 && (
+              <ResultSection
+                sectionName="From your Google contacts"
+                results={results.googleResults}
+                onClick={handleClick}
+              />
+            )}
+
+            {results.networkResults.length > 0 && (
+              <ResultSection
+                sectionName="From the Convo network"
+                results={results.networkResults}
+                onClick={handleClick}
+              />
+            )}
+
             {!isEnabledGoogleContacts && (
-              <Button onClick={initGoogleContacts}>
+              <Button
+                variant="secondary"
+                mx={2}
+                mt={2}
+                onClick={initGoogleContacts}
+              >
+                <Box as="img" src={googleLogo} width="2.2rem" mr={2} />
                 Connect your Google contacts
               </Button>
             )}
