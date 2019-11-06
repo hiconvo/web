@@ -13,6 +13,7 @@ import MultiMemberPickerField from "./MultiMemberPickerField";
 import PlacePicker from "./PlacePicker";
 import RegisterWarning from "./RegisterWarning";
 import Map from "./Map";
+import UserOverflowList from "./UserOverflowList";
 import {
   FloatingPill,
   Text,
@@ -22,7 +23,6 @@ import {
   CenterContent
 } from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
-import MemberItemMedium from "./MemberItemMedium";
 import Composer from "./Composer";
 
 const OuterContainer = styled.div`
@@ -301,16 +301,22 @@ export default function EventForm() {
               <Text color="gray" mb={2} fontSize={0}>
                 Your contacts
               </Text>
-              <Box as="ul">
-                {contacts.map(contact => (
-                  <MemberItemMedium
-                    key={contact.id}
-                    member={contact}
-                    isChecked={members.some(m => m.id === contact.id)}
-                    onClickOverride={() => handleMemberClick(contact)}
-                  />
-                ))}
-              </Box>
+              <UserOverflowList
+                maxLength={10}
+                users={contacts}
+                transformUserProps={props => ({
+                  ...props,
+                  isChecked: members.some(m => m.id === props.user.id),
+                  onClickOverride: () => handleMemberClick(props.user)
+                })}
+                renderExtraChildren={() =>
+                  contacts.length <= 0 && (
+                    <Text fontSize={1} mt={2} color="gray">
+                      You haven't added any contacts yet.
+                    </Text>
+                  )
+                }
+              />
             </React.Fragment>
           )}
         </Box>

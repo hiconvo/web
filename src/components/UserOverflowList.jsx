@@ -25,9 +25,10 @@ const Container = styled.li`
 const MAX_LENGTH = 4;
 
 export default function UserOverflowList({
+  maxLength = MAX_LENGTH,
   users = [],
   transformUserProps = p => p,
-  renderExtraChildren
+  renderExtraChildren = () => {}
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,7 +38,7 @@ export default function UserOverflowList({
 
   return (
     <Box as="ul" mb={4}>
-      {users.slice(0, MAX_LENGTH).map(user => (
+      {users.slice(0, maxLength).map(user => (
         <InfoBoxMemberItem
           {...transformUserProps({
             user,
@@ -47,10 +48,10 @@ export default function UserOverflowList({
           })}
         />
       ))}
-      {users.length > MAX_LENGTH && (
+      {users.length > maxLength && (
         <Box>
           <Container>
-            <UnstyledButton p={0} onClick={toggleModal}>
+            <UnstyledButton p={0} ml="-0.8rem" onClick={toggleModal}>
               <Box alignItems="center" flexDirection="row">
                 <Icon
                   name="more_horiz"
@@ -59,7 +60,7 @@ export default function UserOverflowList({
                   color="gray"
                 />
                 <Text ml={2} fontSize={3} color="gray">
-                  See {users.length - MAX_LENGTH} more
+                  See {users.length - maxLength} more
                 </Text>
               </Box>
             </UnstyledButton>
