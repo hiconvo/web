@@ -99,7 +99,7 @@ export default function useGoogleContacts() {
         client.people.people.connections
           .list({
             resourceName: "people/me",
-            pageSize: 500,
+            pageSize: 600,
             personFields: "names,emailAddresses,coverPhotos",
             sortOrder: "LAST_MODIFIED_DESCENDING"
           })
