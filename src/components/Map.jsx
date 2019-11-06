@@ -6,7 +6,7 @@ import { Box } from "./styles";
 
 const NYC = { lat: 40.71, lng: -74.0 };
 
-export default function Map({ placeId, lat, lng }) {
+export default function Map({ placeId, lat, lng, noLink }) {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
@@ -52,7 +52,7 @@ export default function Map({ placeId, lat, lng }) {
   }, [placeId, map, marker, geoloc]);
 
   function handleClick() {
-    window.open(getGoogleMapsUrl(lat, lng, placeId), "_blank");
+    !noLink && window.open(getGoogleMapsUrl(lat, lng, placeId), "_blank");
   }
 
   return (

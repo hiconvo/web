@@ -229,7 +229,7 @@ export default function EventForm() {
                   onSelect={handleSelect}
                 />
               </Label>
-              <Map placeId={placeId} />
+              <Map placeId={placeId} noLink />
             </Box>
 
             <Box flexDirection="row" mb={1}>

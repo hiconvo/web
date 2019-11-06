@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Editor, EditorState, ContentState } from "draft-js";
 
 import Controls from "./MessageComposerControls";
@@ -29,6 +29,7 @@ export default function Composer({
   placeholder,
   initialValue = ""
 }) {
+  const editorRef = useRef(null);
   const [currentValue, setValue] = useState(
     EditorState.createWithContent(ContentState.createFromText(initialValue))
   );
@@ -47,6 +48,7 @@ export default function Composer({
   return (
     <React.Fragment>
       <div
+        onClick={() => editorRef.current && editorRef.current.focus()}
         style={
           backgroundColor === "white"
             ? whiteBackgroundStyle(height)
@@ -57,6 +59,7 @@ export default function Composer({
           onChange={setValue}
           editorState={currentValue}
           placeholder={placeholder}
+          ref={editorRef}
         />
       </div>
       <Controls
