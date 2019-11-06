@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import NotificationsManager from "./NotificationsManager";
 import Header from "./Header";
+import ScrollToTop from "./ScrollToTop";
 import { Paragraph, Text } from "./styles";
 
 const Container = styled.main`
@@ -35,6 +36,7 @@ export default function Frame({ children }) {
       <NotificationsManager />
       <Header />
       <Slug />
+      <ScrollToTop />
       {children}
       <Footer>
         <Paragraph fontSize={0} color="mediumGray" textAlign="center">
