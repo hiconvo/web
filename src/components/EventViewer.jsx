@@ -98,7 +98,7 @@ export default function EventViewer({ event }) {
 
         <Map placeId={event.placeID} lat={event.lat} lng={event.lng} />
 
-        <Box mt="2.4rem" mb={2}>
+        <Box mt="2.4rem" mb={2} overflow="hidden">
           <Markdown
             text={
               event.description || "This event did not include a description."

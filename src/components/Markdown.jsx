@@ -7,6 +7,7 @@ import marked from "marked";
 const Container = styled.div`
   font-size: ${themeGet("fontSizes.2")};
   line-height: 1.5em;
+  word-break: break-word;
 
   h1 {
     font-size: ${themeGet("fontSizes.5")};
