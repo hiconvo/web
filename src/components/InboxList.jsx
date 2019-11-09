@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import { motion } from "framer-motion";
 
 import { useSelectors, useActions } from "../redux";
 import {
@@ -32,6 +33,12 @@ const Container = styled.ul`
   }
 `;
 
+const spring = {
+  type: "spring",
+  damping: 100,
+  stiffness: 200
+};
+
 export default function InboxList() {
   const [contents, isThreadsFetched, isEventsFetched, { id }] = useSelectors(
     getInboxContents,
@@ -62,11 +69,13 @@ export default function InboxList() {
       {isThreadsFetched &&
         isEventsFetched &&
         contents.map(resource => (
-          <InboxListItem
-            key={resource.id}
-            resource={resource}
-            isSelected={resource.id === id}
-          />
+          <motion.li key={resource.id} layoutTransition={spring}>
+            <InboxListItem
+              key={resource.id}
+              resource={resource}
+              isSelected={resource.id === id}
+            />
+          </motion.li>
         ))}
     </Container>
   );
