@@ -10,6 +10,7 @@
     "@styled-system/theme-get": "^5.1.2",
     "date-fns": "^2.0.1",
     "draft-js": "^0.11.1",
+    "framer-motion": "^1.6.15",
     "getstream": "^4.3.0",
     "image-file-to-base64-exif": "^1.0.3",
     "immutable": "^4.0.0-rc.12",

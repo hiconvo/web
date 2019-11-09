@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 
 import { useSelectors, useActions } from "../redux";
 import { getUser, getMessagesByThreadId } from "../selectors";
@@ -36,16 +37,26 @@ export default function ThreadViewer({ thread }) {
 
   useReadReporting(thread);
 
+  // Animation stuff. A little messy to put it here, but I'm lazy.
+  const item = {
+    hidden: { opacity: 0 },
+    show: i => ({ opacity: 1, transition: { delay: i * 0.01 } })
+  };
+
   return (
     <div>
       <MessageComposer />
       {isLoading && <Ripple />}
-      {messages.map(message => (
-        <Message
+      {messages.map((message, idx) => (
+        <motion.div
           key={message.id}
-          message={message}
-          isAuthor={user.id === message.user.id}
-        />
+          variants={item}
+          custom={idx}
+          initial="hidden"
+          animate="show"
+        >
+          <Message message={message} isAuthor={user.id === message.user.id} />
+        </motion.div>
       ))}
     </div>
   );
