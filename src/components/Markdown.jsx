@@ -5,7 +5,6 @@ import { typography, textStyle } from "styled-system";
 import marked from "marked";
 
 const Container = styled.div`
-  font-size: ${themeGet("fontSizes.2")};
   line-height: 1.5em;
   word-break: break-word;
 
@@ -77,6 +76,8 @@ const Container = styled.div`
   ${typography}
   ${textStyle}
 `;
+
+Container.defaultProps = { fontSize: 2 };
 
 export default function Markdown({ text, ...rest }) {
   return (
