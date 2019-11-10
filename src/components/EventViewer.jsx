@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
-import { useFormik } from "formik";
 
+import useFormik from "../hooks/formik";
 import { useActions, useSelectors } from "../redux";
 import { getUser, getMessagesByThreadId } from "../selectors";
 import { getGoogleMapsUrl } from "../utils";
 import * as unboundActions from "../actions/messages";
+import * as unboundNotifActions from "../actions/notifications";
 import Markdown from "./Markdown";
 import Map from "./Map";
 import Composer, {
@@ -18,16 +19,34 @@ import Message from "./Message";
 import { useReadReporting } from "../hooks";
 import { FloatingPill, Text, Heading, Icon, Box, Ripple } from "./styles";
 
+const validate = values => {
+  return getTextFromEditorState(values.body).length <= 0
+    ? { message: "Your message cannot be empty" }
+    : null;
+};
+
 export default function EventViewer({ event }) {
   const [isLoading, setIsLoading] = useState(false);
   const { createEventMessage, fetchEventMessages } = useActions(unboundActions);
+  const { dispatchNotification } = useActions(unboundNotifActions);
   const fetched = useRef({});
   const formik = useFormik({
     initialValues: { body: getInitialEditorState() },
-    onSubmit: (values, { setSubmitting }) =>
-      createEventMessage(id, { body: getTextFromEditorState(values.body) })
-        .catch(() => {})
-        .finally(() => setSubmitting(false))
+    validate: validate,
+    onSubmit: async (values, { setSubmitting, errors }) => {
+      if (errors && errors.message) {
+        return dispatchNotification({ message: errors.message });
+      }
+
+      try {
+        setSubmitting(true);
+        createEventMessage(id, { body: getTextFromEditorState(values.body) });
+      } catch (e) {
+        return;
+      } finally {
+        setSubmitting(false);
+      }
+    }
   });
 
   const { id, timestamp } = event;

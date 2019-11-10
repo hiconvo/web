@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useHistory } from "react-router";
-import { useFormik } from "formik";
 
+import useFormik from "../hooks/formik";
 import { getUser } from "../api/user";
 import { Text, FloatingPill } from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
@@ -17,6 +17,18 @@ import * as unboundActions from "../actions/threads";
 import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 
+const validate = values => {
+  if (values.members.length <= 0) {
+    return {
+      message: "You need to add at least one member"
+    };
+  } else if (getTextFromEditorState(values.body).length <= 0) {
+    return { message: "Your message cannot be empty" };
+  } else {
+    return null;
+  }
+};
+
 export default function ThreadForm() {
   const subjectEl = useRef(null);
   const history = useHistory();
@@ -29,33 +41,29 @@ export default function ThreadForm() {
       subject: "",
       members: []
     },
-    validateOnChange: false,
-    validate: async values => {
-      if (values.members.length <= 0) {
-        dispatchNotification({
-          message: "You need to add at least one member"
-        });
-        // Have to return this to make formik happy
-        return { members: "" };
-      } else if (getTextFromEditorState(values.body).length <= 0) {
-        dispatchNotification({ message: "Your message cannot be empty" });
-        return { body: "" };
-      } else {
-        return {};
+    validate: validate,
+    onSubmit: async (values, { setSubmitting, errors }) => {
+      if (errors && errors.message) {
+        return dispatchNotification({ message: errors.message });
       }
-    },
-    onSubmit: (values, { setSubmitting }) =>
-      createThread({
-        subject: values.subject,
-        users: values.members,
-        body: getTextFromEditorState(values.body)
-      })
-        .then(thread => {
-          setSelectedResource(thread.id);
-          history.push("/convos");
-        })
-        .catch(() => {})
-        .finally(() => setSubmitting(false))
+
+      let thread;
+      try {
+        setSubmitting(true);
+        thread = await createThread({
+          subject: values.subject,
+          users: values.members,
+          body: getTextFromEditorState(values.body)
+        });
+      } catch (e) {
+        return;
+      } finally {
+        setSubmitting(false);
+      }
+
+      setSelectedResource(thread.id);
+      history.push("/convos");
+    }
   });
 
   useEffect(() => {

@@ -14,16 +14,18 @@ export default function useFormik({ initialValues, validate, onSubmit }) {
     setValues(Object.assign({}, values, newValues));
   }
 
+  function setFieldValue(fieldName, value) {
+    setFieldValues({ [fieldName]: value });
+  }
+
   function handleSubmit() {
-    setIsSubmitting(true);
-
     const errors = validate && validate(values);
-
     onSubmit(values, { setSubmitting: setIsSubmitting, errors });
   }
 
   return {
     handleChange,
+    setFieldValue,
     setFieldValues,
     handleSubmit,
     isSubmitting,

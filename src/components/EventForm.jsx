@@ -168,10 +168,11 @@ export default function EventForm() {
     nameEl.current && nameEl.current.focus();
   }, []);
 
-  if (
+  const manuallyNavigatedToFormInError =
     persistErrorState.current ||
-    (isEditing && (!event || event.resourceType !== "Event"))
-  ) {
+    (isEditing && (!event || event.resourceType !== "Event"));
+
+  if (manuallyNavigatedToFormInError) {
     persistErrorState.current = true;
 
     return <NullState />;

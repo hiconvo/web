@@ -1,32 +1,48 @@
 import React from "react";
-import { useFormik } from "formik";
 
+import useFormik from "../hooks/formik";
 import { FloatingPill } from "./styles";
 import { useActions, useSelectors } from "../redux";
 import { getSelectedResource } from "../selectors";
 import * as unboundActions from "../actions/messages";
+import * as unboundNotifActions from "../actions/notifications";
 import Controls from "./MessageComposerControls";
 import Composer, {
   getInitialEditorState,
   getTextFromEditorState
 } from "./Composer";
 
+const validate = values => {
+  return getTextFromEditorState(values.body).length <= 0
+    ? { message: "Your message cannot be empty" }
+    : null;
+};
+
 export default function MessageComposer() {
   const [{ id: threadId }] = useSelectors(getSelectedResource);
   const { createThreadMessage } = useActions(unboundActions);
+  const { dispatchNotification } = useActions(unboundNotifActions);
   const formik = useFormik({
     initialValues: { body: getInitialEditorState() },
-    onSubmit: (values, { setSubmitting }) =>
-      createThreadMessage(threadId, {
-        body: getTextFromEditorState(values.body)
-      })
-        .then(() => {
-          formik.setFieldValue("body", getInitialEditorState());
-        })
-        .catch(() => {})
-        .finally(() => {
-          setSubmitting(false);
-        })
+    validate: validate,
+    onSubmit: async (values, { setSubmitting, errors }) => {
+      if (errors && errors.message) {
+        return dispatchNotification({ message: errors.message });
+      }
+
+      try {
+        setSubmitting(true);
+        createThreadMessage(threadId, {
+          body: getTextFromEditorState(values.body)
+        });
+      } catch (e) {
+        return;
+      } finally {
+        setSubmitting(false);
+      }
+
+      formik.setFieldValue("body", getInitialEditorState());
+    }
   });
 
   return (
