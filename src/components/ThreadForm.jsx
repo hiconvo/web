@@ -1,71 +1,69 @@
-import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import { withRouter } from "react-router";
+import React, { useRef, useEffect } from "react";
+import { useHistory } from "react-router";
+import { useFormik } from "formik";
 
 import { getUser } from "../api/user";
 import { Text, FloatingPill } from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
 import RegisterWarning from "../components/RegisterWarning";
-import Composer from "./Composer";
+import Composer, {
+  getInitialEditorState,
+  getTextFromEditorState
+} from "./Composer";
+import Controls from "./MessageComposerControls";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/threads";
 import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 
-const Form = styled.form``;
-
-function ThreadForm(props) {
+export default function ThreadForm() {
   const subjectEl = useRef(null);
-  const [subject, setSubject] = useState("");
-  const [members, setMembers] = useState([]);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const history = useHistory();
   const { createThread } = useActions(unboundActions);
   const { dispatchNotification } = useActions(unboundNotifActions);
   const { setSelectedResource } = useActions(unboundGeneralActions);
-
-  function handleSubjectChange(e) {
-    setSubject(e.target.value);
-  }
-
-  async function handleSend(body) {
-    if (body.length === 0) {
-      return dispatchNotification({
-        type: "ERROR",
-        message: "Your message cannot be empty"
-      });
-    }
-
-    if (members.length === 0) {
-      return dispatchNotification({
-        type: "ERROR",
-        message: "You need to add at least one member"
-      });
-    }
-
-    setIsDisabled(true);
-    let thread;
-    try {
-      thread = await createThread({
-        subject,
-        users: members,
-        body
-      });
-    } catch (e) {
-      setIsDisabled(false);
-      return;
-    }
-
-    setSelectedResource(thread.id);
-    props.history.push("/convos");
-  }
+  const formik = useFormik({
+    initialValues: {
+      body: getInitialEditorState(),
+      subject: "",
+      members: []
+    },
+    validateOnChange: false,
+    validate: async values => {
+      if (values.members.length <= 0) {
+        dispatchNotification({
+          message: "You need to add at least one member"
+        });
+        // Have to return this to make formik happy
+        return { members: "" };
+      } else if (getTextFromEditorState(values.body).length <= 0) {
+        dispatchNotification({ message: "Your message cannot be empty" });
+        return { body: "" };
+      } else {
+        return {};
+      }
+    },
+    onSubmit: (values, { setSubmitting }) =>
+      createThread({
+        subject: values.subject,
+        users: values.members,
+        body: getTextFromEditorState(values.body)
+      })
+        .then(thread => {
+          setSelectedResource(thread.id);
+          history.push("/convos");
+        })
+        .catch(() => {})
+        .finally(() => setSubmitting(false))
+  });
 
   useEffect(() => {
     subjectEl.current.focus();
 
-    if (props.history.location && props.history.location.search) {
-      const [, id] = props.history.location.search.match(/\?userId=(.+)/);
-      getUser(id).then(user => setMembers([user]));
+    if (history.location && history.location.search) {
+      const [, id] = history.location.search.match(/\?userId=(.+)/);
+      getUser(id).then(user => formik.setFieldValue("members", [user]));
     }
     // eslint-disable-next-line
   }, []);
@@ -74,41 +72,47 @@ function ThreadForm(props) {
     <Container>
       <RegisterWarning />
       <FloatingPill>
-        <Form>
-          <Label>
-            <Text fontSize={1} mr={1}>
-              Subject:
-            </Text>
-            <Input
-              type="text"
-              placeholder="Give your Convo a subject"
-              value={subject}
-              onChange={handleSubjectChange}
-              ref={subjectEl}
-              required
-              maxLength="255"
-              fontSize={2}
-            />
-          </Label>
-
-          <Label>
-            <Text fontSize={1} mr={1}>
-              To:
-            </Text>
-            <MultiMemberPickerField members={members} setMembers={setMembers} />
-          </Label>
-
-          <Composer
-            placeholder="Compose your message..."
-            backgroundColor="gray"
-            height="16rem"
-            onClick={handleSend}
-            isDisabled={isDisabled}
+        <Label>
+          <Text fontSize={1} mr={1}>
+            Subject:
+          </Text>
+          <Input
+            type="text"
+            placeholder="Give your Convo a subject"
+            name="subject"
+            value={formik.values.subject}
+            onChange={formik.handleChange}
+            ref={subjectEl}
+            required
+            maxLength="255"
+            fontSize={2}
           />
-        </Form>
+        </Label>
+
+        <Label>
+          <Text fontSize={1} mr={1}>
+            To:
+          </Text>
+          <MultiMemberPickerField
+            members={formik.values.members}
+            setMembers={members => formik.setFieldValue("members", members)}
+          />
+        </Label>
+
+        <Composer
+          placeholder="Compose your message..."
+          backgroundColor="gray"
+          height="16rem"
+          editorState={formik.values.body}
+          onChange={body => formik.setFieldValue("body", body)}
+          isDisabled={formik.isSubmitting}
+        />
+        <Controls
+          editorState={formik.values.body}
+          onClick={formik.handleSubmit}
+          isDisabled={formik.isSubmitting}
+        />
       </FloatingPill>
     </Container>
   );
 }
-
-export default withRouter(ThreadForm);

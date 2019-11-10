@@ -69,13 +69,13 @@ export default function InboxList() {
       {isThreadsFetched &&
         isEventsFetched &&
         contents.map(resource => (
-          <motion.li key={resource.id} layoutTransition={spring}>
+          <motion.div key={resource.id} layoutTransition={spring}>
             <InboxListItem
               key={resource.id}
               resource={resource}
               isSelected={resource.id === id}
             />
-          </motion.li>
+          </motion.div>
         ))}
     </Container>
   );

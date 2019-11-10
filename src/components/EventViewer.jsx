@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
+import { useFormik } from "formik";
 
 import { useActions, useSelectors } from "../redux";
 import { getUser, getMessagesByThreadId } from "../selectors";
@@ -7,17 +8,27 @@ import { getGoogleMapsUrl } from "../utils";
 import * as unboundActions from "../actions/messages";
 import Markdown from "./Markdown";
 import Map from "./Map";
-import Composer from "./Composer";
+import Composer, {
+  getInitialEditorState,
+  getTextFromEditorState
+} from "./Composer";
+import Controls from "./MessageComposerControls";
 import RsvpPanel from "./RsvpPanel";
 import Message from "./Message";
 import { useReadReporting } from "../hooks";
 import { FloatingPill, Text, Heading, Icon, Box, Ripple } from "./styles";
 
 export default function EventViewer({ event }) {
-  const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { createEventMessage, fetchEventMessages } = useActions(unboundActions);
   const fetched = useRef({});
+  const formik = useFormik({
+    initialValues: { body: getInitialEditorState() },
+    onSubmit: (values, { setSubmitting }) =>
+      createEventMessage(id, { body: getTextFromEditorState(values.body) })
+        .catch(() => {})
+        .finally(() => setSubmitting(false))
+  });
 
   const { id, timestamp } = event;
   const date = parseISO(timestamp);
@@ -39,20 +50,6 @@ export default function EventViewer({ event }) {
       handleFetchMessages();
     }
   }, [id, fetchEventMessages, isLoading, hasMessages, fetched]);
-
-  async function handleSend(body, clearBody) {
-    setIsDisabled(true);
-
-    try {
-      await createEventMessage(id, { body });
-    } catch (e) {
-      setIsDisabled(false);
-      return;
-    }
-
-    setIsDisabled(false);
-    clearBody();
-  }
 
   useReadReporting(event);
 
@@ -110,8 +107,14 @@ export default function EventViewer({ event }) {
           height="6rem"
           backgroundColor="gray"
           placeholder="Send a message to the guests..."
-          onClick={handleSend}
-          isDisabled={isDisabled}
+          editorState={formik.values.body}
+          onChange={body => formik.setFieldValue("body", body)}
+          isDisabled={formik.isSubmitting}
+        />
+        <Controls
+          editorState={formik.values.body}
+          onClick={formik.handleSubmit}
+          isDisabled={formik.isSubmitting}
         />
       </FloatingPill>
       {isLoading && <Ripple />}

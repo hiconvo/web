@@ -12,7 +12,7 @@ export default function MultiMemberPickerField({ members, setMembers }) {
   const [results, setResults] = useState(USER_SEARCH_DEFAULT_STATE);
 
   function handleAddMember(e, member) {
-    e && e.preventDefault();
+    e && e.preventDefault() && e.stopPropagation();
 
     if (!members.some(m => m.id === member.id)) {
       setMembers(members.concat(member));
@@ -24,7 +24,8 @@ export default function MultiMemberPickerField({ members, setMembers }) {
 
   function handleRemoveMember(member) {
     return e => {
-      e && e.preventDefault();
+      e && e.preventDefault() && e.stopPropagation();
+
       setMembers(
         members.filter(m => {
           if (m.email && member.email) {

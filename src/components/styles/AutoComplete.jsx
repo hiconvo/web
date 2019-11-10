@@ -27,7 +27,9 @@ export const AutoCompleteDropDown = styled.ul`
   z-index: 30;
 `;
 
-export const AutoCompleteItem = styled.button`
+export const AutoCompleteItem = styled.button.attrs(props => ({
+  type: "button"
+}))`
   padding: ${themeGet("space.2")} ${themeGet("space.3")};
   font-size: ${themeGet("fontSizes.2")};
   background: inherit;
