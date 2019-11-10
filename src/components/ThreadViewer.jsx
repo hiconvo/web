@@ -45,7 +45,7 @@ export default function ThreadViewer({ thread }) {
 
   return (
     <div>
-      <MessageComposer />
+      <MessageComposer key={id} />
       {isLoading && <Ripple />}
       {messages.map((message, idx) => (
         <motion.div

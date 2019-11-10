@@ -23,6 +23,7 @@ export default function MessageComposer() {
   const { createThreadMessage } = useActions(unboundActions);
   const { dispatchNotification } = useActions(unboundNotifActions);
   const formik = useFormik({
+    formId: threadId,
     initialValues: { body: getInitialEditorState() },
     validate: validate,
     onSubmit: async (values, { setSubmitting, errors }) => {

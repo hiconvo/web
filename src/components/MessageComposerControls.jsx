@@ -3,13 +3,14 @@ import React from "react";
 import { Box, Text, Button, Icon } from "./styles";
 
 export default function ComposerControls({ onClick, isDisabled, editorState }) {
-  const wordCount = editorState
-    ? editorState
-        .getCurrentContent()
-        .getPlainText()
-        .trim()
-        .split(/\s+/).length
-    : 0;
+  const wordCount =
+    editorState && editorState.getCurrentContent
+      ? editorState
+          .getCurrentContent()
+          .getPlainText()
+          .trim()
+          .split(/\s+/).length
+      : 0;
   const estimate = (wordCount / 300).toFixed(1);
   const min = estimate === (1).toFixed(1) ? "minute" : "minutes";
   return (
