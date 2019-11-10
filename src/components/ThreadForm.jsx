@@ -36,6 +36,7 @@ export default function ThreadForm() {
   const { dispatchNotification } = useActions(unboundNotifActions);
   const { setSelectedResource } = useActions(unboundGeneralActions);
   const formik = useFormik({
+    formId: "newThread",
     initialValues: {
       body: getInitialEditorState(),
       subject: "",

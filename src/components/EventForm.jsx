@@ -9,6 +9,7 @@ import {
   getInitTime,
   getISOFromDateTime
 } from "../utils/forms";
+import useFormik from "../hooks/formik";
 import { useActions, useSelectors } from "../redux";
 import { getSelectedResource, getContacts } from "../selectors";
 import * as unboundEventActions from "../actions/events";
@@ -99,74 +100,66 @@ export default function EventForm() {
     ...unboundGeneralActions,
     ...unboundNotifActions
   });
-  const initialValues = {
-    name: getInitVal(event.name, isEditing, ""),
-    date: getInitDate(event.timestamp, isEditing),
-    time: getInitTime(event.timestamp, isEditing),
-    place: getInitVal(event.address, isEditing, ""),
-    placeId: getInitVal(event.placeID, isEditing, ""),
-    members: getInitVal(event.users, isEditing, []),
-    description: getInitialEditorState(
-      getInitVal(event.description, isEditing, "")
-    )
-  };
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [name, setName] = useState(initialValues.name);
-  const [date, setDate] = useState(initialValues.date);
-  const [time, setTime] = useState(initialValues.time);
-  const [place, setPlace] = useState(initialValues.place);
-  const [placeId, setPlaceId] = useState(initialValues.placeId);
-  const [members, setMembers] = useState(initialValues.members);
-  const [description, setDescription] = useState(initialValues.description);
+  const formik = useFormik({
+    formId: "newEvent",
+    initialValues: {
+      name: getInitVal(event.name, isEditing, ""),
+      date: getInitDate(event.timestamp, isEditing),
+      time: getInitTime(event.timestamp, isEditing),
+      place: getInitVal(event.address, isEditing, ""),
+      placeId: getInitVal(event.placeID, isEditing, ""),
+      members: getInitVal(event.users, isEditing, []),
+      description: getInitialEditorState(
+        getInitVal(event.description, isEditing, "")
+      )
+    },
+    validate: validate,
+    onSubmit: async (values, { setSubmitting, errors }) => {
+      if (errors && errors.message) {
+        return dispatchNotification({ message: errors.message });
+      }
 
-  const handleSubmit = async e => {
-    e && e.preventDefault();
+      const action = isEditing ? updateEvent : createEvent;
+      const rest = isEditing ? { id: event.id } : { users: values.members };
 
-    const action = isEditing ? updateEvent : createEvent;
-    const rest = isEditing ? { id: event.id } : { users: members };
+      const payload = {
+        name: values.name,
+        description: getTextFromEditorState(values.description),
+        placeID: values.placeId,
+        timestamp: getISOFromDateTime(values.date, values.time),
+        ...rest
+      };
 
-    const payload = {
-      name: name,
-      description: getTextFromEditorState(description),
-      placeID: placeId,
-      timestamp: getISOFromDateTime(date, time),
-      ...rest
-    };
+      setSubmitting(true);
 
-    const errors = validate(payload);
+      let newEvent;
+      try {
+        newEvent = await action(payload);
+      } catch (e) {
+        return;
+      } finally {
+        setSubmitting(false);
+      }
 
-    if (errors && errors.message) {
-      return dispatchNotification({ message: errors.message });
+      setSelectedResource(newEvent.id);
+      history.push("/convos");
     }
-
-    setIsSubmitting(true);
-
-    let newEvent;
-    try {
-      newEvent = await action(payload);
-    } catch (e) {
-      return;
-    } finally {
-      setIsSubmitting(false);
-    }
-
-    setSelectedResource(newEvent.id);
-    history.push("/convos");
-  };
-
-  const handleMemberClick = member => {
-    const isAdded = members.some(m => m.id === member.id);
-
-    setMembers(
-      isAdded
-        ? members.filter(m => m.id !== member.id)
-        : members.concat([member])
-    );
-  };
+  });
 
   useEffect(() => {
     nameEl.current && nameEl.current.focus();
   }, []);
+
+  const handleMemberClick = member => {
+    const isAdded = formik.values.members.some(m => m.id === member.id);
+
+    formik.setFieldValue(
+      "members",
+      isAdded
+        ? formik.values.members.filter(m => m.id !== member.id)
+        : formik.values.members.concat([member])
+    );
+  };
 
   const manuallyNavigatedToFormInError =
     persistErrorState.current ||
@@ -192,9 +185,9 @@ export default function EventForm() {
                 <Input
                   type="text"
                   name="name"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                  isDisabled={isSubmitting}
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  isDisabled={formik.isSubmitting}
                   required
                   maxLength="255"
                   fontSize={2}
@@ -210,15 +203,17 @@ export default function EventForm() {
                   Where:
                 </Text>
                 <PlacePicker
-                  value={place}
-                  onChange={newPlace => setPlace(newPlace)}
-                  onSelect={(placeString, placeId) => {
-                    setPlace(placeString);
-                    setPlaceId(placeId);
-                  }}
+                  value={formik.values.place}
+                  onChange={newPlace => formik.setFieldValue("place", newPlace)}
+                  onSelect={(placeString, placeId) =>
+                    formik.setFieldValues({
+                      place: placeString,
+                      placeId: placeId
+                    })
+                  }
                 />
               </Label>
-              <Map placeId={placeId} noLink />
+              <Map placeId={formik.values.placeId} noLink />
             </Box>
 
             <Box flexDirection="row" mb={1}>
@@ -229,11 +224,11 @@ export default function EventForm() {
                 <Input
                   type="date"
                   name="date"
-                  value={date}
-                  onChange={e => setDate(e.target.value)}
+                  value={formik.values.date}
+                  onChange={formik.handleChange}
                   required
                   maxLength="255"
-                  isDisabled={isSubmitting}
+                  isDisabled={formik.isSubmitting}
                   fontSize={2}
                 />
               </Label>
@@ -244,11 +239,11 @@ export default function EventForm() {
                 <Input
                   type="time"
                   name="time"
-                  value={time}
-                  onChange={e => setTime(e.target.time)}
+                  value={formik.values.time}
+                  onChange={formik.handleChange}
                   required
                   maxLength="255"
-                  isDisabled={isSubmitting}
+                  isDisabled={formik.isSubmitting}
                   fontSize={2}
                 />
               </Label>
@@ -261,8 +256,10 @@ export default function EventForm() {
                     Guests:
                   </Text>
                   <MultiMemberPickerField
-                    members={members}
-                    setMembers={newMembers => setMembers(newMembers)}
+                    members={formik.values.members}
+                    setMembers={newMembers =>
+                      formik.setFieldValue("members", newMembers)
+                    }
                   />
                 </Label>
               </Box>
@@ -272,14 +269,16 @@ export default function EventForm() {
               backgroundColor="gray"
               height="16rem"
               placeholder="Tell your guests what your event is about..."
-              editorState={description}
-              onChange={newDescription => setDescription(newDescription)}
-              isDisabled={isSubmitting}
+              editorState={formik.values.description}
+              onChange={newDescription =>
+                formik.setFieldValue("description", newDescription)
+              }
+              isDisabled={formik.isSubmitting}
             />
             <Controls
-              editorState={description}
-              onClick={handleSubmit}
-              isDisabled={isSubmitting}
+              editorState={formik.values.description}
+              onClick={formik.handleSubmit}
+              isDisabled={formik.isSubmitting}
             />
           </Form>
         </FloatingPill>
@@ -304,7 +303,9 @@ export default function EventForm() {
                 users={contacts}
                 transformUserProps={props => ({
                   ...props,
-                  isChecked: members.some(m => m.id === props.user.id),
+                  isChecked: formik.values.members.some(
+                    m => m.id === props.user.id
+                  ),
                   onClickOverride: () => handleMemberClick(props.user)
                 })}
                 renderExtraChildren={() =>

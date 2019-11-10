@@ -40,7 +40,10 @@ export default function EventViewer({ event }) {
 
       try {
         setSubmitting(true);
-        createEventMessage(id, { body: getTextFromEditorState(values.body) });
+        await createEventMessage(id, {
+          body: getTextFromEditorState(values.body)
+        });
+        formik.setFieldValue("body", getInitialEditorState());
       } catch (e) {
         return;
       } finally {
