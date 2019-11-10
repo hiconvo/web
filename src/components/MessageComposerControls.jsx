@@ -2,12 +2,14 @@ import React from "react";
 
 import { Box, Text, Button, Icon } from "./styles";
 
-export default function ComposerControls({ value, onClick, isDisabled }) {
-  const wordCount = value
-    .getCurrentContent()
-    .getPlainText()
-    .trim()
-    .split(/\s+/).length;
+export default function ComposerControls({ onClick, isDisabled, editorState }) {
+  const wordCount = editorState
+    ? editorState
+        .getCurrentContent()
+        .getPlainText()
+        .trim()
+        .split(/\s+/).length
+    : 0;
   const estimate = (wordCount / 300).toFixed(1);
   const min = estimate === (1).toFixed(1) ? "minute" : "minutes";
   return (
@@ -30,6 +32,7 @@ export default function ComposerControls({ value, onClick, isDisabled }) {
         pr="0"
         disabled={isDisabled}
         isLoading={isDisabled}
+        type="submit"
       >
         Send <Icon name="send" ml={1} fontSize="2.0rem" />
       </Button>

@@ -1,7 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Editor, EditorState, ContentState } from "draft-js";
 
-import Controls from "./MessageComposerControls";
 import { theme } from "./styles";
 
 const grayBackgroundStyle = height => ({
@@ -21,29 +20,29 @@ const whiteBackgroundStyle = height => ({
   marginBottom: "1rem"
 });
 
+export function getInitialEditorState(text) {
+  if (!text) {
+    return EditorState.createEmpty();
+  }
+
+  return EditorState.createWithContent(ContentState.createFromText(text));
+}
+
+export function getTextFromEditorState(editorState) {
+  return editorState
+    .getCurrentContent()
+    .getPlainText()
+    .trim();
+}
+
 export default function Composer({
   backgroundColor = "white",
   height = "4rem",
-  onClick,
-  isDisabled,
-  placeholder,
-  initialValue = ""
+  editorState = EditorState.createEmpty(),
+  onChange,
+  placeholder
 }) {
   const editorRef = useRef(null);
-  const [currentValue, setValue] = useState(
-    EditorState.createWithContent(ContentState.createFromText(initialValue))
-  );
-
-  function handleClick(e) {
-    e.preventDefault();
-    onClick(
-      currentValue
-        .getCurrentContent()
-        .getPlainText()
-        .trim(),
-      () => setValue(EditorState.createEmpty())
-    );
-  }
 
   return (
     <React.Fragment>
@@ -56,17 +55,12 @@ export default function Composer({
         }
       >
         <Editor
-          onChange={setValue}
-          editorState={currentValue}
+          onChange={onChange}
+          editorState={editorState}
           placeholder={placeholder}
           ref={editorRef}
         />
       </div>
-      <Controls
-        value={currentValue}
-        onClick={handleClick}
-        isDisabled={isDisabled}
-      />
     </React.Fragment>
   );
 }

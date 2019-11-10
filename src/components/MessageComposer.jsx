@@ -1,37 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
+import { useFormik } from "formik";
 
 import { FloatingPill } from "./styles";
 import { useActions, useSelectors } from "../redux";
 import { getSelectedResource } from "../selectors";
 import * as unboundActions from "../actions/messages";
-import Composer from "./Composer";
+import Controls from "./MessageComposerControls";
+import Composer, {
+  getInitialEditorState,
+  getTextFromEditorState
+} from "./Composer";
 
 export default function MessageComposer() {
   const [{ id: threadId }] = useSelectors(getSelectedResource);
-  const [isDisabled, setIsDisabled] = useState(false);
   const { createThreadMessage } = useActions(unboundActions);
-
-  async function handleSend(body, clearBody) {
-    setIsDisabled(true);
-
-    try {
-      await createThreadMessage(threadId, { body });
-    } catch (e) {
-      setIsDisabled(false);
-      return;
-    }
-
-    setIsDisabled(false);
-    clearBody();
-  }
+  const formik = useFormik({
+    initialValues: { body: getInitialEditorState() },
+    onSubmit: (values, { setSubmitting }) =>
+      createThreadMessage(threadId, {
+        body: getTextFromEditorState(values.body)
+      })
+        .then(() => {
+          formik.setFieldValue("body", getInitialEditorState());
+        })
+        .catch(() => {})
+        .finally(() => {
+          setSubmitting(false);
+        })
+  });
 
   return (
     <FloatingPill>
       <Composer
         backgroundColor="white"
         placeholder="Compose your response..."
-        onClick={handleSend}
-        isDisabled={isDisabled}
+        editorState={formik.values.body}
+        onChange={body => formik.setFieldValue("body", body)}
+        isDisabled={formik.isSubmitting}
+      />
+      <Controls
+        editorState={formik.values.body}
+        onClick={formik.handleSubmit}
+        isDisabled={formik.isSubmitting}
       />
     </FloatingPill>
   );
