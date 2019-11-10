@@ -25,7 +25,7 @@ export default function PlacePicker({ value, onChange, onSelect }) {
       value={value}
       onChange={onChange}
       onSelect={onSelect}
-      debounce={200}
+      debounce={400}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
         <Box position="relative" width="100%">

@@ -1,10 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import { format, parse, parseISO } from "date-fns";
-import { useFormik } from "formik";
 
+import {
+  getInitVal,
+  getInitDate,
+  getInitTime,
+  getISOFromDateTime
+} from "../utils/forms";
 import { useActions, useSelectors } from "../redux";
 import { getSelectedResource, getContacts } from "../selectors";
 import * as unboundEventActions from "../actions/events";
@@ -47,7 +51,7 @@ const OuterContainer = styled.div`
 
 const Form = styled.form``;
 
-function validate(payload) {
+const validate = payload => {
   if (!payload.name) {
     return { message: "Please give your event a name" };
   } else if (!payload.placeID) {
@@ -57,78 +61,9 @@ function validate(payload) {
   } else if (getTextFromEditorState(payload.description).length <= 0) {
     return { message: "Please add a description" };
   } else {
-    return {};
+    return null;
   }
-}
-
-function getDate(str, isEditing) {
-  let dateArg = new Date();
-
-  if (isEditing && str) {
-    dateArg = parseISO(str);
-  }
-
-  return dateArg;
-}
-
-function getInitialDate(str, isEditing) {
-  return format(getDate(str, isEditing), "yyyy-MM-dd");
-}
-
-function getInitialTime(str, isEditing) {
-  return format(getDate(str, isEditing), "HH:mm");
-}
-
-function getInitVal(val, isEditing, fallback) {
-  if (!isEditing || (isEditing && !val)) {
-    return fallback;
-  }
-
-  return val;
-}
-
-async function handleSubmit({
-  values,
-  setSubmitting,
-  updateEvent,
-  createEvent,
-  history,
-  isEditing,
-  setSelectedResource,
-  event
-}) {
-  const datetime = parse(
-    `${values.date} ${values.time}`,
-    "yyyy-MM-dd HH:mm",
-    new Date()
-  );
-
-  const payload = {
-    name: values.name,
-    description: getTextFromEditorState(values.description),
-    placeID: values.placeID,
-    timestamp: datetime.toISOString()
-  };
-
-  if (!isEditing) {
-    payload.users = values.members;
-  }
-
-  let newEvent;
-  try {
-    if (isEditing) {
-      newEvent = await updateEvent({ ...payload, id: event.id });
-    } else {
-      newEvent = await createEvent(payload);
-    }
-  } catch (e) {
-    setSubmitting(false);
-    return;
-  }
-
-  setSelectedResource(newEvent.id);
-  history.push("/convos");
-}
+};
 
 function NullState() {
   return (
@@ -164,58 +99,74 @@ export default function EventForm() {
     ...unboundGeneralActions,
     ...unboundNotifActions
   });
+  const initialValues = {
+    name: getInitVal(event.name, isEditing, ""),
+    date: getInitDate(event.timestamp, isEditing),
+    time: getInitTime(event.timestamp, isEditing),
+    place: getInitVal(event.address, isEditing, ""),
+    placeId: getInitVal(event.placeID, isEditing, ""),
+    members: getInitVal(event.users, isEditing, []),
+    description: getInitialEditorState(
+      getInitVal(event.description, isEditing, "")
+    )
+  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [name, setName] = useState(initialValues.name);
+  const [date, setDate] = useState(initialValues.date);
+  const [time, setTime] = useState(initialValues.time);
+  const [place, setPlace] = useState(initialValues.place);
+  const [placeId, setPlaceId] = useState(initialValues.placeId);
+  const [members, setMembers] = useState(initialValues.members);
+  const [description, setDescription] = useState(initialValues.description);
 
-  const formik = useFormik({
-    initialValues: {
-      name: getInitVal(event.name, isEditing, ""),
-      date: getInitialDate(event.timestamp, isEditing),
-      time: getInitialTime(event.timestamp, isEditing),
-      place: getInitVal(event.address, isEditing, ""),
-      placeId: getInitVal(event.placeID, isEditing, ""),
-      members: getInitVal(event.users, isEditing, []),
-      description: getInitialEditorState(
-        getInitVal(event.description, isEditing, "")
-      )
-    },
-    validate: values => {
-      const results = validate(values);
-      if (results.message) {
-        dispatchNotification({ message: results.message });
-        return results;
-      } else {
-        return {};
-      }
-    },
-    validateOnChange: false,
-    validateOnBlur: false,
-    validateOnMount: false,
-    onSubmit: (values, { setSubmitting }) =>
-      handleSubmit({
-        values,
-        setSubmitting,
-        createEvent,
-        updateEvent,
-        setSelectedResource,
-        history,
-        isEditing,
-        event
-      })
-  });
+  const handleSubmit = async e => {
+    e && e.preventDefault();
+
+    const action = isEditing ? updateEvent : createEvent;
+    const rest = isEditing ? { id: event.id } : { users: members };
+
+    const payload = {
+      name: name,
+      description: getTextFromEditorState(description),
+      placeID: placeId,
+      timestamp: getISOFromDateTime(date, time),
+      ...rest
+    };
+
+    const errors = validate(payload);
+
+    if (errors && errors.message) {
+      return dispatchNotification({ message: errors.message });
+    }
+
+    setIsSubmitting(true);
+
+    let newEvent;
+    try {
+      newEvent = await action(payload);
+    } catch (e) {
+      return;
+    } finally {
+      setIsSubmitting(false);
+    }
+
+    setSelectedResource(newEvent.id);
+    history.push("/convos");
+  };
+
+  const handleMemberClick = member => {
+    const isAdded = members.some(m => m.id === member.id);
+
+    setMembers(
+      isAdded
+        ? members.filter(m => m.id !== member.id)
+        : members.concat([member])
+    );
+  };
 
   useEffect(() => {
     nameEl.current && nameEl.current.focus();
   }, []);
-
-  function handleMemberClick(member) {
-    const isAdded = formik.values.members.some(m => m.id === member.id);
-
-    formik.setFieldValue(
-      "members",
-      isAdded
-        ? formik.values.members.filter(m => m.id !== member.id)
-        : formik.values.members.concat([member])
-    );
-  }
 
   if (
     persistErrorState.current ||
@@ -240,9 +191,9 @@ export default function EventForm() {
                 <Input
                   type="text"
                   name="name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  isDisabled={formik.isSubmitting}
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  isDisabled={isSubmitting}
                   required
                   maxLength="255"
                   fontSize={2}
@@ -258,15 +209,15 @@ export default function EventForm() {
                   Where:
                 </Text>
                 <PlacePicker
-                  value={formik.values.place}
-                  onChange={newPlace => formik.setFieldValue("place", newPlace)}
+                  value={place}
+                  onChange={newPlace => setPlace(newPlace)}
                   onSelect={(placeString, placeId) => {
-                    formik.setFieldValue("place", placeString);
-                    formik.setFieldValue("placeID", placeId);
+                    setPlace(placeString);
+                    setPlaceId(placeId);
                   }}
                 />
               </Label>
-              <Map placeId={formik.values.placeID} noLink />
+              <Map placeId={placeId} noLink />
             </Box>
 
             <Box flexDirection="row" mb={1}>
@@ -277,11 +228,11 @@ export default function EventForm() {
                 <Input
                   type="date"
                   name="date"
-                  value={formik.values.date}
-                  onChange={formik.handleChange}
+                  value={date}
+                  onChange={e => setDate(e.target.value)}
                   required
                   maxLength="255"
-                  isDisabled={formik.isSubmitting}
+                  isDisabled={isSubmitting}
                   fontSize={2}
                 />
               </Label>
@@ -292,11 +243,11 @@ export default function EventForm() {
                 <Input
                   type="time"
                   name="time"
-                  value={formik.values.time}
-                  onChange={formik.handleChange}
+                  value={time}
+                  onChange={e => setTime(e.target.time)}
                   required
                   maxLength="255"
-                  isDisabled={formik.isSubmitting}
+                  isDisabled={isSubmitting}
                   fontSize={2}
                 />
               </Label>
@@ -309,8 +260,8 @@ export default function EventForm() {
                     Guests:
                   </Text>
                   <MultiMemberPickerField
-                    members={formik.values.members}
-                    setMembers={val => formik.setFieldValue("members", val)}
+                    members={members}
+                    setMembers={newMembers => setMembers(newMembers)}
                   />
                 </Label>
               </Box>
@@ -320,14 +271,14 @@ export default function EventForm() {
               backgroundColor="gray"
               height="16rem"
               placeholder="Tell your guests what your event is about..."
-              editorState={formik.values.description}
-              onChange={val => formik.setFieldValue("description", val)}
-              isDisabled={formik.isSubmitting}
+              editorState={description}
+              onChange={newDescription => setDescription(newDescription)}
+              isDisabled={isSubmitting}
             />
             <Controls
-              editorState={formik.values.body}
-              onClick={formik.handleSubmit}
-              isDisabled={formik.isSubmitting}
+              editorState={description}
+              onClick={handleSubmit}
+              isDisabled={isSubmitting}
             />
           </Form>
         </FloatingPill>
@@ -352,9 +303,7 @@ export default function EventForm() {
                 users={contacts}
                 transformUserProps={props => ({
                   ...props,
-                  isChecked: formik.values.members.some(
-                    m => m.id === props.user.id
-                  ),
+                  isChecked: members.some(m => m.id === props.user.id),
                   onClickOverride: () => handleMemberClick(props.user)
                 })}
                 renderExtraChildren={() =>
