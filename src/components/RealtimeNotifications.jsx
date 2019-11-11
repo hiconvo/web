@@ -150,9 +150,7 @@ export default function RealtimeNotifications() {
       client = stream.connect("kqm59q4584ah", null, "62737");
       feed = client.feed("notification", user.id, user.realtimeToken);
 
-      feed
-        .get({ mark_seen: true, mark_read: true })
-        .then(newNotifs => setNotifs(newNotifs.results));
+      feed.get().then(newNotifs => setNotifs(newNotifs.results));
 
       subscription.current = feed.subscribe(newNotifs => {
         setNotifs(notifs =>
