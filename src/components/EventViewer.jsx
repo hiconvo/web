@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
+import { motion } from "framer-motion";
 
 import useFormik from "../hooks/formik";
 import { useActions, useSelectors } from "../redux";
@@ -73,80 +74,103 @@ export default function EventViewer({ event }) {
     }
   }, [id, fetchEventMessages, isLoading, hasMessages, fetched]);
 
+  function getGoingCopy() {
+    let count;
+    try {
+      count =
+        event.users.filter(u => event.rsvps.some(r => r.id === u.id)).length +
+        1;
+    } catch (e) {
+      return "";
+    }
+
+    const verb = count === 1 ? "has" : "have";
+
+    return `· ${count} ${verb} RSVP'd`;
+  }
+
   useReadReporting(event);
 
   return (
-    <Box>
-      <FloatingPill>
-        <Heading mb={3} fontSize={4} fontWeight="semiBold">
-          {event.name}
-        </Heading>
+    <motion.div
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <Box>
+        <FloatingPill>
+          <Heading mb={3} fontSize={4} fontWeight="semiBold">
+            {event.name}
+          </Heading>
 
-        <Box mb={3}>
-          <Box flexDirection="row" alignItems="center" mb={2}>
-            <Icon name="schedule" fontSize={3} mr={2} />
-            <Box display="block">
-              <Text>{format(date, "EEEE, MMMM do @ h:mm a")}</Text>
-              <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
-                {formatDistanceToNow(date, { addSuffix: true })}
+          <Box mb={3}>
+            <Box flexDirection="row" alignItems="center" mb={2}>
+              <Icon name="schedule" fontSize={3} mr={2} />
+              <Box display="block">
+                <Text>{format(date, "EEEE, MMMM do @ h:mm a")}</Text>
+                <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
+                  {formatDistanceToNow(date, { addSuffix: true })}
+                </Text>
+              </Box>
+            </Box>
+            <Box flexDirection="row" alignItems="center" mb={2}>
+              <Icon name="public" fontSize={3} mr={2} />
+              <Box display="block">
+                <a
+                  href={getGoogleMapsUrl(event.lat, event.lng, event.placeID)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Text>{event.address}</Text>
+                  <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
+                    Get directions <Icon name="call_made" fontSize={1} />
+                  </Text>
+                </a>
+              </Box>
+            </Box>
+            <Box flexDirection="row" alignItems="center" mb={2}>
+              <Icon name="group" fontSize={3} mr={2} />
+              <Text>
+                {event.users.length} people were invited {getGoingCopy()}
               </Text>
             </Box>
           </Box>
-          <Box flexDirection="row" alignItems="center" mb={2}>
-            <Icon name="public" fontSize={3} mr={2} />
-            <Box display="block">
-              <a
-                href={getGoogleMapsUrl(event.lat, event.lng, event.placeID)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Text>{event.address}</Text>
-                <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
-                  Get directions <Icon name="call_made" fontSize={1} />
-                </Text>
-              </a>
-            </Box>
+
+          <RsvpPanel event={event} />
+
+          <Map placeId={event.placeID} lat={event.lat} lng={event.lng} />
+
+          <Box mt="2.4rem" mb={2} overflow="hidden">
+            <Markdown
+              text={
+                event.description || "This event did not include a description."
+              }
+            />
           </Box>
-          <Box flexDirection="row" alignItems="center" mb={2}>
-            <Icon name="group" fontSize={3} mr={2} />
-            <Text>{event.users.length} people were invited</Text>
-          </Box>
-        </Box>
 
-        <RsvpPanel event={event} />
-
-        <Map placeId={event.placeID} lat={event.lat} lng={event.lng} />
-
-        <Box mt="2.4rem" mb={2} overflow="hidden">
-          <Markdown
-            text={
-              event.description || "This event did not include a description."
-            }
+          <Composer
+            height="6rem"
+            backgroundColor="gray"
+            placeholder="Send a message to the guests..."
+            editorState={formik.values.body}
+            onChange={body => formik.setFieldValue("body", body)}
+            isDisabled={formik.isSubmitting}
           />
-        </Box>
-
-        <Composer
-          height="6rem"
-          backgroundColor="gray"
-          placeholder="Send a message to the guests..."
-          editorState={formik.values.body}
-          onChange={body => formik.setFieldValue("body", body)}
-          isDisabled={formik.isSubmitting}
-        />
-        <Controls
-          editorState={formik.values.body}
-          onClick={formik.handleSubmit}
-          isDisabled={formik.isSubmitting}
-        />
-      </FloatingPill>
-      {isLoading && <Ripple />}
-      {messages.map(message => (
-        <Message
-          key={message.id}
-          message={message}
-          isAuthor={user.id === message.user.id}
-        />
-      ))}
-    </Box>
+          <Controls
+            editorState={formik.values.body}
+            onClick={formik.handleSubmit}
+            isDisabled={formik.isSubmitting}
+          />
+        </FloatingPill>
+        {isLoading && <Ripple />}
+        {messages.map(message => (
+          <Message
+            key={message.id}
+            message={message}
+            isAuthor={user.id === message.user.id}
+          />
+        ))}
+      </Box>
+    </motion.div>
   );
 }

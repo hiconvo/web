@@ -3,6 +3,7 @@ import Modal from "styled-react-modal";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { themeGet } from "@styled-system/theme-get";
+import { motion } from "framer-motion";
 
 import InboxList from "./InboxList";
 import { Icon, LinkButton, Box } from "./styles";
@@ -21,6 +22,7 @@ const Container = styled.div`
 const StyledModal = Modal.styled`
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   width: calc(100vw - 2rem);
   max-width: ${themeGet("sidebarWidth")};
   position: fixed;
@@ -56,6 +58,11 @@ export default function MobileLogoMenu() {
     };
   }, [isOpen, handleClick]);
 
+  const ani = {
+    open: { opacity: 1, x: 0, transition: { x: { stiffness: 1000 } } },
+    closed: { opacity: 0, x: -50 }
+  };
+
   return (
     <Container>
       <Icon
@@ -65,49 +72,55 @@ export default function MobileLogoMenu() {
         color="primary"
       />
       <StyledModal isOpen={isOpen} onBackgroundClick={() => setIsOpen(false)}>
-        <Nav>
-          <Box width="7rem" p={3}>
-            <Logo height="6rem" />
-          </Box>
-          {!pathname.endsWith("convos") ? (
-            <LinkButton to="/convos" justifyContent="flex-start" mb="0">
-              Convos
+        <motion.div
+          variants={ani}
+          animate={isOpen ? "open" : "closed"}
+          initial="closed"
+        >
+          <Nav>
+            <Box width="7rem" p={3}>
+              <Logo height="6rem" />
+            </Box>
+            {!pathname.endsWith("convos") ? (
+              <LinkButton to="/convos" justifyContent="flex-start" mb="0">
+                Convos
+              </LinkButton>
+            ) : (
+              <LinkButton to="/contacts" justifyContent="flex-start" mb="0">
+                Contacts
+              </LinkButton>
+            )}
+          </Nav>
+          <Nav>
+            <LinkButton
+              to="/convos/new"
+              variant="brand"
+              width="100%"
+              alignItems="center"
+              justifyContent="flexStart"
+              display="flex"
+              mb="0"
+              fontSize={[1]}
+            >
+              <Icon name="mail_outline" mr={1} fontSize="2.2rem" />
+              New Convo
             </LinkButton>
-          ) : (
-            <LinkButton to="/contacts" justifyContent="flex-start" mb="0">
-              Contacts
+            <LinkButton
+              to="/events/new"
+              variant="brand"
+              width="100%"
+              alignItems="center"
+              justifyContent="flexStart"
+              display="flex"
+              mb="0"
+              fontSize={[1]}
+            >
+              <Icon name="event" mr={1} fontSize="2.2rem" />
+              New Event
             </LinkButton>
-          )}
-        </Nav>
-        <Nav>
-          <LinkButton
-            to="/convos/new"
-            variant="brand"
-            width="100%"
-            alignItems="center"
-            justifyContent="flexStart"
-            display="flex"
-            mb="0"
-            fontSize={[1]}
-          >
-            <Icon name="mail_outline" mr={1} fontSize="2.2rem" />
-            New Convo
-          </LinkButton>
-          <LinkButton
-            to="/events/new"
-            variant="brand"
-            width="100%"
-            alignItems="center"
-            justifyContent="flexStart"
-            display="flex"
-            mb="0"
-            fontSize={[1]}
-          >
-            <Icon name="event" mr={1} fontSize="2.2rem" />
-            New Event
-          </LinkButton>
-        </Nav>
-        <InboxList />
+          </Nav>
+          <InboxList />
+        </motion.div>
       </StyledModal>
     </Container>
   );
