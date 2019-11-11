@@ -40,7 +40,7 @@ const List = styled.ul`
 
   ${themeGet("media.phone")} {
     flex-wrap: unset;
-    flex-direction: column;
+    display: block;
     max-height: 95vh;
   }
 `;
