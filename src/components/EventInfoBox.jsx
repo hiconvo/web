@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import orderBy from "lodash/orderBy";
 
 import AddUserForm from "./AddUserForm";
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
@@ -30,7 +31,12 @@ export default function EventInfoBox({ event, user }) {
       <Label>Guests</Label>
       <UserOverflowList
         users={
-          event.users && event.users.filter(guest => guest.id !== owner.id)
+          event.users &&
+          orderBy(
+            event.users.filter(guest => guest.id !== owner.id),
+            [u => event.rsvps && event.rsvps.some(rsvp => rsvp.id === u.id)],
+            ["desc"]
+          )
         }
         transformUserProps={props => ({
           ...props,

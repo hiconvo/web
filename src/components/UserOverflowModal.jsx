@@ -4,15 +4,24 @@ import { themeGet } from "@styled-system/theme-get";
 import Modal from "styled-react-modal";
 
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
+import ContactCard from "./ContactCard";
 import ContactInfoBox from "./ContactInfoBox";
 import { Box, Icon, Heading, UnstyledButton, theme } from "./styles";
 
 const StyledModal = Modal.styled`
-  max-width: 95vw;
-  max-height: 95vh;
+  max-width: 90rem;
+  max-height: 85vh;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.special")};
   box-shadow: ${themeGet("shadows.normal")};
+
+  ${themeGet("media.phone")} {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: unset;
+  }
 `;
 
 const ContactModal = Modal.styled`
@@ -24,9 +33,29 @@ const ContactModal = Modal.styled`
 `;
 
 const List = styled.ul`
-  max-height: 95vh;
+  max-height: 85vh;
   overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+
+  ${themeGet("media.phone")} {
+    flex-wrap: unset;
+    flex-direction: column;
+    max-height: 95vh;
+  }
 `;
+
+function UserTile({ isMobile, onClickOverride, ...rest }) {
+  if (isMobile) {
+    return <InfoBoxMemberItem onClickOverride={onClickOverride} {...rest} />;
+  } else {
+    return (
+      <Box width="25%" overflow="hidden">
+        <ContactCard onClick={onClickOverride} {...rest} />
+      </Box>
+    );
+  }
+}
 
 export default function UserOverflowModal({
   isOpen,
@@ -46,7 +75,7 @@ export default function UserOverflowModal({
       handleClick = null;
     } else {
       handleClick = e => {
-        e.stopPropagation();
+        e && e.stopPropagation();
 
         setSelectedContact(user);
         setIsContactModalOpen(true);
@@ -66,7 +95,7 @@ export default function UserOverflowModal({
       onEscapeKeydown={toggleModal}
       onBackgroundClick={toggleModal}
     >
-      <Box p={[3, 4]} maxHeight="95vh">
+      <Box p={[3, 4]} maxHeight={["100vh", "85vh"]}>
         <Box
           justifyContent="space-between"
           alignItems="center"
@@ -82,10 +111,12 @@ export default function UserOverflowModal({
         </Box>
         <List>
           {users.map(user => (
-            <InfoBoxMemberItem
+            <UserTile
+              isMobile={mql.matches}
               onClickOverride={generateClickHandler(user)}
               {...transformUserProps({
                 user,
+                contact: user,
                 member: user,
                 key: user.id
               })}

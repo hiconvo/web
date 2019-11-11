@@ -32,11 +32,11 @@ const CloseButtonContainer = styled.div`
   z-index: 40;
 `;
 
-export default function ContactCard({ contact, onClick }) {
+export default function ContactCard({ contact, isChecked, onClick }) {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleClick() {
-    onClick();
+    onClick && onClick();
 
     const mql = window.matchMedia(`(max-width: ${theme.breakpoints[0]})`);
     if (mql.matches) {
@@ -52,6 +52,12 @@ export default function ContactCard({ contact, onClick }) {
           <Text mt={3} px={2} fontSize={3} textAlign="center">
             {contact.fullName}
           </Text>
+          {isChecked && (
+            <Box flexDirection="row" alignItems="center" mt={2}>
+              <Icon name="check" fontSize={4} display="flex" ml={2} />
+              <Text>Going</Text>
+            </Box>
+          )}
         </Box>
       </UnstyledButton>
       <StyledModal isOpen={isOpen}>
