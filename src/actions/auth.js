@@ -118,7 +118,7 @@ export const logoutUser = dispatch =>
    * @returns {undefined}
    */
   () => {
-    localStorage.removeItem("userToken");
+    localStorage.clear();
     setHasEnabledGoogleContacts(false);
     getGapiAuth2().then(authInstance => {
       if (authInstance.isSignedIn.get()) {

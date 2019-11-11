@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
@@ -55,7 +55,7 @@ const Form = styled.form``;
 const validate = payload => {
   if (!payload.name) {
     return { message: "Please give your event a name" };
-  } else if (!payload.placeID) {
+  } else if (!payload.placeId) {
     return { message: "Please choose a location" };
   } else if (payload.members && !payload.members.length) {
     return { message: "Please invite some people" };
@@ -101,7 +101,7 @@ export default function EventForm() {
     ...unboundNotifActions
   });
   const formik = useFormik({
-    formId: "newEvent",
+    formId: isEditing ? undefined : "newEvent",
     initialValues: {
       name: getInitVal(event.name, isEditing, ""),
       date: getInitDate(event.timestamp, isEditing),

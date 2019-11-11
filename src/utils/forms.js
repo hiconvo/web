@@ -37,7 +37,6 @@ export function getISOFromDateTime(date, time) {
   return datetime.toISOString();
 }
 
-const DATE_KEYS = ["date", "time"];
 const EDITOR_KEYS = ["body", "description"];
 
 export function createOrRecoverInitFormVals(formId, defaultVals) {
@@ -45,7 +44,12 @@ export function createOrRecoverInitFormVals(formId, defaultVals) {
     return defaultVals;
   }
 
-  const dat = localStorage.getItem(formId);
+  let dat;
+  try {
+    dat = localStorage.getItem(formId);
+  } catch (e) {
+    return defaultVals;
+  }
 
   if (!dat) {
     return defaultVals;
@@ -57,12 +61,13 @@ export function createOrRecoverInitFormVals(formId, defaultVals) {
         try {
           return getInitialEditorState(val);
         } catch (e) {
-          return "";
+          return getInitialEditorState();
         }
       }
 
       return val;
     });
+
     return Object.assign({}, defaultVals, recovered);
   } catch (e) {
     return defaultVals;
@@ -70,21 +75,55 @@ export function createOrRecoverInitFormVals(formId, defaultVals) {
 }
 
 export function saveUnsubmittedFormVals(formId, values) {
-  if (formId) {
-    const dat = JSON.stringify(values, (key, val) => {
-      if (typeof val !== "string") {
-        if (EDITOR_KEYS.includes(key) && typeof val === "object") {
-          try {
-            return getTextFromEditorState(val);
-          } catch (e) {
-            return undefined;
-          }
+  if (!formId) {
+    return;
+  }
+
+  // Check if the entry should be removed from localStorage
+  try {
+    // If this throws an error, then values is invalid
+    // so give up
+    if (Object.keys(values).length <= 0) {
+      return localStorage.removeItem(formId);
+    }
+
+    // Check to see if there's anything worth saving
+    const nonEmptyVals = Object.entries(values).filter(([key, val]) => {
+      if (EDITOR_KEYS.includes(key) && typeof val === "object") {
+        try {
+          // It's redundant that we have to call this again below
+          // but there doesn't see to be a way to avoid it that isn't
+          // risky
+          return getTextFromEditorState(val).length > 0;
+        } catch (e) {
+          return false;
         }
       }
 
-      return val;
+      return val.length > 0;
     });
 
-    localStorage.setItem(formId, dat);
+    if (nonEmptyVals.length <= 0) {
+      return localStorage.removeItem(formId);
+    }
+  } catch (e) {
+    return;
   }
+
+  // Serialize the data and handle annoying editorState
+  const dat = JSON.stringify(values, (key, val) => {
+    if (typeof val !== "string") {
+      if (EDITOR_KEYS.includes(key) && typeof val === "object") {
+        try {
+          return getTextFromEditorState(val);
+        } catch (e) {
+          return undefined;
+        }
+      }
+    }
+
+    return val;
+  });
+
+  localStorage.setItem(formId, dat);
 }

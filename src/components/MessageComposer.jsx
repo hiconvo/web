@@ -33,16 +33,15 @@ export default function MessageComposer() {
 
       try {
         setSubmitting(true);
-        createThreadMessage(threadId, {
+        await createThreadMessage(threadId, {
           body: getTextFromEditorState(values.body)
         });
+        formik.setFieldValue("body", getInitialEditorState());
       } catch (e) {
         return;
       } finally {
         setSubmitting(false);
       }
-
-      formik.setFieldValue("body", getInitialEditorState());
     }
   });
 

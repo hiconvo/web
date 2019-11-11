@@ -36,9 +36,11 @@ export default function useFormik({
     setFieldValues({ [fieldName]: value });
   }
 
-  function handleSubmit() {
+  async function handleSubmit(e) {
+    e && e.preventDefault();
     const errors = validate && validate(values);
-    onSubmit(values, { setSubmitting: setIsSubmitting, errors });
+    await onSubmit(values, { setSubmitting: setIsSubmitting, errors });
+    saveUnsubmittedFormVals(formId, {});
   }
 
   return {

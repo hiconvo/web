@@ -35,8 +35,8 @@ const Container = styled.ul`
 
 const spring = {
   type: "spring",
-  damping: 100,
-  stiffness: 200
+  damping: 200,
+  stiffness: 300
 };
 
 export default function InboxList() {
