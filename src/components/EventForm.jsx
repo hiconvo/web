@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import DatePicker from "react-datepicker";
+import { format, parse } from "date-fns";
 
 import {
   getInitVal,
@@ -216,24 +218,22 @@ export default function EventForm() {
               <Map placeId={formik.values.placeId} noLink />
             </Box>
 
-            <Box flexDirection="row" mb={1}>
+            <Box flexDirection={["column", "row"]} mb={1}>
               <Label>
                 <Text fontSize={1} mr={1}>
                   When:
                 </Text>
-                <Input
-                  type="date"
+                <DatePicker
                   name="date"
-                  value={formik.values.date}
-                  onChange={formik.handleChange}
-                  required
-                  maxLength="255"
-                  isDisabled={formik.isSubmitting}
-                  fontSize={2}
+                  selected={parse(formik.values.date, "yyyy-MM-dd", new Date())}
+                  dateFormat="MMMM dd, yyyy"
+                  onChange={newDate =>
+                    formik.setFieldValue("date", format(newDate, "yyyy-MM-dd"))
+                  }
                 />
               </Label>
               <Label>
-                <Text fontSize={1} mr={1}>
+                <Text fontSize={1} mx={1}>
                   @
                 </Text>
                 <Input
