@@ -9,11 +9,11 @@ const Button = styled(Box)`
   background-color: inherit;
   border: inherit;
   cursor: pointer;
-  align-items: center;
 `;
 
 Button.defaultProps = {
-  as: "button"
+  as: "button",
+  alignItems: "center"
 };
 
 export default Button;

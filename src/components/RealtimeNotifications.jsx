@@ -25,7 +25,7 @@ const getReadableVerb = verb => {
     case "UpdatedEvent":
       return "updated";
     default:
-      return "did something in";
+      return "updated";
   }
 };
 
@@ -56,6 +56,8 @@ const Circle = styled(UnstyledButton)`
 const DropdownItemsContainer = styled.ul`
   display: ${props => (props.isOpen ? "block" : "none")};
   width: 30rem;
+  max-height: 80vh;
+  overflow-y: scroll;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
