@@ -113,7 +113,9 @@ export default function EventForm() {
       members: getInitVal(event.users, isEditing, []),
       description: getInitialEditorState(
         getInitVal(event.description, isEditing, "")
-      )
+      ),
+      guestsCanInvite: getInitVal(event.guestsCanInvite, isEditing, false),
+      resend: false
     },
     validate: validate,
     onSubmit: async (values, { setSubmitting, errors }) => {
@@ -122,13 +124,16 @@ export default function EventForm() {
       }
 
       const action = isEditing ? updateEvent : createEvent;
-      const rest = isEditing ? { id: event.id } : { users: values.members };
+      const rest = isEditing
+        ? { id: event.id, resend: values.resend }
+        : { users: values.members };
 
       const payload = {
         name: values.name,
         description: getTextFromEditorState(values.description),
         placeID: values.placeId,
         timestamp: getISOFromDateTime(values.date, values.time),
+        guestsCanInvite: values.guestsCanInvite,
         ...rest
       };
 
@@ -200,7 +205,7 @@ export default function EventForm() {
             </Box>
 
             <Box mb={3}>
-              <Label>
+              <Label mb={1}>
                 <Text fontSize={1} mr={1}>
                   Where:
                 </Text>
@@ -218,7 +223,7 @@ export default function EventForm() {
               <Map placeId={formik.values.placeId} noLink />
             </Box>
 
-            <Box flexDirection={["column", "row"]} mb={1}>
+            <Box>
               <Label>
                 <Text fontSize={1} mr={1}>
                   When:
@@ -232,10 +237,11 @@ export default function EventForm() {
                   }
                 />
               </Label>
+            </Box>
+
+            <Box>
               <Label>
-                <Text fontSize={1} mx={1}>
-                  @
-                </Text>
+                <Text fontSize={1}>@</Text>
                 <Input
                   type="time"
                   name="time"
@@ -248,6 +254,44 @@ export default function EventForm() {
                 />
               </Label>
             </Box>
+
+            <Box>
+              <Label>
+                <Text fontSize={1} mr={1} flexShrink={0}>
+                  Allow guests to invite others:
+                </Text>
+                <Input
+                  type="checkbox"
+                  name="guestsCanInvite"
+                  checked={formik.values.guestsCanInvite}
+                  onChange={e =>
+                    formik.setFieldValue("guestsCanInvite", e.target.checked)
+                  }
+                  isDisabled={formik.isSubmitting}
+                  width="auto"
+                />
+              </Label>
+            </Box>
+
+            {isEditing && (
+              <Box>
+                <Label>
+                  <Text fontSize={1} mr={1} flexShrink={0}>
+                    Resend invitations:
+                  </Text>
+                  <Input
+                    type="checkbox"
+                    name="resend"
+                    checked={formik.values.resend}
+                    onChange={e =>
+                      formik.setFieldValue("resend", e.target.checked)
+                    }
+                    isDisabled={formik.isSubmitting}
+                    width="auto"
+                  />
+                </Label>
+              </Box>
+            )}
 
             {!isEditing && (
               <Box>
