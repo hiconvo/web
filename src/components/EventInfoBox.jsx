@@ -56,42 +56,40 @@ export default function EventInfoBox({ event, user }) {
         }
       />
 
-      {isOwner && (
-        <React.Fragment>
-          <Label>Actions</Label>
-          <Box as="ul" mb={4}>
-            <React.Fragment>
-              <Action
-                onClick={() => setIsGuestEditing(true)}
-                ml="-1.2rem"
-                text="Invite others"
-                iconName="group_add"
-              />
-              <Action
-                onClick={() => history.push("/events/edit")}
-                ml="-1.2rem"
-                text="Edit"
-                iconName="edit"
-              />
-              <DeleteEventButton
-                event={event}
-                render={onClick => (
-                  <Action
-                    onClick={onClick}
-                    ml="-1.2rem"
-                    text="Delete"
-                    iconName="remove_circle"
-                  />
-                )}
-              />
-            </React.Fragment>
-          </Box>
-        </React.Fragment>
-      )}
+      <Label>Actions</Label>
+      <Box as="ul" mb={4}>
+        {(isOwner || event.guestsCanInvite) && (
+          <Action
+            onClick={() => setIsGuestEditing(true)}
+            ml="-1.2rem"
+            text="Invite others"
+            iconName="group_add"
+          />
+        )}
 
-      {!isOwner && (
-        <React.Fragment>
-          <Label>Actions</Label>
+        {isOwner && (
+          <React.Fragment>
+            <Action
+              onClick={() => history.push("/events/edit")}
+              ml="-1.2rem"
+              text="Edit"
+              iconName="edit"
+            />
+            <DeleteEventButton
+              event={event}
+              render={onClick => (
+                <Action
+                  onClick={onClick}
+                  ml="-1.2rem"
+                  text="Delete"
+                  iconName="remove_circle"
+                />
+              )}
+            />
+          </React.Fragment>
+        )}
+
+        {!isOwner && (
           <LeaveEventButton
             event={event}
             user={user}
@@ -104,8 +102,8 @@ export default function EventInfoBox({ event, user }) {
               />
             )}
           />
-        </React.Fragment>
-      )}
+        )}
+      </Box>
     </React.Fragment>
   );
 }
