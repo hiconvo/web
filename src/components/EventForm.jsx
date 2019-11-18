@@ -223,36 +223,45 @@ export default function EventForm() {
               <Map placeId={formik.values.placeId} noLink />
             </Box>
 
-            <Box>
-              <Label>
-                <Text fontSize={1} mr={1}>
-                  When:
-                </Text>
-                <DatePicker
-                  name="date"
-                  selected={parse(formik.values.date, "yyyy-MM-dd", new Date())}
-                  dateFormat="MMMM dd, yyyy"
-                  onChange={newDate =>
-                    formik.setFieldValue("date", format(newDate, "yyyy-MM-dd"))
-                  }
-                />
-              </Label>
-            </Box>
+            <Box flexDirection={["column", "row"]}>
+              <Box width={["100%", "50%"]} overflow="hidden">
+                <Label>
+                  <Text fontSize={1} mr={1}>
+                    When:
+                  </Text>
+                  <DatePicker
+                    name="date"
+                    selected={parse(
+                      formik.values.date,
+                      "yyyy-MM-dd",
+                      new Date()
+                    )}
+                    dateFormat="MMMM dd, yyyy"
+                    onChange={newDate =>
+                      formik.setFieldValue(
+                        "date",
+                        format(newDate, "yyyy-MM-dd")
+                      )
+                    }
+                  />
+                </Label>
+              </Box>
 
-            <Box>
-              <Label>
-                <Text fontSize={1}>@</Text>
-                <Input
-                  type="time"
-                  name="time"
-                  value={formik.values.time}
-                  onChange={formik.handleChange}
-                  required
-                  maxLength="255"
-                  isDisabled={formik.isSubmitting}
-                  fontSize={2}
-                />
-              </Label>
+              <Box width={["100%", "50%"]}>
+                <Label>
+                  <Text fontSize={1}>@</Text>
+                  <Input
+                    type="time"
+                    name="time"
+                    value={formik.values.time}
+                    onChange={formik.handleChange}
+                    required
+                    maxLength="255"
+                    isDisabled={formik.isSubmitting}
+                    fontSize={2}
+                  />
+                </Label>
+              </Box>
             </Box>
 
             <Box>
@@ -334,7 +343,7 @@ export default function EventForm() {
           </Heading>
           <Paragraph fontSize={1} color="gray" lineHeight="1.3em" mb={4}>
             {isEditing
-              ? "Your guests will receive an updated invite email. Please be mindful of excessive and repetitive email and keep updates to a minimum."
+              ? "Your guests will receive an updated invite email if you check the resend invitations option to the left. Please be mindful of excessive and repetitive email and keep updates to a minimum."
               : "Click on your contacts below to invite them to your event."}
           </Paragraph>
           {!isEditing && (
