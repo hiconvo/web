@@ -135,6 +135,13 @@ export default React.forwardRef(
     useEffect(() => {
       function handleCloseDropdown(e) {
         if (!inputContainerEl.current.contains(e.target)) {
+          if (EMAIL_REGEXP.test(debouncedQuery)) {
+            handleClick(null, {
+              email: debouncedQuery,
+              fullName: debouncedQuery,
+              id: debouncedQuery
+            });
+          }
           setIsDropdownOpen(false);
         }
       }
@@ -146,7 +153,13 @@ export default React.forwardRef(
       return () => {
         document.removeEventListener("click", handleCloseDropdown);
       };
-    }, [isDropdownOpen, setIsDropdownOpen, inputContainerEl]);
+    }, [
+      isDropdownOpen,
+      setIsDropdownOpen,
+      inputContainerEl,
+      debouncedQuery,
+      handleClick
+    ]);
 
     return (
       <Box position="relative" minWidth="28rem" ref={inputContainerEl}>
