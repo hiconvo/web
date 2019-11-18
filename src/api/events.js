@@ -89,10 +89,12 @@ export function removeRSVPFromEvent(eventId) {
 
 /*
  * @param {string} eventId
+ * @param {Object} payload
+ * @param {string} payload.message
  */
-export function deleteEvent(eventId) {
+export function deleteEvent(eventId, payload) {
   return apiRequest(`/events/${eventId}`, {
-    body: {},
+    body: payload,
     method: "DELETE"
   });
 }

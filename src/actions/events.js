@@ -228,11 +228,12 @@ export const deleteEvent = dispatch =>
   /*
    * @param {Object} payload
    * @param {Object} payload.event
+   * @param {string} payload.message
    * @returns {undefined}
    */
   async payload => {
     try {
-      await API.deleteEvent(payload.event.id);
+      await API.deleteEvent(payload.event.id, { message: payload.message });
       dispatch({
         type: "DELETE_EVENT",
         payload: payload.event.id
