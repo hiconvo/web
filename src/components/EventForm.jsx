@@ -249,7 +249,9 @@ export default function EventForm() {
 
               <Box width={["100%", "50%"]}>
                 <Label>
-                  <Text fontSize={1}>@</Text>
+                  <Text fontSize={1} mr={2}>
+                    @
+                  </Text>
                   <Input
                     type="time"
                     name="time"
@@ -264,7 +266,7 @@ export default function EventForm() {
               </Box>
             </Box>
 
-            <Box>
+            <Box mt={[3, 0]}>
               <Label>
                 <Text fontSize={1} mr={1} flexShrink={0}>
                   Allow guests to invite others:
@@ -283,7 +285,7 @@ export default function EventForm() {
             </Box>
 
             {isEditing && (
-              <Box>
+              <Box mt={[3, 0]}>
                 <Label>
                   <Text fontSize={1} mr={1} flexShrink={0}>
                     Resend invitations:
@@ -303,7 +305,7 @@ export default function EventForm() {
             )}
 
             {!isEditing && (
-              <Box>
+              <Box mt={[2, 0]}>
                 <Label>
                   <Text fontSize={1} mr={1}>
                     Guests:
