@@ -32,7 +32,12 @@ const CloseButtonContainer = styled.div`
   z-index: 40;
 `;
 
-export default function ContactCard({ contact, isChecked, onClick }) {
+export default function ContactCard({
+  contact,
+  isChecked,
+  isCheckedCopy = "Going",
+  onClick
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleClick() {
@@ -55,7 +60,7 @@ export default function ContactCard({ contact, isChecked, onClick }) {
           {isChecked && (
             <Box flexDirection="row" alignItems="center" mt={2}>
               <Icon name="check" fontSize={4} display="flex" ml={2} />
-              <Text>Going</Text>
+              <Text>{isCheckedCopy}</Text>
             </Box>
           )}
         </Box>

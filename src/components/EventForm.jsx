@@ -354,13 +354,14 @@ export default function EventForm() {
                 Your contacts
               </Text>
               <UserOverflowList
-                maxLength={10}
+                maxLength={7}
                 users={contacts}
                 transformUserProps={props => ({
                   ...props,
                   isChecked: formik.values.members.some(
                     m => m.id === props.user.id
                   ),
+                  isCheckedCopy: "",
                   onClickOverride: () => handleMemberClick(props.user)
                 })}
                 renderExtraChildren={() =>
