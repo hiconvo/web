@@ -222,7 +222,8 @@ export default {
     veryLightGray: `1px solid ${veryLightGray}`,
     snow: `1px solid ${snow}`,
     brandColor: `1px solid ${primary500}`,
-    error: `1px solid ${error900}`
+    error: `1px solid ${error900}`,
+    dashed: `1px dashed ${lightGray}`
   },
 
   // Radii

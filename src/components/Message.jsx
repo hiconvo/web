@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { format } from "date-fns";
 
+import { Box } from "./styles";
 import Markdown from "./Markdown";
 
 const Container = styled.div`
@@ -23,7 +24,6 @@ const Container = styled.div`
 const Relative = styled.div`
   position: relative;
   display: flex;
-  margin-bottom: ${themeGet("space.5")};
   flex-direction: ${props => (props.isAuthor ? "row-reverse" : "row")};
 `;
 
@@ -37,14 +37,26 @@ const Metadata = styled.span`
 
 export default function Message({ message, isAuthor }) {
   return (
-    <Relative isAuthor={isAuthor}>
-      <Metadata isAuthor={isAuthor}>
-        {message.user.firstName} @{" "}
-        {format(new Date(message.timestamp), "MMM d")}
-      </Metadata>
-      <Container isAuthor={isAuthor}>
-        <Markdown text={message.body} fontSize={3} />
-      </Container>
-    </Relative>
+    <Box mb={5}>
+      <Relative isAuthor={isAuthor}>
+        <Metadata isAuthor={isAuthor}>
+          {message.user.firstName} @{" "}
+          {format(new Date(message.timestamp), "MMM d")}
+        </Metadata>
+        <Container isAuthor={isAuthor}>
+          <Markdown text={message.body} fontSize={3} />
+        </Container>
+      </Relative>
+      {message.photos && message.photos.length > 0 && (
+        <Box
+          as="img"
+          src={message.photos[0]}
+          borderRadius="normal"
+          width="100%"
+          height="auto"
+          mt={2}
+        />
+      )}
+    </Box>
   );
 }
