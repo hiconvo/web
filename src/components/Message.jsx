@@ -48,14 +48,20 @@ export default function Message({ message, isAuthor }) {
         </Container>
       </Relative>
       {message.photos && message.photos.length > 0 && (
-        <Box
-          as="img"
-          src={message.photos[0]}
-          borderRadius="normal"
-          width="100%"
-          height="auto"
-          mt={2}
-        />
+        <Box flexDirection={isAuthor ? "row-reverse" : "row"}>
+          <div>
+            <Box
+              as="img"
+              display="block"
+              src={message.photos[0]}
+              borderRadius="normal"
+              width="auto"
+              height="auto"
+              maxWidth="100%"
+              mt={2}
+            />
+          </div>
+        </Box>
       )}
     </Box>
   );
