@@ -5,6 +5,7 @@ import { format } from "date-fns";
 
 import { Box } from "./styles";
 import Markdown from "./Markdown";
+import Photo from "./Photo";
 
 const Container = styled.div`
   display: inline-block;
@@ -49,18 +50,7 @@ export default function Message({ message, isAuthor }) {
       </Relative>
       {message.photos && message.photos.length > 0 && (
         <Box flexDirection={isAuthor ? "row-reverse" : "row"}>
-          <div>
-            <Box
-              as="img"
-              display="block"
-              src={message.photos[0]}
-              borderRadius="normal"
-              width="auto"
-              height="auto"
-              maxWidth="100%"
-              mt={2}
-            />
-          </div>
+          <Photo src={message.photos[0]} />
         </Box>
       )}
     </Box>
