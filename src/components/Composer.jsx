@@ -11,13 +11,17 @@ const grayBackgroundStyle = height => ({
   borderRadius: theme.radii.normal,
   padding: theme.space[3],
   minHeight: height,
-  marginTop: theme.space[3]
+  marginTop: theme.space[3],
+  fontFamily: theme.fonts.serif,
+  fontSize: theme.fontSizes[3]
 });
 
 const whiteBackgroundStyle = height => ({
   width: "100%",
   minHeight: height,
-  marginBottom: "1rem"
+  marginBottom: "1rem",
+  fontFamily: theme.fonts.serif,
+  fontSize: theme.fontSizes[3]
 });
 
 export function getInitialEditorState(text) {

@@ -7,7 +7,7 @@ import * as unboundActions from "../actions/messages";
 import Message from "./Message";
 import MessageComposer from "./MessageComposer";
 import { useReadReporting } from "../hooks";
-import { Ripple } from "./styles";
+import { Ripple, FloatingPill } from "./styles";
 
 export default function ThreadViewer({ thread }) {
   const fetched = useRef({});
@@ -16,7 +16,9 @@ export default function ThreadViewer({ thread }) {
     getMessagesByThreadId(thread.id),
     getUser
   );
-  const { fetchThreadMessages } = useActions(unboundActions);
+  const { fetchThreadMessages, createThreadMessage } = useActions(
+    unboundActions
+  );
   const { id } = thread;
   const hasMessages = messages.length > 0;
 
@@ -45,7 +47,9 @@ export default function ThreadViewer({ thread }) {
 
   return (
     <div>
-      <MessageComposer key={id} />
+      <FloatingPill>
+        <MessageComposer key={id} createMessage={createThreadMessage} />
+      </FloatingPill>
       {isLoading && <Ripple />}
       {messages.map((message, idx) => (
         <motion.div

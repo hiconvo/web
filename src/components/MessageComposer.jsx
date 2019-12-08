@@ -2,10 +2,8 @@ import React, { useState, useRef } from "react";
 import imageFileToBase64 from "image-file-to-base64-exif";
 
 import useFormik from "../hooks/formik";
-import { FloatingPill } from "./styles";
 import { useActions, useSelectors } from "../redux";
 import { getSelectedResource } from "../selectors";
-import * as unboundActions from "../actions/messages";
 import * as unboundNotifActions from "../actions/notifications";
 import Controls from "./MessageComposerControls";
 import MessageImagePreview from "./MessageImagePreview";
@@ -13,6 +11,7 @@ import Composer, {
   getInitialEditorState,
   getTextFromEditorState
 } from "./Composer";
+import { Box } from "./styles";
 
 const validate = values => {
   return getTextFromEditorState(values.body).length <= 0
@@ -20,15 +19,19 @@ const validate = values => {
     : null;
 };
 
-export default function MessageComposer() {
+export default function MessageComposer({
+  createMessage,
+  height = "4rem",
+  backgroundColor = "white",
+  placeholder = "Compose your response..."
+}) {
   const inputEl = useRef(null);
   const [src, setSrc] = useState("");
   const [isImgLoading, setIsImgLoading] = useState(false);
-  const [{ id: threadId }] = useSelectors(getSelectedResource);
-  const { createThreadMessage } = useActions(unboundActions);
+  const [{ id }] = useSelectors(getSelectedResource);
   const { dispatchNotification } = useActions(unboundNotifActions);
   const formik = useFormik({
-    formId: threadId,
+    formId: id,
     initialValues: { body: getInitialEditorState() },
     validate: validate,
     onSubmit: async (values, { setSubmitting, errors }) => {
@@ -38,7 +41,7 @@ export default function MessageComposer() {
 
       try {
         setSubmitting(true);
-        await createThreadMessage(threadId, {
+        await createMessage(id, {
           body: getTextFromEditorState(values.body),
           blob: src.length ? src.split(",").pop() : ""
         });
@@ -70,10 +73,11 @@ export default function MessageComposer() {
   }
 
   return (
-    <FloatingPill>
+    <Box>
       <Composer
-        backgroundColor="white"
-        placeholder="Compose your response..."
+        height={height}
+        backgroundColor={backgroundColor}
+        placeholder={placeholder}
         editorState={formik.values.body}
         onChange={body => formik.setFieldValue("body", body)}
         isDisabled={formik.isSubmitting}
@@ -93,6 +97,6 @@ export default function MessageComposer() {
         style={{ display: "none" }}
         ref={inputEl}
       />
-    </FloatingPill>
+    </Box>
   );
 }

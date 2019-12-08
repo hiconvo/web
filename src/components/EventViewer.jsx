@@ -2,57 +2,22 @@ import React, { useEffect, useState, useRef } from "react";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
 
-import useFormik from "../hooks/formik";
 import { useActions, useSelectors } from "../redux";
 import { getUser, getMessagesByThreadId } from "../selectors";
 import { getGoogleMapsUrl } from "../utils";
 import * as unboundActions from "../actions/messages";
-import * as unboundNotifActions from "../actions/notifications";
 import Markdown from "./Markdown";
 import Map from "./Map";
-import Composer, {
-  getInitialEditorState,
-  getTextFromEditorState
-} from "./Composer";
-import Controls from "./MessageComposerControls";
+import MessageComposer from "./MessageComposer";
 import RsvpPanel from "./RsvpPanel";
 import Message from "./Message";
 import { useReadReporting } from "../hooks";
 import { FloatingPill, Text, Heading, Icon, Box, Ripple } from "./styles";
 
-const validate = values => {
-  return getTextFromEditorState(values.body).length <= 0
-    ? { message: "Your message cannot be empty" }
-    : null;
-};
-
 export default function EventViewer({ event }) {
   const [isLoading, setIsLoading] = useState(false);
   const { createEventMessage, fetchEventMessages } = useActions(unboundActions);
-  const { dispatchNotification } = useActions(unboundNotifActions);
   const fetched = useRef({});
-  const formik = useFormik({
-    initialValues: { body: getInitialEditorState() },
-    validate: validate,
-    onSubmit: async (values, { setSubmitting, errors }) => {
-      if (errors && errors.message) {
-        return dispatchNotification({ message: errors.message });
-      }
-
-      try {
-        setSubmitting(true);
-        await createEventMessage(id, {
-          body: getTextFromEditorState(values.body)
-        });
-        formik.setFieldValue("body", getInitialEditorState());
-      } catch (e) {
-        return;
-      } finally {
-        setSubmitting(false);
-      }
-    }
-  });
-
   const { id, timestamp } = event;
   const date = parseISO(timestamp);
 
@@ -148,20 +113,15 @@ export default function EventViewer({ event }) {
             />
           </Box>
 
-          <Composer
+          <MessageComposer
+            key={id}
             height="6rem"
             backgroundColor="gray"
             placeholder="Send a message to the guests..."
-            editorState={formik.values.body}
-            onChange={body => formik.setFieldValue("body", body)}
-            isDisabled={formik.isSubmitting}
-          />
-          <Controls
-            editorState={formik.values.body}
-            onClick={formik.handleSubmit}
-            isDisabled={formik.isSubmitting}
+            createMessage={createEventMessage}
           />
         </FloatingPill>
+
         {isLoading && <Ripple />}
         {messages.map(message => (
           <Message
