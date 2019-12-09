@@ -5,12 +5,11 @@ import { motion } from "framer-motion";
 
 import { useSelectors, useActions } from "../redux";
 import {
-  getInboxContents,
+  getEvents,
   getIsThreadsFetched,
   getIsEventsFetched,
   getSelectedResource
 } from "../selectors";
-import * as unboundThreadActions from "../actions/threads";
 import * as unboundEventActions from "../actions/events";
 import * as unboundGeneralActions from "../actions/general";
 import InboxListItem from "./InboxListItem";
@@ -41,18 +40,13 @@ const spring = {
 
 export default function InboxList() {
   const [contents, isThreadsFetched, isEventsFetched, { id }] = useSelectors(
-    getInboxContents,
+    getEvents,
     getIsThreadsFetched,
     getIsEventsFetched,
     getSelectedResource
   );
-  const { fetchThreads } = useActions(unboundThreadActions);
   const { fetchEvents } = useActions(unboundEventActions);
   const { setSelectedResource } = useActions(unboundGeneralActions);
-
-  useEffect(() => {
-    !isThreadsFetched && fetchThreads();
-  }, [isThreadsFetched, fetchThreads]);
 
   useEffect(() => {
     !isEventsFetched && fetchEvents();

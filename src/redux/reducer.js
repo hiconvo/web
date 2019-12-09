@@ -35,7 +35,11 @@ export default function reducer(state, action) {
             b.preview &&
             isBefore(a.preview.timestamp, b.preview.timestamp)
         )
-        .map(thread => ({ ...thread, resourceType: "Thread" }));
+        .map(thread => ({
+          ...thread,
+          resourceType: "Thread",
+          preview: { ...thread.preview, user: thread.preview.sender }
+        }));
       return Object.assign({}, state, {
         threads,
         isThreadsFetched: true

@@ -89,6 +89,7 @@ const WrappedLogo = () => (
 export default () => {
   const isLoginPage = useRouteMatch("/login");
   const isForgotPage = useRouteMatch("/forgot");
+  const isEventsPage = useRouteMatch("/events");
   const isConvosPage = useRouteMatch("/convos");
   const isContactsPage = useRouteMatch("/contacts");
   const showNav = !(isLoginPage || isForgotPage);
@@ -101,6 +102,7 @@ export default () => {
         {showNav && (
           <Nav>
             <NavItem to="/convos" text="Convos" active={isConvosPage} />
+            <NavItem to="/events" text="Events" active={isEventsPage} />
             <NavItem to="/contacts" text="Contacts" active={isContactsPage} />
           </Nav>
         )}

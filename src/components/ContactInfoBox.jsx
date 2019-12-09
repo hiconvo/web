@@ -37,6 +37,9 @@ function Action({ iconName, text, onClick, ...rest }) {
 function ContactInfoBox({ contact, history, position = "fixed" }) {
   const { addToContacts, removeFromContacts } = useActions(unboundActions);
   const [contacts] = useSelectors(getContacts);
+
+  if (!contact) return null;
+
   const isContact = contacts.some(c => c.id === contact.id);
   const isSelected = Boolean(contact.id);
 

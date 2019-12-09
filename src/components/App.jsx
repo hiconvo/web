@@ -17,6 +17,7 @@ import VerifyEmail from "../pages/VerifyEmail";
 import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
 import Rsvp from "../pages/Rsvp";
+import Feed from "../pages/Feed";
 
 const ModalBackground = styled(BaseModalBackground).attrs(props => ({
   ...props,
@@ -65,7 +66,8 @@ export default function App() {
                     exact
                     component={NewEvent}
                   />
-                  <AuthorizedRoute path="/convos" exact component={Main} />
+                  <AuthorizedRoute path="/convos" exact component={Feed} />
+                  <AuthorizedRoute path="/events" exact component={Main} />
                   <AuthorizedRoute
                     path="/contacts"
                     exact
