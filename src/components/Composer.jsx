@@ -3,6 +3,12 @@ import { Editor, EditorState, ContentState } from "draft-js";
 
 import { theme } from "./styles";
 
+const commonStyles = {
+  fontFamily: theme.fonts.serif,
+  fontSize: theme.fontSizes[3],
+  lineHeight: "1.5em"
+};
+
 const grayBackgroundStyle = height => ({
   width: `calc(100% - ${theme.space[3]} * 2)`,
   marginBottom: "1rem",
@@ -12,16 +18,14 @@ const grayBackgroundStyle = height => ({
   padding: theme.space[3],
   minHeight: height,
   marginTop: theme.space[3],
-  fontFamily: theme.fonts.serif,
-  fontSize: theme.fontSizes[3]
+  ...commonStyles
 });
 
 const whiteBackgroundStyle = height => ({
   width: "100%",
   minHeight: height,
   marginBottom: "1rem",
-  fontFamily: theme.fonts.serif,
-  fontSize: theme.fontSizes[3]
+  ...commonStyles
 });
 
 export function getInitialEditorState(text) {
