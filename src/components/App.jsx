@@ -10,7 +10,7 @@ import Frame from "./Frame";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
 import Contacts from "../pages/Contacts";
-import NewThread from "../pages/NewThread";
+import Thread from "../pages/Thread";
 import NewEvent from "../pages/NewEvent";
 import Settings from "../pages/Settings";
 import VerifyEmail from "../pages/VerifyEmail";
@@ -52,9 +52,9 @@ export default function App() {
                   />
                   <AuthorizedRoute path="/settings" component={Settings} />
                   <AuthorizedRoute
-                    path="/convos/new"
+                    path="/convos/:id"
                     exact
-                    component={NewThread}
+                    component={Thread}
                   />
                   <AuthorizedRoute
                     path="/events/new"

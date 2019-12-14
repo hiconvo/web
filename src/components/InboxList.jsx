@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { useSelectors, useActions } from "../redux";
 import {
   getEvents,
-  getIsThreadsFetched,
   getIsEventsFetched,
   getSelectedResource
 } from "../selectors";
@@ -39,9 +38,8 @@ const spring = {
 };
 
 export default function InboxList() {
-  const [contents, isThreadsFetched, isEventsFetched, { id }] = useSelectors(
+  const [contents, isEventsFetched, { id }] = useSelectors(
     getEvents,
-    getIsThreadsFetched,
     getIsEventsFetched,
     getSelectedResource
   );
@@ -53,15 +51,14 @@ export default function InboxList() {
   }, [isEventsFetched, fetchEvents]);
 
   useEffect(() => {
-    if (isEventsFetched && isThreadsFetched && !id && contents.length > 0) {
+    if (isEventsFetched && !id && contents.length > 0) {
       setSelectedResource(contents[0].id);
     }
-  }, [setSelectedResource, isEventsFetched, isThreadsFetched, id, contents]);
+  }, [setSelectedResource, isEventsFetched, id, contents]);
 
   return (
     <Container>
-      {isThreadsFetched &&
-        isEventsFetched &&
+      {isEventsFetched &&
         contents.map(resource => (
           <motion.div key={resource.id} layoutTransition={spring}>
             <InboxListItem
