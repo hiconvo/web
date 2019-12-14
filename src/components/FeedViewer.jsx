@@ -7,7 +7,7 @@ import { useSelectors, useActions } from "../redux";
 import { getThreads, getIsThreadsFetched } from "../selectors";
 import * as unboundThreadActions from "../actions/threads";
 import FeedItem from "./FeedItem";
-import MessageComposer from "./MessageComposer";
+import ThreadComposer from "./ThreadComposer";
 
 import { Ripple, FloatingPill } from "./styles";
 
@@ -45,7 +45,7 @@ export default function FeedViewer() {
   return (
     <Container>
       <FloatingPill>
-        <MessageComposer />
+        <ThreadComposer />
       </FloatingPill>
       {!isThreadsFetched && <Ripple />}
       {threads.map((thread, idx) => (

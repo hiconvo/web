@@ -30,12 +30,13 @@ export const createThreadMessage = dispatch =>
    * @param {string} threadId
    * @param {Object} payload
    * @param {string} payload.body
-   * @returns {undefined}
+   * @returns {Object} message
    */
   async (threadId, payload) => {
     try {
       const message = await API.putThreadMessage(threadId, payload);
       dispatch({ type: "RECEIVE_MESSAGES", payload: [message] });
+      return message;
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);

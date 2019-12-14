@@ -64,8 +64,12 @@ export default function FeedItem({ thread }) {
           <ContactSection user={thread.owner} users={thread.users} />
           <Box mb={2}>
             <Container>
-              <Markdown text={thread.preview && thread.preview.body} />
-              {thread.preview.body.length > 256 && <Screen />}
+              {thread.preview && thread.preview.body && (
+                <Markdown text={thread.preview.body} />
+              )}
+              {thread.preview &&
+                thread.preview.body &&
+                thread.preview.body.length > 256 && <Screen />}
             </Container>
             {thread.preview.photos && thread.preview.photos.length > 0 && (
               <Box>
@@ -81,7 +85,9 @@ export default function FeedItem({ thread }) {
             </Box>
             <Box>
               <Text fontSize={1} color="gray">
-                {format(new Date(thread.preview.timestamp), "MMM d")}
+                {thread.preview &&
+                  thread.preview.timestamp &&
+                  format(new Date(thread.preview.timestamp), "MMM d")}
               </Text>
             </Box>
           </Box>

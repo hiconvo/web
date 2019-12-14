@@ -43,17 +43,22 @@ export const createThread = dispatch =>
         subject: payload.subject,
         users: payload.users
       });
-      dispatch({
-        type: "RECEIVE_THREADS",
-        payload: [thread]
-      });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
 
     try {
-      await createThreadMessage(dispatch)(thread.id, { body: payload.body });
+      const message = await createThreadMessage(dispatch)(thread.id, {
+        body: payload.body
+      });
+
+      thread.preview = message;
+
+      dispatch({
+        type: "RECEIVE_THREADS",
+        payload: [thread]
+      });
 
       return thread;
     } catch (e) {

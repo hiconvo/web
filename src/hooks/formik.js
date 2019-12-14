@@ -26,6 +26,10 @@ export default function useFormik({
     setValues(Object.assign({}, values, newValues));
   }
 
+  function reset() {
+    setFieldValues(initialValues);
+  }
+
   function handleChange(e) {
     const fieldName = e.target.name;
     const value = e.target.value;
@@ -39,7 +43,7 @@ export default function useFormik({
   async function handleSubmit(e) {
     e && e.preventDefault();
     const errors = validate && validate(values);
-    await onSubmit(values, { setSubmitting: setIsSubmitting, errors });
+    await onSubmit(values, { setSubmitting: setIsSubmitting, errors, reset });
     saveUnsubmittedFormVals(formId, {});
   }
 

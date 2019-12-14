@@ -38,7 +38,10 @@ export default function reducer(state, action) {
         .map(thread => ({
           ...thread,
           resourceType: "Thread",
-          preview: { ...thread.preview, user: thread.preview.sender }
+          preview: {
+            ...thread.preview,
+            user: thread.preview && thread.preview.sender
+          }
         }));
       return Object.assign({}, state, {
         threads,
@@ -84,10 +87,7 @@ export default function reducer(state, action) {
         .map(thread => {
           action.payload.forEach(message => {
             if (message.parentId === thread.id) {
-              if (
-                !thread.preview ||
-                isBefore(thread.preview.timestamp, message.timestamp) > 0
-              ) {
+              if (!thread.preview) {
                 thread.preview = message;
               }
             }
