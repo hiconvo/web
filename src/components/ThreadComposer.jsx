@@ -93,7 +93,7 @@ export default function ThreadComposer() {
         mb={1}
       >
         <Text
-          fontSize={1}
+          fontSize={2}
           mr={1}
           color="mediumGray"
           fontWeight="semiBold"

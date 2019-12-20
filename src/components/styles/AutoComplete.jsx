@@ -11,6 +11,10 @@ export const AutoCompleteInput = styled.input`
   font-size: ${themeGet("fontSizes.2")};
   width: calc(100% - ${themeGet("space.2")} * 2);
   background-color: transparent;
+
+  &::placeholder {
+    color: ${themeGet("colors.mediumGray")};
+  }
 `;
 
 export const AutoCompleteDropDown = styled.ul`

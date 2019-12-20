@@ -17,7 +17,7 @@ export default function ComposerControls({
           onClick={onPhotoClick}
           variant="brand"
           color="mediumGray"
-          fontSize={1}
+          fontSize={2}
           mb="0.5rem"
           p="0"
           isDisabled={isImgLoading || isDisabled}
