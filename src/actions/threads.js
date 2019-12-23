@@ -34,6 +34,7 @@ export const createThread = dispatch =>
    * @param {string} payload.subject
    * @param {Contact[]} payload.users
    * @param {string} payload.body
+   * @param {string} payload.blob
    * @returns {Object} Thread
    */
   async payload => {
@@ -50,7 +51,8 @@ export const createThread = dispatch =>
 
     try {
       const message = await createThreadMessage(dispatch)(thread.id, {
-        body: payload.body
+        body: payload.body,
+        blob: payload.blob
       });
 
       thread.preview = message;

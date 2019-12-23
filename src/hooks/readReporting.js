@@ -5,7 +5,7 @@ import { getUser } from "../selectors";
 import * as eventActions from "../actions/events";
 import * as threadActions from "../actions/threads";
 
-export default function useReadReporting(resource) {
+export default function useReadReporting(resource = {}) {
   const { id, resourceType, reads } = resource;
 
   const [user] = useSelectors(getUser);

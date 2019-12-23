@@ -2,10 +2,16 @@ import React from "react";
 
 import { Box, Icon, theme } from "./styles";
 
-export default function MessageImagePreview({ src, onClick }) {
+export default function MessageImagePreview({ src, onClick, noBorder }) {
   if (src.length) {
     return (
-      <Box borderTop="dashed" pt="1.2rem" mt="0.2rem" mb={1} height="12rem">
+      <Box
+        borderTop={noBorder ? "none" : "dashed"}
+        pt="1.2rem"
+        mt="0.2rem"
+        mb={1}
+        height="12rem"
+      >
         <div style={{ position: "relative", width: "fit-content" }}>
           <Box
             position="absolute"

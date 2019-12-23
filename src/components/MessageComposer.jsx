@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import imageFileToBase64 from "image-file-to-base64-exif";
 
 import useFormik from "../hooks/formik";
-import { useActions, useSelectors } from "../redux";
-import { getSelectedResource } from "../selectors";
+import { useActions } from "../redux";
 import * as unboundNotifActions from "../actions/notifications";
 import Controls from "./MessageComposerControls";
 import MessageImagePreview from "./MessageImagePreview";
@@ -28,7 +28,7 @@ export default function MessageComposer({
   const inputEl = useRef(null);
   const [src, setSrc] = useState("");
   const [isImgLoading, setIsImgLoading] = useState(false);
-  const [{ id }] = useSelectors(getSelectedResource);
+  const { id } = useParams();
   const { dispatchNotification } = useActions(unboundNotifActions);
   const formik = useFormik({
     formId: id,

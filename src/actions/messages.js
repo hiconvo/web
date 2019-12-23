@@ -30,6 +30,7 @@ export const createThreadMessage = dispatch =>
    * @param {string} threadId
    * @param {Object} payload
    * @param {string} payload.body
+   * @param {string} payload.blob
    * @returns {Object} message
    */
   async (threadId, payload) => {

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
+import { useSelectors } from "../redux";
+import { getUser, getThreadById } from "../selectors";
 import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserForm from "./AddUserForm";
 import DeleteThreadButton from "./DeleteThreadButton";
@@ -8,16 +11,18 @@ import UserOverflowList from "./UserOverflowList";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
-export default function ThreadInfoBox({ thread, user }) {
+export default function ThreadInfoBox() {
+  const { id } = useParams();
+  const [thread, user] = useSelectors(getThreadById(id), getUser);
   const [isRenameEditing, setIsRenameEditing] = useState(false);
   const [isMemberEditing, setIsMemberEditing] = useState(false);
 
-  if (!thread.id) return <div />;
+  if (!thread) return <div />;
 
   const isOwner = user.id === thread.owner.id;
 
   return (
-    <React.Fragment>
+    <div>
       {isRenameEditing ? (
         <ThreadRenameForm
           thread={thread}
@@ -95,6 +100,6 @@ export default function ThreadInfoBox({ thread, user }) {
           />
         )}
       </Box>
-    </React.Fragment>
+    </div>
   );
 }

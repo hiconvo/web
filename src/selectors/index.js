@@ -68,6 +68,9 @@ export const getEventsCount = createSelector(
   res => res.length
 );
 
+export const getThreadById = id => store =>
+  store.threads.find(t => t.id === id);
+
 export function getMessagesByThreadId(id) {
   return store => store.messages.filter(message => message.parentId === id);
 }
@@ -106,3 +109,6 @@ export const getIsOwnerOfSelectedResource = createSelector(
   (resource, user) =>
     user && resource && resource.owner && user.id === resource.owner.id
 );
+
+export const getResourceById = id => store =>
+  [].concat(store.threads, store.events).find(r => r.id === id);

@@ -46,10 +46,12 @@ export default function ThreadComposer() {
         await createThread({
           subject: values.subject,
           users: values.members,
-          body: getTextFromEditorState(values.body)
+          body: getTextFromEditorState(values.body),
+          blob: src.length ? src.split(",").pop() : ""
         });
 
         reset();
+        setSrc("");
       } catch (e) {
         return;
       } finally {
@@ -106,7 +108,7 @@ export default function ThreadComposer() {
           setMembers={members => formik.setFieldValue("members", members)}
         />
       </Box>
-      <MessageImagePreview src={src} onClick={handleClearImage} />
+      <MessageImagePreview src={src} onClick={handleClearImage} noBorder />
       <Controls
         onPhotoClick={handlePhotoClick}
         onClick={formik.handleSubmit}

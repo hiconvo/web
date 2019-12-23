@@ -69,3 +69,19 @@ export const ContainerDualSidebars = styled.div`
     }
   }
 `;
+
+export const ContainerRightSidebar = styled.div`
+  ${baseLayout}
+  max-width: 100rem;
+  margin: auto;
+
+  grid-template-columns: minmax(0, 1fr) ${themeGet("sidebarWidth")};
+
+  ${themeGet("media.phone")} {
+    grid-template-columns: minmax(0, 1fr) 0;
+
+    & > div:nth-child(2) {
+      visibility: hidden;
+    }
+  }
+`;

@@ -1,24 +1,18 @@
-import React, { useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors, useActions } from "../redux";
-import { getSelectedResource, getIsThreadsFetched } from "../selectors";
-import * as unboundGeneralActions from "../actions/general";
+import { getIsThreadsFetched } from "../selectors";
 import * as unboundThreadActions from "../actions/threads";
-import { ContainerDualSidebars } from "./styles";
+import { ContainerRightSidebar } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
-import ResourceInfoBox from "../components/ResourceInfoBox";
+import ThreadInfoBox from "../components/ThreadInfoBox";
 
 const Container = styled.main`
   display: block;
-  padding: 0 ${themeGet("space.5")};
-
-  ${themeGet("media.tablet")} {
-    padding-left: ${themeGet("space.5")};
-    padding-right: 0;
-  }
+  padding-right: ${themeGet("space.5")};
+  padding-left: 0;
 
   ${themeGet("media.phone")} {
     padding: 0;
@@ -26,33 +20,19 @@ const Container = styled.main`
 `;
 
 export default function Thread() {
-  const { setSelectedResource } = useActions(unboundGeneralActions);
   const { fetchThreads } = useActions(unboundThreadActions);
-  const [resource, isThreadsFetched] = useSelectors(
-    getSelectedResource,
-    getIsThreadsFetched
-  );
-  const { id } = useParams();
-
-  const _setSelectedResource = useCallback(setSelectedResource);
-
-  useEffect(() => {
-    if (id !== resource.id) {
-      _setSelectedResource(id);
-    }
-  }, [id, resource.id, _setSelectedResource]);
+  const [isThreadsFetched] = useSelectors(getIsThreadsFetched);
 
   useEffect(() => {
     !isThreadsFetched && fetchThreads();
   }, [isThreadsFetched, fetchThreads]);
 
   return (
-    <ContainerDualSidebars>
-      <div />
+    <ContainerRightSidebar>
       <Container>
-        <ThreadViewer thread={resource} />
+        <ThreadViewer />
       </Container>
-      <ResourceInfoBox />
-    </ContainerDualSidebars>
+      <ThreadInfoBox />
+    </ContainerRightSidebar>
   );
 }

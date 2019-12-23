@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { useActions } from "../redux";
 import ConfirmationModal from "./ConfirmationModal";
@@ -6,6 +7,7 @@ import * as unboundActions from "../actions/threads";
 import { Paragraph } from "./styles";
 
 export default function DeleteThreadButton({ thread, render }) {
+  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { deleteThread } = useActions(unboundActions);
@@ -23,6 +25,8 @@ export default function DeleteThreadButton({ thread, render }) {
       setIsLoading(false);
       return;
     }
+
+    history.push("/");
 
     setIsOpen(false);
   }

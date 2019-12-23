@@ -17,7 +17,7 @@ const Container = styled.div`
   color: ${themeGet("colors.gray")};
   padding: ${themeGet("space.3")};
   margin: ${themeGet("space.2")};
-  transition: background-color ${themeGet("animations.lazy")} ease,
+  transition: background-color 3s ease,
     opacity ${themeGet("animations.fast")} ease,
     transform ${themeGet("animations.fast")} ease;
   transform: ${props =>

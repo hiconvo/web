@@ -6,10 +6,11 @@ import { format } from "date-fns";
 
 import Markdown from "./Markdown";
 import Photo from "./Photo";
-import { Box, FloatingPill, Text, Paragraph, Avatar } from "./styles";
+import ContactSection from "./ContactSection";
+import { Box, FloatingPill, Text } from "./styles";
 
 const Container = styled.div`
-  margin-top: ${themeGet("space.2")};
+  margin-top: ${themeGet("space.1")};
   max-height: 40rem;
   overflow: hidden;
   text-overflow: ellipses;
@@ -33,28 +34,6 @@ const Screen = styled.div`
     rgba(255, 255, 255, 1)
   );
 `;
-
-function ContactSection({ user, users }) {
-  return (
-    <Box flexDirection="row" alignItems="center" mb={3}>
-      <Box mr={2}>
-        <Avatar size="4.8rem" src={user.avatar} />
-      </Box>
-      <Box>
-        <Paragraph lineHeight="1em" mb={1}>
-          <Text fontWeight="semiBold" lineHeight="1em">
-            {user.fullName}
-          </Text>
-        </Paragraph>
-        <Paragraph mb={0} lineHeight="1em">
-          <Text fontSize={1} color="gray" lineHeight="1em">
-            Shared with {users.map(u => u.fullName).join(", ")}
-          </Text>
-        </Paragraph>
-      </Box>
-    </Box>
-  );
-}
 
 export default function FeedItem({ thread }) {
   return (

@@ -16,11 +16,6 @@ const Container = styled.main`
   padding: 0 ${themeGet("space.5")};
 
   ${themeGet("media.tablet")} {
-    padding-left: ${themeGet("space.5")};
-    padding-right: 0;
-  }
-
-  ${themeGet("media.phone")} {
     padding: 0;
   }
 `;
