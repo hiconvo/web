@@ -7,7 +7,7 @@ import Box from "./Box";
 import Icon from "./Icon";
 import { Text } from "./typography";
 
-export const Label = styled.span`
+export const Label = styled.p`
   font-family: ${themeGet("fonts.sans")};
   font-size: ${themeGet("fontSizes.0")};
   color: ${themeGet("colors.gray")};

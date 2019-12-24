@@ -1,5 +1,6 @@
 import { createSelector } from "reselect";
 import orderBy from "lodash/orderBy";
+import { isAfter, parseISO } from "date-fns";
 
 export function getGeneralError(store) {
   return (store.errors.auth && store.errors.auth.message) || "";
@@ -66,6 +67,11 @@ export const getThreadsCount = createSelector(
 export const getEventsCount = createSelector(
   getEvents,
   res => res.length
+);
+
+export const getUpcomingEvents = createSelector(
+  getEvents,
+  events => events.filter(e => isAfter(parseISO(e.timestamp), Date.now()))
 );
 
 export const getThreadById = id => store =>

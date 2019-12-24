@@ -21,7 +21,7 @@ import MultiMemberPickerField from "./MultiMemberPickerField";
 import PlacePicker from "./PlacePicker";
 import RegisterWarning from "./RegisterWarning";
 import Map from "./Map";
-import UserOverflowList from "./UserOverflowList";
+import ContactsSidebar from "./ContactsSidebar";
 import {
   FloatingPill,
   Text,
@@ -349,30 +349,16 @@ export default function EventForm() {
               : "Click on your contacts below to invite them to your event."}
           </Paragraph>
           {!isEditing && (
-            <React.Fragment>
-              <Text color="gray" mb={2} fontSize={0}>
-                Your contacts
-              </Text>
-              <UserOverflowList
-                maxLength={7}
-                users={contacts}
-                transformUserProps={props => ({
-                  ...props,
-                  isChecked: formik.values.members.some(
-                    m => m.id === props.user.id
-                  ),
-                  isCheckedCopy: "",
-                  onClickOverride: () => handleMemberClick(props.user)
-                })}
-                renderExtraChildren={() =>
-                  contacts.length <= 0 && (
-                    <Text fontSize={1} mt={2} color="gray">
-                      You haven't added any contacts yet.
-                    </Text>
-                  )
-                }
-              />
-            </React.Fragment>
+            <ContactsSidebar
+              transformUserProps={props => ({
+                ...props,
+                isChecked: formik.values.members.some(
+                  m => m.id === props.user.id
+                ),
+                isCheckedCopy: "",
+                onClickOverride: () => handleMemberClick(props.user)
+              })}
+            />
           )}
         </Box>
       </Box>

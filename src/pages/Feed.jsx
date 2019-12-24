@@ -2,13 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-// import { getUser } from "../selectors";
-// import { useSelectors } from "../redux";
-
 import { baseLayout } from "./styles";
 import FeedViewer from "../components/FeedViewer";
-// import UpcomingEventsSidebar from "../components/UpcomingEventsSidebar";
-// import ContactInfoBox from "../components/ContactInfoBox";
+import UpcomingEventsSidebar from "../components/UpcomingEventsSidebar";
+import ContactsSidebar from "../components/ContactsSidebar";
+import { Box } from "../components/styles";
 
 export const Container = styled.div`
   ${baseLayout}
@@ -43,13 +41,19 @@ export const Container = styled.div`
 `;
 
 export default function Feed() {
-  // const [user] = useSelectors(getUser);
-
   return (
     <Container>
-      <div />
+      <Box>
+        <Box position="fixed" width="28rem">
+          <UpcomingEventsSidebar />
+        </Box>
+      </Box>
       <FeedViewer />
-      <div />
+      <Box>
+        <Box position="fixed" width="28rem">
+          <ContactsSidebar />
+        </Box>
+      </Box>
     </Container>
   );
 }

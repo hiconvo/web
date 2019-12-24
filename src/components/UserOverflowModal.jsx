@@ -97,14 +97,11 @@ export default function UserOverflowModal({
     >
       <Box p={[3, 4]} maxHeight={["100vh", "85vh"]}>
         <Box
-          justifyContent="space-between"
+          justifyContent="flex-end"
           alignItems="center"
           flexDirection="row"
           mb={3}
         >
-          <Heading as="h3" fontSize={3} fontWeight="semiBold" mb="0rem">
-            Guests
-          </Heading>
           <UnstyledButton onClick={toggleModal}>
             <Icon name="close" fontSize={4} />
           </UnstyledButton>
