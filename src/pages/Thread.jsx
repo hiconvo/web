@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useSelectors, useActions } from "../redux";
-import { getIsThreadsFetched } from "../selectors";
-import * as unboundThreadActions from "../actions/threads";
 import { ContainerRightSidebar } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
+import { Box } from "../components/styles";
 
 const Container = styled.main`
   display: block;
@@ -20,19 +18,16 @@ const Container = styled.main`
 `;
 
 export default function Thread() {
-  const { fetchThreads } = useActions(unboundThreadActions);
-  const [isThreadsFetched] = useSelectors(getIsThreadsFetched);
-
-  useEffect(() => {
-    !isThreadsFetched && fetchThreads();
-  }, [isThreadsFetched, fetchThreads]);
-
   return (
     <ContainerRightSidebar>
       <Container>
         <ThreadViewer />
       </Container>
-      <ThreadInfoBox />
+      <Box>
+        <Box position="fixed" width="28rem">
+          <ThreadInfoBox />
+        </Box>
+      </Box>
     </ContainerRightSidebar>
   );
 }

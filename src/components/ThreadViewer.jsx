@@ -5,6 +5,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { motion } from "framer-motion";
 
 import { useSelectors, useActions } from "../redux";
+import { useThreads } from "../hooks";
 import { getUser, getMessagesByThreadId, getThreadById } from "../selectors";
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
@@ -30,11 +31,8 @@ export default function ThreadViewer() {
   const { id } = useParams();
   const fetched = useRef({});
   const [isLoading, setIsLoading] = useState(false);
-  const [thread, messages, user] = useSelectors(
-    getThreadById(id),
-    getMessagesByThreadId(id),
-    getUser
-  );
+  const [thread] = useThreads(getThreadById(id));
+  const [messages, user] = useSelectors(getMessagesByThreadId(id), getUser);
   const { fetchThreadMessages, createThreadMessage } = useActions(
     unboundActions
   );

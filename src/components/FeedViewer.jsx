@@ -1,35 +1,33 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useSelectors, useActions } from "../redux";
-import { getThreads, getIsThreadsFetched } from "../selectors";
-import * as unboundThreadActions from "../actions/threads";
+import { useSelectors } from "../redux";
+import { getIsThreadsFetched } from "../selectors";
 import FeedItem from "./FeedItem";
 import ThreadComposer from "./ThreadComposer";
 
 import { Ripple, FloatingPill } from "./styles";
+import { useThreads } from "../hooks";
 
 const Container = styled.main`
   display: block;
   padding: 0 ${themeGet("space.5")};
 
   ${themeGet("media.tablet")} {
+    padding-right: ${themeGet("space.5")};
+    padding-left: 0;
+  }
+
+  ${themeGet("media.phone")} {
     padding: 0;
   }
 `;
 
 export default function FeedViewer() {
-  const [threads, isThreadsFetched] = useSelectors(
-    getThreads,
-    getIsThreadsFetched
-  );
-  const { fetchThreads } = useActions(unboundThreadActions);
-
-  useEffect(() => {
-    !isThreadsFetched && fetchThreads();
-  }, [isThreadsFetched, fetchThreads]);
+  const [threads] = useThreads();
+  const [isThreadsFetched] = useSelectors(getIsThreadsFetched);
 
   // Animation stuff. A little messy to put it here, but I'm lazy.
   const item = {

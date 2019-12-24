@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useSelectors } from "../redux";
+import { useThreads } from "../hooks";
 import { getUser, getThreadById } from "../selectors";
 import ThreadRenameForm from "./ThreadRenameForm";
 import AddUserForm from "./AddUserForm";
@@ -13,7 +14,8 @@ import { Label, Action } from "./styles/InfoBox";
 
 export default function ThreadInfoBox() {
   const { id } = useParams();
-  const [thread, user] = useSelectors(getThreadById(id), getUser);
+  const [thread] = useThreads(getThreadById(id));
+  const [user] = useSelectors(getUser);
   const [isRenameEditing, setIsRenameEditing] = useState(false);
   const [isMemberEditing, setIsMemberEditing] = useState(false);
 

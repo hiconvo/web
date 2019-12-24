@@ -4,6 +4,7 @@ import useUserSearch from "./userSearch";
 import useReadReporting from "./readReporting";
 import useGoogleContacts from "./googleContacts";
 import useEvents from "./events";
+import useThreads from "./threads";
 
 export {
   useDebounce,
@@ -11,5 +12,6 @@ export {
   useUserSearch,
   useReadReporting,
   useGoogleContacts,
-  useEvents
+  useEvents,
+  useThreads
 };

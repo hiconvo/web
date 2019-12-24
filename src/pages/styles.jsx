@@ -50,9 +50,15 @@ export const ContainerDualSidebars = styled.div`
 )};
 
   ${themeGet("media.tablet")} {
-    grid-template-columns: ${themeGet("sidebarWidth")} minmax(0, 1fr) 0;
+    grid-template-columns: ${props => {
+      if (props.collapse === "left") {
+        return "0 minmax(0, 1fr) " + themeGet("sidebarWidth")(props);
+      } else {
+        return themeGet("sidebarWidth")(props) + " minmax(0, 1fr) 0";
+      }
+    }};
 
-    & > div:nth-child(3) {
+    & > div:nth-child(${props => (props.collapse === "left" ? 1 : 3)}) {
       visibility: hidden;
     }
   }
