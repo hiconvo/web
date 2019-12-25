@@ -12,24 +12,15 @@ import {
   getISOFromDateTime
 } from "../utils/forms";
 import useFormik from "../hooks/formik";
-import { useActions, useSelectors } from "../redux";
-import { getSelectedResource, getContacts } from "../selectors";
+import { useActions } from "../redux";
 import * as unboundEventActions from "../actions/events";
-import * as unboundGeneralActions from "../actions/general";
 import * as unboundNotifActions from "../actions/notifications";
 import MultiMemberPickerField from "./MultiMemberPickerField";
 import PlacePicker from "./PlacePicker";
 import RegisterWarning from "./RegisterWarning";
 import Map from "./Map";
 import ContactsSidebar from "./ContactsSidebar";
-import {
-  FloatingPill,
-  Text,
-  Box,
-  Heading,
-  Paragraph,
-  CenterContent
-} from "./styles";
+import { FloatingPill, Text, Box, Heading, Paragraph } from "./styles";
 import { Container, Label, Input } from "./styles/CreateForm";
 import Composer, {
   getInitialEditorState,
@@ -68,38 +59,12 @@ const validate = payload => {
   }
 };
 
-function NullState() {
-  return (
-    <CenterContent>
-      <Box flexDirection="column" alignItems="center">
-        <Text fontSize={4} mb={3}>
-          Whoops{" "}
-          <span role="img" aria-label="sad face">
-            🙁
-          </span>
-        </Text>
-        <Text>
-          It looks like you're trying to edit a non-existent event. Try again?
-        </Text>
-      </Box>
-    </CenterContent>
-  );
-}
-
-export default function EventForm() {
-  const persistErrorState = useRef(null);
+export default function EventForm({ event }) {
   const nameEl = useRef(null);
   const history = useHistory();
-  const isEditing = useRouteMatch("/events/edit");
-  const [event, contacts] = useSelectors(getSelectedResource, getContacts);
-  const {
-    createEvent,
-    updateEvent,
-    setSelectedResource,
-    dispatchNotification
-  } = useActions({
+  const isEditing = useRouteMatch("/events/:id/edit");
+  const { createEvent, updateEvent, dispatchNotification } = useActions({
     ...unboundEventActions,
-    ...unboundGeneralActions,
     ...unboundNotifActions
   });
   const formik = useFormik({
@@ -148,8 +113,7 @@ export default function EventForm() {
         setSubmitting(false);
       }
 
-      setSelectedResource(newEvent.id);
-      history.push("/convos");
+      history.push(`events/${newEvent.id}`);
     }
   });
 
@@ -167,16 +131,6 @@ export default function EventForm() {
         : formik.values.members.concat([member])
     );
   };
-
-  const manuallyNavigatedToFormInError =
-    persistErrorState.current ||
-    (isEditing && (!event || event.resourceType !== "Event"));
-
-  if (manuallyNavigatedToFormInError) {
-    persistErrorState.current = true;
-
-    return <NullState />;
-  }
 
   return (
     <OuterContainer>

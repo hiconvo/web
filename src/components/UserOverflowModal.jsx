@@ -6,7 +6,7 @@ import Modal from "styled-react-modal";
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import ContactCard from "./ContactCard";
 import ContactInfoBox from "./ContactInfoBox";
-import { Box, Icon, Heading, UnstyledButton, theme } from "./styles";
+import { Box, Icon, UnstyledButton, theme } from "./styles";
 
 const StyledModal = Modal.styled`
   max-width: 90rem;

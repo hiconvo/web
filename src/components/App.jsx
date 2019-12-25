@@ -8,7 +8,7 @@ import { DataProvider } from "../redux";
 import AuthorizedRoute from "./AuthorizedRoute";
 import Frame from "./Frame";
 import Login from "../pages/Login";
-import Main from "../pages/Main";
+import Events from "../pages/Events";
 import Contacts from "../pages/Contacts";
 import Thread from "../pages/Thread";
 import NewEvent from "../pages/NewEvent";
@@ -62,12 +62,17 @@ export default function App() {
                     component={NewEvent}
                   />
                   <AuthorizedRoute
-                    path="/events/edit"
+                    path="/events/:id/edit"
                     exact
                     component={NewEvent}
                   />
                   <AuthorizedRoute path="/convos" exact component={Feed} />
-                  <AuthorizedRoute path="/events" exact component={Main} />
+                  <AuthorizedRoute
+                    path="/events/:id"
+                    exact
+                    component={Events}
+                  />
+                  <AuthorizedRoute path="/events" exact component={Events} />
                   <AuthorizedRoute
                     path="/contacts"
                     exact

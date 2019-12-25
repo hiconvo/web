@@ -1,16 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { motion } from "framer-motion";
 
-import { useSelectors, useActions } from "../redux";
-import {
-  getEvents,
-  getIsEventsFetched,
-  getSelectedResource
-} from "../selectors";
-import * as unboundEventActions from "../actions/events";
-import * as unboundGeneralActions from "../actions/general";
+import { useEvents } from "../hooks";
 import InboxListItem from "./InboxListItem";
 
 const Container = styled.ul`
@@ -38,36 +32,20 @@ const spring = {
 };
 
 export default function InboxList() {
-  const [contents, isEventsFetched, { id }] = useSelectors(
-    getEvents,
-    getIsEventsFetched,
-    getSelectedResource
-  );
-  const { fetchEvents } = useActions(unboundEventActions);
-  const { setSelectedResource } = useActions(unboundGeneralActions);
-
-  useEffect(() => {
-    !isEventsFetched && fetchEvents();
-  }, [isEventsFetched, fetchEvents]);
-
-  useEffect(() => {
-    if (isEventsFetched && !id && contents.length > 0) {
-      setSelectedResource(contents[0].id);
-    }
-  }, [setSelectedResource, isEventsFetched, id, contents]);
+  const { id } = useParams();
+  const [events] = useEvents();
 
   return (
     <Container>
-      {isEventsFetched &&
-        contents.map(resource => (
-          <motion.div key={resource.id} layoutTransition={spring}>
-            <InboxListItem
-              key={resource.id}
-              resource={resource}
-              isSelected={resource.id === id}
-            />
-          </motion.div>
-        ))}
+      {events.map(resource => (
+        <motion.div key={resource.id} layoutTransition={spring}>
+          <InboxListItem
+            key={resource.id}
+            resource={resource}
+            isSelected={resource.id === id}
+          />
+        </motion.div>
+      ))}
     </Container>
   );
 }

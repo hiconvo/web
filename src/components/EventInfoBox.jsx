@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import orderBy from "lodash/orderBy";
 
+import { useSelectors } from "../redux";
 import AddUserForm from "./AddUserForm";
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import DeleteEventButton from "./DeleteEventButton";
 import LeaveEventButton from "./LeaveEventButton";
 import UserOverflowList from "./UserOverflowList";
+import { getUser } from "../selectors";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
-export default function EventInfoBox({ event, user }) {
+export default function EventInfoBox({ event }) {
   const history = useHistory();
+  const [user] = useSelectors(getUser);
   const [isGuestEditing, setIsGuestEditing] = useState(false);
-  const { owner } = event;
+  const { id, owner } = event;
   const isOwner = user.id === owner.id;
 
   return (
@@ -70,7 +73,7 @@ export default function EventInfoBox({ event, user }) {
         {isOwner && (
           <React.Fragment>
             <Action
-              onClick={() => history.push("/events/edit")}
+              onClick={() => history.push(`/events/${id}/edit`)}
               ml="-1.2rem"
               text="Edit"
               iconName="edit"

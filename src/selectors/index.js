@@ -74,6 +74,8 @@ export const getUpcomingEvents = createSelector(
   events => events.filter(e => isAfter(parseISO(e.timestamp), Date.now()))
 );
 
+export const getEventById = id => store => store.events.find(e => e.id === id);
+
 export const getThreadById = id => store =>
   store.threads.find(t => t.id === id);
 

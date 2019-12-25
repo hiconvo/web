@@ -1,12 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { format } from "date-fns";
 import { themeGet } from "@styled-system/theme-get";
-import { withRouter } from "react-router";
 
-import { useActions, useSelectors } from "../redux";
+import { useSelectors } from "../redux";
 import { getUser } from "../selectors";
-import * as unboundActions from "../actions/general";
 import { Icon, Box, Text } from "./styles";
 
 const timestampWidth = "6rem";
@@ -82,16 +81,6 @@ const EventContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-radius: ${themeGet("radii.normal")};
-  padding: ${themeGet("space.2")};
-  border: ${props =>
-    props.isSelected
-      ? themeGet("borders.lightGray")(props)
-      : themeGet("borders.veryLightGray")(props)};
-  background-color: ${props =>
-    props.isSelected
-      ? themeGet("colors.trueWhite")(props)
-      : themeGet("colors.veryLightGray")(props)};
 `;
 
 const EventDate = styled.span`
@@ -99,64 +88,64 @@ const EventDate = styled.span`
   color: ${themeGet("colors.gray")};
 `;
 
-function InboxListItem({ resource, isSelected, history }) {
-  const { setSelectedResource } = useActions(unboundActions);
+function InboxListItem({ resource, isSelected }) {
   const [user] = useSelectors(getUser);
   const hasRead = resource.reads && resource.reads.some(r => r.id === user.id);
-
-  function handleClick() {
-    setSelectedResource(resource.id);
-    history.push("/convos");
-  }
 
   if (resource.resourceType === "Thread") {
     // Thread
     return (
-      <ListItem onClick={handleClick} isSelected={isSelected}>
-        <FromContainer>
-          <From hasRead={hasRead}>
-            {resource.users.map(user => user.firstName).join(", ")}
-          </From>
-          <Timestamp>
-            {resource.preview &&
-              format(new Date(resource.preview.timestamp), "MMM d")}
-          </Timestamp>
-        </FromContainer>
-        <Subject>{resource.subject}</Subject>
-        <Preview>{resource.preview && resource.preview.body}</Preview>
-      </ListItem>
+      <Link to={`convos/${resource.id}`}>
+        <ListItem isSelected={isSelected}>
+          <FromContainer>
+            <From hasRead={hasRead}>
+              {resource.users.map(user => user.firstName).join(", ")}
+            </From>
+            <Timestamp>
+              {resource.preview &&
+                format(new Date(resource.preview.timestamp), "MMM d")}
+            </Timestamp>
+          </FromContainer>
+          <Subject>{resource.subject}</Subject>
+          <Preview>{resource.preview && resource.preview.body}</Preview>
+        </ListItem>
+      </Link>
     );
   } else {
     // Event
     return (
-      <ListItem onClick={handleClick} isSelected={isSelected}>
-        <FromContainer>
-          <From hasRead={hasRead}>{resource.owner.fullName}</From>
-          <Timestamp>{format(new Date(resource.timestamp), "MMM d")}</Timestamp>
-        </FromContainer>
+      <Link to={`/events/${resource.id}`}>
+        <ListItem isSelected={isSelected}>
+          <FromContainer>
+            <From hasRead={hasRead}>{resource.owner.fullName}</From>
+            <Timestamp>
+              {format(new Date(resource.timestamp), "MMM d")}
+            </Timestamp>
+          </FromContainer>
 
-        <EventContainer isSelected={isSelected}>
-          <Box flexShrink="0">
-            <Icon name="event" mr={2} fontSize={3} />
-          </Box>
-          <Box flexDirection="column" overflow="hidden">
-            <Text
-              weight="semiBold"
-              overflow="hidden"
-              whiteSpace="nowrap"
-              textOverflow="ellipsis"
-              fontSize={1}
-            >
-              {resource.name}
-            </Text>
-            <EventDate>
-              {format(new Date(resource.timestamp), "MMM d @ h:mm a")}
-            </EventDate>
-          </Box>
-        </EventContainer>
-      </ListItem>
+          <EventContainer isSelected={isSelected}>
+            <Box flexShrink="0">
+              <Icon name="event" mr={2} fontSize={3} />
+            </Box>
+            <Box flexDirection="column" overflow="hidden">
+              <Text
+                weight="semiBold"
+                overflow="hidden"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+                fontSize={1}
+              >
+                {resource.name}
+              </Text>
+              <EventDate>
+                {format(new Date(resource.timestamp), "MMM d @ h:mm a")}
+              </EventDate>
+            </Box>
+          </EventContainer>
+        </ListItem>
+      </Link>
     );
   }
 }
 
-export default withRouter(InboxListItem);
+export default InboxListItem;
