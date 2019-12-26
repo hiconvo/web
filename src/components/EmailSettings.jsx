@@ -5,7 +5,7 @@ import * as unboundActions from "../actions/user";
 import { getUser } from "../selectors";
 import {
   Heading,
-  TextInput,
+  Input,
   Box,
   Text,
   Paragraph,
@@ -74,7 +74,7 @@ export default function EmailSettings() {
         {showEmailForm && (
           <li>
             <Box as="form" mb={5}>
-              <TextInput
+              <Input
                 name="Email"
                 value={email}
                 placeholder="your@email.com"

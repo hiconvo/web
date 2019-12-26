@@ -6,7 +6,7 @@ import * as unboundActions from "../actions/user";
 import { getUser } from "../selectors";
 import {
   Heading,
-  TextInput,
+  Input,
   Box,
   Text,
   Button,
@@ -100,12 +100,12 @@ export default function Settings() {
               variant={hasMadeChanges ? "brand" : "tertiary"}
             />
           </Group>
-          <TextInput
+          <Input
             name="First name"
             value={firstName}
             onChange={e => setFirstName(e.target.value)}
           />
-          <TextInput
+          <Input
             name="Last name"
             value={lastName}
             onChange={e => setLastName(e.target.value)}

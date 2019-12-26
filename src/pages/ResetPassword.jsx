@@ -3,13 +3,7 @@ import React, { useState } from "react";
 import { errorToString } from "../utils";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/user";
-import {
-  CenterContent,
-  TextInput,
-  Text,
-  Button,
-  Box
-} from "../components/styles";
+import { CenterContent, Input, Text, Button, Box } from "../components/styles";
 
 export default function ResetPassword({ match, history }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +38,7 @@ export default function ResetPassword({ match, history }) {
         <Text color="error" fontSize={2} mb={4} textAlign="center">
           {error}
         </Text>
-        <TextInput
+        <Input
           name="Password"
           type="password"
           value={password1}
@@ -52,7 +46,7 @@ export default function ResetPassword({ match, history }) {
           required
           mb={2}
         />
-        <TextInput
+        <Input
           name="Verify password"
           type="password"
           value={password2}

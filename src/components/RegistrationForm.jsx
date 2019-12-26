@@ -4,7 +4,7 @@ import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
 import {
   Box,
-  TextInput,
+  Input,
   Button,
   LinkButton,
   Text,
@@ -58,20 +58,20 @@ export default function RegistrationForm() {
       <Text color="error" fontSize={2} mb={2} textAlign="center">
         {authErrors.message}
       </Text>
-      <TextInput
+      <Input
         name="First name"
         value={firstName}
         onChange={e => setFirstName(e.target.value)}
         error={authErrors.firstName}
         required
       />
-      <TextInput
+      <Input
         name="Last name"
         value={lastName}
         onChange={e => setLastName(e.target.value)}
         error={authErrors.lastName}
       />
-      <TextInput
+      <Input
         name="Email"
         type="email"
         value={email}
@@ -79,7 +79,7 @@ export default function RegistrationForm() {
         error={authErrors.email}
         required
       />
-      <TextInput
+      <Input
         name="Password"
         type="password"
         value={password}

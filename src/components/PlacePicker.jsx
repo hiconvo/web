@@ -19,7 +19,14 @@ function DropDownItem({ suggestion, ...rest }) {
   );
 }
 
-export default function PlacePicker({ value, onChange, onSelect }) {
+export default function PlacePicker({
+  value,
+  onChange,
+  onSelect,
+  inputComponent = AutoCompleteInput
+}) {
+  const InputComponent = inputComponent;
+
   return (
     <PlacesAutocomplete
       value={value}
@@ -29,8 +36,10 @@ export default function PlacePicker({ value, onChange, onSelect }) {
     >
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
         <Box position="relative" width="100%">
-          <AutoCompleteInput
+          <InputComponent
+            name="Where"
             type="text"
+            fontSize={2}
             placeholder="Type a place or address"
             {...getInputProps()}
           />

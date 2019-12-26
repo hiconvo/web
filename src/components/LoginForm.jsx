@@ -4,7 +4,7 @@ import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
 import {
   Box,
-  TextInput,
+  Input,
   Button,
   LinkButton,
   Text,
@@ -53,7 +53,7 @@ export default function LoginForm() {
         <Text color="error" fontSize={2} mb={2} textAlign="center">
           {authErrors.message}
         </Text>
-        <TextInput
+        <Input
           name="Email"
           type="email"
           value={email}
@@ -61,7 +61,7 @@ export default function LoginForm() {
           error={authErrors.email}
           required
         />
-        <TextInput
+        <Input
           name="Password"
           type="password"
           value={password}

@@ -2,13 +2,7 @@ import React, { useState } from "react";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/user";
-import {
-  CenterContent,
-  TextInput,
-  Text,
-  Button,
-  Box
-} from "../components/styles";
+import { CenterContent, Input, Text, Button, Box } from "../components/styles";
 
 export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +35,7 @@ export default function ForgotPassword() {
   return (
     <CenterContent>
       <Box as="form" onSubmit={handleForgotPassword}>
-        <TextInput
+        <Input
           name="Email"
           type="email"
           value={email}

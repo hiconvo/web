@@ -1,6 +1,6 @@
 import Box from "./Box";
 import { Text, Paragraph, Heading } from "./typography";
-import TextInput from "./TextInput";
+import { Input, TextArea, Checkbox } from "./Input";
 import Button from "./Button";
 import LinkButton from "./LinkButton";
 import UnstyledButton from "./UnstyledButton";
@@ -25,7 +25,8 @@ export {
   Text,
   Paragraph,
   Heading,
-  TextInput,
+  Input,
+  TextArea,
   Button,
   LinkButton,
   Reset,
@@ -41,5 +42,6 @@ export {
   AutoCompleteInput,
   AutoCompleteDropDown,
   AutoCompleteItem,
-  Avatar
+  Avatar,
+  Checkbox
 };

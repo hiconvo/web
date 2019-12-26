@@ -1,12 +1,18 @@
 import React from "react";
 import { useRouteMatch, useParams } from "react-router";
+import styled from "styled-components";
 
 import { useEvents } from "../hooks";
 import { getEventById } from "../selectors";
-import { ContainerSidebarLeft } from "./styles";
-import EventSidebar from "../components/EventSidebar";
+import { baseLayout } from "./styles";
 import EventForm from "../components/EventForm";
 import { Ripple, CenterContent } from "../components/styles";
+
+const Container = styled.div`
+  ${baseLayout}
+  max-width: 100rem;
+  margin: auto;
+`;
 
 export default function NewEvent() {
   const isEditing = useRouteMatch("/events/:id/edit");
@@ -22,9 +28,8 @@ export default function NewEvent() {
   }
 
   return (
-    <ContainerSidebarLeft>
-      <EventSidebar />
+    <Container>
       <EventForm event={event || {}} key={isEditing ? "update" : "create"} />
-    </ContainerSidebarLeft>
+    </Container>
   );
 }

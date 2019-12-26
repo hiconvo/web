@@ -37,7 +37,7 @@ export function getISOFromDateTime(date, time) {
   return datetime.toISOString();
 }
 
-const EDITOR_KEYS = ["body", "description"];
+const EDITOR_KEYS = ["body"];
 
 export function createOrRecoverInitFormVals(formId, defaultVals) {
   if (!formId) {

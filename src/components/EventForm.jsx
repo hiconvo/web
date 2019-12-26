@@ -20,26 +20,39 @@ import PlacePicker from "./PlacePicker";
 import RegisterWarning from "./RegisterWarning";
 import Map from "./Map";
 import ContactsSidebar from "./ContactsSidebar";
-import { FloatingPill, Text, Box, Heading, Paragraph } from "./styles";
-import { Container, Label, Input } from "./styles/CreateForm";
-import Composer, {
-  getInitialEditorState,
-  getTextFromEditorState
-} from "./Composer";
-import Controls from "./MessageComposerControls";
+import {
+  Text,
+  Box,
+  Heading,
+  Paragraph,
+  Input,
+  TextArea,
+  Checkbox,
+  Button
+} from "./styles";
 
 const OuterContainer = styled.div`
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) ${themeGet("sidebarWidth")};
   width: 100%;
+  max-width: 70rem;
   height: auto;
+  margin: 0 auto ${themeGet("space.5")} auto;
   min-height: calc(100vh - ${themeGet("headerHeight")});
+`;
 
-  ${themeGet("media.tablet")} {
-    grid-template-columns: minmax(0, 1fr) 0;
-    & > div:nth-child(2) {
-      visibility: hidden;
-    }
+const PseudoHoverInput = styled.div`
+  border: 0.1rem solid ${themeGet("colors.lightGray")};
+  outline: none;
+  transition: border ease ${themeGet("animations.fast")};
+  border-radius: 0.4rem;
+  font-family: ${themeGet("fonts.sans")};
+  background-color: ${themeGet("colors.trueWhite")};
+
+  &:hover {
+    border: 0.1rem solid ${themeGet("colors.mediumGray")};
+  }
+
+  &:focus {
+    border: 0.1rem solid ${themeGet("colors.darkGray")};
   }
 `;
 
@@ -52,7 +65,7 @@ const validate = payload => {
     return { message: "Please choose a location" };
   } else if (payload.members && !payload.members.length) {
     return { message: "Please invite some people" };
-  } else if (getTextFromEditorState(payload.description).length <= 0) {
+  } else if (payload.description.length <= 0) {
     return { message: "Please add a description" };
   } else {
     return null;
@@ -76,9 +89,7 @@ export default function EventForm({ event }) {
       place: getInitVal(event.address, isEditing, ""),
       placeId: getInitVal(event.placeID, isEditing, ""),
       members: getInitVal(event.users, isEditing, []),
-      description: getInitialEditorState(
-        getInitVal(event.description, isEditing, "")
-      ),
+      description: getInitVal(event.description, isEditing, ""),
       guestsCanInvite: getInitVal(event.guestsCanInvite, isEditing, false),
       resend: false
     },
@@ -95,7 +106,7 @@ export default function EventForm({ event }) {
 
       const payload = {
         name: values.name,
-        description: getTextFromEditorState(values.description),
+        description: values.description,
         placeID: values.placeId,
         timestamp: getISOFromDateTime(values.date, values.time),
         guestsCanInvite: values.guestsCanInvite,
@@ -134,187 +145,137 @@ export default function EventForm({ event }) {
 
   return (
     <OuterContainer>
-      <Container>
-        <RegisterWarning />
-        <FloatingPill>
-          <Form>
-            <Box mt="-1rem">
-              <Label>
-                <Text fontSize={1} mr={1} flexShrink={0}>
-                  Name:
-                </Text>
-                <Input
-                  type="text"
-                  name="name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  isDisabled={formik.isSubmitting}
-                  required
-                  maxLength="255"
-                  fontSize={2}
-                  placeholder="Give your event a name"
-                  ref={nameEl}
-                />
-              </Label>
-            </Box>
-
-            <Box mb={3}>
-              <Label mb={1}>
-                <Text fontSize={1} mr={1}>
-                  Where:
-                </Text>
-                <PlacePicker
-                  value={formik.values.place}
-                  onChange={newPlace => formik.setFieldValue("place", newPlace)}
-                  onSelect={(placeString, placeId) =>
-                    formik.setFieldValues({
-                      place: placeString,
-                      placeId: placeId
-                    })
-                  }
-                />
-              </Label>
-              <Map placeId={formik.values.placeId} noLink />
-            </Box>
-
-            <Box flexDirection={["column", "row"]}>
-              <Box width={["100%", "50%"]} overflow="hidden">
-                <Label>
-                  <Text fontSize={1} mr={1}>
-                    When:
-                  </Text>
-                  <DatePicker
-                    name="date"
-                    selected={parse(
-                      formik.values.date,
-                      "yyyy-MM-dd",
-                      new Date()
-                    )}
-                    dateFormat="MMMM dd, yyyy"
-                    onChange={newDate =>
-                      formik.setFieldValue(
-                        "date",
-                        format(newDate, "yyyy-MM-dd")
-                      )
-                    }
-                  />
-                </Label>
-              </Box>
-
-              <Box width={["100%", "50%"]}>
-                <Label>
-                  <Text fontSize={1} mr={2}>
-                    @
-                  </Text>
-                  <Input
-                    type="time"
-                    name="time"
-                    value={formik.values.time}
-                    onChange={formik.handleChange}
-                    required
-                    maxLength="255"
-                    isDisabled={formik.isSubmitting}
-                    fontSize={2}
-                  />
-                </Label>
-              </Box>
-            </Box>
-
-            <Box mt={[3, 0]}>
-              <Label>
-                <Text fontSize={1} mr={1} flexShrink={0}>
-                  Allow guests to invite others:
-                </Text>
-                <Input
-                  type="checkbox"
-                  name="guestsCanInvite"
-                  checked={formik.values.guestsCanInvite}
-                  onChange={e =>
-                    formik.setFieldValue("guestsCanInvite", e.target.checked)
-                  }
-                  isDisabled={formik.isSubmitting}
-                  width="auto"
-                />
-              </Label>
-            </Box>
-
-            {isEditing && (
-              <Box mt={[3, 0]}>
-                <Label>
-                  <Text fontSize={1} mr={1} flexShrink={0}>
-                    Resend invitations:
-                  </Text>
-                  <Input
-                    type="checkbox"
-                    name="resend"
-                    checked={formik.values.resend}
-                    onChange={e =>
-                      formik.setFieldValue("resend", e.target.checked)
-                    }
-                    isDisabled={formik.isSubmitting}
-                    width="auto"
-                  />
-                </Label>
-              </Box>
-            )}
-
-            {!isEditing && (
-              <Box mt={[2, 0]}>
-                <Label>
-                  <Text fontSize={1} mr={1}>
-                    Guests:
-                  </Text>
-                  <MultiMemberPickerField
-                    members={formik.values.members}
-                    setMembers={newMembers =>
-                      formik.setFieldValue("members", newMembers)
-                    }
-                  />
-                </Label>
-              </Box>
-            )}
-
-            <Composer
-              backgroundColor="gray"
-              height="16rem"
-              placeholder="Tell your guests what your event is about..."
-              editorState={formik.values.description}
-              onChange={newDescription =>
-                formik.setFieldValue("description", newDescription)
-              }
-              isDisabled={formik.isSubmitting}
-            />
-            <Controls
-              editorState={formik.values.description}
-              onClick={formik.handleSubmit}
-              isDisabled={formik.isSubmitting}
-            />
-          </Form>
-        </FloatingPill>
-      </Container>
       <Box>
-        <Box position="fixed" width="28rem">
+        <RegisterWarning />
+        <Form>
           <Heading fontSize={4} color="darkGray">
             {isEditing ? "Update your event" : "Create an event"}
           </Heading>
-          <Paragraph fontSize={1} color="gray" lineHeight="1.3em" mb={4}>
-            {isEditing
-              ? "Your guests will receive an updated invite email if you check the resend invitations option to the left. Please be mindful of excessive and repetitive email and keep updates to a minimum."
-              : "Click on your contacts below to invite them to your event."}
-          </Paragraph>
+          <Input
+            type="text"
+            name="Name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            isDisabled={formik.isSubmitting}
+            required
+            maxLength="255"
+            fontSize={2}
+            placeholder="Give your event a name"
+            ref={nameEl}
+          />
+
+          <PlacePicker
+            inputComponent={Input}
+            value={formik.values.place}
+            onChange={newPlace => formik.setFieldValue("place", newPlace)}
+            onSelect={(placeString, placeId) =>
+              formik.setFieldValues({
+                place: placeString,
+                placeId: placeId
+              })
+            }
+          />
+
+          <Box mt={2} mb={3}>
+            <Map placeId={formik.values.placeId} noLink />
+          </Box>
+
+          <Box
+            flexDirection={["column", "row"]}
+            justifyContent={["unset", "space-between"]}
+          >
+            <Box width={["100%", "49%"]} overflow="hidden">
+              <Box py={1}>
+                <Text fontSize={1}>Date</Text>
+                <DatePicker
+                  name="Date"
+                  selected={parse(formik.values.date, "yyyy-MM-dd", new Date())}
+                  dateFormat="MMMM dd, yyyy"
+                  onChange={newDate =>
+                    formik.setFieldValue("date", format(newDate, "yyyy-MM-dd"))
+                  }
+                />
+              </Box>
+            </Box>
+
+            <Box width={["100%", "49%"]}>
+              <Input
+                type="time"
+                name="Time"
+                value={formik.values.time}
+                onChange={formik.handleChange}
+                required
+                maxLength="255"
+                isDisabled={formik.isSubmitting}
+                fontSize={2}
+              />
+            </Box>
+          </Box>
+
           {!isEditing && (
-            <ContactsSidebar
-              transformUserProps={props => ({
-                ...props,
-                isChecked: formik.values.members.some(
-                  m => m.id === props.user.id
-                ),
-                isCheckedCopy: "",
-                onClickOverride: () => handleMemberClick(props.user)
-              })}
-            />
+            <Box mb={3}>
+              <Text fontSize={1} mb={1}>
+                Guests
+              </Text>
+              <PseudoHoverInput>
+                <MultiMemberPickerField
+                  members={formik.values.members}
+                  setMembers={newMembers =>
+                    formik.setFieldValue("members", newMembers)
+                  }
+                />
+              </PseudoHoverInput>
+            </Box>
           )}
-        </Box>
+
+          <Box mb={3}>
+            <Text fontSize={1} mb={1}>
+              Description
+            </Text>
+            <TextArea
+              fontSize={2}
+              value={formik.values.description}
+              name="description"
+              placeholder="Tell your guests what your event is about..."
+              onChange={formik.handleChange}
+              isDisabled={formik.isSubmitting}
+            />
+          </Box>
+
+          <Box mb={3}>
+            <Checkbox
+              name="Allow guests to invite others"
+              checked={formik.values.guestsCanInvite}
+              onChange={e =>
+                formik.setFieldValue("guestsCanInvite", e.target.checked)
+              }
+              isDisabled={formik.isSubmitting}
+              width="auto"
+            />
+          </Box>
+
+          {isEditing && (
+            <Box mb={3}>
+              <Checkbox
+                name="Resend invitations"
+                value={formik.values.resend}
+                onChange={e => formik.setFieldValue("resend", e.target.checked)}
+                isDisabled={formik.isSubmitting}
+                width="auto"
+              />
+            </Box>
+          )}
+
+          <Box mt={4}>
+            <Button
+              type="submit"
+              onClick={formik.handleSubmit}
+              isDisabled={formik.isSubmitting}
+            >
+              Send invitations
+            </Button>
+          </Box>
+        </Form>
       </Box>
     </OuterContainer>
   );
