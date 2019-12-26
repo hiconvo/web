@@ -1,11 +1,14 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
+import { useThreads } from "../hooks";
+import { getThreadById } from "../selectors";
 import { ContainerRightSidebar } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
-import { Box } from "../components/styles";
+import { Box, Ripple, CenterContent } from "../components/styles";
 
 const Container = styled.main`
   display: block;
@@ -18,14 +21,25 @@ const Container = styled.main`
 `;
 
 export default function Thread() {
+  const { id } = useParams();
+  const [thread] = useThreads(getThreadById(id));
+
+  if (!thread) {
+    return (
+      <CenterContent>
+        <Ripple />
+      </CenterContent>
+    );
+  }
+
   return (
     <ContainerRightSidebar>
       <Container>
-        <ThreadViewer />
+        <ThreadViewer thread={thread} />
       </Container>
       <Box>
         <Box position="fixed" width="28rem">
-          <ThreadInfoBox />
+          <ThreadInfoBox thread={thread} />
         </Box>
       </Box>
     </ContainerRightSidebar>

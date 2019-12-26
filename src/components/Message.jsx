@@ -49,7 +49,7 @@ export default function Message({ message, isAuthor }) {
         </Container>
       </Relative>
       {message.photos && message.photos.length > 0 && (
-        <Box flexDirection={isAuthor ? "row-reverse" : "row"}>
+        <Box flexDirection={isAuthor ? "row-reverse" : "row"} mt={3}>
           <Photo src={message.photos[0]} />
         </Box>
       )}

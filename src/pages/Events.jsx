@@ -32,7 +32,7 @@ export default function Events() {
   const [events] = useEvents();
   const [event] = useSelectors(getEventById(id));
 
-  if (!events.length || !id) {
+  if (!events.length || !id || !event) {
     if (events.length && events[0] && events[0].id) {
       history.push(`/events/${events[0].id}`);
     }

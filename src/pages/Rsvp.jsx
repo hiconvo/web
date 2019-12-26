@@ -17,7 +17,7 @@ export default function Rsvp({ match, history }) {
       await magicRsvp({ userID: key, eventID: eventId, timestamp, signature });
     } catch (e) {
     } finally {
-      history.push("/convos");
+      history.push(`/events/${eventId}`);
     }
   }
 

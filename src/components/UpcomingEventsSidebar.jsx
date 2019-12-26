@@ -10,19 +10,22 @@ export default function UpcomingEventsSidebar() {
   const [events] = useEvents(getUpcomingEvents);
 
   return (
-    <div>
+    <Box mb={3}>
       <Paragraph color="gray" mb={2} fontSize={0}>
         Upcoming events
       </Paragraph>
       {events.length <= 0 ? (
-        <div>
-          <Paragraph fontSize={1}>
-            You don't have any upcoming events right now.
-          </Paragraph>
-        </div>
+        <Paragraph fontSize={1}>
+          You don't have any upcoming events right now.{" "}
+          <Link to="/events/new">
+            <Text color="gray" fontSize={1} fontWeight="semiBold">
+              Create an event <Icon name="call_made" fontSize={1} />
+            </Text>
+          </Link>
+        </Paragraph>
       ) : (
         events.map(event => (
-          <Link to={`/events/${event.id}`}>
+          <Link key={event.id} to={`/events/${event.id}`}>
             <Box flexDirection="row" alignItems="center" py={2}>
               <Box flexShrink="0">
                 <Icon name="event" mr={2} fontSize={3} />
@@ -33,12 +36,12 @@ export default function UpcomingEventsSidebar() {
                   overflow="hidden"
                   whiteSpace="nowrap"
                   textOverflow="ellipsis"
-                  fontSize={1}
+                  fontSize={2}
                   mb={1}
                 >
                   {event.name}
                 </Text>
-                <Text fontSize={0}>
+                <Text fontSize={0} color="gray">
                   {format(new Date(event.timestamp), "MMM d @ h:mm a")}
                 </Text>
               </Box>
@@ -46,6 +49,6 @@ export default function UpcomingEventsSidebar() {
           </Link>
         ))
       )}
-    </div>
+    </Box>
   );
 }

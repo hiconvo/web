@@ -1,7 +1,6 @@
 import * as API from "../api/events";
 import { dispatchNotification } from "./notifications";
 import { errorToString } from "../utils";
-import { setSelectedResource } from "./general";
 
 /*
  * @param {function} dispatch
@@ -234,15 +233,14 @@ export const deleteEvent = dispatch =>
   async payload => {
     try {
       await API.deleteEvent(payload.event.id, { message: payload.message });
-      dispatch({
-        type: "DELETE_EVENT",
-        payload: payload.event.id
-      });
       dispatchNotification()({
         type: "SUCCESS",
         message: `Deleted ${payload.event.name}`
       });
-      setSelectedResource(dispatch)();
+      dispatch({
+        type: "DELETE_EVENT",
+        payload: payload.event.id
+      });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
@@ -284,8 +282,6 @@ export const magicRsvp = dispatch =>
       });
     } catch (e) {
       return Promise.reject(e);
-    } finally {
-      setSelectedResource(dispatch)(payload.eventID);
     }
   };
 

@@ -18,11 +18,11 @@ const CloseButtonContainer = styled.div`
   z-index: 40;
 `;
 
-export default function Photo({ src }) {
+export default function Photo({ src, height = "29rem", ...rest }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div style={{ height: "29rem", marginTop: "1rem" }}>
+    <Box display="block" height={height} {...rest}>
       <Box
         as="img"
         display="block"
@@ -53,6 +53,6 @@ export default function Photo({ src }) {
           />
         </CenterContent>
       </StyledModal>
-    </div>
+    </Box>
   );
 }

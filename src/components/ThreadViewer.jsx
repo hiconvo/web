@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { motion } from "framer-motion";
 
 import { useSelectors, useActions } from "../redux";
-import { useThreads } from "../hooks";
-import { getUser, getMessagesByThreadId, getThreadById } from "../selectors";
+import { getUser, getMessagesByThreadId } from "../selectors";
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
 import MessageComposer from "./MessageComposer";
@@ -27,11 +25,10 @@ const Container = styled.div`
   }
 `;
 
-export default function ThreadViewer() {
-  const { id } = useParams();
+export default function ThreadViewer({ thread }) {
+  const { id } = thread;
   const fetched = useRef({});
   const [isLoading, setIsLoading] = useState(false);
-  const [thread] = useThreads(getThreadById(id));
   const [messages, user] = useSelectors(getMessagesByThreadId(id), getUser);
   const { fetchThreadMessages, createThreadMessage } = useActions(
     unboundActions
@@ -73,8 +70,8 @@ export default function ThreadViewer() {
           {topItem && <Markdown text={topItem.body || ""} />}
 
           {topItem.photos && topItem.photos.length > 0 && (
-            <Box>
-              <Photo src={topItem.photos[0]} />
+            <Box mt={3}>
+              <Photo src={topItem.photos[0]} height="auto" />
             </Box>
           )}
         </Container>

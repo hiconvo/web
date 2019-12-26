@@ -29,12 +29,6 @@ export default function FeedViewer() {
   const [threads] = useThreads();
   const [isThreadsFetched] = useSelectors(getIsThreadsFetched);
 
-  // Animation stuff. A little messy to put it here, but I'm lazy.
-  const item = {
-    hidden: { opacity: 0 },
-    show: i => ({ opacity: 1, transition: { delay: i * 0.01 } })
-  };
-
   return (
     <Container>
       <FloatingPill>
@@ -44,7 +38,10 @@ export default function FeedViewer() {
       {threads.map((thread, idx) => (
         <motion.div
           key={thread.id}
-          variants={item}
+          variants={{
+            hidden: { opacity: 0 },
+            show: i => ({ opacity: 1, transition: { delay: i * 0.01 } })
+          }}
           custom={idx}
           initial="hidden"
           animate="show"

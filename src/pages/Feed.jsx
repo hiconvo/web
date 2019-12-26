@@ -3,23 +3,19 @@ import React from "react";
 import FeedViewer from "../components/FeedViewer";
 import UpcomingEventsSidebar from "../components/UpcomingEventsSidebar";
 import ContactsSidebar from "../components/ContactsSidebar";
-import { ContainerDualSidebars } from "./styles";
+import { ContainerRightSidebar } from "./styles";
 import { Box } from "../components/styles";
 
 export default function Feed() {
   return (
-    <ContainerDualSidebars collapse="left">
-      <Box>
-        <Box position="fixed" width="28rem">
-          <UpcomingEventsSidebar />
-        </Box>
-      </Box>
+    <ContainerRightSidebar>
       <FeedViewer />
       <Box>
         <Box position="fixed" width="28rem">
+          <UpcomingEventsSidebar />
           <ContactsSidebar />
         </Box>
       </Box>
-    </ContainerDualSidebars>
+    </ContainerRightSidebar>
   );
 }

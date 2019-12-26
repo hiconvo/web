@@ -19,8 +19,9 @@ export default function ContactsSidebar({ transformUserProps = p => p }) {
         transformUserProps={transformUserProps}
         renderExtraChildren={() =>
           contacts.length <= 0 && (
-            <Paragraph fontSize={1} mt={2} color="gray">
-              You haven't added any contacts yet.
+            <Paragraph fontSize={1}>
+              You haven't added any contacts yet. Start a convo with someone to
+              add them as a contact.
             </Paragraph>
           )
         }

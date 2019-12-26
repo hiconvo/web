@@ -1,6 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useHistory } from "react-router";
 import imageFileToBase64 from "image-file-to-base64-exif";
 
+import { getUser } from "../api/user";
 import useFormik from "../hooks/formik";
 import { useActions } from "../redux";
 import Controls from "./MessageComposerControls";
@@ -23,6 +25,7 @@ const validate = values => {
 };
 
 export default function ThreadComposer() {
+  const history = useHistory();
   const inputEl = useRef(null);
   const { createThread } = useActions(unboundActions);
   const { dispatchNotification } = useActions(unboundNotifActions);
@@ -41,9 +44,10 @@ export default function ThreadComposer() {
         return dispatchNotification({ message: errors.message });
       }
 
+      let thread;
       try {
         setSubmitting(true);
-        await createThread({
+        thread = await createThread({
           subject: values.subject,
           users: values.members,
           body: getTextFromEditorState(values.body),
@@ -57,8 +61,20 @@ export default function ThreadComposer() {
       } finally {
         setSubmitting(false);
       }
+
+      history.push(`/convos/${thread.id}`);
     }
   });
+
+  useEffect(() => {
+    if (history.location && history.location.search) {
+      const [, id] = history.location.search.match(/\?userId=(.+)/);
+      getUser(id).then(user =>
+        formik.setFieldValue("members", [...formik.values.members, user])
+      );
+    }
+    // eslint-disable-next-line
+  }, [history.location]);
 
   function handlePhotoClick(e) {
     e.preventDefault();

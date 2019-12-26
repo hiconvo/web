@@ -1,7 +1,7 @@
 import React from "react";
+import { useHistory, useRouteMatch } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import { withRouter } from "react-router";
 
 import { Box, Text, ActionButton, Icon, Avatar } from "../components/styles";
 import { useActions, useSelectors } from "../redux";
@@ -34,7 +34,9 @@ function Action({ iconName, text, onClick, ...rest }) {
   );
 }
 
-function ContactInfoBox({ contact, history, position = "fixed" }) {
+export default function ContactInfoBox({ contact, position = "fixed" }) {
+  const history = useHistory();
+  const isConvosPage = useRouteMatch("/convos", { exact: true });
   const { addToContacts, removeFromContacts } = useActions(unboundActions);
   const [contacts] = useSelectors(getContacts);
 
@@ -56,6 +58,18 @@ function ContactInfoBox({ contact, history, position = "fixed" }) {
           <React.Fragment>
             <Label>Actions</Label>
             <Box as="ul">
+              <Action
+                ml="-1.2rem"
+                text="Start a convo"
+                iconName="mail"
+                onClick={() => {
+                  if (isConvosPage) {
+                    history.push(`?userId=${contact.id}`);
+                  } else {
+                    history.push(`/convos/new?userId=${contact.id}`);
+                  }
+                }}
+              />
               {isContact ? (
                 <Action
                   ml="-1.2rem"
@@ -71,12 +85,6 @@ function ContactInfoBox({ contact, history, position = "fixed" }) {
                   onClick={() => addToContacts(contact.id)}
                 />
               )}
-              <Action
-                ml="-1.2rem"
-                text="Start a convo"
-                iconName="mail"
-                onClick={() => history.push(`/convos/new?userId=${contact.id}`)}
-              />
             </Box>
           </React.Fragment>
         )}
@@ -84,5 +92,3 @@ function ContactInfoBox({ contact, history, position = "fixed" }) {
     </Box>
   );
 }
-
-export default withRouter(ContactInfoBox);

@@ -9,9 +9,10 @@ import AuthorizedRoute from "./AuthorizedRoute";
 import Frame from "./Frame";
 import Login from "../pages/Login";
 import Events from "../pages/Events";
-import Contacts from "../pages/Contacts";
-import Thread from "../pages/Thread";
 import NewEvent from "../pages/NewEvent";
+import Thread from "../pages/Thread";
+import NewThread from "../pages/NewThread";
+import Contacts from "../pages/Contacts";
 import Settings from "../pages/Settings";
 import VerifyEmail from "../pages/VerifyEmail";
 import ResetPassword from "../pages/ResetPassword";
@@ -50,12 +51,17 @@ export default function App() {
                     exact
                     component={Rsvp}
                   />
-                  <AuthorizedRoute path="/settings" component={Settings} />
+                  <AuthorizedRoute
+                    path="/convos/new"
+                    exact
+                    component={NewThread}
+                  />
                   <AuthorizedRoute
                     path="/convos/:id"
                     exact
                     component={Thread}
                   />
+                  <AuthorizedRoute path="/convos" exact component={Feed} />
                   <AuthorizedRoute
                     path="/events/new"
                     exact
@@ -66,7 +72,6 @@ export default function App() {
                     exact
                     component={NewEvent}
                   />
-                  <AuthorizedRoute path="/convos" exact component={Feed} />
                   <AuthorizedRoute
                     path="/events/:id"
                     exact
@@ -78,6 +83,7 @@ export default function App() {
                     exact
                     component={Contacts}
                   />
+                  <AuthorizedRoute path="/settings" component={Settings} />
                   <Redirect to="/convos" />
                 </Switch>
               </Frame>
