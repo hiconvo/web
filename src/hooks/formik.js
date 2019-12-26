@@ -16,6 +16,7 @@ export default function useFormik({
     createOrRecoverInitFormVals(formId, initialValues)
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
   const debouncedValue = useDebounce(values, 1000);
 
   useEffect(() => {
@@ -43,7 +44,12 @@ export default function useFormik({
   async function handleSubmit(e) {
     e && e.preventDefault();
     const errors = validate && validate(values);
-    await onSubmit(values, { setSubmitting: setIsSubmitting, errors, reset });
+    await onSubmit(values, {
+      setSubmitting: setIsSubmitting,
+      errors,
+      reset,
+      setErrors
+    });
     saveUnsubmittedFormVals(formId, {});
   }
 
@@ -53,6 +59,7 @@ export default function useFormik({
     setFieldValues,
     handleSubmit,
     isSubmitting,
-    values
+    values,
+    errors
   };
 }

@@ -28,6 +28,7 @@ export const AutoCompleteDropDown = styled.ul`
   transform: ${props =>
     props.isOpen ? "translateY(0rem)" : "translateY(-1rem)"};
   opacity: ${props => (props.isOpen ? "1" : "0")};
+  display: ${props => (props.isOpen ? "block" : "none")};
   z-index: 30;
 `;
 
