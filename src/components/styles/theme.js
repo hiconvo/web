@@ -288,10 +288,10 @@ export default {
     },
     secondary: {
       color: black,
-      backgroundColor: lightGray,
+      backgroundColor: veryLightGray,
       borderRadius: radii.special,
       "&:hover": {
-        backgroundColor: veryLightGray
+        backgroundColor: lightGray
       }
     },
     tertiary: {
@@ -303,6 +303,14 @@ export default {
       borderRadius: radii.normal,
       "&:hover": {
         color: gray
+      }
+    },
+    gray: {
+      color: black,
+      backgroundColor: lightGray,
+      borderRadius: radii.special,
+      "&:hover": {
+        backgroundColor: veryLightGray
       }
     },
     brand: {

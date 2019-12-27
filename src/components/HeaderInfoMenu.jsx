@@ -87,7 +87,7 @@ function InfoDropdownButton({ onClick }) {
 export default function HeaderInfoMenu() {
   return (
     <Route
-      path="/convos"
+      path={["/convos/:id", "/events/:id"]}
       exact
       render={() => (
         <Dropdown

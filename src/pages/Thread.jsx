@@ -5,15 +5,25 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useThreads } from "../hooks";
 import { getThreadById } from "../selectors";
-import { ContainerRightSidebar } from "./styles";
+import { ContainerDualSidebars } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
-import { Box, Ripple, CenterContent } from "../components/styles";
+import {
+  Box,
+  Ripple,
+  CenterContent,
+  LinkButton,
+  Icon
+} from "../components/styles";
 
 const Container = styled.main`
   display: block;
-  padding-right: ${themeGet("space.5")};
-  padding-left: 0;
+  padding: 0 ${themeGet("space.5")};
+
+  ${themeGet("media.tablet")} {
+    padding-left: ${themeGet("space.5")};
+    padding-right: 0;
+  }
 
   ${themeGet("media.phone")} {
     padding: 0;
@@ -33,7 +43,13 @@ export default function Thread() {
   }
 
   return (
-    <ContainerRightSidebar>
+    <ContainerDualSidebars>
+      <Box>
+        <LinkButton to="/convos" variant="gray">
+          <Icon name="keyboard_backspace" mr={1} fontSize={3} />
+          Go back
+        </LinkButton>
+      </Box>
       <Container>
         <ThreadViewer thread={thread} />
       </Container>
@@ -42,6 +58,6 @@ export default function Thread() {
           <ThreadInfoBox thread={thread} />
         </Box>
       </Box>
-    </ContainerRightSidebar>
+    </ContainerDualSidebars>
   );
 }

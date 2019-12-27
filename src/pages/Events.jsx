@@ -5,12 +5,19 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useEvents } from "../hooks";
 import { useSelectors } from "../redux";
-import { getEventById } from "../selectors";
+import { getEventById, getIsEventsFetched } from "../selectors";
 import { ContainerDualSidebars } from "./styles";
 import EventSidebar from "../components/EventSidebar";
 import EventViewer from "../components/EventViewer";
 import EventInfoBox from "../components/EventInfoBox";
-import { Box, Ripple, CenterContent } from "../components/styles";
+import {
+  Box,
+  Ripple,
+  CenterContent,
+  LinkButton,
+  Paragraph,
+  Icon
+} from "../components/styles";
 
 const Container = styled.main`
   display: block;
@@ -30,11 +37,40 @@ export default function Events() {
   const { id } = useParams();
   const history = useHistory();
   const [events] = useEvents();
-  const [event] = useSelectors(getEventById(id));
+  const [event, isEventsFetched] = useSelectors(
+    getEventById(id),
+    getIsEventsFetched
+  );
 
   if (!events.length || !id || !event) {
     if (events.length && events[0] && events[0].id) {
       history.push(`/events/${events[0].id}`);
+    }
+
+    if (isEventsFetched && !events.length) {
+      return (
+        <CenterContent>
+          <Box maxWidth="40rem">
+            <Paragraph textAlign="center" fontSize={3} mb={4}>
+              It looks like you haven't created or been invited to any events
+              yet{" "}
+              <span role="img" aria-label="sad face">
+                😕
+              </span>
+            </Paragraph>
+
+            <LinkButton
+              variant="primary"
+              to="/events/new"
+              maxWidth="30rem"
+              width="100%"
+              margin="auto"
+            >
+              <Icon name="event" fontSize={3} mr={2} /> Create an event
+            </LinkButton>
+          </Box>
+        </CenterContent>
+      );
     }
 
     return (

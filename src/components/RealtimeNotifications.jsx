@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import stream from "getstream";
 import { themeGet } from "@styled-system/theme-get";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
-import { useSelectors, useActions } from "../redux";
+import { useSelectors } from "../redux";
 import { getUser, getIsLoggedIn } from "../selectors";
-import * as unboundMessageActions from "../actions/messages";
-import * as unboundGenActions from "../actions/general";
 import { Dropdown, Text, Box, UnstyledButton, Icon } from "./styles";
 
 const getReadableVerb = verb => {
@@ -123,11 +122,8 @@ const Notif = ({ notif, onClick }) => (
 let client, feed;
 
 export default function RealtimeNotifications() {
+  const history = useHistory();
   const [isLoggedIn, user] = useSelectors(getIsLoggedIn, getUser);
-  const { fetchEventMessages, fetchThreadMessages } = useActions(
-    unboundMessageActions
-  );
-  const { setSelectedResource } = useActions(unboundGenActions);
   const [notifs, setNotifs] = useState([]);
   const subscription = useRef(null);
 
@@ -139,12 +135,10 @@ export default function RealtimeNotifications() {
   function handleNotifClick({ object }) {
     const [resourceType, id] = object.split(":");
     if (resourceType === "event") {
-      fetchEventMessages(id);
+      history.push(`/events/${id}`);
     } else if (resourceType === "thread") {
-      fetchThreadMessages(id);
+      history.push(`/convos/${id}`);
     }
-
-    setSelectedResource(id);
   }
 
   useEffect(() => {

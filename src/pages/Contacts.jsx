@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { FloatingPill, Box, Icon, Text } from "../components/styles";
+import { FloatingPill, Box, Icon, Text, Paragraph } from "../components/styles";
 import { ContainerSidebarRight } from "./styles";
 import ContactInfoBox from "../components/ContactInfoBox";
 import ContactCard from "../components/ContactCard";
@@ -58,9 +58,10 @@ function Heading({ children }) {
 function NullState() {
   return (
     <Box justifyContent="center" alignItems="center" width="100%" height="100%">
-      <Text mb={5} textAlign="center" p={2}>
-        You don't have any contacts yet
-      </Text>
+      <Paragraph mb={5} textAlign="center" p={2} maxWidth="50rem">
+        You haven't added any contacts yet. Start a convo or create an event
+        with someone to add them as a contact.
+      </Paragraph>
     </Box>
   );
 }
@@ -68,12 +69,12 @@ function NullState() {
 function NoResults() {
   return (
     <Box justifyContent="center" alignItems="center" width="100%" height="100%">
-      <Text mb={5} textAlign="center" p={2}>
+      <Paragraph mb={5} textAlign="center" p={2} maxWidth="30rem">
         No results{" "}
         <span role="img" aria-label="sad face">
           😕
         </span>
-      </Text>
+      </Paragraph>
     </Box>
   );
 }

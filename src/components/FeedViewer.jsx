@@ -1,36 +1,22 @@
 import React from "react";
 import { motion } from "framer-motion";
-import styled from "styled-components";
-import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getIsThreadsFetched } from "../selectors";
 import FeedItem from "./FeedItem";
 import ThreadComposer from "./ThreadComposer";
+import RegisterWarning from "./RegisterWarning";
 
 import { Ripple, FloatingPill } from "./styles";
 import { useThreads } from "../hooks";
-
-const Container = styled.main`
-  display: block;
-  padding: 0 ${themeGet("space.5")};
-
-  ${themeGet("media.tablet")} {
-    padding-right: ${themeGet("space.5")};
-    padding-left: 0;
-  }
-
-  ${themeGet("media.phone")} {
-    padding: 0;
-  }
-`;
 
 export default function FeedViewer() {
   const [threads] = useThreads();
   const [isThreadsFetched] = useSelectors(getIsThreadsFetched);
 
   return (
-    <Container>
+    <div>
+      <RegisterWarning />
       <FloatingPill>
         <ThreadComposer />
       </FloatingPill>
@@ -49,6 +35,6 @@ export default function FeedViewer() {
           {thread.preview && <FeedItem thread={thread} />}
         </motion.div>
       ))}
-    </Container>
+    </div>
   );
 }
