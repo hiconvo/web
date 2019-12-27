@@ -4,12 +4,13 @@ import { themeGet } from "@styled-system/theme-get";
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
 
+import NavItem from "./NavItem";
 import UserMenu from "./UserMenu";
 import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
 import RealtimeNotifications from "./RealtimeNotifications";
 import Logo from "./Logo";
-import { Box, Paragraph, theme } from "./styles";
+import { Box, Paragraph } from "./styles";
 
 const Header = styled.header`
   position: fixed;
@@ -49,35 +50,6 @@ const Nav = styled.nav`
   }
 `;
 
-const NavItemInner = styled.div`
-  padding: ${themeGet("space.3")};
-  color: ${props =>
-    props.active
-      ? themeGet("colors.black")(props)
-      : themeGet("colors.gray")(props)};
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: ${themeGet("colors.black")};
-  }
-`;
-
-const NavItem = ({ to, text, active }) => (
-  <Link to={to}>
-    <NavItemInner active={active}>
-      <Box
-        style={{
-          borderBottom: `0.1rem solid ${
-            active ? theme.colors.black : "transparent"
-          }`
-        }}
-      >
-        {text}
-      </Box>
-    </NavItemInner>
-  </Link>
-);
-
 const WrappedLogo = () => (
   <LogoWrapper>
     <Link style={{ width: "5rem", height: "5rem", display: "block" }} to="/">
@@ -89,9 +61,6 @@ const WrappedLogo = () => (
 export default () => {
   const isLoginPage = useRouteMatch("/login");
   const isForgotPage = useRouteMatch("/forgot");
-  const isEventsPage = useRouteMatch("/events");
-  const isConvosPage = useRouteMatch("/convos");
-  const isContactsPage = useRouteMatch("/contacts");
   const showNav = !(isLoginPage || isForgotPage);
 
   return (
@@ -101,9 +70,9 @@ export default () => {
         <MobileLogoMenu />
         {showNav && (
           <Nav>
-            <NavItem to="/convos" text="Convos" active={isConvosPage} />
-            <NavItem to="/events" text="Events" active={isEventsPage} />
-            <NavItem to="/contacts" text="Contacts" active={isContactsPage} />
+            <NavItem to="/convos" text="Convos" />
+            <NavItem to="/events" text="Events" />
+            <NavItem to="/contacts" text="Contacts" />
           </Nav>
         )}
       </Box>

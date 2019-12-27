@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Modal from "styled-react-modal";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
 import { themeGet } from "@styled-system/theme-get";
 import { motion } from "framer-motion";
 
 import InboxList from "./InboxList";
+import NavItem from "./NavItem";
 import { Icon, LinkButton, Box } from "./styles";
 import Logo from "./Logo";
 import { useSelectors } from "../redux";
@@ -42,7 +42,6 @@ const Nav = styled.nav`
 `;
 
 export default function MobileLogoMenu() {
-  const { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
@@ -81,15 +80,11 @@ export default function MobileLogoMenu() {
             <Box width="7rem" p={3}>
               <Logo height="6rem" />
             </Box>
-            {!pathname.endsWith("convos") ? (
-              <LinkButton to="/convos" justifyContent="flex-start" mb="0">
-                Convos
-              </LinkButton>
-            ) : (
-              <LinkButton to="/contacts" justifyContent="flex-start" mb="0">
-                Contacts
-              </LinkButton>
-            )}
+            <Box alignItems="flex-start">
+              <NavItem to="/convos" text="Convos" />
+              <NavItem to="/events" text="Events" />
+              <NavItem to="/contacts" text="Contacts" />
+            </Box>
           </Nav>
           <Nav>
             <LinkButton
