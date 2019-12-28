@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Box } from "./styles";
 import Markdown from "./Markdown";
 import Photo from "./Photo";
+import OpenGraphLink from "./OpenGraphLink";
 
 const Container = styled.div`
   display: inline-block;
@@ -51,6 +52,11 @@ export default function Message({ message, isAuthor }) {
       {message.photos && message.photos.length > 0 && (
         <Box flexDirection={isAuthor ? "row-reverse" : "row"} mt={3}>
           <Photo src={message.photos[0]} />
+        </Box>
+      )}
+      {message.link && (
+        <Box flexDirection={isAuthor ? "row-reverse" : "row"} mt={3}>
+          <OpenGraphLink link={message.link} />
         </Box>
       )}
     </Box>

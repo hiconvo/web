@@ -45,10 +45,12 @@ export default function Thread() {
   return (
     <ContainerDualSidebars>
       <Box>
-        <LinkButton to="/convos" variant="gray">
-          <Icon name="keyboard_backspace" mr={1} fontSize={3} />
-          Go back
-        </LinkButton>
+        <Box position="fixed" width="28rem">
+          <LinkButton to="/convos" variant="gray" width="100%">
+            <Icon name="keyboard_backspace" mr={1} fontSize={3} />
+            Go back
+          </LinkButton>
+        </Box>
       </Box>
       <Container>
         <ThreadViewer thread={thread} />

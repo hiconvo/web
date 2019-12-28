@@ -4,6 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
+import OpenGraphLink from "./OpenGraphLink";
 import Markdown from "./Markdown";
 import Photo from "./Photo";
 import ContactSection from "./ContactSection";
@@ -51,15 +52,18 @@ export default function FeedItem({ thread }) {
                 thread.preview.body.length > 256 && <Screen />}
             </Container>
             {thread.preview.photos && thread.preview.photos.length > 0 && (
-              <Box>
-                <Photo src={thread.preview.photos[0]} />
+              <Photo src={thread.preview.photos[0]} />
+            )}
+            {thread.preview.link && (
+              <Box my={3}>
+                <OpenGraphLink link={thread.preview.link} />
               </Box>
             )}
           </Box>
           <Box flexDirection="row" justifyContent="space-between" mt={2}>
             <Box>
               <Text fontSize={1} color="gray">
-                0 responses &middot; Write a response
+                {thread.responseCount || 0} responses &middot; Write a response
               </Text>
             </Box>
             <Box>

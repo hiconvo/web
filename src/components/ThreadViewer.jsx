@@ -8,6 +8,7 @@ import { getUser, getMessagesByThreadId } from "../selectors";
 import * as unboundActions from "../actions/messages";
 import Message from "./Message";
 import MessageComposer from "./MessageComposer";
+import OpenGraphLink from "./OpenGraphLink";
 import { useReadReporting } from "../hooks";
 import ContactSection from "./ContactSection";
 import Photo from "./Photo";
@@ -68,13 +69,18 @@ export default function ThreadViewer({ thread }) {
         <ContactSection user={thread.owner} users={thread.users} />
         <Container>
           {topItem && <Markdown text={topItem.body || ""} />}
-
-          {topItem.photos && topItem.photos.length > 0 && (
-            <Box mt={3}>
-              <Photo src={topItem.photos[0]} height="auto" />
-            </Box>
-          )}
         </Container>
+
+        {topItem.photos && topItem.photos.length > 0 && (
+          <Box mt={3}>
+            <Photo src={topItem.photos[0]} height="auto" />
+          </Box>
+        )}
+        {topItem.link && (
+          <Box my={3}>
+            <OpenGraphLink link={topItem.link} />
+          </Box>
+        )}
         <MessageComposer
           key={id}
           createMessage={createThreadMessage}
