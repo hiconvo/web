@@ -37,6 +37,8 @@ const Screen = styled.div`
 `;
 
 export default function FeedItem({ thread }) {
+  const responseCount = Math.max(thread.responseCount - 1, 0);
+
   return (
     <FloatingPill>
       <Link to={`/convos/${thread.id}`}>
@@ -52,18 +54,21 @@ export default function FeedItem({ thread }) {
                 thread.preview.body.length > 256 && <Screen />}
             </Container>
             {thread.preview.photos && thread.preview.photos.length > 0 && (
-              <Photo src={thread.preview.photos[0]} />
+              <Box mt={3} mb={2}>
+                <Photo src={thread.preview.photos[0]} height="auto" />
+              </Box>
             )}
             {thread.preview.link && (
               <Box my={3}>
-                <OpenGraphLink link={thread.preview.link} />
+                <OpenGraphLink link={thread.preview.link} inactive />
               </Box>
             )}
           </Box>
           <Box flexDirection="row" justifyContent="space-between" mt={2}>
             <Box>
               <Text fontSize={1} color="gray">
-                {thread.responseCount || 0} responses &middot; Write a response
+                {responseCount} {responseCount === 1 ? "response" : "responses"}{" "}
+                &middot; Write a response
               </Text>
             </Box>
             <Box>

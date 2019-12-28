@@ -72,7 +72,7 @@ export default function ThreadViewer({ thread }) {
         </Container>
 
         {topItem.photos && topItem.photos.length > 0 && (
-          <Box mt={3}>
+          <Box my={3}>
             <Photo src={topItem.photos[0]} height="auto" />
           </Box>
         )}
