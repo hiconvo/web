@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { margin, padding } from "styled-system";
 import { themeGet } from "@styled-system/theme-get";
 
-export const Container = styled.main`
+export const Container = styled.div`
   display: block;
   padding: 0 ${themeGet("space.5")};
 

@@ -64,7 +64,11 @@ export default function ThreadViewer({ thread }) {
   if (!topItem || isLoading || !thread) return <Ripple />;
 
   return (
-    <div>
+    <motion.div
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <FloatingPill>
         <ContactSection user={thread.owner} users={thread.users} />
         <Container>
@@ -102,6 +106,6 @@ export default function ThreadViewer({ thread }) {
             <Message message={message} isAuthor={user.id === message.user.id} />
           </motion.div>
         ))}
-    </div>
+    </motion.div>
   );
 }

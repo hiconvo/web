@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -80,7 +80,6 @@ function NoResults() {
 }
 
 export default function Contacts() {
-  const inputContainerEl = useRef(null);
   const [query, setQuery] = useState("");
   const [selectedContact, setSelectedContact] = useState({});
   const [contacts] = useSelectors(getContacts);
@@ -88,11 +87,6 @@ export default function Contacts() {
   function handleQueryChange(e) {
     setQuery(e.target.value);
   }
-
-  useEffect(() => {
-    inputContainerEl.current && inputContainerEl.current.focus();
-    // eslint-disable-next-line
-  }, []);
 
   const debouncedQuery = useDebounce(query, 300);
   const { contactsResults, networkResults, isLoading } = useUserSearch(
@@ -108,7 +102,6 @@ export default function Contacts() {
             <Input
               type="text"
               placeholder="Search"
-              ref={inputContainerEl}
               value={query}
               onChange={handleQueryChange}
             />

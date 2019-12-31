@@ -19,7 +19,7 @@ import {
   Icon
 } from "../components/styles";
 
-const Container = styled.main`
+const Container = styled.div`
   display: block;
   padding: 0 ${themeGet("space.5")};
 

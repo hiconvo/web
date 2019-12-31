@@ -19,7 +19,7 @@ import EmailSettings from "../components/EmailSettings";
 import googleLogo from "../media/google-logo.svg";
 import facebookLogo from "../media/facebook-logo.svg";
 
-const Container = styled.main`
+const Container = styled.div`
   margin: auto;
   width: 100%;
   max-width: 46rem;

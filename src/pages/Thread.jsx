@@ -10,7 +10,7 @@ import ThreadViewer from "../components/ThreadViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
 import { Box, Ripple, CenterContent, Button, Icon } from "../components/styles";
 
-const Container = styled.main`
+const Container = styled.div`
   display: block;
   padding: 0 ${themeGet("space.5")};
 
