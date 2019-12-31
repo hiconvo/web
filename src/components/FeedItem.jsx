@@ -1,7 +1,7 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
 import OpenGraphLink from "./OpenGraphLink";
@@ -37,14 +37,21 @@ const Screen = styled.div`
 `;
 
 export default function FeedItem({ thread }) {
+  const history = useHistory();
   const responseCount = Math.max(thread.responseCount - 1, 0);
+
+  function handleClick(e) {
+    history.push(`/convos/${thread.id}`);
+  }
 
   return (
     <FloatingPill>
-      <Link to={`/convos/${thread.id}`}>
-        <Box pb={3}>
+      <Box pb={3} cursor="pointer">
+        <div onClick={handleClick}>
           <ContactSection user={thread.owner} users={thread.users} />
-          <Box mb={2}>
+        </div>
+        <Box mb={2}>
+          <div onClick={handleClick}>
             <Container>
               {thread.preview && thread.preview.body && (
                 <Markdown text={thread.preview.body} />
@@ -53,17 +60,19 @@ export default function FeedItem({ thread }) {
                 thread.preview.body &&
                 thread.preview.body.length > 256 && <Screen />}
             </Container>
-            {thread.preview.photos && thread.preview.photos.length > 0 && (
-              <Box mt={3} mb={2}>
-                <Photo src={thread.preview.photos[0]} height="auto" />
-              </Box>
-            )}
-            {thread.preview.link && (
-              <Box my={3}>
-                <OpenGraphLink link={thread.preview.link} inactive />
-              </Box>
-            )}
-          </Box>
+          </div>
+          {thread.preview.photos && thread.preview.photos.length > 0 && (
+            <Box mt={3} mb={2}>
+              <Photo src={thread.preview.photos[0]} height="auto" />
+            </Box>
+          )}
+          {thread.preview.link && (
+            <Box my={3}>
+              <OpenGraphLink link={thread.preview.link} />
+            </Box>
+          )}
+        </Box>
+        <div onClick={handleClick}>
           <Box flexDirection="row" justifyContent="space-between" mt={2}>
             <Box>
               <Text fontSize={1} color="gray">
@@ -79,8 +88,8 @@ export default function FeedItem({ thread }) {
               </Text>
             </Box>
           </Box>
-        </Box>
-      </Link>
+        </div>
+      </Box>
     </FloatingPill>
   );
 }

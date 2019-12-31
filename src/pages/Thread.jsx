@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -8,13 +8,7 @@ import { getThreadById } from "../selectors";
 import { ContainerDualSidebars } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
-import {
-  Box,
-  Ripple,
-  CenterContent,
-  LinkButton,
-  Icon
-} from "../components/styles";
+import { Box, Ripple, CenterContent, Button, Icon } from "../components/styles";
 
 const Container = styled.main`
   display: block;
@@ -31,6 +25,7 @@ const Container = styled.main`
 `;
 
 export default function Thread() {
+  const history = useHistory();
   const { id } = useParams();
   const [thread] = useThreads(getThreadById(id));
 
@@ -46,10 +41,10 @@ export default function Thread() {
     <ContainerDualSidebars>
       <Box>
         <Box position="fixed" width="28rem">
-          <LinkButton to="/convos" variant="gray" width="100%">
+          <Button onClick={() => history.goBack()} variant="gray" width="100%">
             <Icon name="keyboard_backspace" mr={1} fontSize={3} />
             Go back
-          </LinkButton>
+          </Button>
         </Box>
       </Box>
       <Container>
