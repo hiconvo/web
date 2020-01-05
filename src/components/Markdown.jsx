@@ -73,6 +73,18 @@ const Container = styled.div`
     list-style: decimal inside;
   }
 
+  blockquote {
+    padding-left: ${themeGet("space.3")};
+    margin-right: ${themeGet("space.3")};
+    margin-bottom: ${themeGet("space.2")};
+    border-left: ${themeGet("borders.lightGray")};
+
+    p {
+      line-height: 1.4em;
+      font-size: ${themeGet("fontSizes.2")};
+    }
+  }
+
   ${typography}
   ${textStyle}
 `;
