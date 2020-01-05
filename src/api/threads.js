@@ -1,7 +1,10 @@
 import apiRequest from "./apiRequest";
 
-export function getThreads() {
-  return apiRequest(`/threads`);
+/*
+ * @param {int} pageNumber
+ */
+export function getThreads(pageNumber = 0) {
+  return apiRequest(`/threads?page=${pageNumber}&size=-1`);
 }
 
 /*

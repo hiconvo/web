@@ -1,7 +1,10 @@
 import apiRequest from "./apiRequest";
 
-export function getEvents() {
-  return apiRequest(`/events`);
+/*
+ * @param {int} pageNumber
+ */
+export function getEvents(pageNumber = 0) {
+  return apiRequest(`/events?page=${pageNumber}&size=-1`);
 }
 
 /*

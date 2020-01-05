@@ -11,9 +11,9 @@ export const fetchThreads = dispatch =>
   /*
    * @returns {undefined}
    */
-  async () => {
+  async pageNumber => {
     try {
-      const response = await API.getThreads();
+      const response = await API.getThreads(pageNumber);
       dispatch({
         type: "RECEIVE_THREADS",
         payload: response.threads
