@@ -27,7 +27,7 @@ const Container = styled.div`
   }
 
   p {
-    margin-bottom: ${themeGet("space.2")};
+    margin-bottom: ${themeGet("space.3")};
   }
 
   p:last-child {
