@@ -76,7 +76,7 @@ const Container = styled.div`
   blockquote {
     padding-left: ${themeGet("space.3")};
     margin-right: ${themeGet("space.3")};
-    margin-bottom: ${themeGet("space.2")};
+    margin-bottom: ${themeGet("space.3")};
     border-left: ${themeGet("borders.lightGray")};
 
     p {
