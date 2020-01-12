@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useSelectors } from "../redux";
-import { getThreadById } from "../selectors";
+import { useSelectors, useActions } from "../redux";
+import { getThreadById, getIsThreadsFetched } from "../selectors";
+import * as unboundThreadActions from "../actions/threads";
 import { ContainerDualSidebars } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
@@ -27,7 +28,17 @@ const Container = styled.div`
 export default function Thread() {
   const history = useHistory();
   const { id } = useParams();
-  const [thread] = useSelectors(getThreadById(id));
+  const { fetchThread } = useActions(unboundThreadActions);
+  const [thread, isThreadsFetched] = useSelectors(
+    getThreadById(id),
+    getIsThreadsFetched
+  );
+
+  useEffect(() => {
+    if (id && !thread && isThreadsFetched) {
+      fetchThread(id);
+    }
+  }, [isThreadsFetched, id]);
 
   if (!thread) {
     return (

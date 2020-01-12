@@ -6,7 +6,7 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getUser } from "../selectors";
-import { Icon, Box, Text } from "./styles";
+import { Box, Text } from "./styles";
 
 const timestampWidth = "6rem";
 
@@ -43,7 +43,7 @@ const From = styled.span`
   color: ${themeGet("colors.bodytext")};
   float: left;
   width: calc(100% - ${timestampWidth});
-  font-weight: ${props => (props.hasRead ? "normal" : "bold")};
+  font-weight: 600;
   font-size: ${themeGet("fontSizes.1")};
 `;
 
@@ -84,7 +84,7 @@ const EventContainer = styled.div`
 `;
 
 const EventDate = styled.span`
-  font-size: ${themeGet("fontSizes.0")};
+  font-size: ${themeGet("fontSizes.1")};
   color: ${themeGet("colors.gray")};
 `;
 
@@ -124,9 +124,6 @@ function InboxListItem({ resource, isSelected }) {
           </FromContainer>
 
           <EventContainer isSelected={isSelected}>
-            <Box flexShrink="0">
-              <Icon name="event" mr={2} fontSize={3} />
-            </Box>
             <Box flexDirection="column" overflow="hidden">
               <Text
                 weight="semiBold"
@@ -134,6 +131,7 @@ function InboxListItem({ resource, isSelected }) {
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 fontSize={1}
+                mb={1}
               >
                 {resource.name}
               </Text>

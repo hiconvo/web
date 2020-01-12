@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useSelectors } from "../redux";
+import { useSelectors, useActions } from "../redux";
 import { getEventById, getEvents, getIsEventsFetched } from "../selectors";
+import * as unboundEventActions from "../actions/events";
 import { ContainerDualSidebars } from "./styles";
 import EventSidebar from "../components/EventSidebar";
 import EventViewer from "../components/EventViewer";
@@ -35,14 +36,21 @@ const Container = styled.div`
 export default function Events() {
   const { id } = useParams();
   const history = useHistory();
+  const { fetchEvent } = useActions(unboundEventActions);
   const [isEventsFetched, events, event] = useSelectors(
     getIsEventsFetched,
     getEvents,
     getEventById(id)
   );
 
+  useEffect(() => {
+    if (id && !event && isEventsFetched) {
+      fetchEvent(id);
+    }
+  }, [isEventsFetched, id]);
+
   if (!events.length || !id || !event) {
-    if (events.length && events[0] && events[0].id) {
+    if (!id && events.length && events[0] && events[0].id) {
       history.push(`/events/${events[0].id}`);
     }
 

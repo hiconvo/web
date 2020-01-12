@@ -28,6 +28,27 @@ export const fetchEvents = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const fetchEvent = dispatch =>
+  /*
+   * @returns {undefined}
+   */
+  async id => {
+    try {
+      const response = await API.getEvent(id);
+      dispatch({
+        type: "RECEIVE_EVENTS",
+        payload: [response]
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const createEvent = dispatch =>
   /*
    * @param {Object} payload

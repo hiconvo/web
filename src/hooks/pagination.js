@@ -13,23 +13,25 @@ export default function usePagination(fetchAction, pageInfoSelector, node) {
     async function handleFetch() {
       if (isFetching || isExhausted) return;
 
-      console.log(pageNumber);
-
       isFetching = true;
       await boundFetchAction(pageNumber + 1);
       isFetching = false;
     }
 
-    const scrollCb = debounce(e => {
-      const scrollingElement = e.target.scrollingElement
-        ? e.target.scrollingElement
-        : e.target;
-      const { scrollTop, scrollHeight, clientHeight } = scrollingElement;
+    const scrollCb = debounce(
+      e => {
+        const scrollingElement = e.target.scrollingElement
+          ? e.target.scrollingElement
+          : e.target;
+        const { scrollTop, scrollHeight, clientHeight } = scrollingElement;
 
-      if (scrollHeight - scrollTop <= clientHeight + 500) {
-        handleFetch();
-      }
-    }, 200);
+        if (scrollHeight - scrollTop <= clientHeight + 1500) {
+          handleFetch();
+        }
+      },
+      200,
+      { leading: true }
+    );
 
     node && node.addEventListener("scroll", scrollCb);
 

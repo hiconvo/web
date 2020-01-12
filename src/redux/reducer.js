@@ -33,12 +33,6 @@ export default function reducer(state, action) {
       const threads = state.threads
         .filter(t => !action.payload.some(newThread => newThread.id === t.id))
         .concat(action.payload)
-        .sort(
-          (a, b) =>
-            a.preview &&
-            b.preview &&
-            isBefore(a.preview.timestamp, b.preview.timestamp)
-        )
         .map(thread => ({
           ...thread,
           resourceType: "Thread",
@@ -50,7 +44,7 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {
         threads,
         isThreadsFetched: true,
-        threadsPageNum: action.pageNumber,
+        threadsPageNum: action.pageNumber || state.threadsPageNum,
         isThreadsExhausted: action.payload.length === 0
       });
     }
@@ -64,15 +58,11 @@ export default function reducer(state, action) {
       const events = state.events
         .filter(t => !action.payload.some(newEvent => newEvent.id === t.id))
         .concat(action.payload)
-        .sort(
-          (a, b) =>
-            a.timestamp && b.timestamp && isBefore(a.timestamp, b.timestamp)
-        )
         .map(event => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {
         events,
         isEventsFetched: true,
-        eventsPageNum: action.pageNumber,
+        eventsPageNum: action.pageNumber || state.eventsPageNum,
         isEventsExhausted: action.payload.length === 0
       });
     }

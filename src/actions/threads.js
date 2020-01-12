@@ -29,6 +29,27 @@ export const fetchThreads = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const fetchThread = dispatch =>
+  /*
+   * @returns {undefined}
+   */
+  async id => {
+    try {
+      const response = await API.getThread(id);
+      dispatch({
+        type: "RECEIVE_THREADS",
+        payload: [response]
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const createThread = dispatch =>
   /*
    * @param {Object} payload
