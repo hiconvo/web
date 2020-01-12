@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useThreads } from "../hooks";
+import { useSelectors } from "../redux";
 import { getThreadById } from "../selectors";
 import { ContainerDualSidebars } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
@@ -27,7 +27,7 @@ const Container = styled.div`
 export default function Thread() {
   const history = useHistory();
   const { id } = useParams();
-  const [thread] = useThreads(getThreadById(id));
+  const [thread] = useSelectors(getThreadById(id));
 
   if (!thread) {
     return (

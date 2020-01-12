@@ -10,12 +10,13 @@ export const fetchEvents = dispatch =>
   /*
    * @returns {undefined}
    */
-  async () => {
+  async (pageNumber = 0) => {
     try {
-      const response = await API.getEvents();
+      const response = await API.getEvents(pageNumber);
       dispatch({
         type: "RECEIVE_EVENTS",
-        payload: response.events
+        payload: response.events,
+        pageNumber
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });

@@ -2,17 +2,18 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import { useSelectors } from "../redux";
-import { getIsThreadsFetched } from "../selectors";
+import { getIsThreadsFetched, getThreads } from "../selectors";
 import FeedItem from "./FeedItem";
 import ThreadComposer from "./ThreadComposer";
 import RegisterWarning from "./RegisterWarning";
 
 import { Ripple, FloatingPill } from "./styles";
-import { useThreads } from "../hooks";
 
 export default function FeedViewer() {
-  const [threads] = useThreads();
-  const [isThreadsFetched] = useSelectors(getIsThreadsFetched);
+  const [isThreadsFetched, threads] = useSelectors(
+    getIsThreadsFetched,
+    getThreads
+  );
 
   return (
     <div>

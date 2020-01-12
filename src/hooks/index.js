@@ -3,8 +3,7 @@ import useWade from "./wade";
 import useUserSearch from "./userSearch";
 import useReadReporting from "./readReporting";
 import useGoogleContacts from "./googleContacts";
-import useEvents from "./events";
-import useThreads from "./threads";
+import usePagination from "./pagination";
 
 export {
   useDebounce,
@@ -12,6 +11,5 @@ export {
   useUserSearch,
   useReadReporting,
   useGoogleContacts,
-  useEvents,
-  useThreads
+  usePagination
 };

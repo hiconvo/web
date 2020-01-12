@@ -3,44 +3,22 @@ import { Route, Redirect } from "react-router-dom";
 
 import { useSelectors, useActions } from "../redux";
 import * as unboundAuthActions from "../actions/auth";
-import * as unboundContactActions from "../actions/contacts";
-import {
-  getIsLoggedIn,
-  getIsLoading,
-  getContacts,
-  getIsContactsFetched
-} from "../selectors";
+import { getIsLoggedIn, getIsLoading } from "../selectors";
 import { Ripple, CenterContent } from "./styles";
 
 export default function AuthorizedRoute(props) {
   const { component: Component, ...rest } = props;
 
-  const [isLoading, isLoggedIn, contacts, isContactsFetched] = useSelectors(
-    getIsLoading,
-    getIsLoggedIn,
-    getContacts,
-    getIsContactsFetched
-  );
-  const { loginUserWithToken, fetchContacts } = useActions({
-    ...unboundAuthActions,
-    ...unboundContactActions
-  });
+  const [isLoading, isLoggedIn] = useSelectors(getIsLoading, getIsLoggedIn);
+  const { loginUserWithToken } = useActions(unboundAuthActions);
 
   useEffect(() => {
     if (!isLoggedIn) {
       try {
         loginUserWithToken().catch(() => {});
       } catch (e) {}
-    } else {
-      !isContactsFetched && fetchContacts();
     }
-  }, [
-    isLoggedIn,
-    loginUserWithToken,
-    fetchContacts,
-    contacts,
-    isContactsFetched
-  ]);
+  }, [isLoggedIn, loginUserWithToken]);
 
   return (
     <Route

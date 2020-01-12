@@ -10,7 +10,11 @@ export const initialState = {
   contacts: [],
   isContactsFetched: false,
   isThreadsFetched: false,
-  isEventsFetched: false
+  isEventsFetched: false,
+  threadsPageNum: 0,
+  eventsPageNum: 0,
+  isThreadsExhausted: false,
+  isEventsExhausted: false
 };
 
 export default function reducer(state, action) {
@@ -45,7 +49,9 @@ export default function reducer(state, action) {
         }));
       return Object.assign({}, state, {
         threads,
-        isThreadsFetched: true
+        isThreadsFetched: true,
+        threadsPageNum: action.pageNumber,
+        isThreadsExhausted: action.payload.length === 0
       });
     }
     case "DELETE_THREAD": {
@@ -65,7 +71,9 @@ export default function reducer(state, action) {
         .map(event => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {
         events,
-        isEventsFetched: true
+        isEventsFetched: true,
+        eventsPageNum: action.pageNumber,
+        isEventsExhausted: action.payload.length === 0
       });
     }
     case "DELETE_EVENT": {

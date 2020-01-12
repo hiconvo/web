@@ -55,23 +55,44 @@ export function getIsEventsFetched(store) {
   return store.isEventsFetched;
 }
 
+export function getThreadsPageNum(store) {
+  return store.threadsPageNum;
+}
+
+export function getEventsPageNum(store) {
+  return store.eventsPageNum;
+}
+
+export function getIsThreadsExhausted(store) {
+  return store.isThreadsExhausted;
+}
+
+export function getIsEventsExhausted(store) {
+  return store.isEventsExhausted;
+}
+
+export const getThreadsPageInfo = createSelector(
+  getThreadsPageNum,
+  getIsThreadsExhausted,
+  (pageNumber, isExhausted) => ({ pageNumber, isExhausted })
+);
+
+export const getEventsPageInfo = createSelector(
+  getEventsPageNum,
+  getIsEventsExhausted,
+  (pageNumber, isExhausted) => ({ pageNumber, isExhausted })
+);
+
 export function getSelectedResourceId(store) {
   return store.selectedResourceId;
 }
 
-export const getThreadsCount = createSelector(
-  getThreads,
-  res => res.length
-);
+export const getThreadsCount = createSelector(getThreads, res => res.length);
 
-export const getEventsCount = createSelector(
-  getEvents,
-  res => res.length
-);
+export const getEventsCount = createSelector(getEvents, res => res.length);
 
-export const getUpcomingEvents = createSelector(
-  getEvents,
-  events => events.filter(e => isAfter(parseISO(e.timestamp), Date.now()))
+export const getUpcomingEvents = createSelector(getEvents, events =>
+  events.filter(e => isAfter(parseISO(e.timestamp), Date.now()))
 );
 
 export const getEventById = id => store => store.events.find(e => e.id === id);

@@ -2,12 +2,12 @@ import React from "react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
-import { useEvents } from "../hooks";
+import { useSelectors } from "../redux";
 import { getUpcomingEvents } from "../selectors";
 import { Paragraph, Box, Text, Icon } from "./styles";
 
 export default function UpcomingEventsSidebar() {
-  const [events] = useEvents(getUpcomingEvents);
+  const [events] = useSelectors(getUpcomingEvents);
 
   return (
     <Box mb={3}>

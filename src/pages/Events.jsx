@@ -3,9 +3,8 @@ import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
-import { useEvents } from "../hooks";
 import { useSelectors } from "../redux";
-import { getEventById, getIsEventsFetched } from "../selectors";
+import { getEventById, getEvents, getIsEventsFetched } from "../selectors";
 import { ContainerDualSidebars } from "./styles";
 import EventSidebar from "../components/EventSidebar";
 import EventViewer from "../components/EventViewer";
@@ -36,10 +35,10 @@ const Container = styled.div`
 export default function Events() {
   const { id } = useParams();
   const history = useHistory();
-  const [events] = useEvents();
-  const [event, isEventsFetched] = useSelectors(
-    getEventById(id),
-    getIsEventsFetched
+  const [isEventsFetched, events, event] = useSelectors(
+    getIsEventsFetched,
+    getEvents,
+    getEventById(id)
   );
 
   if (!events.length || !id || !event) {

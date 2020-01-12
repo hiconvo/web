@@ -3,9 +3,13 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { ModalProvider, BaseModalBackground } from "styled-react-modal";
 
+import { fetchEvents } from "../actions/events";
+import { fetchThreads } from "../actions/threads";
+import { fetchContacts } from "../actions/contacts";
 import { theme, Reset } from "./styles";
 import { DataProvider } from "../redux";
 import AuthorizedRoute from "./AuthorizedRoute";
+import DataLoader from "./DataLoader";
 import Frame from "./Frame";
 import Login from "../pages/Login";
 import Events from "../pages/Events";
@@ -28,69 +32,71 @@ const ModalBackground = styled(BaseModalBackground).attrs(props => ({
 export default function App() {
   return (
     <DataProvider>
-      <ThemeProvider theme={theme}>
-        <Reset>
-          <ModalProvider backgroundComponent={ModalBackground}>
-            <BrowserRouter>
-              <Frame>
-                <Switch>
-                  <Route path="/login" component={Login} />
-                  <Route path="/forgot" component={ForgotPassword} />
-                  <Route
-                    path="/verify/:email/:key/:timestamp/:signature"
-                    exact
-                    component={VerifyEmail}
-                  />
-                  <Route
-                    path="/reset/:key/:timestamp/:signature"
-                    exact
-                    component={ResetPassword}
-                  />
-                  <Route
-                    path="/rsvp/:eventId/:key/:timestamp/:signature"
-                    exact
-                    component={Rsvp}
-                  />
-                  <AuthorizedRoute
-                    path="/convos/new"
-                    exact
-                    component={NewThread}
-                  />
-                  <AuthorizedRoute
-                    path="/convos/:id"
-                    exact
-                    component={Thread}
-                  />
-                  <AuthorizedRoute path="/convos" exact component={Feed} />
-                  <AuthorizedRoute
-                    path="/events/new"
-                    exact
-                    component={NewEvent}
-                  />
-                  <AuthorizedRoute
-                    path="/events/:id/edit"
-                    exact
-                    component={NewEvent}
-                  />
-                  <AuthorizedRoute
-                    path="/events/:id"
-                    exact
-                    component={Events}
-                  />
-                  <AuthorizedRoute path="/events" exact component={Events} />
-                  <AuthorizedRoute
-                    path="/contacts"
-                    exact
-                    component={Contacts}
-                  />
-                  <AuthorizedRoute path="/settings" component={Settings} />
-                  <Redirect to="/convos" />
-                </Switch>
-              </Frame>
-            </BrowserRouter>
-          </ModalProvider>
-        </Reset>
-      </ThemeProvider>
+      <DataLoader initialActions={{ fetchEvents, fetchThreads, fetchContacts }}>
+        <ThemeProvider theme={theme}>
+          <Reset>
+            <ModalProvider backgroundComponent={ModalBackground}>
+              <BrowserRouter>
+                <Frame>
+                  <Switch>
+                    <Route path="/login" component={Login} />
+                    <Route path="/forgot" component={ForgotPassword} />
+                    <Route
+                      path="/verify/:email/:key/:timestamp/:signature"
+                      exact
+                      component={VerifyEmail}
+                    />
+                    <Route
+                      path="/reset/:key/:timestamp/:signature"
+                      exact
+                      component={ResetPassword}
+                    />
+                    <Route
+                      path="/rsvp/:eventId/:key/:timestamp/:signature"
+                      exact
+                      component={Rsvp}
+                    />
+                    <AuthorizedRoute
+                      path="/convos/new"
+                      exact
+                      component={NewThread}
+                    />
+                    <AuthorizedRoute
+                      path="/convos/:id"
+                      exact
+                      component={Thread}
+                    />
+                    <AuthorizedRoute path="/convos" exact component={Feed} />
+                    <AuthorizedRoute
+                      path="/events/new"
+                      exact
+                      component={NewEvent}
+                    />
+                    <AuthorizedRoute
+                      path="/events/:id/edit"
+                      exact
+                      component={NewEvent}
+                    />
+                    <AuthorizedRoute
+                      path="/events/:id"
+                      exact
+                      component={Events}
+                    />
+                    <AuthorizedRoute path="/events" exact component={Events} />
+                    <AuthorizedRoute
+                      path="/contacts"
+                      exact
+                      component={Contacts}
+                    />
+                    <AuthorizedRoute path="/settings" component={Settings} />
+                    <Redirect to="/convos" />
+                  </Switch>
+                </Frame>
+              </BrowserRouter>
+            </ModalProvider>
+          </Reset>
+        </ThemeProvider>
+      </DataLoader>
     </DataProvider>
   );
 }

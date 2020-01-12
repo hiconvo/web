@@ -11,12 +11,13 @@ export const fetchThreads = dispatch =>
   /*
    * @returns {undefined}
    */
-  async pageNumber => {
+  async (pageNumber = 0) => {
     try {
       const response = await API.getThreads(pageNumber);
       dispatch({
         type: "RECEIVE_THREADS",
-        payload: response.threads
+        payload: response.threads,
+        pageNumber
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });

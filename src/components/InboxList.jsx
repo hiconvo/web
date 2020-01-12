@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { motion } from "framer-motion";
 
-import { useEvents } from "../hooks";
+import { useSelectors } from "../redux";
+import { getEvents, getEventsPageInfo } from "../selectors";
+import { usePagination } from "../hooks";
+import { fetchEvents } from "../actions/events";
 import InboxListItem from "./InboxListItem";
 
 const Container = styled.ul`
@@ -32,11 +35,13 @@ const spring = {
 };
 
 export default function InboxList() {
+  const containerRef = useRef();
   const { id } = useParams();
-  const [events] = useEvents();
+  const [events] = useSelectors(getEvents);
+  usePagination(fetchEvents, getEventsPageInfo, containerRef.current);
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       {events.map(resource => (
         <motion.div key={resource.id} layoutTransition={spring}>
           <InboxListItem

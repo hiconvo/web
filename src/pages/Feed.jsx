@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
+import { fetchThreads } from "../actions/threads";
+import { getThreadsPageInfo } from "../selectors";
+import { usePagination } from "../hooks";
 import FeedViewer from "../components/FeedViewer";
 import UpcomingEventsSidebar from "../components/UpcomingEventsSidebar";
 import ContactsSidebar from "../components/ContactsSidebar";
@@ -23,6 +26,8 @@ const Container = styled.div`
 `;
 
 export default function Feed() {
+  usePagination(fetchThreads, getThreadsPageInfo, window.document);
+
   return (
     <ContainerDualSidebars>
       <Box>

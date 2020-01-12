@@ -2,7 +2,7 @@ import React from "react";
 import { useRouteMatch, useParams } from "react-router";
 import styled from "styled-components";
 
-import { useEvents } from "../hooks";
+import { useSelectors } from "../redux";
 import { getEventById } from "../selectors";
 import { baseLayout } from "./styles";
 import EventForm from "../components/EventForm";
@@ -17,7 +17,7 @@ const Container = styled.div`
 export default function NewEvent() {
   const isEditing = useRouteMatch("/events/:id/edit");
   const { id } = useParams();
-  const [event] = useEvents(getEventById(id));
+  const [event] = useSelectors(getEventById(id));
 
   if (id && !event) {
     return (
