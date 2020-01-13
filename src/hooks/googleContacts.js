@@ -4,7 +4,6 @@ import {
   getGapiClient,
   getGapiAuth2,
   grantContactsPerm,
-  hasEnabledGoogleContacts,
   setHasEnabledGoogleContacts,
   INTIAL_SCOPES,
   CONTACTS_SCOPES
@@ -29,13 +28,11 @@ function massageConnections(connections) {
     }));
 }
 
-const alreadyEnabled = hasEnabledGoogleContacts();
-
 let cachedResults = null;
 
 export default function useGoogleContacts() {
   const [results, setResults] = useState([]);
-  const [enabled, setEnabled] = useState(alreadyEnabled);
+  const [enabled, setEnabled] = useState(false);
   const [ready, setReady] = useState(false);
   const { loginUserWithOAuth, dispatchNotification } = useActions({
     ...unboundAuthActions,

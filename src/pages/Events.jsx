@@ -47,7 +47,7 @@ export default function Events() {
     if (id && !event && isEventsFetched) {
       fetchEvent(id);
     }
-  }, [isEventsFetched, id]);
+  }, [isEventsFetched, id, fetchEvent, event]);
 
   if (!events.length || !id || !event) {
     if (!id && events.length && events[0] && events[0].id) {

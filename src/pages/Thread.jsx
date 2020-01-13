@@ -38,7 +38,7 @@ export default function Thread() {
     if (id && !thread && isThreadsFetched) {
       fetchThread(id);
     }
-  }, [isThreadsFetched, id]);
+  }, [isThreadsFetched, id, fetchThread, thread]);
 
   if (!thread) {
     return (

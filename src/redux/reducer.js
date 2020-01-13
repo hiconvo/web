@@ -56,7 +56,7 @@ export default function reducer(state, action) {
     }
     case "RECEIVE_EVENTS": {
       const events = state.events
-        .filter(t => !action.payload.some(newEvent => newEvent.id === t.id))
+        .filter(e => !action.payload.some(newEvent => newEvent.id === e.id))
         .concat(action.payload)
         .map(event => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {

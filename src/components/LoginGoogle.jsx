@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import { getGapiAuth2 } from "../utils/gapi";
 import { useActions } from "../redux";
@@ -16,20 +16,23 @@ export default function LoginGoogle() {
     ...unboundNotificationActions
   });
 
-  async function handleLoginWithGoogle(googleUser) {
-    setIsLoading(true);
+  const handleLoginWithGoogle = useCallback(
+    async googleUser => {
+      setIsLoading(true);
 
-    const authResponse = googleUser.getAuthResponse();
+      const authResponse = googleUser.getAuthResponse();
 
-    try {
-      await loginUserWithOAuth({
-        token: authResponse.id_token,
-        provider: "google"
-      });
-    } catch (e) {}
+      try {
+        await loginUserWithOAuth({
+          token: authResponse.id_token,
+          provider: "google"
+        });
+      } catch (e) {}
 
-    setIsLoading(false);
-  }
+      setIsLoading(false);
+    },
+    [loginUserWithOAuth]
+  );
 
   useEffect(() => {
     getGapiAuth2().then(authInstance => {
@@ -38,7 +41,6 @@ export default function LoginGoogle() {
         {},
         handleLoginWithGoogle,
         () => {
-          // TODO: Capture error with sentry
           dispatchNotification({
             type: "ERROR",
             message: "Something went wrong trying to login with Google"
@@ -46,8 +48,7 @@ export default function LoginGoogle() {
         }
       );
     });
-    // eslint-disable-next-line
-  }, []);
+  }, [dispatchNotification, handleLoginWithGoogle]);
 
   return (
     <Button

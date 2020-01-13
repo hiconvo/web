@@ -16,8 +16,7 @@ export default function DataLoader({ children, initialActions = {} }) {
         hasBeenFetched.push(name);
       }
     });
-    // eslint-disable-next-line
-  }, [isLoggedIn]);
+  }, [isLoggedIn, actions]);
 
   return <React.Fragment>{children}</React.Fragment>;
 }
