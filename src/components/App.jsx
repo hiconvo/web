@@ -3,9 +3,6 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { ModalProvider, BaseModalBackground } from "styled-react-modal";
 
-import { fetchEvents } from "../actions/events";
-import { fetchThreads } from "../actions/threads";
-import { fetchContacts } from "../actions/contacts";
 import { theme, Reset } from "./styles";
 import { DataProvider } from "../redux";
 import AuthorizedRoute from "./AuthorizedRoute";
@@ -32,7 +29,7 @@ const ModalBackground = styled(BaseModalBackground).attrs(props => ({
 export default function App() {
   return (
     <DataProvider>
-      <DataLoader initialActions={{ fetchEvents, fetchThreads, fetchContacts }}>
+      <DataLoader>
         <ThemeProvider theme={theme}>
           <Reset>
             <ModalProvider backgroundComponent={ModalBackground}>
