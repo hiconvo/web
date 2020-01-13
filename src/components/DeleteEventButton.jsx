@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { useActions } from "../redux";
 import ConfirmationModal from "./ConfirmationModal";
@@ -10,6 +11,7 @@ import Composer, {
 } from "./Composer";
 
 export default function DeleteEventButton({ event, render }) {
+  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(getInitialEditorState());
@@ -24,6 +26,7 @@ export default function DeleteEventButton({ event, render }) {
 
     try {
       await deleteEvent({ event, message: getTextFromEditorState(message) });
+      history.push("/events");
     } catch (e) {
       setIsLoading(false);
       return;

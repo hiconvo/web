@@ -265,7 +265,6 @@ export const deleteEvent = dispatch =>
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
-      return Promise.reject(e);
     }
   };
 

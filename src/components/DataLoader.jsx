@@ -10,12 +10,14 @@ export default function DataLoader({ children, initialActions = {} }) {
   const [isLoggedIn] = useSelectors(getIsLoggedIn);
 
   useEffect(() => {
-    Object.entries(actions).forEach(([name, action]) => {
-      if (isLoggedIn && !hasBeenFetched.includes(name)) {
-        action();
-        hasBeenFetched.push(name);
-      }
-    });
+    if (isLoggedIn) {
+      Object.entries(actions).forEach(([name, action]) => {
+        if (!hasBeenFetched.includes(name)) {
+          action();
+          hasBeenFetched.push(name);
+        }
+      });
+    }
   }, [isLoggedIn, actions]);
 
   return <React.Fragment>{children}</React.Fragment>;
