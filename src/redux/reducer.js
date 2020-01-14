@@ -33,6 +33,12 @@ export default function reducer(state, action) {
       const threads = state.threads
         .filter(t => !action.payload.some(newThread => newThread.id === t.id))
         .concat(action.payload)
+        .sort(
+          (a, b) =>
+            a.preview &&
+            b.preview &&
+            isBefore(a.preview.timestamp, b.preview.timestamp)
+        )
         .map(thread => ({
           ...thread,
           resourceType: "Thread",
@@ -58,6 +64,10 @@ export default function reducer(state, action) {
       const events = state.events
         .filter(e => !action.payload.some(newEvent => newEvent.id === e.id))
         .concat(action.payload)
+        .sort(
+          (a, b) =>
+            a.timestamp && b.timestamp && isBefore(a.timestamp, b.timestamp)
+        )
         .map(event => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {
         events,
