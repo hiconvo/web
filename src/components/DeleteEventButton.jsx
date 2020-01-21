@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { useActions } from "../redux";
+import { useActions, useSelectors } from "../redux";
+import { getEvents } from "../selectors";
 import ConfirmationModal from "./ConfirmationModal";
 import * as unboundActions from "../actions/events";
 import { Paragraph } from "./styles";
@@ -14,6 +15,7 @@ export default function DeleteEventButton({ event, render }) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [events] = useSelectors(getEvents);
   const [message, setMessage] = useState(getInitialEditorState());
   const { deleteEvent } = useActions(unboundActions);
 
@@ -25,8 +27,14 @@ export default function DeleteEventButton({ event, render }) {
     setIsLoading(true);
 
     try {
+      if (events.length >= 2) {
+        const { id } = events.filter(e => e.id !== event.id)[0];
+        history.push(`/events/${id}`);
+      } else {
+        history.push("/convos");
+      }
+
       await deleteEvent({ event, message: getTextFromEditorState(message) });
-      history.push("/events");
     } catch (e) {
       setIsLoading(false);
       return;

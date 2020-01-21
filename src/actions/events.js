@@ -255,13 +255,13 @@ export const deleteEvent = dispatch =>
   async payload => {
     try {
       await API.deleteEvent(payload.event.id, { message: payload.message });
-      dispatchNotification()({
-        type: "SUCCESS",
-        message: `Deleted ${payload.event.name}`
-      });
       dispatch({
         type: "DELETE_EVENT",
         payload: payload.event.id
+      });
+      dispatchNotification()({
+        type: "SUCCESS",
+        message: `Deleted ${payload.event.name}`
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
