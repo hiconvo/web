@@ -83,7 +83,7 @@ export default function EventForm({ event }) {
       date: getInitDate(event.timestamp, isEditing),
       time: getInitTime(event.timestamp, isEditing),
       place: getInitVal(event.address, isEditing, ""),
-      placeId: getInitVal(event.placeID, isEditing, ""),
+      placeId: getInitVal(event.placeId, isEditing, ""),
       members: getInitVal(event.users, isEditing, []),
       description: getInitVal(event.description, isEditing, ""),
       guestsCanInvite: getInitVal(event.guestsCanInvite, isEditing, false),
@@ -103,7 +103,7 @@ export default function EventForm({ event }) {
       const payload = {
         name: values.name,
         description: values.description,
-        placeID: values.placeId,
+        placeId: values.placeId,
         timestamp: getISOFromDateTime(values.date, values.time),
         guestsCanInvite: values.guestsCanInvite,
         ...rest

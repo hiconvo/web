@@ -82,7 +82,7 @@ export default function EventViewer({ event }) {
               <Icon name="public" fontSize={3} mr={2} />
               <Box display="block">
                 <a
-                  href={getGoogleMapsUrl(event.lat, event.lng, event.placeID)}
+                  href={getGoogleMapsUrl(event.lat, event.lng, event.placeId)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -103,7 +103,7 @@ export default function EventViewer({ event }) {
 
           <RsvpPanel event={event} />
 
-          <Map placeId={event.placeID} lat={event.lat} lng={event.lng} />
+          <Map placeId={event.placeId} lat={event.lat} lng={event.lng} />
 
           <Box mt="2.4rem" mb={2} overflow="hidden">
             <Markdown
