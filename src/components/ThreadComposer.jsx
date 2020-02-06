@@ -7,7 +7,7 @@ import useFormik from "../hooks/formik";
 import { useActions } from "../redux";
 import Controls from "./MessageComposerControls";
 import MessageImagePreview from "./MessageImagePreview";
-import MultiMemberPickerField from "./MultiMemberPickerField";
+import SharePicker from "./SharePicker";
 import Composer, {
   getInitialEditorState,
   getTextFromEditorState
@@ -108,18 +108,20 @@ export default function ThreadComposer() {
         borderTop="dashed"
         borderBottom="dashed"
         alignItems="center"
-        mb={1}
+        justifyContent="space-between"
+        py={2}
       >
         <Text
           fontSize={2}
           mr={1}
+          mb={0}
           color="mediumGray"
           fontWeight="semiBold"
           flexShrink={0}
         >
           Share with:
         </Text>
-        <MultiMemberPickerField
+        <SharePicker
           members={formik.values.members}
           setMembers={members => formik.setFieldValue("members", members)}
         />

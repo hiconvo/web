@@ -55,7 +55,7 @@ const Circle = styled(UnstyledButton)`
 const DropdownItemsContainer = styled.ul`
   display: ${props => (props.isOpen ? "block" : "none")};
   width: 30rem;
-  max-height: 80vh;
+  max-height: 50vh;
   overflow-y: scroll;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
