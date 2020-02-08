@@ -4,6 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 
 import { useSelectors } from "../redux";
 import { getContacts } from "../selectors";
+import PersonPicker from "./PersonPicker";
 import {
   Dropdown,
   Button,
@@ -59,7 +60,7 @@ const OPTIONS = [
 export default function SharePicker({ members, setMembers }) {
   const [selected, setSelected] = useState(OPTIONS[2]);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const contacts = useSelectors(getContacts);
+  const [contacts] = useSelectors(getContacts);
 
   function generateClickHandler(opt) {
     return function handleClick(e) {
@@ -71,7 +72,6 @@ export default function SharePicker({ members, setMembers }) {
           setMembers(contacts);
           break;
         case OPTIONS[1].name:
-          setMembers([]);
           setIsPickerOpen(true);
           break;
         case OPTIONS[2].name:
@@ -82,50 +82,65 @@ export default function SharePicker({ members, setMembers }) {
   }
 
   return (
-    <Dropdown
-      renderAnchor={({ onClick }) => (
-        <Button
-          variant="secondary"
-          p={0}
-          py="0.6rem"
-          px="0.8rem"
-          mb={0}
-          onClick={onClick}
-        >
-          <Icon name={selected.icon} mx={1} fontSize={3} />
-          <span>{selected.name}</span>
-          <Icon name="arrow_drop_down" ml={1} fontSize={3} />
-        </Button>
-      )}
-    >
-      {({ isOpen, isVisible, handleToggle }) => (
-        <DropdownItemsContainer
-          isOpen={isOpen}
-          isVisible={isVisible}
-          onClick={handleToggle}
-        >
-          {OPTIONS.map(opt => (
-            <DropdownLineItem>
-              <UnstyledButton
-                onClick={generateClickHandler(opt)}
-                width="100%"
-                alignItems="flex-start"
-                p={1}
-              >
-                <Box flexDirection="row" alignItems="center">
-                  <Icon name={opt.icon} fontSize={3} mr={1} />
-                  <Text fontWeight="semiBold">{opt.name}</Text>
-                </Box>
-                <Box>
-                  <Paragraph fontSize={1} mb={0}>
-                    {opt.description}
-                  </Paragraph>
-                </Box>
-              </UnstyledButton>
-            </DropdownLineItem>
-          ))}
-        </DropdownItemsContainer>
-      )}
-    </Dropdown>
+    <React.Fragment>
+      <Dropdown
+        renderAnchor={({ onClick }) => (
+          <Button
+            variant="secondary"
+            p={0}
+            py="0.6rem"
+            px="0.8rem"
+            mb={0}
+            onClick={onClick}
+          >
+            <Icon name={selected.icon} mx={1} fontSize={3} />
+            <span>{selected.name}</span>
+            <Icon name="arrow_drop_down" ml={1} fontSize={3} />
+          </Button>
+        )}
+      >
+        {({ isOpen, isVisible, handleToggle }) => (
+          <DropdownItemsContainer
+            isOpen={isOpen}
+            isVisible={isVisible}
+            onClick={handleToggle}
+          >
+            {OPTIONS.map(opt => (
+              <DropdownLineItem key={opt.name}>
+                <UnstyledButton
+                  onClick={generateClickHandler(opt)}
+                  width="100%"
+                  alignItems="flex-start"
+                  p={1}
+                >
+                  <Box flexDirection="row" alignItems="center">
+                    <Box mr={3}>
+                      <Icon name={opt.icon} fontSize={4} />
+                    </Box>
+                    <Box>
+                      <Box flexDirection="row" alignItems="center">
+                        <Text fontWeight="semiBold">{opt.name}</Text>
+                      </Box>
+                      <Box>
+                        <Paragraph fontSize={1} mb={0}>
+                          {opt.description}
+                        </Paragraph>
+                      </Box>
+                    </Box>
+                  </Box>
+                </UnstyledButton>
+              </DropdownLineItem>
+            ))}
+          </DropdownItemsContainer>
+        )}
+      </Dropdown>
+      <PersonPicker
+        isOpen={isPickerOpen}
+        setIsOpen={setIsPickerOpen}
+        members={members}
+        setMembers={setMembers}
+        headingText="Specific people"
+      />
+    </React.Fragment>
   );
 }

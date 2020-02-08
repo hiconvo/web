@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import { typography } from "styled-system";
 import { themeGet } from "@styled-system/theme-get";
 
 import Box from "./Box";
 import { Text } from "./typography";
 
 const inputStyles = css`
-  ${typography}
-  padding: ${themeGet("space.2")};
-  margin: ${themeGet("space.1")} 0;
-  border: 0.1rem solid ${themeGet("colors.lightGray")};
-  outline: none;
   transition: border ease ${themeGet("animations.fast")};
-  color: ${themeGet("colors.bodytext")};
-  border-radius: 0.4rem;
-  font-family: ${themeGet("fonts.sans")};
-  height: 1.5em;
 
   &:hover {
     border: 0.1rem solid ${themeGet("colors.mediumGray")};
@@ -35,12 +25,24 @@ const inputStyles = css`
     `
     border: 0.1rem solid ${props.theme.colors.error};
   `}
-
 `;
 
-const GenericInput = styled.input`
+const GenericInput = styled(Box)`
   ${inputStyles}
 `;
+
+GenericInput.defaultProps = {
+  as: "input",
+  display: "block",
+  flexDirection: "unset",
+  p: 2,
+  my: 1,
+  border: "lightGray",
+  borderRadius: "0.4rem",
+  color: "bodytext",
+  height: "4.2rem",
+  lineHeight: "1.5em"
+};
 
 const Label = styled(Box)`
   display: flex;
@@ -53,59 +55,74 @@ Label.defaultProps = {
   as: "label"
 };
 
-export function Input({
-  name = "",
-  type = "text",
-  value,
-  error,
-  onChange,
-  fontSize,
-  placeholder = "",
-  required,
-  maxLength = "",
-  ...rest
-}) {
-  const [isError, setIsError] = useState(false);
+const Input = React.forwardRef(
+  (
+    {
+      name = "",
+      type = "text",
+      value,
+      error,
+      onChange,
+      fontSize,
+      placeholder = "",
+      required,
+      maxLength = "",
+      ...rest
+    },
+    ref
+  ) => {
+    const [isError, setIsError] = useState(false);
 
-  function handleChange(e) {
-    e.persist();
-    setIsError(false);
-    onChange(e);
+    function handleChange(e) {
+      e.persist();
+      setIsError(false);
+      onChange(e);
+    }
+
+    useEffect(() => {
+      error && setIsError(true);
+    }, [error]);
+
+    return (
+      <Label>
+        {!!name && <Text fontSize={1}>{name}</Text>}
+        <GenericInput
+          ref={ref}
+          type={type}
+          value={value}
+          onChange={handleChange}
+          fontSize={fontSize || 3}
+          name={name.toLowerCase()}
+          error={isError}
+          placeholder={placeholder}
+          required={required}
+          maxlength={maxLength}
+          {...rest}
+        />
+        <Text fontSize={0} color="error">
+          {isError && error}
+        </Text>
+      </Label>
+    );
   }
+);
 
-  useEffect(() => {
-    error && setIsError(true);
-  }, [error]);
-
-  return (
-    <Label {...rest}>
-      {!!name && <Text fontSize={1}>{name}</Text>}
-      <GenericInput
-        type={type}
-        value={value}
-        onChange={handleChange}
-        fontSize={fontSize || 3}
-        name={name.toLowerCase()}
-        error={isError}
-        placeholder={placeholder}
-        required={required}
-        maxlength={maxLength}
-      />
-      <Text fontSize={0} color="error">
-        {isError && error}
-      </Text>
-    </Label>
-  );
-}
-
-export const TextArea = styled.textarea`
+const TextArea = styled(Box)`
   ${inputStyles}
-  width: calc(100% - 1.8rem);
   min-height: 18rem;
-  line-height: 1.5em;
 `;
 
-export function Checkbox({
+TextArea.defaultProps = {
+  as: "textarea",
+  p: 2,
+  my: 1,
+  border: "lightGray",
+  borderRadius: "0.4rem",
+  color: "bodytext",
+  lineHeight: "1.5em"
+};
+
+function Checkbox({
   name,
   value,
   handleChange,
@@ -134,3 +151,5 @@ export function Checkbox({
     </Box>
   );
 }
+
+export { Input, Checkbox, TextArea };

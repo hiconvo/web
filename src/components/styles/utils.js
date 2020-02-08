@@ -34,6 +34,11 @@ export const overflow = style({
   prop: "overflow"
 });
 
+export const overflowY = style({
+  prop: "overflowY",
+  cssProperty: "overflow-y"
+});
+
 export const maxWidth = style({
   prop: "maxWidth"
 });

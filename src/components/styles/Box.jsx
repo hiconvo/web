@@ -9,13 +9,13 @@ import {
   color,
   position
 } from "styled-system";
-import { float, cursor, overflow } from "./utils";
+import { float, cursor, overflow, overflowY } from "./utils";
 
 const Box = styled("div")(
   {
     boxSizing: "border-box",
     WebkitFontSmoothing: "antialiased",
-    outline: 0
+    outline: "none"
   },
   space,
   layout,
@@ -27,6 +27,7 @@ const Box = styled("div")(
   position,
   float,
   overflow,
+  overflowY,
   cursor
 );
 
