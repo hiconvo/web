@@ -58,14 +58,21 @@ const OPTIONS = [
 ];
 
 export default function SharePicker({ members, setMembers }) {
-  const [selected, setSelected] = useState(OPTIONS[2]);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [contacts] = useSelectors(getContacts);
+
+  let selected;
+  if (members.length === contacts.length) {
+    selected = OPTIONS[0];
+  } else if (members.length > 0 && members.length < contacts.length) {
+    selected = OPTIONS[1];
+  } else {
+    selected = OPTIONS[2];
+  }
 
   function generateClickHandler(opt) {
     return function handleClick(e) {
       e && e.preventDefault();
-      setSelected(opt);
 
       switch (opt.name) {
         case OPTIONS[0].name:

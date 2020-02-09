@@ -69,9 +69,7 @@ export default function ThreadComposer() {
   useEffect(() => {
     if (history.location && history.location.search) {
       const [, id] = history.location.search.match(/\?userId=(.+)/);
-      getUser(id).then(user =>
-        formik.setFieldValue("members", [...formik.values.members, user])
-      );
+      getUser(id).then(user => formik.setFieldValue("members", [user]));
     }
     // eslint-disable-next-line
   }, [history.location]);

@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useRouteMatch } from "react-router";
+import { useHistory } from "react-router";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -36,7 +36,6 @@ function Action({ iconName, text, onClick, ...rest }) {
 
 export default function ContactInfoBox({ contact, position = "fixed" }) {
   const history = useHistory();
-  const isConvosPage = useRouteMatch("/convos", { exact: true });
   const { addToContacts, removeFromContacts } = useActions(unboundActions);
   const [contacts] = useSelectors(getContacts);
 
@@ -63,11 +62,7 @@ export default function ContactInfoBox({ contact, position = "fixed" }) {
                 text="Start a convo"
                 iconName="mail"
                 onClick={() => {
-                  if (isConvosPage) {
-                    history.push(`?userId=${contact.id}`);
-                  } else {
-                    history.push(`/convos/new?userId=${contact.id}`);
-                  }
+                  history.push(`/convos/new?userId=${contact.id}`);
                 }}
               />
               {isContact ? (
