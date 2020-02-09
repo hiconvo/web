@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import isEqual from "lodash/isEqual";
 
 import { useSelectors } from "../redux";
 import { getContacts } from "../selectors";
@@ -62,12 +63,12 @@ export default function SharePicker({ members, setMembers }) {
   const [contacts] = useSelectors(getContacts);
 
   let selected;
-  if (members.length === contacts.length) {
+  if (isEqual(members, contacts)) {
     selected = OPTIONS[0];
-  } else if (members.length > 0 && members.length < contacts.length) {
-    selected = OPTIONS[1];
-  } else {
+  } else if (members.length === 0) {
     selected = OPTIONS[2];
+  } else {
+    selected = OPTIONS[1];
   }
 
   function generateClickHandler(opt) {
