@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "styled-react-modal";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -61,17 +61,12 @@ export default function PersonPicker({
   setMembers,
   headingText
 }) {
-  const inputRef = useRef(null);
   const [contacts] = useSelectors(getContacts);
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 200);
   const { contactsResults, networkResults, emailAddress } = useUserSearch(
     debouncedQuery
   );
-
-  useEffect(() => {
-    isOpen && inputRef.current && inputRef.current.focus();
-  }, [isOpen, inputRef]);
 
   function handleClose() {
     setIsOpen(false);
@@ -97,14 +92,12 @@ export default function PersonPicker({
     );
   }
 
-  function handleAddMember(member) {
+  function handleToggleMember(member) {
     return e => {
       e && e.preventDefault() && e.stopPropagation();
 
       if (!members.some(m => m.id === member.id)) {
         addMember(member);
-        setQuery("");
-        isOpen && inputRef.current && inputRef.current.focus();
       } else {
         removeMember(member);
       }
@@ -143,7 +136,6 @@ export default function PersonPicker({
                 <Icon name="search" fontSize={4} />
               </Box>
               <Input
-                ref={inputRef}
                 placeholder="Type someone's name or email"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
@@ -162,7 +154,7 @@ export default function PersonPicker({
                 <ResultSection
                   sectionName="Selected"
                   results={members}
-                  onClickGenerator={handleAddMember}
+                  onClickGenerator={handleToggleMember}
                   isCheckedFunc={isChecked}
                 />
               </Box>
@@ -171,7 +163,7 @@ export default function PersonPicker({
               <ResultSection
                 sectionName="Email address"
                 results={emailAddress}
-                onClickGenerator={handleAddMember}
+                onClickGenerator={handleToggleMember}
                 isCheckedFunc={isChecked}
               />
             )}
@@ -179,7 +171,7 @@ export default function PersonPicker({
               <ResultSection
                 sectionName="Contacts"
                 results={contacts}
-                onClickGenerator={handleAddMember}
+                onClickGenerator={handleToggleMember}
                 isCheckedFunc={isChecked}
               />
             )}
@@ -187,7 +179,7 @@ export default function PersonPicker({
               <ResultSection
                 sectionName="Contacts"
                 results={contactsResults}
-                onClickGenerator={handleAddMember}
+                onClickGenerator={handleToggleMember}
                 isCheckedFunc={isChecked}
               />
             )}
@@ -195,7 +187,7 @@ export default function PersonPicker({
               <ResultSection
                 sectionName="Network"
                 results={networkResults}
-                onClickGenerator={handleAddMember}
+                onClickGenerator={handleToggleMember}
                 isCheckedFunc={isChecked}
               />
             )}
@@ -219,7 +211,7 @@ export default function PersonPicker({
             Selected
           </Heading>
 
-          <Box height="calc(100% - 7.2rem)" overflowY="scroll">
+          <Box height="44rem" overflowY="scroll">
             <ul>
               {members.map(member => (
                 <MemberItemSmallInline
