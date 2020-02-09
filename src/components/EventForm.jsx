@@ -133,7 +133,7 @@ export default function EventForm({ event }) {
       <Paragraph fontSize={1} color="gray" lineHeight="1.3em" mb={4}>
         {isEditing
           ? "Your guests will receive an updated invite email if you check the resend invitations option at the bottom. Please be mindful of excessive and repetitive email and keep updates to a minimum."
-          : "Complete the form to create an event and send invitations. Your guests will not be required to create an account on Convo in order to RSVP."}
+          : "Complete the form to create an event and send invitations. If you do not complete this form now, your progress will be saved for later. Your guests will not be required to create an account on Convo in order to RSVP."}
       </Paragraph>
       <Input
         type="text"

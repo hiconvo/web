@@ -148,7 +148,7 @@ export default function PersonPicker({
             </Box>
           </Box>
 
-          <Box height="27.8rem" overflow="scroll">
+          <Box height="27.8rem" overflowY="scroll">
             {members.length > 0 && (
               <Box display={["block", "none"]}>
                 <ResultSection
