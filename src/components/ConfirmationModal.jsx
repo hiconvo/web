@@ -10,6 +10,7 @@ const StyledModal = Modal.styled`
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.special")};
   box-shadow: ${themeGet("shadows.spread")};
+  margin: 2rem;
 `;
 
 export default function ConfirmationModal({

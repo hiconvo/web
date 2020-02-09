@@ -1,25 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 import MemberItemSmallInline from "./MemberItemSmallInline";
-import UserSearchAutocompleteField, {
-  USER_SEARCH_DEFAULT_STATE
-} from "./UserSearchAutocompleteField";
-import { Box } from "./styles";
+import PersonPicker from "./PersonPicker";
+import { Box, Button, Icon } from "./styles";
 
 export default function MultiMemberPickerField({ members, setMembers }) {
-  const inputEl = useRef(null);
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState(USER_SEARCH_DEFAULT_STATE);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
-  function handleAddMember(e, member) {
+  function handleOpenPicker(e) {
     e && e.preventDefault() && e.stopPropagation();
-
-    if (!members.some(m => m.id === member.id)) {
-      setMembers(members.concat(member));
-      setQuery("");
-      setResults(USER_SEARCH_DEFAULT_STATE);
-      inputEl.current && inputEl.current.focus();
-    }
+    setIsPickerOpen(true);
   }
 
   function handleRemoveMember(member) {
@@ -49,16 +39,25 @@ export default function MultiMemberPickerField({ members, setMembers }) {
           />
         ))}
         <Box as="li">
-          <UserSearchAutocompleteField
-            ref={inputEl}
-            query={query}
-            onQueryChange={e => setQuery(e.target.value)}
-            results={results}
-            onResultsChange={setResults}
-            onClick={handleAddMember}
-          />
+          <Button
+            variant="primary"
+            p={2}
+            mb={0}
+            m={1}
+            onClick={handleOpenPicker}
+          >
+            <Icon name="edit" fontSize={3} mr={1} />
+            <span>Edit guests</span>
+          </Button>
         </Box>
       </Box>
+      <PersonPicker
+        isOpen={isPickerOpen}
+        setIsOpen={setIsPickerOpen}
+        members={members}
+        setMembers={setMembers}
+        headingText="Guests"
+      />
     </Box>
   );
 }

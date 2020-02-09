@@ -5,12 +5,10 @@ import {
   Box,
   Text,
   Avatar,
-  Button,
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteDropDown
 } from "./styles";
-import googleLogo from "../media/google-logo.svg";
 
 function DropDownItem({ member, onClick }) {
   return (
@@ -79,11 +77,7 @@ export default React.forwardRef(
     const debouncedQuery = useDebounce(query, 200);
     const handleResultsChange = useCallback(onResultsChange);
     const { contactsResults, networkResults } = useUserSearch(debouncedQuery);
-    const [
-      isEnabledGoogleContacts,
-      initGoogleContacts,
-      searchGoogleContacts
-    ] = useGoogleContacts();
+    const [, , searchGoogleContacts] = useGoogleContacts();
     const handleClick = useCallback(onClick, [query]);
 
     useEffect(() => {
@@ -214,18 +208,6 @@ export default React.forwardRef(
                 results={results.networkResults}
                 onClick={handleClick}
               />
-            )}
-
-            {!isEnabledGoogleContacts && (
-              <Button
-                variant="secondary"
-                mx={2}
-                mt={2}
-                onClick={initGoogleContacts}
-              >
-                <Box as="img" src={googleLogo} width="2.2rem" mr={2} />
-                Connect your Google contacts
-              </Button>
             )}
           </AutoCompleteDropDown>
         </Box>

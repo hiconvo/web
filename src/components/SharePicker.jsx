@@ -77,6 +77,8 @@ export default function SharePicker({ members, setMembers }) {
         case OPTIONS[2].name:
           setMembers([]);
           break;
+        default:
+          break;
       }
     };
   }
