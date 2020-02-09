@@ -16,12 +16,16 @@ const Container = styled.div`
   padding: 0 ${themeGet("space.5")};
 
   ${themeGet("media.tablet")} {
-    padding-left: ${themeGet("space.5")};
-    padding-right: 0;
+    padding: 0;
+    max-width: 60rem;
+    width: 100%;
+    margin: 0 auto;
   }
 
   ${themeGet("media.phone")} {
     padding: 0;
+    max-width: 70rem;
+    width: 100%;
   }
 `;
 

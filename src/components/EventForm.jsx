@@ -138,6 +138,7 @@ export default function EventForm({ event }) {
       <Input
         type="text"
         name="Name"
+        tabIndex="1"
         value={formik.values.name}
         onChange={formik.handleChange}
         isDisabled={formik.isSubmitting}
@@ -149,6 +150,7 @@ export default function EventForm({ event }) {
 
       <PlacePicker
         inputComponent={Input}
+        tabIndex="2"
         value={formik.values.place}
         onChange={newPlace => formik.setFieldValue("place", newPlace)}
         onSelect={(placeString, placeId) =>
@@ -159,7 +161,7 @@ export default function EventForm({ event }) {
         }
       />
 
-      <Box mt={2} mb={3}>
+      <Box mt={2} mb={3} tabIndex="-1">
         <Map placeId={formik.values.placeId} noLink />
       </Box>
 
@@ -171,6 +173,7 @@ export default function EventForm({ event }) {
           <Box py={1}>
             <Text fontSize={1}>Date</Text>
             <DatePicker
+              tabIndex="3"
               name="Date"
               selected={parse(formik.values.date, "yyyy-MM-dd", new Date())}
               dateFormat="MMMM dd, yyyy"
@@ -185,6 +188,7 @@ export default function EventForm({ event }) {
           <Input
             type="time"
             name="Time"
+            tabIndex="4"
             value={formik.values.time}
             onChange={formik.handleChange}
             required
@@ -202,6 +206,7 @@ export default function EventForm({ event }) {
           </Text>
           <PseudoHoverInput>
             <MultiMemberPickerField
+              tabIndex="5"
               members={formik.values.members}
               setMembers={newMembers =>
                 formik.setFieldValue("members", newMembers)
@@ -216,6 +221,7 @@ export default function EventForm({ event }) {
           Description
         </Text>
         <TextArea
+          tabIndex="6"
           fontSize={2}
           value={formik.values.description}
           name="description"
@@ -228,6 +234,7 @@ export default function EventForm({ event }) {
       <Box mb={3}>
         <Checkbox
           name="Allow guests to invite others"
+          tabIndex="7"
           value={formik.values.guestsCanInvite}
           onChange={e =>
             formik.setFieldValue("guestsCanInvite", e.target.checked)
@@ -252,6 +259,7 @@ export default function EventForm({ event }) {
       <Box mt={4}>
         <Button
           type="submit"
+          tabIndex="8"
           onClick={formik.handleSubmit}
           isLoading={formik.isSubmitting}
         >

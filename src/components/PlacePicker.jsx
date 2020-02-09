@@ -23,6 +23,7 @@ export default function PlacePicker({
   value,
   onChange,
   onSelect,
+  tabIndex,
   inputComponent = AutoCompleteInput
 }) {
   const InputComponent = inputComponent;
@@ -41,6 +42,7 @@ export default function PlacePicker({
             type="text"
             fontSize={2}
             placeholder="Type a place or address"
+            tabIndex={tabIndex}
             {...getInputProps()}
           />
           <Box position="absolute" left="0" top="100%">

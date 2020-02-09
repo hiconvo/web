@@ -129,6 +129,7 @@ function Checkbox({
   isError,
   error,
   required,
+  tabIndex,
   ...rest
 }) {
   return (
@@ -139,6 +140,7 @@ function Checkbox({
         onChange={handleChange}
         name={name.toLowerCase()}
         required={required}
+        tabIndex={tabIndex}
       />
       {!!name && (
         <Text fontSize={1} ml={2}>

@@ -50,20 +50,6 @@ export const ContainerDualSidebars = styled.div`
 )};
 
   ${themeGet("media.tablet")} {
-    grid-template-columns: ${props => {
-      if (props.collapse === "left") {
-        return "0 minmax(0, 1fr) " + themeGet("sidebarWidth")(props);
-      } else {
-        return themeGet("sidebarWidth")(props) + " minmax(0, 1fr) 0";
-      }
-    }};
-
-    & > div:nth-child(${props => (props.collapse === "left" ? 1 : 3)}) {
-      visibility: hidden;
-    }
-  }
-
-  ${themeGet("media.phone")} {
     grid-template-columns: 0 minmax(0, 1fr) 0;
 
     & > div:nth-child(1) {

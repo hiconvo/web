@@ -4,7 +4,7 @@ import MemberItemSmallInline from "./MemberItemSmallInline";
 import PersonPicker from "./PersonPicker";
 import { Box, Button, Icon } from "./styles";
 
-export default function MultiMemberPickerField({ members, setMembers }) {
+export default function MultiMemberPickerField({ members, setMembers, tabIndex }) {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   function handleOpenPicker(e) {
@@ -45,6 +45,7 @@ export default function MultiMemberPickerField({ members, setMembers }) {
             mb={0}
             m={1}
             onClick={handleOpenPicker}
+            tabIndex={tabIndex}
           >
             <Icon name="edit" fontSize={3} mr={1} />
             <span>Edit guests</span>
