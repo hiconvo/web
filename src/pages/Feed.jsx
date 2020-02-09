@@ -26,6 +26,7 @@ const Container = styled.div`
     padding: 0;
     max-width: 70rem;
     width: 100%;
+    margin: 0 auto;
   }
 `;
 

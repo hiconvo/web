@@ -6,7 +6,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { useSelectors, useActions } from "../redux";
 import { getEventById, getEvents, getIsEventsFetched } from "../selectors";
 import * as unboundEventActions from "../actions/events";
-import { ContainerDualSidebars } from "./styles";
+import { ContainerDualTabletRightSidebars } from "./styles";
 import EventSidebar from "../components/EventSidebar";
 import EventViewer from "../components/EventViewer";
 import EventInfoBox from "../components/EventInfoBox";
@@ -30,6 +30,9 @@ const Container = styled.div`
 
   ${themeGet("media.phone")} {
     padding: 0;
+    max-width: 70rem;
+    width: 100%;
+    margin: 0 auto;
   }
 `;
 
@@ -88,7 +91,7 @@ export default function Events() {
   }
 
   return (
-    <ContainerDualSidebars>
+    <ContainerDualTabletRightSidebars>
       <EventSidebar />
       <Container>
         <EventViewer event={event} />
@@ -98,6 +101,6 @@ export default function Events() {
           <EventInfoBox event={event} />
         </Box>
       </Box>
-    </ContainerDualSidebars>
+    </ContainerDualTabletRightSidebars>
   );
 }
