@@ -157,6 +157,16 @@ export default function PersonPicker({
           </Box>
 
           <Box height="27.8rem" overflow="scroll">
+            {members.length > 0 && (
+              <Box display={["flex", "none"]}>
+                <ResultSection
+                  sectionName="Selected"
+                  results={members}
+                  onClickGenerator={handleAddMember}
+                  isCheckedFunc={isChecked}
+                />
+              </Box>
+            )}
             {query.length > 0 && emailAddress.length > 0 && (
               <ResultSection
                 sectionName="Email address"
