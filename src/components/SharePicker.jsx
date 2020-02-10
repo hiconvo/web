@@ -63,7 +63,7 @@ export default function SharePicker({ members, setMembers }) {
   const [contacts] = useSelectors(getContacts);
 
   let selected;
-  if (isEqual(members, contacts)) {
+  if (contacts.length > 0 && isEqual(members, contacts)) {
     selected = OPTIONS[0];
   } else if (members.length === 0) {
     selected = OPTIONS[2];
