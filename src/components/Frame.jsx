@@ -53,7 +53,7 @@ export default function Frame({ children }) {
           Copyright &copy; {new Date().getFullYear()}. All rights reserved.{" "}
           <Text
             as="a"
-            href="https://hiconvo.com/privacy"
+            href="https://convo.events/privacy"
             fontSize={0}
             color="mediumGray"
           >
@@ -62,7 +62,7 @@ export default function Frame({ children }) {
           .{" "}
           <Text
             as="a"
-            href="https://hiconvo.com/terms"
+            href="https://convo.events/terms"
             fontSize={0}
             color="mediumGray"
           >

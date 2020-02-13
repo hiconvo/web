@@ -118,7 +118,7 @@ export default function UserMenu() {
                 events of your own.{" "}
                 <Text
                   as="a"
-                  href="https://hiconvo.com"
+                  href="https://convo.events"
                   target="_blank"
                   fontWeight="semiBold"
                   fontSize={1}
@@ -152,7 +152,7 @@ export default function UserMenu() {
               as="a"
               variant="tertiary"
               textAlign="left"
-              href="https://hiconvo.com"
+              href="https://convo.events"
               width="100%"
               justifyContent="flex-start"
               mb={0}

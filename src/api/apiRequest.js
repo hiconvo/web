@@ -1,5 +1,5 @@
 const API_ORIGIN =
-  process.env.REACT_APP_API_ORIGIN || "https://api.hiconvo.com";
+  process.env.REACT_APP_API_ORIGIN || "https://api.convo.events";
 
 class ApiError extends Error {
   constructor(payload, message, fileName, lineNumber) {

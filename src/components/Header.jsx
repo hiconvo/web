@@ -82,7 +82,7 @@ export default () => {
         <UserMenu />
         {!showNav && (
           <Paragraph mb="0rem">
-            <a href="https://hiconvo.com">What is Convo?</a>
+            <a href="https://convo.events">What is Convo?</a>
           </Paragraph>
         )}
       </Box>
