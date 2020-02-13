@@ -11,6 +11,10 @@ In order to run the project locally, you need to create an `.env` file and place
 ```
 REACT_APP_GOOGLE_API_KEY=<YOUR API KEY>
 REACT_APP_GOOGLE_CLIENT_ID=<YOUR CLIENT ID>
+
+# Optional
+REACT_APP_SENTRY_DSN=<YOUR SENTRY DSN>
+REACT_APP_API_ORIGIN=<YOUR API ORIGIN>
 ```
 
 If you don't include this file, Google maps won't work.
