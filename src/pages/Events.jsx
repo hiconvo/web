@@ -36,6 +36,8 @@ const Container = styled.div`
   }
 `;
 
+const fetched = new Set();
+
 export default function Events() {
   const { id } = useParams();
   const history = useHistory();
@@ -50,6 +52,8 @@ export default function Events() {
     if (id && !event && isEventsFetched) {
       fetchEvent(id);
     }
+
+    id && fetched.add(id);
   }, [isEventsFetched, id, fetchEvent, event]);
 
   if (!events.length || !id || !event) {

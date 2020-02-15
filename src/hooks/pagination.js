@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import debounce from "lodash/debounce";
+import throttle from "lodash/throttle";
 
 import { useSelectors, useActions } from "../redux";
 
@@ -18,7 +18,7 @@ export default function usePagination(fetchAction, pageInfoSelector, node) {
       isFetching = false;
     }
 
-    const scrollCb = debounce(
+    const scrollCb = throttle(
       e => {
         const scrollingElement = e.target.scrollingElement
           ? e.target.scrollingElement
@@ -29,7 +29,7 @@ export default function usePagination(fetchAction, pageInfoSelector, node) {
           handleFetch();
         }
       },
-      200,
+      400,
       { leading: true }
     );
 

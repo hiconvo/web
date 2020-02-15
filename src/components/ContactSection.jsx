@@ -20,7 +20,7 @@ function getTruncatedUserList(owner, users) {
     }
   }
 
-  return "yourself";
+  return "just you";
 }
 
 export default function ContactSection({ user, users }) {

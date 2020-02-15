@@ -15,15 +15,12 @@ const Container = styled.div`
   display: block;
   padding: 0 ${themeGet("space.5")};
 
-  ${themeGet("media.tablet")} {
-    padding-left: ${themeGet("space.5")};
-    padding-right: 0;
-  }
-
   ${themeGet("media.phone")} {
     padding: 0;
   }
 `;
+
+const fetched = new Set();
 
 export default function Thread() {
   const history = useHistory();
@@ -35,9 +32,11 @@ export default function Thread() {
   );
 
   useEffect(() => {
-    if (id && !thread && isThreadsFetched) {
+    if (id && !thread && isThreadsFetched && !fetched.has(id)) {
       fetchThread(id);
     }
+
+    id && fetched.add(id);
   }, [isThreadsFetched, id, fetchThread, thread]);
 
   if (!thread) {

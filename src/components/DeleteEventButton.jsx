@@ -27,17 +27,17 @@ export default function DeleteEventButton({ event, render }) {
     setIsLoading(true);
 
     try {
-      if (events.length >= 2) {
-        const { id } = events.filter(e => e.id !== event.id)[0];
-        history.push(`/events/${id}`);
-      } else {
-        history.push("/convos");
-      }
-
       await deleteEvent({ event, message: getTextFromEditorState(message) });
     } catch (e) {
       setIsLoading(false);
       return;
+    }
+
+    if (events.length >= 2) {
+      const { id } = events.filter(e => e.id !== event.id)[0];
+      history.push(`/events/${id}`);
+    } else {
+      history.push("/convos");
     }
 
     setIsOpen(false);
