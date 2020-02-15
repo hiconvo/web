@@ -64,6 +64,8 @@ const validate = payload => {
     return { message: "Please invite some people" };
   } else if (payload.description.length <= 0) {
     return { message: "Please add a description" };
+  } else if (!/(?:[01]\d|2[0123]):(?:[012345]\d)/.test(payload.time)) {
+    return { message: "Please choose a valid time in 24-hour HH:mm format" };
   } else {
     return null;
   }
