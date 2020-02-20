@@ -49,7 +49,7 @@ export default function Events() {
   );
 
   useEffect(() => {
-    if (id && !event && isEventsFetched) {
+    if (id && !event && isEventsFetched && !fetched.has(id)) {
       fetchEvent(id);
     }
 
