@@ -113,6 +113,46 @@ export const loginUserWithOAuth = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const magicLogin = dispatch =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.userId
+   * @param {string} payload.timestamp
+   * @param {string} payload.signature
+   * @returns {undefined}
+   */
+  async payload => {
+    try {
+      const oldToken = localStorage.getItem("userToken");
+
+      const user = await API.magicLogin(payload);
+
+      const newToken = user.token;
+      localStorage.setItem("userToken", newToken);
+
+      if (oldToken && oldToken !== newToken) {
+        // Since the new token is set, the <AuthorizedRoute /> component
+        // should log the user in with the new token and fetch all the
+        // needed stuff.
+        dispatch({
+          type: "RECEIVE_MISMATCHED_USER",
+          payload: user
+        });
+      } else {
+        dispatch({
+          type: "RECEIVE_USER",
+          payload: user
+        });
+      }
+    } catch (error) {
+      return handleAuthError(error, dispatch);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const logoutUser = dispatch =>
   /*
    * @returns {undefined}

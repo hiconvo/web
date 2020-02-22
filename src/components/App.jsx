@@ -20,6 +20,7 @@ import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
 import Rsvp from "../pages/Rsvp";
 import Feed from "../pages/Feed";
+import Magic from "../pages/Magic";
 
 const ModalBackground = styled(BaseModalBackground).attrs(props => ({
   ...props,
@@ -52,6 +53,11 @@ export default function App() {
                       path="/rsvp/:eventId/:key/:timestamp/:signature"
                       exact
                       component={Rsvp}
+                    />
+                    <Route
+                      path="/magic/:key/:timestamp/:signature"
+                      exact
+                      component={Magic}
                     />
                     <AuthorizedRoute
                       path="/convos/new"

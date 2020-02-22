@@ -86,7 +86,9 @@ export default function UserMenu() {
       <Dropdown
         initialState={isInitialOpen ? "open" : "closed"}
         renderAnchor={({ onClick }) => (
-          <Avatar src={user.avatar} onClick={onClick} />
+          <Avatar src={user.avatar} onClick={onClick}>
+            {!user.avatar && <Icon name="person" fontSize={4} />}
+          </Avatar>
         )}
       >
         {({ isOpen, isVisible, handleToggle }) => (

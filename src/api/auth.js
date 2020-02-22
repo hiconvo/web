@@ -41,3 +41,16 @@ export function oauth(payload) {
     method: "POST"
   });
 }
+
+/*
+ * @param {Object} payload
+ * @param {string} payload.userId
+ * @param {string} payload.timestamp
+ * @param {string} payload.signature
+ */
+export function magicLogin(payload) {
+  return apiRequest(`/users/magic`, {
+    body: payload,
+    method: "POST"
+  });
+}
