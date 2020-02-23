@@ -145,7 +145,7 @@ export const magicLogin = dispatch =>
         });
       }
     } catch (error) {
-      return handleAuthError(error, dispatch);
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
     }
   };
 
