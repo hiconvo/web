@@ -144,7 +144,7 @@ export const magicLogin = dispatch =>
           payload: user
         });
       }
-    } catch (error) {
+    } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
     }
   };
