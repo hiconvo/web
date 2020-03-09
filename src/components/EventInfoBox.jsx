@@ -18,6 +18,7 @@ export default function EventInfoBox({ event }) {
   const [isGuestEditing, setIsGuestEditing] = useState(false);
   const { id, owner } = event;
   const isOwner = user.id === owner.id;
+  const hosts = [owner].concat(event.hosts);
 
   return (
     <React.Fragment>
@@ -26,9 +27,9 @@ export default function EventInfoBox({ event }) {
         {event.name}
       </Heading>
 
-      <Label>{event.hosts.lenght > 0 ? "Hosts" : "Host"}</Label>
+      <Label>{hosts.length > 1 ? "Hosts" : "Host"}</Label>
       <Box as="ul" mb={4}>
-        {[owner].concat(event.hosts).map(user => (
+        {hosts.map(user => (
           <InfoBoxMemberItem member={user} event={event} ml="-0.8rem" mb={1} />
         ))}
       </Box>
@@ -38,7 +39,7 @@ export default function EventInfoBox({ event }) {
         users={
           event.users &&
           orderBy(
-            event.users.filter(guest => guest.id !== owner.id),
+            event.users.filter(guest => !hosts.some(h => h.id === guest.id)),
             [u => event.rsvps && event.rsvps.some(rsvp => rsvp.id === u.id)],
             ["desc"]
           )
