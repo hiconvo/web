@@ -4,7 +4,7 @@ import MemberItemSmallInline from "./MemberItemSmallInline";
 import PersonPicker from "./PersonPicker";
 import { Box, Button, Icon } from "./styles";
 
-export default function MultiMemberPickerField({ members, setMembers, tabIndex }) {
+export default function MultiMemberPickerField({ members, setMembers, tabIndex, headingText = "Edit guests" }) {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   function handleOpenPicker(e) {
@@ -48,7 +48,7 @@ export default function MultiMemberPickerField({ members, setMembers, tabIndex }
             tabIndex={tabIndex}
           >
             <Icon name="edit" fontSize={3} mr={1} />
-            <span>Edit guests</span>
+            <span>{headingText}</span>
           </Button>
         </Box>
       </Box>
@@ -57,7 +57,7 @@ export default function MultiMemberPickerField({ members, setMembers, tabIndex }
         setIsOpen={setIsPickerOpen}
         members={members}
         setMembers={setMembers}
-        headingText="Guests"
+        headingText={headingText}
       />
     </Box>
   );

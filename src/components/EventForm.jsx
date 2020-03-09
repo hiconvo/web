@@ -86,6 +86,7 @@ export default function EventForm({ event }) {
       time: getInitTime(event.timestamp, isEditing),
       place: getInitVal(event.address, isEditing, ""),
       placeId: getInitVal(event.placeId, isEditing, ""),
+      hosts: getInitVal(event.hosts, isEditing, []),
       members: getInitVal(event.users, isEditing, []),
       description: getInitVal(event.description, isEditing, ""),
       guestsCanInvite: getInitVal(event.guestsCanInvite, isEditing, false),
@@ -108,6 +109,7 @@ export default function EventForm({ event }) {
         placeId: values.placeId,
         timestamp: getISOFromDateTime(values.date, values.time),
         guestsCanInvite: values.guestsCanInvite,
+        hosts: values.hosts,
         ...rest
       };
 
@@ -172,7 +174,7 @@ export default function EventForm({ event }) {
         justifyContent={["unset", "space-between"]}
       >
         <Box width={["100%", "49%"]} overflow="hidden">
-          <Box py={1}>
+          <Box py={1} mb={2}>
             <Text fontSize={1}>Date</Text>
             <DatePicker
               tabIndex="3"
@@ -201,13 +203,32 @@ export default function EventForm({ event }) {
         </Box>
       </Box>
 
+      <Box mb={3} py={1}>
+        <Text fontSize={1} mb={1}>
+          Hosts
+        </Text>
+        <Paragraph fontSize={0} color="gray" lineHeight="1.3em" mb={2}>
+          Hosts can invite other guests and appear under the "hosts" heading on
+          the event page.
+        </Paragraph>
+        <PseudoHoverInput>
+          <MultiMemberPickerField
+            headingText="Edit hosts"
+            tabIndex="5"
+            members={formik.values.hosts}
+            setMembers={newHosts => formik.setFieldValue("hosts", newHosts)}
+          />
+        </PseudoHoverInput>
+      </Box>
+
       {!isEditing && (
-        <Box mb={3}>
+        <Box mb={3} py={1}>
           <Text fontSize={1} mb={1}>
             Guests
           </Text>
           <PseudoHoverInput>
             <MultiMemberPickerField
+              headingText="Edit guests"
               tabIndex="5"
               members={formik.values.members}
               setMembers={newMembers =>
@@ -218,7 +239,7 @@ export default function EventForm({ event }) {
         </Box>
       )}
 
-      <Box mb={3}>
+      <Box mb={3} py={1}>
         <Text fontSize={1} mb={1}>
           Description
         </Text>

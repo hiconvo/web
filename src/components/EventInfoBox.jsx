@@ -26,9 +26,11 @@ export default function EventInfoBox({ event }) {
         {event.name}
       </Heading>
 
-      <Label>Host</Label>
+      <Label>{event.hosts.lenght > 0 ? "Hosts" : "Host"}</Label>
       <Box as="ul" mb={4}>
-        <InfoBoxMemberItem member={owner} event={event} ml="-0.8rem" mb={1} />
+        {[owner].concat(event.hosts).map(user => (
+          <InfoBoxMemberItem member={user} event={event} ml="-0.8rem" mb={1} />
+        ))}
       </Box>
 
       <Label>Guests</Label>
