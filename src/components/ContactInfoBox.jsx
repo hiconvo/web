@@ -1,12 +1,13 @@
 import React from "react";
-import { useHistory } from "react-router";
+import { useParams, useRouteMatch, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
 import { Box, Text, ActionButton, Icon, Avatar } from "../components/styles";
 import { useActions, useSelectors } from "../redux";
 import * as unboundActions from "../actions/contacts";
-import { getContacts } from "../selectors";
+import { getContacts, getResourceById, getUser } from "../selectors";
+import RemoveUserButton from "./RemoveUserButton";
 
 const Label = styled.span`
   font-family: ${themeGet("fonts.sans")};
@@ -38,11 +39,16 @@ export default function ContactInfoBox({ contact, position = "fixed" }) {
   const history = useHistory();
   const { addToContacts, removeFromContacts } = useActions(unboundActions);
   const [contacts] = useSelectors(getContacts);
+  const isEvent = useRouteMatch("/events");
+  const { id } = useParams();
+  const [resource, user] = useSelectors(getResourceById(id), getUser);
 
   if (!contact) return null;
 
   const isContact = contacts.some(c => c.id === contact.id);
   const isSelected = Boolean(contact.id);
+  const isRemovable =
+    !!resource && resource.owner.id === user.id && contact.id !== user.id;
 
   return (
     <Box>
@@ -81,6 +87,21 @@ export default function ContactInfoBox({ contact, position = "fixed" }) {
                 />
               )}
             </Box>
+            {isRemovable && (
+              <RemoveUserButton
+                render={toggleIsOpen => (
+                  <Action
+                    ml="-1.2rem"
+                    text="Disinvite"
+                    iconName="clear"
+                    onClick={toggleIsOpen}
+                  />
+                )}
+                user={contact}
+                thread={!isEvent && resource}
+                event={isEvent && resource}
+              />
+            )}
           </React.Fragment>
         )}
       </Box>
