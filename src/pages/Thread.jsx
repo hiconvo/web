@@ -34,9 +34,8 @@ export default function Thread() {
   useEffect(() => {
     if (id && !thread && isThreadsFetched && !fetched.has(id)) {
       fetchThread(id);
+      fetched.add(id);
     }
-
-    id && fetched.add(id);
   }, [isThreadsFetched, id, fetchThread, thread]);
 
   if (!thread) {
