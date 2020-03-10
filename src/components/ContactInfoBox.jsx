@@ -92,7 +92,7 @@ export default function ContactInfoBox({ contact, position = "fixed" }) {
                 render={toggleIsOpen => (
                   <Action
                     ml="-1.2rem"
-                    text="Disinvite"
+                    text="Remove"
                     iconName="clear"
                     onClick={toggleIsOpen}
                   />
