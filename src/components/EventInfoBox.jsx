@@ -8,6 +8,7 @@ import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import DeleteEventButton from "./DeleteEventButton";
 import LeaveEventButton from "./LeaveEventButton";
 import UserOverflowList from "./UserOverflowList";
+import MagicLinkButton from "./MagicLinkButton";
 import { getUser } from "../selectors";
 import { Box, Heading } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
@@ -17,8 +18,9 @@ export default function EventInfoBox({ event }) {
   const [user] = useSelectors(getUser);
   const [isGuestEditing, setIsGuestEditing] = useState(false);
   const { id, owner } = event;
-  const isOwner = user.id === owner.id;
   const hosts = [owner].concat(event.hosts);
+  const isOwner = user.id === owner.id;
+  const isHost = hosts.some((v) => v.id === user.id);
 
   return (
     <React.Fragment>
@@ -29,7 +31,7 @@ export default function EventInfoBox({ event }) {
 
       <Label>{hosts.length > 1 ? "Hosts" : "Host"}</Label>
       <Box as="ul" mb={4}>
-        {hosts.map(user => (
+        {hosts.map((user) => (
           <InfoBoxMemberItem member={user} event={event} ml="-0.8rem" mb={1} />
         ))}
       </Box>
@@ -39,17 +41,21 @@ export default function EventInfoBox({ event }) {
         users={
           event.users &&
           orderBy(
-            event.users.filter(guest => !hosts.some(h => h.id === guest.id)),
-            [u => event.rsvps && event.rsvps.some(rsvp => rsvp.id === u.id)],
+            event.users.filter(
+              (guest) => !hosts.some((h) => h.id === guest.id)
+            ),
+            [
+              (u) => event.rsvps && event.rsvps.some((rsvp) => rsvp.id === u.id)
+            ],
             ["desc"]
           )
         }
-        transformUserProps={props => ({
+        transformUserProps={(props) => ({
           ...props,
           event,
           canDelete: isOwner,
           isChecked:
-            event.rsvps && event.rsvps.some(rsvp => rsvp.id === props.user.id)
+            event.rsvps && event.rsvps.some((rsvp) => rsvp.id === props.user.id)
         })}
         renderExtraChildren={() =>
           isGuestEditing && (
@@ -73,6 +79,21 @@ export default function EventInfoBox({ event }) {
           />
         )}
 
+        {isHost && false && (
+          <MagicLinkButton
+            event={event}
+            user={user}
+            render={(onClick) => (
+              <Action
+                onClick={onClick}
+                ml="-1.2rem"
+                text="Shareable link"
+                iconName="link"
+              />
+            )}
+          />
+        )}
+
         {isOwner && (
           <React.Fragment>
             <Action
@@ -83,7 +104,7 @@ export default function EventInfoBox({ event }) {
             />
             <DeleteEventButton
               event={event}
-              render={onClick => (
+              render={(onClick) => (
                 <Action
                   onClick={onClick}
                   ml="-1.2rem"
@@ -99,7 +120,7 @@ export default function EventInfoBox({ event }) {
           <LeaveEventButton
             event={event}
             user={user}
-            render={onClick => (
+            render={(onClick) => (
               <Action
                 onClick={onClick}
                 ml="-1.2rem"

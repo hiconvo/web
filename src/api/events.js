@@ -125,3 +125,22 @@ export function markAsRead(eventId) {
     method: "POST"
   });
 }
+
+/*
+ * @param {string} eventId
+ */
+export function getMagicLink(eventId) {
+  return apiRequest(`/events/${eventId}/magic`, {
+    method: "GET"
+  });
+}
+
+/*
+ * @param {string} eventId
+ */
+export function rollMagicLink(eventId) {
+  return apiRequest(`/events/${eventId}/magic`, {
+    method: "DELETE",
+    body: {}
+  });
+}
