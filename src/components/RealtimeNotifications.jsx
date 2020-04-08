@@ -9,7 +9,7 @@ import { useSelectors } from "../redux";
 import { getUser, getIsLoggedIn } from "../selectors";
 import { Dropdown, Text, Box, UnstyledButton, Icon } from "./styles";
 
-const getReadableVerb = verb => {
+const getReadableVerb = (verb) => {
   switch (verb) {
     case "AddRSVP":
       return "is going to";
@@ -29,10 +29,10 @@ const getReadableVerb = verb => {
 };
 
 const Circle = styled(UnstyledButton)`
-  background-color: ${props =>
-    themeGet(`colors.${props.active ? "primary" : "lightGray"}`)(props)}
-  color: ${props =>
-    themeGet(`colors.${props.active ? "white" : "darkGray"}`)(props)}
+  background-color: ${(props) =>
+    themeGet(`colors.${props.active ? "primary" : "lightGray"}`)(props)};
+  color: ${(props) =>
+    themeGet(`colors.${props.active ? "white" : "darkGray"}`)(props)};
   height: 3.6rem;
   width: 3.6rem;
   border-radius: 100%;
@@ -46,25 +46,25 @@ const Circle = styled(UnstyledButton)`
   margin-right: ${themeGet("space.2")};
 
   &:hover {
-    background-color: ${props =>
-      themeGet(`colors.${props.active ? "primary900" : "mediumGray"}`)(props)}
+    background-color: ${(props) =>
+      themeGet(`colors.${props.active ? "primary900" : "mediumGray"}`)(props)};
     color: ${themeGet("colors.white")};
   }
 `;
 
 const DropdownItemsContainer = styled.ul`
-  display: ${props => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.isOpen ? "block" : "none")};
   width: 30rem;
   max-height: 50vh;
   overflow-y: scroll;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
-  transform: ${props =>
+  transform: ${(props) =>
     props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isVisible ? "1" : "0")};
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
   z-index: 30;
   padding: ${themeGet("space.2")};
 `;
@@ -82,7 +82,7 @@ const NotifNullState = () => (
 
 const Notif = ({ notif, onClick }) => (
   <Box as="li">
-    {notif.activities.map(act => (
+    {notif.activities.map((act) => (
       <UnstyledButton
         key={act.id}
         onClick={() => onClick(act)}
@@ -128,7 +128,7 @@ export default function RealtimeNotifications() {
   const subscription = useRef(null);
 
   function markAllAsRead() {
-    setNotifs(notifs.map(n => ({ ...n, is_read: true, is_seen: true })));
+    setNotifs(notifs.map((n) => ({ ...n, is_read: true, is_seen: true })));
     feed && feed.get({ mark_seen: true, mark_read: true });
   }
 
@@ -146,12 +146,12 @@ export default function RealtimeNotifications() {
       client = stream.connect("kqm59q4584ah", null, "62737");
       feed = client.feed("notification", user.id, user.realtimeToken);
 
-      feed.get().then(newNotifs => setNotifs(newNotifs.results));
+      feed.get().then((newNotifs) => setNotifs(newNotifs.results));
 
-      subscription.current = feed.subscribe(newNotifs => {
-        setNotifs(notifs =>
+      subscription.current = feed.subscribe((newNotifs) => {
+        setNotifs((notifs) =>
           [].concat(
-            newNotifs.new.map(n => ({
+            newNotifs.new.map((n) => ({
               is_read: false,
               is_seen: false,
               activities: [n]
@@ -174,7 +174,7 @@ export default function RealtimeNotifications() {
     return <div />;
   }
 
-  const filteredNotifs = notifs.filter(n => !(n.is_read || n.is_seen));
+  const filteredNotifs = notifs.filter((n) => !(n.is_read || n.is_seen));
 
   return (
     <Box>
@@ -197,7 +197,7 @@ export default function RealtimeNotifications() {
             isVisible={isVisible}
             onClick={handleToggle}
           >
-            {notifs.map(notif => (
+            {notifs.map((notif) => (
               <Notif key={notif.id} notif={notif} onClick={handleNotifClick} />
             ))}
             {notifs.length === 0 && <NotifNullState key="null" />}
