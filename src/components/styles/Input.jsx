@@ -20,7 +20,7 @@ const inputStyles = css`
     color: ${themeGet("colors.mediumGray")};
   }
 
-  ${props =>
+  ${(props) =>
     props.error &&
     `
     border: 0.1rem solid ${props.theme.colors.error};
@@ -125,7 +125,7 @@ TextArea.defaultProps = {
 function Checkbox({
   name,
   value,
-  handleChange,
+  onChange,
   isError,
   error,
   required,
@@ -137,7 +137,7 @@ function Checkbox({
       <input
         type="checkbox"
         checked={value}
-        onChange={handleChange}
+        onChange={onChange}
         name={name.toLowerCase()}
         required={required}
         tabIndex={tabIndex}

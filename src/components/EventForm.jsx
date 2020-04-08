@@ -55,13 +55,11 @@ const PseudoHoverInput = styled.div`
   }
 `;
 
-const validate = payload => {
+const validate = (payload) => {
   if (!payload.name) {
     return { message: "Please give your event a name" };
   } else if (!payload.placeId) {
     return { message: "Please choose a location" };
-  } else if (payload.members && !payload.members.length) {
-    return { message: "Please invite some people" };
   } else if (payload.description.length <= 0) {
     return { message: "Please add a description" };
   } else if (!/(?:[01]\d|2[0123]):(?:[012345]\d)/.test(payload.time)) {
@@ -156,7 +154,7 @@ export default function EventForm({ event }) {
         inputComponent={Input}
         tabIndex="2"
         value={formik.values.place}
-        onChange={newPlace => formik.setFieldValue("place", newPlace)}
+        onChange={(newPlace) => formik.setFieldValue("place", newPlace)}
         onSelect={(placeString, placeId) =>
           formik.setFieldValues({
             place: placeString,
@@ -181,7 +179,7 @@ export default function EventForm({ event }) {
               name="Date"
               selected={parse(formik.values.date, "yyyy-MM-dd", new Date())}
               dateFormat="MMMM dd, yyyy"
-              onChange={newDate =>
+              onChange={(newDate) =>
                 formik.setFieldValue("date", format(newDate, "yyyy-MM-dd"))
               }
             />
@@ -216,7 +214,7 @@ export default function EventForm({ event }) {
             headingText="Edit hosts"
             tabIndex="5"
             members={formik.values.hosts}
-            setMembers={newHosts => formik.setFieldValue("hosts", newHosts)}
+            setMembers={(newHosts) => formik.setFieldValue("hosts", newHosts)}
           />
         </PseudoHoverInput>
       </Box>
@@ -226,12 +224,17 @@ export default function EventForm({ event }) {
           <Text fontSize={1} mb={1}>
             Guests
           </Text>
+          <Paragraph fontSize={0} color="gray" lineHeight="1.3em" mb={2}>
+            If you do not have the email addresses of your guests, you can
+            create a shareable link that you can text or message to your guests
+            after you complete this form.
+          </Paragraph>
           <PseudoHoverInput>
             <MultiMemberPickerField
               headingText="Edit guests"
               tabIndex="5"
               members={formik.values.members}
-              setMembers={newMembers =>
+              setMembers={(newMembers) =>
                 formik.setFieldValue("members", newMembers)
               }
             />
@@ -259,7 +262,7 @@ export default function EventForm({ event }) {
           name="Allow guests to invite others"
           tabIndex="7"
           value={formik.values.guestsCanInvite}
-          onChange={e =>
+          onChange={(e) =>
             formik.setFieldValue("guestsCanInvite", e.target.checked)
           }
           isDisabled={formik.isSubmitting}
@@ -272,7 +275,7 @@ export default function EventForm({ event }) {
           <Checkbox
             name="Resend invitations"
             value={formik.values.resend}
-            onChange={e => formik.setFieldValue("resend", e.target.checked)}
+            onChange={(e) => formik.setFieldValue("resend", e.target.checked)}
             isDisabled={formik.isSubmitting}
             width="auto"
           />
