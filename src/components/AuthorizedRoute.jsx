@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { useLocation } from "react-router";
 
 import { useSelectors, useActions } from "../redux";
 import * as unboundAuthActions from "../actions/auth";
@@ -8,9 +9,10 @@ import { Ripple, CenterContent } from "./styles";
 
 export default function AuthorizedRoute(props) {
   const { component: Component, ...rest } = props;
-
   const [isLoading, isLoggedIn] = useSelectors(getIsLoading, getIsLoggedIn);
   const { loginUserWithToken } = useActions(unboundAuthActions);
+  const { pathname } = useLocation();
+  const query = pathname && pathname !== "/convos" ? `?next=${pathname}` : "";
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -33,7 +35,7 @@ export default function AuthorizedRoute(props) {
         } else if (isLoggedIn) {
           return <Component {...props} />;
         } else {
-          return <Redirect to="/login" />;
+          return <Redirect to={`/login${query}`} />;
         }
       }}
     />

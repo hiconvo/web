@@ -144,3 +144,16 @@ export function rollMagicLink(eventId) {
     body: {}
   });
 }
+
+/*
+ * @param {Object} payload
+ * @param {Object} payload.eventId
+ * @param {Object} payload.timestamp
+ * @param {Object} payload.signature
+ */
+export function magicInvite(payload) {
+  return apiRequest(`/events/${payload.eventId}/magic`, {
+    method: "POST",
+    body: payload
+  });
+}

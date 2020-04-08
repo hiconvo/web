@@ -9,7 +9,7 @@ export default function OauthForm() {
     <Box>
       <LoginWithGoogle />
       <LoginWithFacebook />
-      <LinkButton to="/login/email" variant="white">
+      <LinkButton to="/login/email" variant="white" preserveQuery>
         <Icon name="email" fontSize="2.2rem" mr={2} />
         Continue with email
       </LinkButton>

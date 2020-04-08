@@ -42,7 +42,7 @@ export default function LoginForm() {
 
   return (
     <Box>
-      <LinkButton to="/login/register" variant="white">
+      <LinkButton to="/login/register" variant="white" preserveQuery>
         <Icon name="email" fontSize="2.2rem" mr={2} />
         Sign up with email
       </LinkButton>
@@ -74,7 +74,7 @@ export default function LoginForm() {
           Login
         </Button>
       </Box>
-      <LinkButton to="/login">
+      <LinkButton to="/login" preserveQuery>
         <Icon name="arrow_back" mr={1} />
         Back
       </LinkButton>

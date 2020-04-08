@@ -6,7 +6,7 @@ import { errorToString } from "../utils";
  * @param {function} dispatch
  * @returns {function}
  */
-export const fetchEvents = dispatch =>
+export const fetchEvents = (dispatch) =>
   /*
    * @returns {undefined}
    */
@@ -28,11 +28,11 @@ export const fetchEvents = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const fetchEvent = dispatch =>
+export const fetchEvent = (dispatch) =>
   /*
    * @returns {undefined}
    */
-  async id => {
+  async (id) => {
     try {
       const response = await API.getEvent(id);
       dispatch({
@@ -49,7 +49,7 @@ export const fetchEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const createEvent = dispatch =>
+export const createEvent = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.name
@@ -59,7 +59,7 @@ export const createEvent = dispatch =>
    * @param {string} payload.description
    * @returns {Object} Event
    */
-  async payload => {
+  async (payload) => {
     let event;
     try {
       event = await API.createEvent(payload);
@@ -79,7 +79,7 @@ export const createEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const updateEvent = dispatch =>
+export const updateEvent = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.id
@@ -90,7 +90,7 @@ export const updateEvent = dispatch =>
    * @param {string} payload.description
    * @returns {Object} Event
    */
-  async payload => {
+  async (payload) => {
     let event;
     try {
       event = await API.updateEvent(payload.id, payload);
@@ -111,14 +111,14 @@ export const updateEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const addUserToEvent = dispatch =>
+export const addUserToEvent = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.event
    * @param {Object} payload.user
    * @returns {Object} Event
    */
-  async payload => {
+  async (payload) => {
     let event;
     try {
       event = await API.addUserToEvent(payload.event.id, payload.user.id);
@@ -142,7 +142,7 @@ export const addUserToEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const removeUserFromEvent = dispatch =>
+export const removeUserFromEvent = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.event
@@ -150,7 +150,7 @@ export const removeUserFromEvent = dispatch =>
    * @param {bool} payload.removeEvent
    * @returns {Object} Event
    */
-  async payload => {
+  async (payload) => {
     let event;
     try {
       event = await API.removeUserFromEvent(payload.event.id, payload.user.id);
@@ -183,14 +183,14 @@ export const removeUserFromEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const addRSVPToEvent = dispatch =>
+export const addRSVPToEvent = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.event
    * @param {Object} payload.user
    * @returns {Object} Event
    */
-  async payload => {
+  async (payload) => {
     let event;
     try {
       event = await API.addRSVPToEvent(payload.event.id, payload.user.id);
@@ -214,14 +214,14 @@ export const addRSVPToEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const removeRSVPFromEvent = dispatch =>
+export const removeRSVPFromEvent = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.event
    * @param {Object} payload.user
    * @returns {Object} Event
    */
-  async payload => {
+  async (payload) => {
     let event;
     try {
       event = await API.removeRSVPFromEvent(payload.event.id, payload.user.id);
@@ -245,14 +245,14 @@ export const removeRSVPFromEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const deleteEvent = dispatch =>
+export const deleteEvent = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.event
    * @param {string} payload.message
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       await API.deleteEvent(payload.event.id, { message: payload.message });
       dispatch({
@@ -272,7 +272,7 @@ export const deleteEvent = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const magicRsvp = dispatch =>
+export const magicRsvp = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.eventID
@@ -281,7 +281,7 @@ export const magicRsvp = dispatch =>
    * @param {Object} payload.signature
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.magicRsvp(payload);
       localStorage.setItem("userToken", user.token);
@@ -296,7 +296,7 @@ export const magicRsvp = dispatch =>
         payload: events
       });
 
-      const event = events.find(ev => ev.id === payload.eventID);
+      const event = events.find((ev) => ev.id === payload.eventID);
       dispatchNotification()({
         type: "SUCCESS",
         message: `RSVP'd to ${event.name}`
@@ -310,12 +310,36 @@ export const magicRsvp = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const markEventAsRead = dispatch =>
+export const magicInvite = (dispatch) =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.eventID
+   * @param {Object} payload.timestamp
+   * @param {Object} payload.signature
+   * @returns {undefined}
+   */
+  async (payload) => {
+    try {
+      const event = await API.magicInvite(payload);
+      dispatch({
+        type: "RECEIVE_EVENTS",
+        payload: [event]
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const markEventAsRead = (dispatch) =>
   /*
    * @param {Object} payload.id
    * @returns {Object} Event
    */
-  async payload => {
+  async (payload) => {
     let event;
     try {
       event = await API.markAsRead(payload.id);

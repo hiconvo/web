@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
@@ -33,22 +33,32 @@ const Container = styled.div`
 
 export default function Login() {
   const history = useHistory();
+  const location = useLocation();
   const [isLoggedIn] = useSelectors(getIsLoggedIn);
+  const query = new URLSearchParams(location.search);
+  const next = query.get("next");
+  const copy = next
+    ? "Login or sign up to continue"
+    : "Login or sign up for Convo";
 
   useEffect(() => {
     if (isLoggedIn || localStorage.getItem("userToken")) {
-      history.push("/");
+      if (next) {
+        history.push(next);
+      } else {
+        history.push("/");
+      }
     }
-  }, [isLoggedIn, history]);
+  }, [isLoggedIn, history, next]);
 
   return (
     <CenterContent>
       <Box mb={4} alignItems="center">
         <Heading fontSize={4} fontWeight="semiBold" mb={1}>
-          Convo
+          {next ? "You're invited" : "Convo"}
         </Heading>
         <Text color="darkGray">
-          Login or sign up for Convo{" "}
+          {copy}{" "}
           <span role="img" aria-label="sparkles">
             ✨
           </span>

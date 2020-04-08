@@ -79,7 +79,7 @@ export default function EventInfoBox({ event }) {
           />
         )}
 
-        {isHost && false && (
+        {isHost && (
           <MagicLinkButton
             event={event}
             user={user}

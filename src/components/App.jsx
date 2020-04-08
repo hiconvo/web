@@ -21,8 +21,9 @@ import ForgotPassword from "../pages/ForgotPassword";
 import Rsvp from "../pages/Rsvp";
 import Feed from "../pages/Feed";
 import Magic from "../pages/Magic";
+import MagicInvite from "../pages/MagicInvite";
 
-const ModalBackground = styled(BaseModalBackground).attrs(props => ({
+const ModalBackground = styled(BaseModalBackground).attrs((props) => ({
   ...props,
   id: "ModalBackground"
 }))``;
@@ -58,6 +59,11 @@ export default function App() {
                       path="/magic/:key/:timestamp/:signature"
                       exact
                       component={Magic}
+                    />
+                    <AuthorizedRoute
+                      path="/invite/:key/:timestamp/:signature"
+                      exact
+                      component={MagicInvite}
                     />
                     <AuthorizedRoute
                       path="/convos/new"
