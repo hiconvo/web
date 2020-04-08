@@ -32,7 +32,13 @@ export default function EventInfoBox({ event }) {
       <Label>{hosts.length > 1 ? "Hosts" : "Host"}</Label>
       <Box as="ul" mb={4}>
         {hosts.map((user) => (
-          <InfoBoxMemberItem member={user} event={event} ml="-0.8rem" mb={1} />
+          <InfoBoxMemberItem
+            key={user.id}
+            member={user}
+            event={event}
+            ml="-0.8rem"
+            mb={1}
+          />
         ))}
       </Box>
 

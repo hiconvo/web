@@ -80,7 +80,13 @@ export default function MagicLinkButton({ render, user, event }) {
       >
         <Box p={4}>
           <Heading as="h2" fontSize={4} fontWeight="semiBold">
-            Shareable link 🪄
+            Shareable link{" "}
+            <span role="img" aria-label="link">
+              🔗
+            </span>{" "}
+            <span role="img" aria-label="sparkles">
+              ✨
+            </span>
           </Heading>
           <Paragraph>
             Share this link with people via text message, email, or any other
