@@ -326,6 +326,7 @@ export const magicInvite = (dispatch) =>
         payload: [event]
       });
     } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
   };

@@ -20,7 +20,11 @@ export default function MagicInvite() {
 
       isInFlight = true;
 
-      await magicInvite({ eventId: key, timestamp, signature });
+      try {
+        await magicInvite({ eventId: key, timestamp, signature });
+      } catch (e) {
+        return;
+      }
 
       history.push(`/events/${key}`);
     }
