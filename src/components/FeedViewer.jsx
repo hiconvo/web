@@ -21,7 +21,10 @@ export default function FeedViewer() {
         <ThreadComposer />
       </FloatingPill>
       {!isThreadsFetched && <Ripple />}
-      {threads.map((thread) => thread.preview && <FeedItem thread={thread} />)}
+      {threads.map(
+        (thread) =>
+          thread.preview && <FeedItem key={thread.id} thread={thread} />
+      )}
     </div>
   );
 }

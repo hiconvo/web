@@ -1,15 +1,34 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import throttle from "lodash/throttle";
 
-const EXCEPTIONS = ["/convos"];
+const MEMORY = { "/convos": 0 };
 
 export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (!EXCEPTIONS.includes(pathname)) {
-      window.scrollTo(0, 0);
+    if (MEMORY[pathname]) {
+      window.scrollTo(0, MEMORY[pathname]);
     }
+  }, [pathname]);
+
+  useEffect(() => {
+    const scrollCb = throttle(
+      () => {
+        if (MEMORY.hasOwnProperty(pathname) && window.scrollY !== 0) {
+          MEMORY[pathname] = window.scrollY;
+        }
+      },
+      200,
+      {}
+    );
+
+    window.addEventListener("scroll", scrollCb);
+
+    return () => {
+      window.removeEventListener("scroll", scrollCb);
+    };
   }, [pathname]);
 
   return null;
