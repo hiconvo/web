@@ -35,6 +35,8 @@ export default function Thread() {
     if (id && !thread && isThreadsFetched && !fetched.has(id)) {
       fetchThread(id);
       fetched.add(id);
+    } else if (id && thread) {
+      fetched.add(id);
     }
   }, [isThreadsFetched, id, fetchThread, thread]);
 

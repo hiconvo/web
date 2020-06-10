@@ -18,9 +18,11 @@ export default function Magic({ match, history }) {
     try {
       await magicLogin({ userId: key, timestamp, signature });
     } catch (e) {
-    } finally {
-      history.push(`/convos`);
+      history.push(`/login`);
+      return;
     }
+
+    history.push(`/convos`);
   }
 
   handleLogin();

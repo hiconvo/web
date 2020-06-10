@@ -23,6 +23,7 @@ export default function MagicInvite() {
       try {
         await magicInvite({ eventId: key, timestamp, signature });
       } catch (e) {
+        history.push(`/login`);
         return;
       }
 

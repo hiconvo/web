@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { useActions } from "../redux";
 import ConfirmationModal from "./ConfirmationModal";
@@ -6,6 +7,7 @@ import * as unboundActions from "../actions/events";
 import { Paragraph } from "./styles";
 
 export default function DeleteEventButton({ event, user, render }) {
+  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { removeUserFromEvent } = useActions(unboundActions);
@@ -23,6 +25,8 @@ export default function DeleteEventButton({ event, user, render }) {
       setIsLoading(false);
       return;
     }
+
+    history.push("/convos");
 
     setIsOpen(false);
   }

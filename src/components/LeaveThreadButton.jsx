@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { useActions } from "../redux";
 import ConfirmationModal from "./ConfirmationModal";
@@ -6,6 +7,7 @@ import * as unboundActions from "../actions/threads";
 import { Paragraph } from "./styles";
 
 export default function LeaveThreadButton({ thread, user, render }) {
+  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { removeUserFromThread } = useActions(unboundActions);
@@ -23,6 +25,8 @@ export default function LeaveThreadButton({ thread, user, render }) {
       setIsLoading(false);
       return;
     }
+
+    history.push("/convos");
   }
 
   return (

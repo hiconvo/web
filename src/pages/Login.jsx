@@ -36,7 +36,7 @@ export default function Login() {
   const location = useLocation();
   const [isLoggedIn] = useSelectors(getIsLoggedIn);
   const query = new URLSearchParams(location.search);
-  const next = query.get("next");
+  const next = query.get("next") && query.get("next").startsWith("/invite");
   const copy = next
     ? "Login or sign up to continue"
     : "Login or sign up for Convo";

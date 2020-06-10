@@ -4,6 +4,7 @@ import styled from "styled-components";
 import stream from "getstream";
 import { themeGet } from "@styled-system/theme-get";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import * as Sentry from "@sentry/browser";
 
 import { useSelectors } from "../redux";
 import { getUser, getIsLoggedIn } from "../selectors";
@@ -143,8 +144,13 @@ export default function RealtimeNotifications() {
 
   useEffect(() => {
     if (isLoggedIn && !(client || feed || subscription.current)) {
-      client = stream.connect("kqm59q4584ah", null, "62737");
-      feed = client.feed("notification", user.id, user.realtimeToken);
+      try {
+        client = stream.connect("kqm59q4584ah", null, "62737");
+        feed = client.feed("notification", user.id, user.realtimeToken);
+      } catch (e) {
+        Sentry.captureException(e);
+        return;
+      }
 
       feed.get().then((newNotifs) => setNotifs(newNotifs.results));
 

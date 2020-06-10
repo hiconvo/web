@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 import { useSelectors } from "../redux";
 import { getIsThreadsFetched, getThreads } from "../selectors";
@@ -22,20 +21,7 @@ export default function FeedViewer() {
         <ThreadComposer />
       </FloatingPill>
       {!isThreadsFetched && <Ripple />}
-      {threads.map((thread, idx) => (
-        <motion.div
-          key={thread.id}
-          variants={{
-            hidden: { opacity: 0 },
-            show: i => ({ opacity: 1, transition: { delay: i * 0.01 } })
-          }}
-          custom={idx}
-          initial="hidden"
-          animate="show"
-        >
-          {thread.preview && <FeedItem thread={thread} />}
-        </motion.div>
-      ))}
+      {threads.map((thread) => thread.preview && <FeedItem thread={thread} />)}
     </div>
   );
 }
