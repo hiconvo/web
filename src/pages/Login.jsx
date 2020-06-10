@@ -44,12 +44,12 @@ export default function Login() {
   useEffect(() => {
     if (isLoggedIn || localStorage.getItem("userToken")) {
       if (next) {
-        history.push(next);
+        history.push(query.get("next"));
       } else {
         history.push("/");
       }
     }
-  }, [isLoggedIn, history, next]);
+  }, [isLoggedIn, history, next, query]);
 
   return (
     <CenterContent>
