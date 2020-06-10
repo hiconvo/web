@@ -1,14 +1,18 @@
 const API_ORIGIN =
   process.env.REACT_APP_API_ORIGIN || "https://api.convo.events";
 
-class ApiError extends Error {
-  constructor(payload, message, fileName, lineNumber) {
-    super(message, fileName, lineNumber);
+class ApiError {
+  constructor(payload) {
     this.payload = payload || {};
+    this.message = "ApiError";
   }
 
   getPayload() {
     return this.payload;
+  }
+
+  toString() {
+    return this.message;
   }
 }
 
@@ -41,21 +45,21 @@ export default function apiRequest(url, data = {}) {
       mode,
       body
     })
-      .then(response => {
+      .then((response) => {
         if (response.status >= 400) {
           response
             .json()
-            .then(parsed => reject(new ApiError(parsed)))
-            .catch(e => reject(e));
+            .then((parsed) => reject(new ApiError(parsed)))
+            .catch((e) => reject(e));
         } else if (response.status === 204) {
           resolve(response);
         } else {
           response
             .json()
-            .then(parsed => resolve(parsed))
-            .catch(e => reject(e));
+            .then((parsed) => resolve(parsed))
+            .catch((e) => reject(e));
         }
       })
-      .catch(err => reject(err));
+      .catch((err) => reject(err));
   });
 }

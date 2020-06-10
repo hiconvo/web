@@ -83,7 +83,7 @@ const NotifNullState = () => (
 
 const Notif = ({ notif, onClick }) => (
   <Box as="li">
-    {notif.activities.map((act) => (
+    {notif.activities.slice(0, 1).map((act) => (
       <UnstyledButton
         key={act.id}
         onClick={() => onClick(act)}
