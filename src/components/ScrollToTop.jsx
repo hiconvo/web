@@ -10,6 +10,8 @@ export default function ScrollToTop() {
   useEffect(() => {
     if (MEMORY[pathname]) {
       window.scrollTo(0, MEMORY[pathname]);
+    } else {
+      window.scrollTo(0, 0);
     }
   }, [pathname]);
 
