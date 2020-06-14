@@ -1,6 +1,7 @@
 import { createSelector } from "reselect";
 import orderBy from "lodash/orderBy";
 import { isAfter, parseISO } from "date-fns";
+import { isoDateToString } from "../utils";
 
 export function getGeneralError(store) {
   return (store.errors.auth && store.errors.auth.message) || "";
@@ -87,27 +88,28 @@ export function getSelectedResourceId(store) {
   return store.selectedResourceId;
 }
 
-export const getThreadsCount = createSelector(getThreads, res => res.length);
+export const getThreadsCount = createSelector(getThreads, (res) => res.length);
 
-export const getEventsCount = createSelector(getEvents, res => res.length);
+export const getEventsCount = createSelector(getEvents, (res) => res.length);
 
-export const getUpcomingEvents = createSelector(getEvents, events =>
-  events.filter(e => isAfter(parseISO(e.timestamp), Date.now()))
+export const getUpcomingEvents = createSelector(getEvents, (events) =>
+  events.filter((e) => isAfter(parseISO(e.timestamp), Date.now()))
 );
 
-export const getEventById = id => store => store.events.find(e => e.id === id);
+export const getEventById = (id) => (store) =>
+  store.events.find((e) => e.id === id);
 
-export const getThreadById = id => store =>
-  store.threads.find(t => t.id === id);
+export const getThreadById = (id) => (store) =>
+  store.threads.find((t) => t.id === id);
 
 export function getMessagesByThreadId(id) {
-  return store => store.messages.filter(message => message.parentId === id);
+  return (store) => store.messages.filter((message) => message.parentId === id);
 }
 
 export const getMessagesBySelectedThread = createSelector(
   getMessages,
   getSelectedResourceId,
-  (messages, id) => messages.filter(message => message.parentId === id)
+  (messages, id) => messages.filter((message) => message.parentId === id)
 );
 
 export const getInboxContents = createSelector(
@@ -118,8 +120,8 @@ export const getInboxContents = createSelector(
     orderBy(
       [].concat(threads, events),
       [
-        o => o.reads && o.reads.some(r => r.id === (user && user.id)),
-        o => (o.preview ? o.preview.timestamp : o.timestamp)
+        (o) => o.reads && o.reads.some((r) => r.id === (user && user.id)),
+        (o) => (o.preview ? o.preview.timestamp : o.timestamp)
       ],
       ["asc", "desc"]
     )
@@ -129,7 +131,7 @@ export const getSelectedResource = createSelector(
   getSelectedResourceId,
   getInboxContents,
   (selectedResourceId, resources) =>
-    resources.find(resource => resource.id === selectedResourceId) || {}
+    resources.find((resource) => resource.id === selectedResourceId) || {}
 );
 
 export const getIsOwnerOfSelectedResource = createSelector(
@@ -139,5 +141,12 @@ export const getIsOwnerOfSelectedResource = createSelector(
     user && resource && resource.owner && user.id === resource.owner.id
 );
 
-export const getResourceById = id => store =>
-  [].concat(store.threads, store.events).find(r => r.id === id);
+export const getResourceById = (id) => (store) =>
+  [].concat(store.threads, store.events).find((r) => r.id === id);
+
+export const getEventsByDate = createSelector(getEvents, (events) =>
+  events.reduce((acc, cur) => {
+    acc[isoDateToString(cur.timestamp)] = cur;
+    return acc;
+  }, {})
+);

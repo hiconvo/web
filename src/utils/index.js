@@ -2,16 +2,12 @@ import { isBefore as before, parseISO } from "date-fns";
 
 export function generateId() {
   return (
-    Math.random()
-      .toString(36)
-      .substring(2, 15) +
-    Math.random()
-      .toString(36)
-      .substring(2, 15)
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
   );
 }
 
-export const errorToString = e => {
+export const errorToString = (e) => {
   const errorPayload = e.getPayload && e.getPayload();
   if (errorPayload) {
     if (errorPayload.message) return errorPayload.message;
@@ -36,6 +32,17 @@ export function isBrowserType(browser) {
 
 export function isBefore(a, b) {
   return a && b && before(parseISO(a), parseISO(b)) ? 1 : -1;
+}
+
+export function datePartsToString(year, month, date) {
+  return `${year}-${(month + 1)
+    .toString()
+    .padStart(2, "0")}-${date.toString().padStart(2, "0")}`;
+}
+
+export function isoDateToString(date) {
+  const dt = parseISO(date);
+  return datePartsToString(dt.getFullYear(), dt.getMonth(), dt.getDate());
 }
 
 export function getGoogleMapsUrl(lat, lng, placeId) {

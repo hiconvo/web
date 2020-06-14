@@ -5,6 +5,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { useSelectors } from "../redux";
 import { getEventsCount } from "../selectors";
 import InboxList from "./InboxList";
+import EventCalendar from "./EventCalendar";
 import { LinkButton, Icon, Box } from "./styles";
 
 const Container = styled.div``;
@@ -44,6 +45,10 @@ const BottomContainer = styled.div`
   height: ${themeGet("sidebarChromeHeight")};
   border-top: 0.1rem solid ${themeGet("colors.veryLightGray")};
   display: flex;
+  position: absolute;
+  background-color: white;
+  bottom: 0;
+  width: 100%;
   justify-content: center;
   align-items: center;
   color: ${themeGet("colors.mediumGray")};
@@ -82,9 +87,12 @@ export default function EventsSidebar() {
   return (
     <Container>
       <Fixed>
-        <Top />
-        <InboxList />
-        <Bottom />
+        <Box position="relative" height="100%" width="100%">
+          <Top />
+          <EventCalendar />
+          <InboxList />
+          <Bottom />
+        </Box>
       </Fixed>
     </Container>
   );

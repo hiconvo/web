@@ -9,12 +9,13 @@ import { getEvents, getEventsPageInfo } from "../selectors";
 import { usePagination } from "../hooks";
 import { fetchEvents } from "../actions/events";
 import InboxListItem from "./InboxListItem";
+import { Box } from "./styles";
 
 const Container = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100% - 2 * ${themeGet("sidebarChromeHeight")});
+  height: calc(100% - 2 * ${themeGet("sidebarChromeHeight")} - 28rem);
   overflow-y: scroll;
   scrollbar-width: none;
 
@@ -42,7 +43,7 @@ export default function InboxList() {
 
   return (
     <Container ref={containerRef}>
-      {events.map(resource => (
+      {events.map((resource) => (
         <motion.div key={resource.id} layoutTransition={spring}>
           <InboxListItem
             key={resource.id}
@@ -51,6 +52,7 @@ export default function InboxList() {
           />
         </motion.div>
       ))}
+      <Box height="5rem" flexShrink="0" />
     </Container>
   );
 }
