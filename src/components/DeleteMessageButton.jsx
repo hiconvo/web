@@ -16,8 +16,6 @@ export default function DeleteMessageButton({ threadId, eventId, messageId }) {
     setIsOpen(!isOpen);
   }
 
-  console.log(threadId, eventId, messageId);
-
   async function handleDeleteMessage() {
     setIsLoading(true);
 
