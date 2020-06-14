@@ -17,7 +17,7 @@ export default function LoginGoogle() {
   });
 
   const handleLoginWithGoogle = useCallback(
-    async googleUser => {
+    async (googleUser) => {
       setIsLoading(true);
 
       const authResponse = googleUser.getAuthResponse();
@@ -35,16 +35,23 @@ export default function LoginGoogle() {
   );
 
   useEffect(() => {
-    getGapiAuth2().then(authInstance => {
+    getGapiAuth2().then((authInstance) => {
       authInstance.attachClickHandler(
         googleButton.current,
         {},
         handleLoginWithGoogle,
         () => {
-          dispatchNotification({
-            type: "ERROR",
-            message: "Something went wrong trying to login with Google"
-          });
+          // This prevents this error from showing up when users click on
+          // and invite link and are already logged in. In that case, the
+          // redirect to the event page happens before this code runs, which
+          // causes this to fail because the clickHandler can't be attached
+          // because the target node has already been unmounted.
+          if (window.location.href.includes("login")) {
+            dispatchNotification({
+              type: "ERROR",
+              message: "Something went wrong trying to login with Google"
+            });
+          }
         }
       );
     });
