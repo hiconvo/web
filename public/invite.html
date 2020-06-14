@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta name="theme-color" content="#24292e" />
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="shortcut icon" href="/icons/icon-48x48.png" />
+    <link rel="apple-touch-icon" href="/icons/icon-48x48.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/icons/icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="256x256"
+      href="/icons/icon-256x256.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="512x512"
+      href="/icons/icon-512x512.png"
+    />
+    <title>Convo | You're Invited</title>
+    <meta
+      name="description"
+      content="You've been invited to an event on Convo."
+    />
+    <meta name="og:title" content="Convo" />
+    <meta
+      name="og:description"
+      content="You've been invited to an event on Convo."
+    />
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="https://app.convo.events" />
+    <meta name="og:image" content="https://app.convo.events/convo-logo.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Convo" />
+    <meta
+      name="twitter:description"
+      content="You've been invited to an event on Convo."
+    />
+    <meta
+      name="twitter:image"
+      content="https://app.convo.events/convo-logo.png"
+    />
+    <meta name="fb:appId" content="406328056661427" />
+
+    <!-- Plausible -->
+    <script
+      async
+      defer
+      data-domain="app.convo.events"
+      src="https://plausible.io/js/plausible.js"
+    ></script>
+  </head>
+
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root">
+      <script>
+        const url = new URL(window.location.href);
+        window.open(url.origin + "/login?next=" + url.pathname, "_self");
+      </script>
+    </div>
+  </body>
+</html>
