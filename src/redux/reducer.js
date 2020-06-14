@@ -31,7 +31,9 @@ export default function reducer(state, action) {
       });
     case "RECEIVE_THREADS": {
       const threads = state.threads
-        .filter(t => !action.payload.some(newThread => newThread.id === t.id))
+        .filter(
+          (t) => !action.payload.some((newThread) => newThread.id === t.id)
+        )
         .concat(action.payload)
         .sort(
           (a, b) =>
@@ -39,7 +41,7 @@ export default function reducer(state, action) {
             b.preview &&
             isBefore(a.preview.timestamp, b.preview.timestamp)
         )
-        .map(thread => ({
+        .map((thread) => ({
           ...thread,
           resourceType: "Thread",
           preview: {
@@ -56,19 +58,19 @@ export default function reducer(state, action) {
     }
     case "DELETE_THREAD": {
       return Object.assign({}, state, {
-        threads: state.threads.filter(t => t.id !== action.payload),
-        messages: state.messages.filter(m => m.threadId !== action.payload)
+        threads: state.threads.filter((t) => t.id !== action.payload),
+        messages: state.messages.filter((m) => m.threadId !== action.payload)
       });
     }
     case "RECEIVE_EVENTS": {
       const events = state.events
-        .filter(e => !action.payload.some(newEvent => newEvent.id === e.id))
+        .filter((e) => !action.payload.some((newEvent) => newEvent.id === e.id))
         .concat(action.payload)
         .sort(
           (a, b) =>
             a.timestamp && b.timestamp && isBefore(a.timestamp, b.timestamp)
         )
-        .map(event => ({ ...event, resourceType: "Event" }));
+        .map((event) => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {
         events,
         isEventsFetched: true,
@@ -78,22 +80,24 @@ export default function reducer(state, action) {
     }
     case "DELETE_EVENT": {
       return Object.assign({}, state, {
-        events: state.events.filter(t => t.id !== action.payload),
-        messages: state.messages.filter(m => m.eventId !== action.payload)
+        events: state.events.filter((t) => t.id !== action.payload),
+        messages: state.messages.filter((m) => m.eventId !== action.payload)
       });
     }
     case "RECEIVE_MESSAGES": {
       if (!action.payload) return state;
 
       const messages = state.messages
-        .filter(m => !action.payload.some(newMessage => newMessage.id === m.id))
+        .filter(
+          (m) => !action.payload.some((newMessage) => newMessage.id === m.id)
+        )
         .concat(action.payload)
         .sort((a, b) => isBefore(a.timestamp, b.timestamp));
 
       // Update thread previews. Could probably optimize this.
       const threads = state.threads
-        .map(thread => {
-          action.payload.forEach(message => {
+        .map((thread) => {
+          action.payload.forEach((message) => {
             if (message.parentId === thread.id) {
               if (!thread.preview) {
                 thread.preview = message;
@@ -114,6 +118,13 @@ export default function reducer(state, action) {
         threads
       });
     }
+    case "DELETE_MESSAGES": {
+      return Object.assign({}, state, {
+        messages: state.messages.filter((m) =>
+          action.payload.some((msg) => msg.id !== m.id)
+        )
+      });
+    }
     case "RECEIVE_SELECTED_RESOURCE":
       return Object.assign({}, state, { selectedResourceId: action.payload });
     case "RECEIVE_CONTACTS":
@@ -127,7 +138,7 @@ export default function reducer(state, action) {
       });
     case "REMOVE_CONTACT":
       return Object.assign({}, state, {
-        contacts: state.contacts.filter(c => c.id !== action.payload.id)
+        contacts: state.contacts.filter((c) => c.id !== action.payload.id)
       });
     case "LOGOUT":
       return Object.assign({}, initialState, {

@@ -43,8 +43,8 @@ export default function EventViewer({ event }) {
     let count;
     try {
       count =
-        event.users.filter(u => event.rsvps.some(r => r.id === u.id)).length +
-        1;
+        event.users.filter((u) => event.rsvps.some((r) => r.id === u.id))
+          .length + 1;
     } catch (e) {
       return "";
     }
@@ -123,10 +123,11 @@ export default function EventViewer({ event }) {
         </FloatingPill>
 
         {isLoading && <Ripple />}
-        {messages.map(message => (
+        {messages.map((message) => (
           <Message
             key={message.id}
             message={message}
+            eventId={event.id}
             isAuthor={user.id === message.user.id}
           />
         ))}

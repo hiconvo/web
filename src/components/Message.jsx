@@ -5,6 +5,7 @@ import { format } from "date-fns";
 
 import { Box } from "./styles";
 import Markdown from "./Markdown";
+import DeleteMessageButton from "./DeleteMessageButton";
 import Photo from "./Photo";
 import OpenGraphLink from "./OpenGraphLink";
 
@@ -12,7 +13,7 @@ const Container = styled.div`
   display: inline-block;
   clear: both;
   padding: ${themeGet("space.3")};
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.isAuthor
       ? props.theme.colors.primary100
       : props.theme.colors.veryLightGray};
@@ -26,22 +27,36 @@ const Container = styled.div`
 const Relative = styled.div`
   position: relative;
   display: flex;
-  flex-direction: ${props => (props.isAuthor ? "row-reverse" : "row")};
+  flex-direction: ${(props) => (props.isAuthor ? "row-reverse" : "row")};
 `;
 
 const Metadata = styled.span`
   position: absolute;
+  display: flex;
+  flex-direction: row;
   top: -2rem;
-  ${props => (props.isAuthor ? "right" : "left")}: 1.6rem;
+  ${(props) => (props.isAuthor ? "right" : "left")}: 1.6rem;
   font-size: ${themeGet("fontSizes.0")};
   color: ${themeGet("colors.mediumGray")};
 `;
 
-export default function Message({ message, isAuthor }) {
+export default function Message({ message, threadId, eventId, isAuthor }) {
   return (
     <Box mb={5}>
       <Relative isAuthor={isAuthor}>
         <Metadata isAuthor={isAuthor}>
+          {isAuthor && (
+            <React.Fragment>
+              <DeleteMessageButton
+                threadId={threadId}
+                eventId={eventId}
+                messageId={message.id}
+              />
+              <Box px={1} fontSize="inherit">
+                {" • "}
+              </Box>
+            </React.Fragment>
+          )}
           {message.user.firstName} @{" "}
           {format(new Date(message.timestamp), "MMM d")}
         </Metadata>

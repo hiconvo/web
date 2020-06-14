@@ -56,7 +56,7 @@ export default function ThreadViewer({ thread }) {
   // Animation stuff. A little messy to put it here, but I'm lazy.
   const item = {
     hidden: { opacity: 0 },
-    show: i => ({ opacity: 1, transition: { delay: i * 0.01 } })
+    show: (i) => ({ opacity: 1, transition: { delay: i * 0.01 } })
   };
 
   const topItem = messages[messages.length - 1];
@@ -103,7 +103,11 @@ export default function ThreadViewer({ thread }) {
             initial="hidden"
             animate="show"
           >
-            <Message message={message} isAuthor={user.id === message.user.id} />
+            <Message
+              message={message}
+              threadId={thread.id}
+              isAuthor={user.id === message.user.id}
+            />
           </motion.div>
         ))}
     </motion.div>

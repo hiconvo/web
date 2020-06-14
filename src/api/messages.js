@@ -20,6 +20,17 @@ export function putThreadMessage(threadId, payload) {
 }
 
 /*
+ * @param {string} threadId
+ * @param {string} messageId
+ */
+export function deleteThreadMessage(threadId, messageId) {
+  return apiRequest(`/threads/${threadId}/messages/${messageId}`, {
+    body: {},
+    method: "DELETE"
+  });
+}
+
+/*
  * @param {string} eventId
  */
 export function getEventMessages(eventId) {
@@ -35,5 +46,16 @@ export function putEventMessage(eventId, payload) {
   return apiRequest(`/events/${eventId}/messages`, {
     body: payload,
     method: "POST"
+  });
+}
+
+/*
+ * @param {string} eventId
+ * @param {string} messageId
+ */
+export function deleteEventMessage(eventId, messageId) {
+  return apiRequest(`/events/${eventId}/messages/${messageId}`, {
+    body: {},
+    method: "DELETE"
   });
 }
