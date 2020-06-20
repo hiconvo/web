@@ -60,9 +60,11 @@ export default function Message({ message, threadId, eventId, isAuthor }) {
           {message.user.firstName} @{" "}
           {format(new Date(message.timestamp), "MMM d")}
         </Metadata>
-        <Container isAuthor={isAuthor}>
-          <Markdown text={message.body} fontSize={3} />
-        </Container>
+        {message.body.length > 0 && (
+          <Container isAuthor={isAuthor}>
+            <Markdown text={message.body} fontSize={3} />
+          </Container>
+        )}
       </Relative>
       {message.photos && message.photos.length > 0 && (
         <Box flexDirection={isAuthor ? "row-reverse" : "row"} mt={3}>

@@ -92,24 +92,21 @@ export default function ThreadViewer({ thread }) {
           height="8rem"
         />
       </FloatingPill>
-      {messages
-        .reverse()
-        .slice(1)
-        .map((message, idx) => (
-          <motion.div
-            key={message.id}
-            variants={item}
-            custom={idx}
-            initial="hidden"
-            animate="show"
-          >
-            <Message
-              message={message}
-              threadId={thread.id}
-              isAuthor={user.id === message.user.id}
-            />
-          </motion.div>
-        ))}
+      {messages.slice(0, messages.length - 1).map((message, idx) => (
+        <motion.div
+          key={message.id}
+          variants={item}
+          custom={idx}
+          initial="hidden"
+          animate="show"
+        >
+          <Message
+            message={message}
+            threadId={thread.id}
+            isAuthor={user.id === message.user.id}
+          />
+        </motion.div>
+      ))}
     </motion.div>
   );
 }
