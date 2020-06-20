@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import { Helmet } from "react-helmet";
 
 import { useSelectors, useActions } from "../redux";
 import { getThreadById, getIsThreadsFetched } from "../selectors";
@@ -50,6 +51,9 @@ export default function Thread() {
 
   return (
     <ContainerDualSidebars>
+      <Helmet>
+        <title>{"Convo | " + thread.subject}</title>
+      </Helmet>
       <Box>
         <Box position="fixed" width="28rem">
           <Button onClick={() => history.goBack()} variant="gray" width="100%">

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import { Helmet } from "react-helmet";
 
 import { useSelectors, useActions } from "../redux";
 import { getEventById, getEvents, getIsEventsFetched } from "../selectors";
@@ -96,6 +97,9 @@ export default function Events() {
 
   return (
     <ContainerDualTabletRightSidebars>
+      <Helmet>
+        <title>{"Convo | " + event.name}</title>
+      </Helmet>
       <EventSidebar />
       <Container>
         <EventViewer event={event} />

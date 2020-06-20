@@ -3,6 +3,7 @@ import { useHistory, useLocation } from "react-router";
 import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import { Helmet } from "react-helmet";
 
 import { baseMinHeight } from "./styles";
 import { useSelectors } from "../redux";
@@ -54,6 +55,17 @@ export default function Login() {
   return (
     <CenterContent>
       <Box mb={4} alignItems="center">
+        <Helmet>
+          <title>{next ? "Convo | You're invited" : "Convo"}</title>
+          <meta
+            name="description"
+            content={
+              next
+                ? "Convo is an alternative to Facebook that makes planning events with your real friends easy."
+                : "You've been invited to an event on Convo."
+            }
+          />
+        </Helmet>
         <Heading fontSize={4} fontWeight="semiBold" mb={1}>
           {next ? "You're invited" : "Convo"}
         </Heading>

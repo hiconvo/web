@@ -20,6 +20,7 @@
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0",
     "react-image-crop": "^8.6.1",
     "react-is": "^16.13.1",
     "react-places-autocomplete": "^7.2.1",

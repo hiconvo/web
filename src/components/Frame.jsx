@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import NotificationsManager from "./NotificationsManager";
 import Header from "./Header";
@@ -33,6 +34,9 @@ const Footer = styled.footer`
 export default function Frame({ children }) {
   return (
     <Container>
+      <Helmet>
+        <title>Convo</title>
+      </Helmet>
       <NotificationsManager />
       <Header />
       <Slug />
