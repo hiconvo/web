@@ -29,16 +29,16 @@ const InfoBoxContainer = styled.div`
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
-  transform: ${props =>
+  transform: ${(props) =>
     props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isVisible ? "1" : "0")};
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
   z-index: 30;
 
   display: none;
   ${themeGet("media.tablet")} {
-    display: ${props => (props.isOpen ? "flex" : "none")};
+    display: ${(props) => (props.isOpen ? "flex" : "none")};
   }
 
   ${themeGet("media.phone")} {
@@ -89,22 +89,28 @@ export default function HeaderInfoMenu() {
     <Route
       path={["/convos/:id", "/events/:id"]}
       exact
-      render={() => (
-        <Dropdown
-          renderAnchor={({ onClick }) => (
-            <InfoDropdownButton onClick={onClick} />
-          )}
-        >
-          {({ isOpen, isVisible, handleToggle }) => (
-            <InfoBoxContainer isOpen={isOpen} isVisible={isVisible}>
-              <CloseButton>
-                <Icon onClick={handleToggle} name="close" fontSize={5} />
-              </CloseButton>
-              <ResourceInfoBox position="static" />
-            </InfoBoxContainer>
-          )}
-        </Dropdown>
-      )}
+      render={(routeProps) => {
+        if (routeProps.location.pathname.endsWith("new")) {
+          return null;
+        }
+
+        return (
+          <Dropdown
+            renderAnchor={({ onClick }) => (
+              <InfoDropdownButton onClick={onClick} />
+            )}
+          >
+            {({ isOpen, isVisible, handleToggle }) => (
+              <InfoBoxContainer isOpen={isOpen} isVisible={isVisible}>
+                <CloseButton>
+                  <Icon onClick={handleToggle} name="close" fontSize={5} />
+                </CloseButton>
+                <ResourceInfoBox position="static" />
+              </InfoBoxContainer>
+            )}
+          </Dropdown>
+        );
+      }}
     />
   );
 }
