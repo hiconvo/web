@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
-import isEqual from "lodash/isEqual";
 
-import { useSelectors } from "../redux";
-import { getContacts } from "../selectors";
 import PersonPicker from "./PersonPicker";
 import {
   Dropdown,
@@ -17,16 +14,16 @@ import {
 } from "./styles";
 
 const DropdownItemsContainer = styled.ul`
-  display: ${props => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.isOpen ? "block" : "none")};
   width: 28rem;
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
-  transform: ${props =>
+  transform: ${(props) =>
     props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isVisible ? "1" : "0")};
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
   z-index: 30;
   overflow: hidden;
 `;
@@ -42,11 +39,6 @@ const DropdownLineItem = styled.li`
 
 const OPTIONS = [
   {
-    name: "All your contacts",
-    icon: "people",
-    description: "All your Convo contacts"
-  },
-  {
     name: "Specific people",
     icon: "group_add",
     description: "Only selected people"
@@ -60,15 +52,12 @@ const OPTIONS = [
 
 export default function SharePicker({ members, setMembers }) {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const [contacts] = useSelectors(getContacts);
 
   let selected;
-  if (contacts.length > 0 && isEqual(members, contacts)) {
-    selected = OPTIONS[0];
-  } else if (members.length === 0) {
-    selected = OPTIONS[2];
-  } else {
+  if (members.length === 0) {
     selected = OPTIONS[1];
+  } else {
+    selected = OPTIONS[0];
   }
 
   function generateClickHandler(opt) {
@@ -77,12 +66,9 @@ export default function SharePicker({ members, setMembers }) {
 
       switch (opt.name) {
         case OPTIONS[0].name:
-          setMembers(contacts);
-          break;
-        case OPTIONS[1].name:
           setIsPickerOpen(true);
           break;
-        case OPTIONS[2].name:
+        case OPTIONS[1].name:
           setMembers([]);
           break;
         default:
@@ -90,6 +76,8 @@ export default function SharePicker({ members, setMembers }) {
       }
     };
   }
+
+  const summary = members.map((m) => m.fullName).join(", ");
 
   return (
     <React.Fragment>
@@ -101,10 +89,13 @@ export default function SharePicker({ members, setMembers }) {
             py="0.6rem"
             px="0.8rem"
             mb={0}
+            maxWidth="30rem"
             onClick={onClick}
           >
             <Icon name={selected.icon} mx={1} fontSize={3} />
-            <span>{selected.name}</span>
+            <Text whitespce="nowrap" overflow="hidden" textOverflow="ellipsis">
+              {selected.name === "Specific people" ? summary : selected.name}
+            </Text>
             <Icon name="arrow_drop_down" ml={1} fontSize={3} />
           </Button>
         )}
@@ -115,7 +106,7 @@ export default function SharePicker({ members, setMembers }) {
             isVisible={isVisible}
             onClick={handleToggle}
           >
-            {OPTIONS.map(opt => (
+            {OPTIONS.map((opt) => (
               <DropdownLineItem key={opt.name}>
                 <UnstyledButton
                   onClick={generateClickHandler(opt)}
