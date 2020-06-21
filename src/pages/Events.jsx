@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
@@ -17,8 +17,10 @@ import {
   CenterContent,
   LinkButton,
   Paragraph,
-  Icon
+  Icon,
+  Text
 } from "../components/styles";
+import { errorToString } from "../utils";
 
 const Container = styled.div`
   display: block;
@@ -42,6 +44,7 @@ const fetched = new Set();
 export default function Events() {
   const { id } = useParams();
   const history = useHistory();
+  const [errorMessage, setErrorMessage] = useState("");
   const { fetchEvent } = useActions(unboundEventActions);
   const [isEventsFetched, events, event] = useSelectors(
     getIsEventsFetched,
@@ -50,11 +53,21 @@ export default function Events() {
   );
 
   useEffect(() => {
-    if (id && !event && isEventsFetched && !fetched.has(id)) {
-      fetchEvent(id);
+    async function handleFetchEvent() {
+      if (id && !event && isEventsFetched && !fetched.has(id)) {
+        try {
+          await fetchEvent(id);
+        } catch (e) {
+          setErrorMessage(errorToString(e));
+        } finally {
+          fetched.add(id);
+        }
+      } else if (id && event) {
+        id && fetched.add(id);
+      }
     }
 
-    id && fetched.add(id);
+    handleFetchEvent();
   }, [isEventsFetched, id, fetchEvent, event]);
 
   if (!events.length || !id || !event) {
@@ -90,7 +103,15 @@ export default function Events() {
 
     return (
       <CenterContent>
-        <Ripple />
+        <Box maxWidth="70rem" p={3}>
+          {errorMessage ? (
+            <Text fontSize={3} textAlign="center">
+              {errorMessage}
+            </Text>
+          ) : (
+            <Ripple />
+          )}
+        </Box>
       </CenterContent>
     );
   }

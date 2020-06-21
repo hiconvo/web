@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
@@ -10,7 +10,15 @@ import * as unboundThreadActions from "../actions/threads";
 import { ContainerDualSidebars } from "./styles";
 import ThreadViewer from "../components/ThreadViewer";
 import ThreadInfoBox from "../components/ThreadInfoBox";
-import { Box, Ripple, CenterContent, Button, Icon } from "../components/styles";
+import {
+  Text,
+  Box,
+  Ripple,
+  CenterContent,
+  Button,
+  Icon
+} from "../components/styles";
+import { errorToString } from "../utils";
 
 const Container = styled.div`
   display: block;
@@ -33,6 +41,7 @@ const fetched = new Set();
 export default function Thread() {
   const history = useHistory();
   const { id } = useParams();
+  const [errorMessage, setErrorMessage] = useState("");
   const { fetchThread } = useActions(unboundThreadActions);
   const [thread, isThreadsFetched] = useSelectors(
     getThreadById(id),
@@ -40,18 +49,35 @@ export default function Thread() {
   );
 
   useEffect(() => {
-    if (id && !thread && isThreadsFetched && !fetched.has(id)) {
-      fetchThread(id);
-      fetched.add(id);
-    } else if (id && thread) {
-      fetched.add(id);
+    async function handleFetchThread() {
+      if (id && !thread && isThreadsFetched && !fetched.has(id)) {
+        try {
+          await fetchThread(id);
+        } catch (e) {
+          setErrorMessage(errorToString(e));
+        } finally {
+          fetched.add(id);
+        }
+      } else if (id && thread) {
+        fetched.add(id);
+      }
     }
+
+    handleFetchThread();
   }, [isThreadsFetched, id, fetchThread, thread]);
 
   if (!thread) {
     return (
       <CenterContent>
-        <Ripple />
+        <Box maxWidth="70rem" p={3}>
+          {errorMessage ? (
+            <Text fontSize={3} textAlign="center">
+              {errorMessage}
+            </Text>
+          ) : (
+            <Ripple />
+          )}
+        </Box>
       </CenterContent>
     );
   }

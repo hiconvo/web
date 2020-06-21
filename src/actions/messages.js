@@ -16,7 +16,6 @@ export const fetchThreadMessages = (dispatch) =>
       const response = await API.getThreadMessages(threadId);
       dispatch({ type: "RECEIVE_MESSAGES", payload: response.messages });
     } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
   };
@@ -79,7 +78,6 @@ export const fetchEventMessages = (dispatch) =>
       const response = await API.getEventMessages(eventId);
       dispatch({ type: "RECEIVE_MESSAGES", payload: response.messages });
     } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
   };

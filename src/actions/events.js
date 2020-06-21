@@ -40,7 +40,6 @@ export const fetchEvent = (dispatch) =>
         payload: [response]
       });
     } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
   };

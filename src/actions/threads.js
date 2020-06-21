@@ -7,7 +7,7 @@ import { errorToString } from "../utils";
  * @param {function} dispatch
  * @returns {function}
  */
-export const fetchThreads = dispatch =>
+export const fetchThreads = (dispatch) =>
   /*
    * @returns {undefined}
    */
@@ -29,11 +29,11 @@ export const fetchThreads = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const fetchThread = dispatch =>
+export const fetchThread = (dispatch) =>
   /*
    * @returns {undefined}
    */
-  async id => {
+  async (id) => {
     try {
       const response = await API.getThread(id);
       dispatch({
@@ -41,7 +41,6 @@ export const fetchThread = dispatch =>
         payload: [response]
       });
     } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
   };
@@ -50,7 +49,7 @@ export const fetchThread = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const createThread = dispatch =>
+export const createThread = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.subject
@@ -59,7 +58,7 @@ export const createThread = dispatch =>
    * @param {string} payload.blob
    * @returns {Object} Thread
    */
-  async payload => {
+  async (payload) => {
     let thread;
     try {
       thread = await API.createThread({
@@ -95,14 +94,14 @@ export const createThread = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const updateThread = dispatch =>
+export const updateThread = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.id
    * @param {string} payload.subject
    * @returns {Object} Thread
    */
-  async payload => {
+  async (payload) => {
     let thread;
     try {
       thread = await API.updateThread(payload.id, { subject: payload.subject });
@@ -123,14 +122,14 @@ export const updateThread = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const addUserToThread = dispatch =>
+export const addUserToThread = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.thread
    * @param {Object} payload.user
    * @returns {Object} Thread
    */
-  async payload => {
+  async (payload) => {
     let thread;
     try {
       thread = await API.addUserToThread(payload.thread.id, payload.user.id);
@@ -154,7 +153,7 @@ export const addUserToThread = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const removeUserFromThread = dispatch =>
+export const removeUserFromThread = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.thread
@@ -162,7 +161,7 @@ export const removeUserFromThread = dispatch =>
    * @param {bool} payload.removeThread
    * @returns {Object} Thread
    */
-  async payload => {
+  async (payload) => {
     let thread;
     try {
       thread = await API.removeUserFromThread(
@@ -198,13 +197,13 @@ export const removeUserFromThread = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const deleteThread = dispatch =>
+export const deleteThread = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {Object} payload.thread
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       await API.deleteThread(payload.thread.id);
       dispatch({
@@ -225,12 +224,12 @@ export const deleteThread = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const markThreadAsRead = dispatch =>
+export const markThreadAsRead = (dispatch) =>
   /*
    * @param {Object} payload.id
    * @returns {Object} Thread
    */
-  async payload => {
+  async (payload) => {
     let thread;
     try {
       thread = await API.markAsRead(payload.id);
