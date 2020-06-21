@@ -11,7 +11,8 @@ import {
   Text,
   Button,
   Avatar,
-  Icon
+  Icon,
+  Checkbox
 } from "../components/styles";
 import UploadAvatarFormButton from "../components/UploadAvatarFormButton";
 import EmailSettings from "../components/EmailSettings";
@@ -59,11 +60,18 @@ export default function Settings() {
   const [user] = useSelectors(getUser);
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
+  const [sendDigest, setSendDigest] = useState(user.sendDigest);
+  const [sendEvents, setSendEvents] = useState(user.sendEvents);
   const { updateUser, sendResetPasswordEmail } = useActions(unboundActions);
 
   const hasMadeChanges = [
     [firstName, user.firstName],
     [lastName, user.lastName]
+  ].some(([a, b]) => a !== b);
+
+  const hasMadeEmailChanges = [
+    [sendDigest, user.sendDigest],
+    [sendEvents, user.sendEvents]
   ].some(([a, b]) => a !== b);
 
   function handleUpdateUser(e) {
@@ -72,6 +80,15 @@ export default function Settings() {
     updateUser({
       firstName,
       lastName
+    });
+  }
+
+  function handleUpdateEmailSettings(e) {
+    e.preventDefault();
+
+    updateUser({
+      sendDigest,
+      sendEvents
     });
   }
 
@@ -103,17 +120,47 @@ export default function Settings() {
           <Input
             name="First name"
             value={firstName}
-            onChange={e => setFirstName(e.target.value)}
+            onChange={(e) => setFirstName(e.target.value)}
           />
           <Input
             name="Last name"
             value={lastName}
-            onChange={e => setLastName(e.target.value)}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </Box>
       </Section>
 
       <EmailSettings />
+
+      <Section>
+        <Box as="form" onSubmit={handleUpdateEmailSettings}>
+          <Group>
+            <Heading as="h2" fontSize={4} fontWeight="semiBold" mb="0">
+              Emails you receive
+            </Heading>
+            <SettingsButton
+              onClick={handleUpdateEmailSettings}
+              iconName="save_alt"
+              text="Save changes"
+              variant={hasMadeEmailChanges ? "brand" : "tertiary"}
+            />
+          </Group>
+          <Box mb={3}>
+            <Checkbox
+              value={sendDigest}
+              onChange={() => setSendDigest(!sendDigest)}
+              name="Digest"
+            />
+          </Box>
+          <Box>
+            <Checkbox
+              value={sendEvents}
+              onChange={() => setSendEvents(!sendEvents)}
+              name="Event invitations & cancellations"
+            />
+          </Box>
+        </Box>
+      </Section>
 
       <Section>
         <Heading as="h2" fontSize={4} fontWeight="semiBold" mb={1}>

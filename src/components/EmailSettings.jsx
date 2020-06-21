@@ -78,7 +78,7 @@ export default function EmailSettings() {
                 name="Email"
                 value={email}
                 placeholder="your@email.com"
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <Button
                 variant="primary"
@@ -93,8 +93,8 @@ export default function EmailSettings() {
           </li>
         )}
         {!!user.emails &&
-          user.emails.map(email => (
-            <Box as="li" mb={3}>
+          user.emails.map((email) => (
+            <Box as="li" mb={3} key={email}>
               <Box
                 flexDirection="row"
                 justifyContent="space-between"
@@ -136,7 +136,8 @@ export default function EmailSettings() {
               </Box>
             </Box>
           ))}
-        {(!user.emails || !user.emails.some(email => email === user.email)) && (
+        {(!user.emails ||
+          !user.emails.some((email) => email === user.email)) && (
           <Box as="li" flexDirection="row" justifyContent="space-between">
             <Text>{user.email}</Text>
             <SettingsButton
