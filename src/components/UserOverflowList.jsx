@@ -27,7 +27,7 @@ const MAX_LENGTH = 4;
 export default function UserOverflowList({
   maxLength = MAX_LENGTH,
   users = [],
-  transformUserProps = p => p,
+  transformUserProps = (p) => p,
   renderExtraChildren = () => {}
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +38,8 @@ export default function UserOverflowList({
 
   return (
     <Box as="ul" mb={4}>
-      {users.slice(0, maxLength).map(user => (
+      {users.length == 0 && <Text color="gray">No one is here yet</Text>}
+      {users.slice(0, maxLength).map((user) => (
         <InfoBoxMemberItem
           {...transformUserProps({
             user,
