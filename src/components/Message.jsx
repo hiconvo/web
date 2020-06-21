@@ -72,7 +72,12 @@ export default function Message({ message, threadId, eventId, isAuthor }) {
         </Box>
       )}
       {message.link && (
-        <Box flexDirection={isAuthor ? "row-reverse" : "row"} mt={3}>
+        <Box
+          flexDirection={isAuthor ? "row-reverse" : "row"}
+          alignSelf={isAuthor ? "flex-end" : "flex-start"}
+          mt={3}
+          maxWidth="40rem"
+        >
           <OpenGraphLink link={message.link} />
         </Box>
       )}
