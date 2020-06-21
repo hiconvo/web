@@ -11,6 +11,7 @@ import Map from "./Map";
 import MessageComposer from "./MessageComposer";
 import RsvpPanel from "./RsvpPanel";
 import Message from "./Message";
+import { videoChatPlaces } from "./PlacePicker";
 import { useReadReporting } from "../hooks";
 import { FloatingPill, Text, Heading, Icon, Box, Ripple } from "./styles";
 
@@ -23,6 +24,9 @@ export default function EventViewer({ event }) {
 
   const [user, messages] = useSelectors(getUser, getMessagesByThreadId(id));
   const hasMessages = messages.length > 0;
+  const isVideoPlace = videoChatPlaces
+    .map((p) => p.placeId)
+    .includes(event.placeId);
 
   useEffect(() => {
     async function handleFetchMessages() {
@@ -87,9 +91,11 @@ export default function EventViewer({ event }) {
                   rel="noopener noreferrer"
                 >
                   <Text>{event.address}</Text>
-                  <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
-                    Get directions <Icon name="call_made" fontSize={1} />
-                  </Text>
+                  {!isVideoPlace && (
+                    <Text color="gray" fontSize={1} ml={2} whiteSpace="nowrap">
+                      Get directions <Icon name="call_made" fontSize={1} />
+                    </Text>
+                  )}
                 </a>
               </Box>
             </Box>
@@ -103,9 +109,13 @@ export default function EventViewer({ event }) {
 
           <RsvpPanel event={event} />
 
-          <Map placeId={event.placeId} lat={event.lat} lng={event.lng} />
+          {!isVideoPlace && (
+            <Box mb={4}>
+              <Map placeId={event.placeId} lat={event.lat} lng={event.lng} />
+            </Box>
+          )}
 
-          <Box mt="2.4rem" mb={2} overflow="hidden">
+          <Box mb={3} overflow="hidden">
             <Markdown
               text={
                 event.description || "This event did not include a description."

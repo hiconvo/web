@@ -16,7 +16,7 @@ import { useActions } from "../redux";
 import * as unboundEventActions from "../actions/events";
 import * as unboundNotifActions from "../actions/notifications";
 import MultiMemberPickerField from "./MultiMemberPickerField";
-import PlacePicker from "./PlacePicker";
+import PlacePicker, { videoChatPlaces } from "./PlacePicker";
 import RegisterWarning from "./RegisterWarning";
 import Map from "./Map";
 import {
@@ -108,6 +108,7 @@ export default function EventForm({ event }) {
         timestamp: getISOFromDateTime(values.date, values.time),
         guestsCanInvite: values.guestsCanInvite,
         hosts: values.hosts,
+        utcOffset: new Date().getTimezoneOffset(),
         ...rest
       };
 
@@ -163,9 +164,13 @@ export default function EventForm({ event }) {
         }
       />
 
-      <Box mt={2} mb={3} tabIndex="-1">
-        <Map placeId={formik.values.placeId} noLink />
-      </Box>
+      {!videoChatPlaces
+        .map((p) => p.placeId)
+        .includes(formik.values.placeId) && (
+        <Box mt={2} mb={3} tabIndex="-1">
+          <Map placeId={formik.values.placeId} noLink />
+        </Box>
+      )}
 
       <Box
         flexDirection={["column", "row"]}

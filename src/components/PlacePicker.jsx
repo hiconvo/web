@@ -9,6 +9,15 @@ import {
   AutoCompleteDropDown
 } from "./styles";
 
+export const videoChatPlaces = [
+  { description: "Zoom", placeId: "zoom" },
+  { description: "FaceTime", placeId: "facetime" },
+  { description: "WhatsApp", placeId: "whatsapp" },
+  { description: "Skype", placeId: "skype" },
+  { description: "Google Hangouts", placeId: "googlehangouts" },
+  { description: "Other", placeId: "other" }
+];
+
 function DropDownItem({ suggestion, ...rest }) {
   return (
     <li {...rest}>
@@ -47,7 +56,14 @@ export default function PlacePicker({
           />
           <Box position="absolute" left="0" top="100%">
             <AutoCompleteDropDown isOpen={suggestions.length > 0}>
-              {suggestions.map(suggestion => (
+              {suggestions.map((suggestion) => (
+                <DropDownItem
+                  suggestion={suggestion}
+                  key={suggestion.id}
+                  {...getSuggestionItemProps(suggestion)}
+                />
+              ))}
+              {videoChatPlaces.map((suggestion) => (
                 <DropDownItem
                   suggestion={suggestion}
                   key={suggestion.id}
