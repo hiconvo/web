@@ -6,6 +6,9 @@ import { themeGet } from "@styled-system/theme-get";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import * as Sentry from "@sentry/browser";
 
+import { useActions } from "../redux";
+import * as unboundMessageActions from "../actions/messages";
+import * as unboundEventActions from "../actions/events";
 import { useSelectors } from "../redux";
 import { getUser, getIsLoggedIn } from "../selectors";
 import { Dropdown, Text, Box, UnstyledButton, Icon } from "./styles";
@@ -124,6 +127,9 @@ let client, feed;
 
 export default function RealtimeNotifications() {
   const history = useHistory();
+  const { fetchEvent } = useActions(unboundEventActions);
+  const { fetchThreadMessages } = useActions(unboundMessageActions);
+  const { fetchEventMessages } = useActions(unboundMessageActions);
   const [isLoggedIn, user] = useSelectors(getIsLoggedIn, getUser);
   const [notifs, setNotifs] = useState([]);
   const subscription = useRef(null);
@@ -136,8 +142,11 @@ export default function RealtimeNotifications() {
   function handleNotifClick({ object }) {
     const [resourceType, id] = object.split(":");
     if (resourceType === "event") {
+      fetchEvent(id);
+      fetchEventMessages(id);
       history.push(`/events/${id}`);
     } else if (resourceType === "thread") {
+      fetchThreadMessages(id);
       history.push(`/convos/${id}`);
     }
   }
