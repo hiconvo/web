@@ -63,7 +63,11 @@ export default function Thread() {
       </Helmet>
       <Box>
         <Box position="fixed" width="28rem">
-          <Button onClick={() => history.goBack()} variant="gray" width="100%">
+          <Button
+            onClick={() => history.push("/convos")}
+            variant="gray"
+            width="100%"
+          >
             <Icon name="keyboard_backspace" mr={1} fontSize={3} />
             Go back
           </Button>
