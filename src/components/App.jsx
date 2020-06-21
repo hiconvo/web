@@ -22,6 +22,7 @@ import Rsvp from "../pages/Rsvp";
 import Feed from "../pages/Feed";
 import Magic from "../pages/Magic";
 import MagicInvite from "../pages/MagicInvite";
+import Unsubscribe from "../pages/Unsubscribe";
 
 const ModalBackground = styled(BaseModalBackground).attrs((props) => ({
   ...props,
@@ -64,6 +65,11 @@ export default function App() {
                       path="/invite/:key/:timestamp/:signature"
                       exact
                       component={MagicInvite}
+                    />
+                    <Route
+                      path="/unsubscribe/:key/:timestamp/:signature"
+                      exact
+                      component={Unsubscribe}
                     />
                     <AuthorizedRoute
                       path="/convos/new"

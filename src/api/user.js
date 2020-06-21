@@ -114,3 +114,16 @@ export function getUser(id) {
     method: "GET"
   });
 }
+
+/*
+ * @param {Object} payload
+ * @param {string} payload.userId
+ * @param {string} payload.timestamp
+ * @param {string} payload.signature
+ */
+export function magicUnsubscribe(payload) {
+  return apiRequest(`/users/unsubscribe`, {
+    body: payload,
+    method: "POST"
+  });
+}

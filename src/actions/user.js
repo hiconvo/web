@@ -6,7 +6,7 @@ import { errorToString } from "../utils";
  * @param {function} dispatch
  * @returns {function}
  */
-export const updateUser = dispatch =>
+export const updateUser = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.email
@@ -15,7 +15,7 @@ export const updateUser = dispatch =>
    * @param {bool} payload.password
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.updateUser(payload);
       dispatch({
@@ -33,13 +33,13 @@ export const updateUser = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const addEmail = dispatch =>
+export const addEmail = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.email
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.addEmail(payload);
       dispatch({
@@ -60,13 +60,13 @@ export const addEmail = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const removeEmail = dispatch =>
+export const removeEmail = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.email
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.removeEmail(payload);
       dispatch({
@@ -87,13 +87,13 @@ export const removeEmail = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const makeEmailPrimary = dispatch =>
+export const makeEmailPrimary = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.email
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.makeEmailPrimary(payload);
       dispatch({
@@ -114,7 +114,7 @@ export const makeEmailPrimary = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const sendResetPasswordEmail = dispatch =>
+export const sendResetPasswordEmail = (dispatch) =>
   /*
    * @returns {undefined}
    */
@@ -139,7 +139,7 @@ export const sendResetPasswordEmail = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const sendVerifyEmail = dispatch =>
+export const sendVerifyEmail = (dispatch) =>
   /*
    * @returns {undefined}
    */
@@ -161,7 +161,7 @@ export const sendVerifyEmail = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const verifyEmail = dispatch =>
+export const verifyEmail = (dispatch) =>
   /*
    * Verifies email and logs in user if successful
    *
@@ -171,7 +171,7 @@ export const verifyEmail = dispatch =>
    * @param {string} payload.userID
    * @returns {string} email
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.verifyEmail(payload);
       localStorage.setItem("userToken", user.token);
@@ -192,7 +192,7 @@ export const verifyEmail = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const resetPassword = dispatch =>
+export const resetPassword = (dispatch) =>
   /*
    * Resets password and logs in user if successful
    *
@@ -203,7 +203,7 @@ export const resetPassword = dispatch =>
    * @param {string} payload.password
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.resetPassword(payload);
       localStorage.setItem("userToken", user.token);
@@ -224,7 +224,7 @@ export const resetPassword = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const forgotPassword = dispatch =>
+export const forgotPassword = (dispatch) =>
   /*
    * ForgotPassword send an email to the user whose email
    * matches with a link to set their password.
@@ -233,7 +233,7 @@ export const forgotPassword = dispatch =>
    * @param {string} payload.email
    * @returns {Object} response
    */
-  async payload => {
+  async (payload) => {
     try {
       const response = await API.forgotPassword(payload);
       return response;
@@ -250,7 +250,7 @@ export const forgotPassword = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const uploadAvatar = dispatch =>
+export const uploadAvatar = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.blob
@@ -259,7 +259,7 @@ export const uploadAvatar = dispatch =>
    * @param {string} payload.size
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.uploadAvatar(payload);
       dispatch({
@@ -272,6 +272,31 @@ export const uploadAvatar = dispatch =>
       });
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
+export const magicUnsubscribe = (dispatch) =>
+  /*
+   * @param {Object} payload
+   * @param {string} payload.userId
+   * @param {string} payload.timestamp
+   * @param {string} payload.signature
+   * @returns {undefined}
+   */
+  async (payload) => {
+    try {
+      const resp = await API.magicUnsubscribe(payload);
+      return resp;
+    } catch (e) {
+      dispatchNotification(dispatch)({
+        type: "ERROR",
+        message: errorToString(e)
+      });
       return Promise.reject(e);
     }
   };
