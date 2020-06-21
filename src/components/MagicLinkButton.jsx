@@ -97,7 +97,12 @@ export default function MagicLinkButton({ render, user, event }) {
             </Text>
           </Paragraph>
           <Box mb={2} onClick={handleLinkClick}>
-            <Input value={magicLink} onChange={() => {}} ref={inputRef} />
+            <Input
+              value={magicLink}
+              onChange={() => {}}
+              ref={inputRef}
+              readonly
+            />
           </Box>
           <Paragraph>
             If your link gets into the wrong hands, you can click the{" "}
