@@ -18,13 +18,13 @@ export default function UpcomingEventsSidebar() {
         <Paragraph fontSize={1}>
           You don't have any upcoming events right now.{" "}
           <Link to="/events/new">
-            <Text color="gray" fontSize={1} fontWeight="semiBold">
+            <Text color="primary900" fontSize={1} fontWeight="semiBold">
               Create an event <Icon name="call_made" fontSize={1} />
             </Text>
           </Link>
         </Paragraph>
       ) : (
-        events.map(event => (
+        events.map((event) => (
           <Link key={event.id} to={`/events/${event.id}`}>
             <Box flexDirection="row" alignItems="center" py={2}>
               <Box flexShrink="0">

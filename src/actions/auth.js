@@ -17,7 +17,7 @@ function handleAuthError(e, dispatch) {
  * @param {function} dispatch
  * @returns {function}
  */
-export const loginUserWithToken = dispatch =>
+export const loginUserWithToken = (dispatch) =>
   /*
    * @returns {undefined}
    */
@@ -41,14 +41,14 @@ export const loginUserWithToken = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const loginUserWithAuth = dispatch =>
+export const loginUserWithAuth = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.email
    * @param {string} payload.password
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const maybeUser = await API.authenticate(payload);
       if (maybeUser.id) {
@@ -74,14 +74,14 @@ export const loginUserWithAuth = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const loginUserWithOAuth = dispatch =>
+export const loginUserWithOAuth = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.token
    * @param {string} payload.provider
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const oldToken = localStorage.getItem("userToken");
 
@@ -113,7 +113,7 @@ export const loginUserWithOAuth = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const magicLogin = dispatch =>
+export const magicLogin = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.userId
@@ -121,7 +121,7 @@ export const magicLogin = dispatch =>
    * @param {string} payload.signature
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const oldToken = localStorage.getItem("userToken");
 
@@ -145,7 +145,7 @@ export const magicLogin = dispatch =>
         });
       }
     } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
     }
   };
 
@@ -153,14 +153,14 @@ export const magicLogin = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const logoutUser = dispatch =>
+export const logoutUser = (dispatch) =>
   /*
    * @returns {undefined}
    */
   () => {
     localStorage.clear();
     setHasEnabledGoogleContacts(false);
-    getGapiAuth2().then(authInstance => {
+    getGapiAuth2().then((authInstance) => {
       if (authInstance.isSignedIn.get()) {
         authInstance.signOut();
       }
@@ -172,7 +172,7 @@ export const logoutUser = dispatch =>
  * @param {function} dispatch
  * @returns {function}
  */
-export const registerUser = dispatch =>
+export const registerUser = (dispatch) =>
   /*
    * @param {Object} payload
    * @param {string} payload.email
@@ -181,7 +181,7 @@ export const registerUser = dispatch =>
    * @param {string} [payload.lastName]
    * @returns {undefined}
    */
-  async payload => {
+  async (payload) => {
     try {
       const user = await API.createUser(payload);
       if (user.message) {
