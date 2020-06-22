@@ -38,7 +38,6 @@ export default function UserOverflowList({
 
   return (
     <Box as="ul" mb={4}>
-      {users.length === 0 && <Text color="gray">No one is here yet</Text>}
       {users.slice(0, maxLength).map((user) => (
         <InfoBoxMemberItem
           {...transformUserProps({

@@ -10,7 +10,7 @@ import LeaveEventButton from "./LeaveEventButton";
 import UserOverflowList from "./UserOverflowList";
 import MagicLinkButton from "./MagicLinkButton";
 import { getUser } from "../selectors";
-import { Box, Heading } from "./styles";
+import { Box, Heading, Text } from "./styles";
 import { Label, Action } from "./styles/InfoBox";
 
 export default function EventInfoBox({ event }) {
@@ -63,15 +63,20 @@ export default function EventInfoBox({ event }) {
           isChecked:
             event.rsvps && event.rsvps.some((rsvp) => rsvp.id === props.user.id)
         })}
-        renderExtraChildren={() =>
-          isGuestEditing && (
-            <AddUserForm
-              resourceType={event.resourceType}
-              resource={event}
-              onBlur={() => setIsGuestEditing(false)}
-            />
-          )
-        }
+        renderExtraChildren={() => (
+          <React.Fragment>
+            {isGuestEditing && (
+              <AddUserForm
+                resourceType={event.resourceType}
+                resource={event}
+                onBlur={() => setIsGuestEditing(false)}
+              />
+            )}
+            {event.users.length <= 1 && (
+              <Text color="gray">No one is here yet</Text>
+            )}
+          </React.Fragment>
+        )}
       />
 
       <Label>Actions</Label>
