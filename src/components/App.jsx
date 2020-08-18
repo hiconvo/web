@@ -10,6 +10,7 @@ import DataLoader from "./DataLoader";
 import Frame from "./Frame";
 import Login from "../pages/Login";
 import Events from "../pages/Events";
+import Links from "../pages/Links";
 import NewEvent from "../pages/NewEvent";
 import Thread from "../pages/Thread";
 import NewThread from "../pages/NewThread";
@@ -98,6 +99,7 @@ export default function App() {
                       component={Events}
                     />
                     <AuthorizedRoute path="/events" exact component={Events} />
+                    <AuthorizedRoute path="/links" exact component={Links} />
                     <AuthorizedRoute
                       path="/contacts"
                       exact

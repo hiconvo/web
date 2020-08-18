@@ -44,6 +44,10 @@ export function getContacts(store) {
   return store.contacts;
 }
 
+export function getNotes(store) {
+  return store.notes;
+}
+
 export function getIsContactsFetched(store) {
   return store.isContactsFetched;
 }
@@ -56,6 +60,10 @@ export function getIsEventsFetched(store) {
   return store.isEventsFetched;
 }
 
+export function getIsNotesFetched(store) {
+  return store.isNotesFetched;
+}
+
 export function getThreadsPageNum(store) {
   return store.threadsPageNum;
 }
@@ -64,12 +72,20 @@ export function getEventsPageNum(store) {
   return store.eventsPageNum;
 }
 
+export function getNotesPageNum(store) {
+  return store.notesPageNum;
+}
+
 export function getIsThreadsExhausted(store) {
   return store.isThreadsExhausted;
 }
 
 export function getIsEventsExhausted(store) {
   return store.isEventsExhausted;
+}
+
+export function getIsNotesExhausted(store) {
+  return store.isNotesExhausted;
 }
 
 export const getThreadsPageInfo = createSelector(

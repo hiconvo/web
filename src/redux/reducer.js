@@ -8,13 +8,17 @@ export const initialState = {
   events: [],
   messages: [],
   contacts: [],
+  notes: [],
   isContactsFetched: false,
   isThreadsFetched: false,
   isEventsFetched: false,
+  isNotesFetched: false,
   threadsPageNum: 0,
   eventsPageNum: 0,
+  notesPageNum: 0,
   isThreadsExhausted: false,
-  isEventsExhausted: false
+  isEventsExhausted: false,
+  isNotesExhausted: false
 };
 
 export default function reducer(state, action) {
@@ -144,6 +148,27 @@ export default function reducer(state, action) {
       return Object.assign({}, initialState, {
         loading: { global: false }
       });
+    case "RECEIVE_NOTES": {
+      const notes = state.notes
+        .filter((n) => !action.payload.some((newNote) => newNote.id === n.id))
+        .concat(action.payload)
+        .sort((a, b) => isBefore(a.createdAt, b.createdAt))
+        .map((note) => ({
+          ...note,
+          resourceType: "Note"
+        }));
+      return Object.assign({}, state, {
+        notes,
+        isNotesFetched: true,
+        notesPageNum: action.pageNumber || state.notessPageNum,
+        isNotesExhausted: action.payload.length === 0
+      });
+    }
+    case "DELETE_NOTE": {
+      return Object.assign({}, state, {
+        notes: state.notes.filter((n) => n.id !== action.payload)
+      });
+    }
     case "RECEIVE_LOADING_STATE":
       return Object.assign({}, state, { ...state.loading, ...action.payload });
     default:
