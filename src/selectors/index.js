@@ -166,3 +166,15 @@ export const getEventsByDate = createSelector(getEvents, (events) =>
     return acc;
   }, {})
 );
+
+export const getNotesByDay = createSelector(getNotes, (notes) =>
+  notes.reduce((acc, cur) => {
+    const date = isoDateToString(cur.createdAt);
+    if (acc[date]) {
+      acc[date].push(cur);
+    } else {
+      acc[date] = [cur];
+    }
+    return acc;
+  }, {})
+);
