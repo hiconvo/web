@@ -1,0 +1,158 @@
+import React from "react";
+import styled from "styled-components";
+import { useParams, useHistory } from "react-router";
+
+import { useSelectors } from "../redux";
+import useFormik from "../hooks/formik";
+import { useActions } from "../redux";
+import { getNoteById } from "../selectors";
+import * as unboundNoteActions from "../actions/notes";
+import * as unboundNotifActions from "../actions/notifications";
+import {
+  Heading,
+  Text,
+  Input,
+  TextArea,
+  Box,
+  Ripple,
+  CenterContent,
+  LinkButton,
+  Button
+} from "../components/styles";
+
+const Container = styled.div`
+  max-width: 80rem;
+  margin: auto;
+`;
+
+export default function UpdateLink() {
+  const history = useHistory();
+  const { id } = useParams();
+  const [note] = useSelectors(getNoteById(id));
+  const { updateNote } = useActions(unboundNoteActions);
+  const { dispatchNotification } = useActions(unboundNotifActions);
+  const formik = useFormik({
+    formId: undefined,
+    initialValues: {
+      name: (note && note.name) || "",
+      body: (note && note.body) || "",
+      url: (note && note.url) || "",
+      favicon: (note && note.favicon) || ""
+    },
+    validate: (payload) => {
+      if (!payload.name) {
+        return { message: "Please give your link a name" };
+      } else if (!payload.url) {
+        return { message: "Please give your link a URL" };
+      }
+    },
+    onSubmit: async (values, { setSubmitting, errors }) => {
+      if (errors && errors.message) {
+        return dispatchNotification({ message: errors.message });
+      }
+
+      setSubmitting(true);
+
+      try {
+        await updateNote({ id: note.id, ...values });
+      } catch (e) {
+        return;
+      } finally {
+        setSubmitting(false);
+      }
+
+      history.push(`/links`);
+    }
+  });
+
+  if ((id && !note) || !formik.values) {
+    return (
+      <CenterContent>
+        <Ripple />
+      </CenterContent>
+    );
+  }
+
+  return (
+    <Container>
+      <Heading fontSize={4} color="darkGray">
+        Update link
+      </Heading>
+      <Box>
+        <Input
+          type="text"
+          name="Name"
+          tabIndex="1"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          isDisabled={formik.isSubmitting}
+          required
+          maxLength="255"
+          fontSize={2}
+          placeholder="Give your link a name"
+        />
+        <Input
+          type="text"
+          name="URL"
+          tabIndex="2"
+          value={formik.values.url}
+          onChange={formik.handleChange}
+          isDisabled={formik.isSubmitting}
+          required
+          maxLength="1023"
+          fontSize={2}
+          placeholder="https://convo.events"
+          fontFamily="mono"
+        />
+        <Input
+          type="text"
+          name="Favicon"
+          tabIndex="3"
+          value={formik.values.favicon}
+          onChange={formik.handleChange}
+          isDisabled={formik.isSubmitting}
+          maxLength="1023"
+          fontSize={2}
+          placeholder="https://convo.events/favicon.ico"
+          fontFamily="mono"
+        />
+        <Box mb={3} py={1}>
+          <Text fontSize={1} mb={1}>
+            Note
+          </Text>
+          <TextArea
+            name="body"
+            tabIndex="4"
+            value={formik.values.body}
+            onChange={formik.handleChange}
+            isDisabled={formik.isSubmitting}
+            maxLength="3071"
+            fontSize={2}
+            placeholder="Add a note..."
+          />
+        </Box>
+        <Box justifyContent="space-between" flexDirection="row">
+          <Box>
+            <Button variant="secondary">Delete</Button>
+          </Box>
+          <Box flexDirection="row">
+            <LinkButton to="/links" variant="secondary">
+              Cancel
+            </LinkButton>
+
+            <Button
+              type="submit"
+              tabIndex="5"
+              onClick={formik.handleSubmit}
+              isLoading={formik.isSubmitting}
+              ml="1rem"
+              width="16rem"
+            >
+              Save
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Container>
+  );
+}

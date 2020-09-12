@@ -85,7 +85,7 @@ export default function SharePicker({ members, setMembers }) {
         renderAnchor={({ onClick }) => (
           <Button
             variant="secondary"
-            p={0}
+            padding={0}
             py="0.6rem"
             px="0.8rem"
             mb={0}

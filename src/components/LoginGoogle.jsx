@@ -4,7 +4,7 @@ import { getGapiAuth2 } from "../utils/gapi";
 import { useActions } from "../redux";
 import * as unboundAuthActions from "../actions/auth";
 import * as unboundNotificationActions from "../actions/notifications";
-import { Box, Button } from "./styles";
+import { Box, Button, Text } from "./styles";
 
 import googleLogo from "../media/google-logo.svg";
 
@@ -66,7 +66,9 @@ export default function LoginGoogle() {
       color="bodytext"
     >
       <Box as="img" src={googleLogo} width="2.2rem" mr={2} />
-      Continue with Google
+      <Text fontWeight="inherit" color="inherit">
+        Continue with Google
+      </Text>
     </Button>
   );
 }

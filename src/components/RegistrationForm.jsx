@@ -61,21 +61,21 @@ export default function RegistrationForm() {
       <Input
         name="First name"
         value={firstName}
-        onChange={e => setFirstName(e.target.value)}
+        onChange={(e) => setFirstName(e.target.value)}
         error={authErrors.firstName}
         required
       />
       <Input
         name="Last name"
         value={lastName}
-        onChange={e => setLastName(e.target.value)}
+        onChange={(e) => setLastName(e.target.value)}
         error={authErrors.lastName}
       />
       <Input
         name="Email"
         type="email"
         value={email}
-        onChange={e => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
         error={authErrors.email}
         required
       />
@@ -83,12 +83,18 @@ export default function RegistrationForm() {
         name="Password"
         type="password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
         error={authErrors.password}
         required
         mb={4}
       />
-      <Button mt={2} mb={4} type="submit" isLoading={isLoading}>
+      <Button
+        variant="primary"
+        mt={2}
+        mb={4}
+        type="submit"
+        isLoading={isLoading}
+      >
         Sign up
       </Button>
       <LinkButton to="/login/email" textAlign="center" fontSize={1}>

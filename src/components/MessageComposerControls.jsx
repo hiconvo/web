@@ -48,7 +48,9 @@ export default function ComposerControls({
         width="auto"
         type="submit"
       >
-        <span>Send</span>
+        <Text fontWeight="inherit" color="inherit">
+          Send
+        </Text>
         <Icon name="send" ml={1} fontSize="2.0rem" />
       </Button>
     </Box>

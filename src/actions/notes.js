@@ -74,6 +74,33 @@ export const createNote = (dispatch) =>
  * @param {function} dispatch
  * @returns {function}
  */
+export const updateNote = (dispatch) =>
+  /*
+   * @param {Object} payload
+   * @param {Object} payload.id
+   * @param {string} [payload.name]
+   * @param {string} [payload.body]
+   * @param {string} [payload.url]
+   * @param {string} [payload.favicon]
+   * @returns {Object} Note
+   */
+  async (payload) => {
+    try {
+      const note = await API.updateNote(payload.id, payload);
+      dispatch({
+        type: "RECEIVE_NOTES",
+        payload: [note]
+      });
+    } catch (e) {
+      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
+      return Promise.reject(e);
+    }
+  };
+
+/*
+ * @param {function} dispatch
+ * @returns {function}
+ */
 export const deleteNote = (dispatch) =>
   /*
    * @param {Object} payload

@@ -37,7 +37,12 @@ export default function ConfirmationModal({
           <Button onClick={onCancel} mr={3} variant="secondary" width="16rem">
             Cancel
           </Button>
-          <Button onClick={onConfirm} isLoading={isLoading} width="16rem">
+          <Button
+            variant="primary"
+            onClick={onConfirm}
+            isLoading={isLoading}
+            width="16rem"
+          >
             Confirm
           </Button>
         </Box>

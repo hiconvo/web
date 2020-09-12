@@ -39,11 +39,17 @@ export default function ForgotPassword() {
           name="Email"
           type="email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
           mb={2}
         />
-        <Button mt={2} mb={4} type="submit" isLoading={isLoading}>
+        <Button
+          variant="primary"
+          mt={2}
+          mb={4}
+          type="submit"
+          isLoading={isLoading}
+        >
           Reset my password
         </Button>
       </Box>

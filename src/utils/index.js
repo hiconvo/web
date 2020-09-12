@@ -1,4 +1,4 @@
-import { isBefore as before, parseISO } from "date-fns";
+import { isBefore as before, parseISO, format } from "date-fns";
 
 export function generateId() {
   return (
@@ -43,6 +43,11 @@ export function datePartsToString(year, month, date) {
 export function isoDateToString(date) {
   const dt = parseISO(date);
   return datePartsToString(dt.getFullYear(), dt.getMonth(), dt.getDate());
+}
+
+export function isoDateToNotesHeading(date) {
+  const dt = parseISO(date);
+  return format(dt, "EEEE d LLLL");
 }
 
 export function getGoogleMapsUrl(lat, lng, placeId) {

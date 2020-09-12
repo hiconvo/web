@@ -289,6 +289,7 @@ export default function EventForm({ event }) {
 
       <Box mt={4}>
         <Button
+          variant="primary"
           type="submit"
           tabIndex="8"
           onClick={formik.handleSubmit}

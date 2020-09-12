@@ -28,7 +28,7 @@
     "react-router-dom": "^5.1.1",
     "react-scripts": "^3.4.1",
     "reselect": "^4.0.0",
-    "styled-components": "^5.1.0",
+    "styled-components": "^5.2.0",
     "styled-react-modal": "^2.0.1",
     "styled-system": "^5.1.5",
     "wade": "^0.3.3"

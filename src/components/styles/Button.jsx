@@ -1,20 +1,45 @@
 import React from "react";
 import styled from "styled-components";
-import { buttonStyle, color } from "styled-system";
+import {
+  buttonStyle,
+  space,
+  layout,
+  flexbox,
+  border,
+  background,
+  color,
+  position,
+  shadow
+} from "styled-system";
+import { float, cursor, overflow, whiteSpace } from "./utils";
 import { themeGet } from "@styled-system/theme-get";
 
-import Box from "./Box";
 import Spinner from "./Spinner";
-import { whiteSpace } from "./utils";
 
-const Button = styled(Box)(whiteSpace, buttonStyle, color, props => ({
-  appearance: "none",
-  userSelect: "none",
-  transition: `all ${themeGet("animations.fast")(props)} ease-in-out`,
-  cursor: props.disabled ? "default" : "pointer",
-  opacity: props.disabled ? themeGet("opacities.1")(props) : 1,
-  pointerEvents: props.disabled ? "none" : "initial"
-}));
+const Button = styled("button")(
+  buttonStyle,
+  space,
+  layout,
+  whiteSpace,
+  flexbox,
+  border,
+  color,
+  background,
+  position,
+  float,
+  overflow,
+  cursor,
+  shadow,
+
+  (props) => ({
+    appearance: "none",
+    userSelect: "none",
+    transition: `all ${themeGet("animations.fast")(props)} ease-in-out`,
+    cursor: props.disabled ? "default" : "pointer",
+    opacity: props.disabled ? themeGet("opacities.1")(props) : 1,
+    pointerEvents: props.disabled ? "none" : "initial"
+  })
+);
 
 Button.defaultProps = {
   as: "button"
@@ -33,14 +58,9 @@ const WrappedButton = React.forwardRef(
 );
 
 WrappedButton.defaultProps = {
-  variant: "primary",
-  width: [1, "auto"],
-  p: 3,
-  mb: 2,
-  fontSize: 2,
+  display: "flex",
   flexDirection: "row",
   border: 0,
-  display: "flex",
   alignItems: "center",
   justifyContent: "center",
   fontFamily: "sans",

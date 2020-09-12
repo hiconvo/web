@@ -70,7 +70,13 @@ export default function LoginForm() {
           required
           mb={4}
         />
-        <Button mt={2} mb={3} type="submit" isLoading={isLoading}>
+        <Button
+          variant="primary"
+          mt={2}
+          mb={3}
+          type="submit"
+          isLoading={isLoading}
+        >
           Login
         </Button>
       </Box>

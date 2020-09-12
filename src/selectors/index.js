@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 import orderBy from "lodash/orderBy";
 import { isAfter, parseISO } from "date-fns";
-import { isoDateToString } from "../utils";
+import { isoDateToString, isoDateToNotesHeading } from "../utils";
 
 export function getGeneralError(store) {
   return (store.errors.auth && store.errors.auth.message) || "";
@@ -118,6 +118,9 @@ export const getEventById = (id) => (store) =>
 export const getThreadById = (id) => (store) =>
   store.threads.find((t) => t.id === id);
 
+export const getNoteById = (id) => (store) =>
+  store.notes.find((n) => n.id === id);
+
 export function getMessagesByThreadId(id) {
   return (store) => store.messages.filter((message) => message.parentId === id);
 }
@@ -169,7 +172,7 @@ export const getEventsByDate = createSelector(getEvents, (events) =>
 
 export const getNotesByDay = createSelector(getNotes, (notes) =>
   notes.reduce((acc, cur) => {
-    const date = isoDateToString(cur.createdAt);
+    const date = isoDateToNotesHeading(cur.createdAt);
     if (acc[date]) {
       acc[date].push(cur);
     } else {

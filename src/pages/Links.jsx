@@ -2,8 +2,7 @@ import React from "react";
 
 import { useSelectors } from "../redux";
 import { getIsNotesFetched, getNotesByDay } from "../selectors";
-import { Ripple, Text, Box, Heading } from "../components/styles";
-import { ContainerDualSidebars } from "./styles";
+import { Ripple, Text, Box, Heading, FloatingPill } from "../components/styles";
 import NoteItem from "../components/NoteItem";
 
 export default function Links() {
@@ -12,7 +11,7 @@ export default function Links() {
     getNotesByDay
   );
 
-  if (isNotesFetched && notes.length <= 0) {
+  if (isNotesFetched && Object.keys(notes).length <= 0) {
     return (
       <div>
         <Text>Null state</Text>
@@ -21,13 +20,12 @@ export default function Links() {
   }
 
   return (
-    <ContainerDualSidebars>
-      <Box />
-      <Box>
+    <Box mx="auto" width="100%" maxWidth="100rem">
+      <FloatingPill>
         {!isNotesFetched && <Ripple />}
         {Object.entries(notes).map(([day, items]) => (
-          <Box as="section">
-            <Heading as="h3" fontSize={4} fontWeight="semiBold">
+          <Box as="section" key={day} mb={4}>
+            <Heading as="h3" fontSize={3} fontWeight="bold">
               {day}
             </Heading>
             <Box as="ul" flexDirection="column">
@@ -37,8 +35,7 @@ export default function Links() {
             </Box>
           </Box>
         ))}
-      </Box>
-      <Box />
-    </ContainerDualSidebars>
+      </FloatingPill>
+    </Box>
   );
 }
