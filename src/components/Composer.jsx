@@ -9,9 +9,8 @@ const commonStyles = {
   lineHeight: "1.5em"
 };
 
-const grayBackgroundStyle = height => ({
+const grayBackgroundStyle = (height) => ({
   width: `calc(100% - ${theme.space[3]} * 2)`,
-  marginBottom: "1rem",
   backgroundColor: theme.colors.snow,
   border: `0.1rem solid ${theme.colors.veryLightGray}`,
   borderRadius: theme.radii.normal,
@@ -21,7 +20,7 @@ const grayBackgroundStyle = height => ({
   ...commonStyles
 });
 
-const whiteBackgroundStyle = height => ({
+const whiteBackgroundStyle = (height) => ({
   width: "100%",
   minHeight: height,
   marginBottom: "1rem",
@@ -37,10 +36,7 @@ export function getInitialEditorState(text) {
 }
 
 export function getTextFromEditorState(editorState) {
-  return editorState
-    .getCurrentContent()
-    .getPlainText()
-    .trim();
+  return editorState.getCurrentContent().getPlainText().trim();
 }
 
 export default function Composer({

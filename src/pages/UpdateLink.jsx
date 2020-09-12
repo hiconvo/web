@@ -80,6 +80,7 @@ export default function UpdateLink() {
       </Heading>
       <Box>
         <Input
+          autofocus
           type="text"
           name="Name"
           tabIndex="1"
@@ -133,7 +134,11 @@ export default function UpdateLink() {
         </Box>
         <Box justifyContent="space-between" flexDirection="row">
           <Box>
-            <Button variant="secondary">Delete</Button>
+            <Button variant="secondary">
+              <Text fontWeight="inherit" color="inherit">
+                Delete
+              </Text>
+            </Button>
           </Box>
           <Box flexDirection="row">
             <LinkButton to="/links" variant="secondary">
@@ -141,6 +146,7 @@ export default function UpdateLink() {
             </LinkButton>
 
             <Button
+              variant="primary"
               type="submit"
               tabIndex="5"
               onClick={formik.handleSubmit}
@@ -148,7 +154,9 @@ export default function UpdateLink() {
               ml="1rem"
               width="16rem"
             >
-              Save
+              <Text fontWeight="inherit" color="inherit">
+                Save
+              </Text>
             </Button>
           </Box>
         </Box>

@@ -365,6 +365,18 @@ export default {
       "&:hover": {
         backgroundColor: lightGray
       }
+    },
+    action: {
+      padding: `${space[2]} ${space[3]}`,
+      backgroundColor: veryLightGray,
+      color: darkGray,
+      borderRadius: radii.normal,
+      fontSize: fontSizes[3],
+
+      "&:hover": {
+        backgroundColor: lightGray,
+        color: trueBlack
+      }
     }
   },
 
