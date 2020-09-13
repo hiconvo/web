@@ -29,7 +29,7 @@ export default function UpdateLink() {
   const history = useHistory();
   const { id } = useParams();
   const [note] = useSelectors(getNoteById(id));
-  const { updateNote } = useActions(unboundNoteActions);
+  const { updateNote, deleteNote } = useActions(unboundNoteActions);
   const { dispatchNotification } = useActions(unboundNotifActions);
   const formik = useFormik({
     formId: undefined,
@@ -64,6 +64,16 @@ export default function UpdateLink() {
       history.push(`/links`);
     }
   });
+
+  async function handleDeleteNote() {
+    try {
+      await deleteNote({ note });
+    } catch {
+      return;
+    }
+
+    history.push(`/links`);
+  }
 
   if ((id && !note) || !formik.values) {
     return (
@@ -134,7 +144,7 @@ export default function UpdateLink() {
         </Box>
         <Box justifyContent="space-between" flexDirection="row">
           <Box>
-            <Button variant="secondary">
+            <Button variant="secondary" onClick={handleDeleteNote}>
               <Text fontWeight="inherit" color="inherit">
                 Delete
               </Text>

@@ -77,11 +77,12 @@ export const createNote = (dispatch) =>
 export const updateNote = (dispatch) =>
   /*
    * @param {Object} payload
-   * @param {Object} payload.id
+   * @param {string} payload.id
    * @param {string} [payload.name]
    * @param {string} [payload.body]
    * @param {string} [payload.url]
    * @param {string} [payload.favicon]
+   * @param {bool} [payload.pin]
    * @returns {Object} Note
    */
   async (payload) => {
