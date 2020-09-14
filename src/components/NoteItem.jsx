@@ -85,7 +85,7 @@ export default function NoteItem({ note }) {
     if (isOpen && rawText !== note.body) {
       handleUpdateBody(rawText);
     }
-  }, [isOpen, debouncedBody, note]);
+  }, [isOpen, debouncedBody, note, updateNote]);
 
   function toggleOpen() {
     setIsOpen(!isOpen);
@@ -115,7 +115,7 @@ export default function NoteItem({ note }) {
         <Bullet favicon={note.favicon} />
         <Box
           width="calc(100% - 2rem)"
-          overflow="hidden"
+          overflow="visible"
           flexDirection="row"
           alignItems="center"
         >

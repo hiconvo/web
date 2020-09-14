@@ -121,10 +121,14 @@ export default function MagicLinkButton({ render, user, event }) {
               onClick={_rollMagicLink}
               isLoading={isLoading}
             >
-              Deactivate
+              <Text fontWeight="inherit" color="inherit">
+                Deactivate
+              </Text>
             </Button>
-            <Button width="16rem" onClick={closeModal}>
-              Done
+            <Button variant="primary" width="16rem" onClick={closeModal}>
+              <Text fontWeight="inherit" color="inherit">
+                Done
+              </Text>
             </Button>
           </Box>
         </Box>

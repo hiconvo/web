@@ -11,7 +11,7 @@ import * as unboundMessageActions from "../actions/messages";
 import * as unboundEventActions from "../actions/events";
 import { useSelectors } from "../redux";
 import { getUser, getIsLoggedIn } from "../selectors";
-import { Dropdown, Text, Box, UnstyledButton, Icon } from "./styles";
+import { Dropdown, Text, Box, Button, UnstyledButton, Icon } from "./styles";
 
 const getReadableVerb = (verb) => {
   switch (verb) {
@@ -32,7 +32,7 @@ const getReadableVerb = (verb) => {
   }
 };
 
-const Circle = styled(UnstyledButton)`
+const Circle = styled(Button)`
   background-color: ${(props) =>
     themeGet(`colors.${props.active ? "primary" : "lightGray"}`)(props)};
   color: ${(props) =>
@@ -46,6 +46,7 @@ const Circle = styled(UnstyledButton)`
   align-items: center;
   justify-content: center;
   font-weight: 500;
+  font-size: 16px;
   flex-shrink: 0;
   margin-right: ${themeGet("space.2")};
 
@@ -202,7 +203,9 @@ export default function RealtimeNotifications() {
               onClick();
             }}
           >
-            {filteredNotifs.length}
+            <Text fontWeight="inherit" fontSize="inherit">
+              {filteredNotifs.length}
+            </Text>
           </Circle>
         )}
       >

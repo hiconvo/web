@@ -295,7 +295,9 @@ export default function EventForm({ event }) {
           onClick={formik.handleSubmit}
           isLoading={formik.isSubmitting}
         >
-          {isEditing ? "Update event" : "Send invitations"}
+          <Text fontWeight="inherit" color="inherit">
+            {isEditing ? "Update event" : "Send invitations"}
+          </Text>
         </Button>
       </Box>
     </Container>

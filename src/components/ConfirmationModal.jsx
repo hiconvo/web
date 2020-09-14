@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "styled-react-modal";
 import { themeGet } from "@styled-system/theme-get";
 
-import { Box, Heading, Button } from "./styles";
+import { Box, Heading, Button, Text } from "./styles";
 
 const StyledModal = Modal.styled`
   width: 100%;
@@ -35,7 +35,9 @@ export default function ConfirmationModal({
         </Box>
         <Box flexDirection="row" justifyContent="center" width="100%">
           <Button onClick={onCancel} mr={3} variant="secondary" width="16rem">
-            Cancel
+            <Text fontWeight="inherit" fontSize="inherit">
+              Cancel
+            </Text>
           </Button>
           <Button
             variant="primary"
@@ -43,7 +45,9 @@ export default function ConfirmationModal({
             isLoading={isLoading}
             width="16rem"
           >
-            Confirm
+            <Text fontWeight="inherit" fontSize="inherit" color="inherit">
+              Confirm
+            </Text>
           </Button>
         </Box>
       </Box>

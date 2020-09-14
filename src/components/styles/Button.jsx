@@ -32,12 +32,15 @@ const Button = styled("button")(
   shadow,
 
   (props) => ({
-    appearance: "none",
-    userSelect: "none",
     transition: `all ${themeGet("animations.fast")(props)} ease-in-out`,
     cursor: props.disabled ? "default" : "pointer",
     opacity: props.disabled ? themeGet("opacities.1")(props) : 1,
-    pointerEvents: props.disabled ? "none" : "initial"
+    pointerEvents: props.disabled ? "none" : "initial",
+    "&:focus, &:active": {
+      outline: "none",
+      border: "none",
+      "box-shadow": `0 0 0 0.3rem ${themeGet("colors.primary300")(props)}`
+    }
   })
 );
 
