@@ -100,12 +100,12 @@ export default function App() {
                       component={Events}
                     />
                     <AuthorizedRoute path="/events" exact component={Events} />
-                    <AuthorizedRoute path="/links" exact component={Links} />
                     <AuthorizedRoute
                       path="/links/:id/edit"
                       exact
                       component={UpdateLink}
                     />
+                    <AuthorizedRoute path="/links" component={Links} />
                     <AuthorizedRoute
                       path="/contacts"
                       exact

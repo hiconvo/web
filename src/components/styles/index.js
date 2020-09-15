@@ -3,6 +3,7 @@ import { Text, Paragraph, Heading } from "./typography";
 import { Input, TextArea, Checkbox } from "./Input";
 import Button from "./Button";
 import LinkButton from "./LinkButton";
+import IconButton from "./IconButton";
 import UnstyledButton from "./UnstyledButton";
 import Icon from "./Icon";
 import Dropdown from "./Dropdown";
@@ -29,6 +30,7 @@ export {
   TextArea,
   Button,
   LinkButton,
+  IconButton,
   Reset,
   Icon,
   Dropdown,

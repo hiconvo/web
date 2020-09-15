@@ -77,7 +77,9 @@ export default function LoginForm() {
           type="submit"
           isLoading={isLoading}
         >
-          Login
+          <Text fontWeight="inherit" color="inherit" fontSize="inherit">
+            Login
+          </Text>
         </Button>
       </Box>
       <LinkButton to="/login" preserveQuery>

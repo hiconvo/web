@@ -13,6 +13,7 @@ export const fetchNotes = (dispatch) =>
   async (pageNumber = 0) => {
     try {
       const response = await API.getNotes(pageNumber);
+      dispatch({ type: "CLEAR_NOTES" });
       dispatch({
         type: "RECEIVE_NOTES",
         payload: response.notes,

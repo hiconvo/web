@@ -4,13 +4,11 @@ import { useActions, useSelectors } from "../redux";
 import { fetchEvents } from "../actions/events";
 import { fetchThreads } from "../actions/threads";
 import { fetchContacts } from "../actions/contacts";
-import { fetchNotes } from "../actions/notes";
 import {
   getIsLoggedIn,
   getIsEventsFetched,
   getIsThreadsFetched,
-  getIsContactsFetched,
-  getIsNotesFetched
+  getIsContactsFetched
 } from "../selectors";
 
 const isFetching = new Set();
@@ -19,21 +17,18 @@ export default function DataLoader({ children }) {
   const actions = useActions({
     fetchThreads,
     fetchEvents,
-    fetchContacts,
-    fetchNotes
+    fetchContacts
   });
   const [
     isLoggedIn,
     isThreadsFetched,
     isEventsFetched,
-    isContactsFetched,
-    isNotesFetched
+    isContactsFetched
   ] = useSelectors(
     getIsLoggedIn,
     getIsThreadsFetched,
     getIsEventsFetched,
-    getIsContactsFetched,
-    getIsNotesFetched
+    getIsContactsFetched
   );
 
   async function handleFetch(name, fetcher) {
@@ -57,21 +52,15 @@ export default function DataLoader({ children }) {
       if (!isContactsFetched) {
         handleFetch("contacts", actions.fetchContacts);
       }
-
-      if (!isNotesFetched) {
-        handleFetch("notes", actions.fetchNotes);
-      }
     }
   }, [
     isLoggedIn,
     isThreadsFetched,
     isEventsFetched,
     isContactsFetched,
-    isNotesFetched,
     actions.fetchThreads,
     actions.fetchEvents,
-    actions.fetchContacts,
-    actions.fetchNotes
+    actions.fetchContacts
   ]);
 
   return <React.Fragment>{children}</React.Fragment>;

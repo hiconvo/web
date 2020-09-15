@@ -329,7 +329,7 @@ export default {
       padding: space[3],
       "margin-bottom": space[2],
       "font-size": fontSizes[2],
-
+      fontWeight: fontWeights.semiBold,
       color: black,
       backgroundColor: lightGray,
       borderRadius: radii.special,
@@ -371,7 +371,7 @@ export default {
       backgroundColor: veryLightGray,
       color: darkGray,
       borderRadius: radii.normal,
-      fontSize: fontSizes[3],
+      fontSize: fontSizes[2],
 
       "&:hover": {
         backgroundColor: lightGray,

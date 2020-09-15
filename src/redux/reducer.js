@@ -148,6 +148,13 @@ export default function reducer(state, action) {
       return Object.assign({}, initialState, {
         loading: { global: false }
       });
+    case "CLEAR_NOTES": {
+      return Object.assign({}, state, {
+        notes: [],
+        isNotesFetched: false,
+        pageNumber: 0
+      });
+    }
     case "RECEIVE_NOTES": {
       const notes = state.notes
         .filter((n) => !action.payload.some((newNote) => newNote.id === n.id))
@@ -160,7 +167,7 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {
         notes,
         isNotesFetched: true,
-        notesPageNum: action.pageNumber || state.notessPageNum,
+        notesPageNum: action.pageNumber || state.notesPageNum,
         isNotesExhausted: action.payload.length === 0
       });
     }

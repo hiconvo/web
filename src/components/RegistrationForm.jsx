@@ -95,7 +95,9 @@ export default function RegistrationForm() {
         type="submit"
         isLoading={isLoading}
       >
-        Sign up
+        <Text fontWeight="inherit" color="inherit" fontSize="inherit">
+          Sign up
+        </Text>
       </Button>
       <LinkButton to="/login/email" textAlign="center" fontSize={1}>
         <Icon name="arrow_back" mr={1} />
