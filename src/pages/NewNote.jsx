@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "styled-react-modal";
 
+import { useActions } from "../redux";
+import { useDebounce } from "../hooks";
 import Composer, {
-  getInitialEditorState
-  // getTextFromEditorState
+  getInitialEditorState,
+  getTextFromEditorState
 } from "../components/Composer";
+import * as unboundNotesActions from "../actions/notes";
 import { Box, LinkButton, Icon, Text } from "../components/styles";
 
 const StyledModel = Modal.styled`
@@ -17,7 +20,50 @@ const StyledModel = Modal.styled`
 `;
 
 export default function NewNote() {
+  const [note, setNote] = useState({ id: null });
+  const [isSaving, setIsSaving] = useState(false);
   const [body, setBody] = useState(getInitialEditorState(""));
+  const debouncedBody = useDebounce(body, 800);
+  const { createNote, updateNote } = useActions(unboundNotesActions);
+
+  console.log(note);
+
+  useEffect(() => {
+    async function handleUpdateBody(body) {
+      setIsSaving(true);
+
+      try {
+        await updateNote({ id: note.id, body });
+      } catch (e) {
+        return;
+      } finally {
+        setIsSaving(false);
+      }
+    }
+
+    async function handleCreateNote(body) {
+      setIsSaving(true);
+
+      try {
+        const note = await createNote({ body });
+        setNote(note);
+      } catch (e) {
+        return;
+      } finally {
+        setIsSaving(false);
+      }
+    }
+
+    const rawText = getTextFromEditorState(debouncedBody);
+
+    console.log(note);
+
+    if (note.id && rawText !== note.body) {
+      handleUpdateBody(rawText);
+    } else if (!note.id && rawText.length > 0) {
+      handleCreateNote(rawText);
+    }
+  }, [debouncedBody, note, updateNote, createNote]);
 
   return (
     <StyledModel isOpen={true}>
@@ -33,7 +79,9 @@ export default function NewNote() {
           <Text color="inherit">Back</Text>
         </LinkButton>
         <Box>
-          <Text color="gray">Not saved</Text>
+          <Text color="gray">
+            {isSaving ? "Saving" : note.id ? "Saved" : "Not saved"}
+          </Text>
         </Box>
       </Box>
 
@@ -42,8 +90,11 @@ export default function NewNote() {
           <Composer
             editorState={body}
             onChange={setBody}
-            placeholder="Once upon a time and a very good time it was there was a moocow coming down along the road and this moocow that was coming down along the road met a nicens little boy named baby tuckoo.... His father told him that story: his father looked at him through a glass: he had a hairy face. He was baby tuckoo. The moocow came down the road where Betty Byrne lived: she sold lemon platt."
+            mode="complete"
+            placeholder="Once upon a time and a very good time it was there was a moocow coming down along the road and this moocow that was coming down along the road met a nicens little boy named baby tuckoo..."
             height="50rem"
+            fontSize={4}
+            autoFocus={true}
           />
         </Box>
       </Box>

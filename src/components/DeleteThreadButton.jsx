@@ -27,8 +27,6 @@ export default function DeleteThreadButton({ thread, render }) {
     }
 
     history.push("/convos");
-
-    setIsOpen(false);
   }
 
   return (

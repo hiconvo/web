@@ -1,13 +1,11 @@
-import React, { useRef } from "react";
-import { Editor, EditorState, ContentState } from "draft-js";
+import React, { useRef, useEffect } from "react";
+import Editor from "draft-js-plugins-editor";
+import createMarkdownPlugin from "draft-js-markdown-plugin";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { markdownToDraft, draftToMarkdown } from "markdown-draft-js";
 
 import { theme } from "./styles";
-
-const commonStyles = {
-  fontFamily: theme.fonts.serif,
-  fontSize: theme.fontSizes[3],
-  lineHeight: "1.5em"
-};
+import { MarkdownContainer } from "./Markdown";
 
 const grayBackgroundStyle = (height) => ({
   width: `calc(100% - ${theme.space[3]} * 2)`,
@@ -16,15 +14,13 @@ const grayBackgroundStyle = (height) => ({
   borderRadius: theme.radii.normal,
   padding: theme.space[3],
   minHeight: height,
-  marginTop: theme.space[3],
-  ...commonStyles
+  marginTop: theme.space[3]
 });
 
 const whiteBackgroundStyle = (height) => ({
   width: "100%",
   minHeight: height,
-  marginBottom: "1rem",
-  ...commonStyles
+  marginBottom: "1rem"
 });
 
 export function getInitialEditorState(text) {
@@ -32,21 +28,50 @@ export function getInitialEditorState(text) {
     return EditorState.createEmpty();
   }
 
-  return EditorState.createWithContent(ContentState.createFromText(text));
+  return EditorState.createWithContent(convertFromRaw(markdownToDraft(text)));
 }
 
 export function getTextFromEditorState(editorState) {
-  return editorState.getCurrentContent().getPlainText().trim();
+  const content = editorState.getCurrentContent();
+  return draftToMarkdown(convertToRaw(content));
 }
+
+const basic = createMarkdownPlugin({
+  features: {
+    inline: ["BOLD", "ITALIC", "CODE", "LINK"],
+    block: ["blockquote", "unordered-list-item"]
+  }
+});
+
+const complete = createMarkdownPlugin({
+  inline: ["BOLD", "ITALIC", "CODE", "LINK"],
+  block: [
+    "header-one",
+    "header-two",
+    "header-three",
+    "ordered-list-item",
+    "unordered-list-item",
+    "blockquote"
+  ]
+});
 
 export default function Composer({
   backgroundColor = "white",
   height = "4rem",
+  fontSize = 3,
+  mode = "basic",
+  autoFocus = false,
   editorState = EditorState.createEmpty(),
   onChange,
   placeholder
 }) {
   const editorRef = useRef(null);
+
+  useEffect(() => {
+    if (autoFocus) {
+      editorRef.current && editorRef.current.focus();
+    }
+  }, [autoFocus]);
 
   return (
     <React.Fragment>
@@ -58,12 +83,15 @@ export default function Composer({
             : grayBackgroundStyle(height)
         }
       >
-        <Editor
-          onChange={onChange}
-          editorState={editorState}
-          placeholder={placeholder}
-          ref={editorRef}
-        />
+        <MarkdownContainer fontFamily="serif" fontSize={fontSize}>
+          <Editor
+            onChange={onChange}
+            editorState={editorState}
+            placeholder={placeholder}
+            ref={editorRef}
+            plugins={[mode === "basic" ? basic : complete]}
+          />
+        </MarkdownContainer>
       </div>
     </React.Fragment>
   );

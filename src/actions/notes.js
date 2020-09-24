@@ -58,8 +58,9 @@ export const createNote = (dispatch) =>
    * @returns {Object} Note
    */
   async (payload) => {
+    let note;
     try {
-      const note = await API.createNote(payload);
+      note = await API.createNote(payload);
       dispatch({
         type: "RECEIVE_NOTES_MERGE",
         payload: [note]
@@ -68,6 +69,7 @@ export const createNote = (dispatch) =>
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
+    return note;
   };
 
 /*
