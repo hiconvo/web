@@ -155,10 +155,24 @@ export default function reducer(state, action) {
         pageNumber: 0
       });
     }
-    case "RECEIVE_NOTES": {
+    case "RECEIVE_NOTES_MERGE": {
       const notes = state.notes
         .filter((n) => !action.payload.some((newNote) => newNote.id === n.id))
         .concat(action.payload)
+        .sort((a, b) => isBefore(a.createdAt, b.createdAt))
+        .map((note) => ({
+          ...note,
+          resourceType: "Note"
+        }));
+      return Object.assign({}, state, {
+        notes,
+        isNotesFetched: true,
+        notesPageNum: action.pageNumber || state.notesPageNum,
+        isNotesExhausted: action.payload.length === 0
+      });
+    }
+    case "RECEIVE_NOTES": {
+      const notes = action.payload
         .sort((a, b) => isBefore(a.createdAt, b.createdAt))
         .map((note) => ({
           ...note,

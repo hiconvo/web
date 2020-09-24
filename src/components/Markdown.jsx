@@ -62,9 +62,13 @@ const Container = styled.div`
   }
 
   ul {
-    margin-left: ${themeGet("space.2")};
+    margin-left: ${themeGet("space.4")};
+    margin-bottom: ${themeGet("space.3")};
+    list-style: disc outside;
+  }
+
+  li {
     margin-bottom: ${themeGet("space.2")};
-    list-style: disc inside;
   }
 
   ol {

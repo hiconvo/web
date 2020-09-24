@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import { useActions, useSelectors } from "../redux";
 import useQuery from "../hooks/query";
@@ -11,9 +11,11 @@ import {
   Heading,
   FloatingPill,
   LinkButton,
+  IconButton,
   Icon,
   Paragraph
 } from "../components/styles";
+import LinksNullState from "../components/LinksNullState";
 import NoteItem from "../components/NoteItem";
 
 export default function Links() {
@@ -26,21 +28,21 @@ export default function Links() {
     getNotesByDay
   );
 
-  useEffect(() => {
-    async function handleGetNotes() {
-      setIsFetching(true);
+  const handleGetNotes = useCallback(async () => {
+    setIsFetching(true);
 
-      try {
-        await fetchNotes(pageNumber);
-      } catch (e) {
-        return;
-      } finally {
-        setIsFetching(false);
-      }
+    try {
+      await fetchNotes(pageNumber);
+    } catch (e) {
+      return;
+    } finally {
+      setIsFetching(false);
     }
-
-    handleGetNotes();
   }, [pageNumber, fetchNotes]);
+
+  useEffect(() => {
+    handleGetNotes();
+  }, [handleGetNotes]);
 
   if (
     isNotesFetched &&
@@ -48,16 +50,30 @@ export default function Links() {
     pageNumber === 0 &&
     Object.keys(notes).length <= 0
   ) {
-    return (
-      <div>
-        <Text>Null state</Text>
-      </div>
-    );
+    return <LinksNullState />;
   }
 
   return (
     <Box mx="auto" width="100%" maxWidth="100rem">
       <FloatingPill>
+        <Box flexDirection="row" justifyContent="space-between" mb={4}>
+          <Box flexDirection="row" justifyContent="flex-start">
+            <IconButton iconName="search" text="Search" mr={2} />
+            <IconButton iconName="filter_alt" text="Filter" mr={2} />
+            <IconButton
+              iconName="refresh"
+              text="Refresh"
+              onClick={handleGetNotes}
+              mr={2}
+            />
+          </Box>
+          <Box>
+            <LinkButton variant="action" to="/notes/new">
+              <Icon name="edit" mr={2} />
+              <Text color="inherit">New Note</Text>
+            </LinkButton>
+          </Box>
+        </Box>
         {!isNotesFetched && <Ripple />}
         {Object.entries(notes).map(([day, items]) => (
           <Box as="section" key={day} mb={4}>
@@ -82,10 +98,10 @@ export default function Links() {
               to={`/links?page=${Math.max(pageNumber - 1, 0)}`}
             >
               <Icon name="chevron_left" />
-              <Text fontWeight="semiBold">Newer</Text>
+              <Text>Newer</Text>
             </LinkButton>
             <LinkButton variant="action" to={`/links?page=${pageNumber + 1}`}>
-              <Text fontWeight="semiBold">Older</Text>
+              <Text>Older</Text>
               <Icon name="chevron_right" />
             </LinkButton>
           </Box>

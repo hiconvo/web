@@ -13,7 +13,6 @@ export const fetchNotes = (dispatch) =>
   async (pageNumber = 0) => {
     try {
       const response = await API.getNotes(pageNumber);
-      dispatch({ type: "CLEAR_NOTES" });
       dispatch({
         type: "RECEIVE_NOTES",
         payload: response.notes,
@@ -37,7 +36,7 @@ export const fetchNote = (dispatch) =>
     try {
       const response = await API.getNote(id);
       dispatch({
-        type: "RECEIVE_NOTES",
+        type: "RECEIVE_NOTES_MERGE",
         payload: [response]
       });
     } catch (e) {
@@ -62,7 +61,7 @@ export const createNote = (dispatch) =>
     try {
       const note = await API.createNote(payload);
       dispatch({
-        type: "RECEIVE_NOTES",
+        type: "RECEIVE_NOTES_MERGE",
         payload: [note]
       });
     } catch (e) {
@@ -90,7 +89,7 @@ export const updateNote = (dispatch) =>
     try {
       const note = await API.updateNote(payload.id, payload);
       dispatch({
-        type: "RECEIVE_NOTES",
+        type: "RECEIVE_NOTES_MERGE",
         payload: [note]
       });
     } catch (e) {

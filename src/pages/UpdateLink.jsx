@@ -90,7 +90,7 @@ export default function UpdateLink() {
       </Heading>
       <Box>
         <Input
-          autofocus
+          autoFocus
           type="text"
           name="Name"
           tabIndex="1"

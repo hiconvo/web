@@ -25,6 +25,7 @@ import Feed from "../pages/Feed";
 import Magic from "../pages/Magic";
 import MagicInvite from "../pages/MagicInvite";
 import Unsubscribe from "../pages/Unsubscribe";
+import NewNote from "../pages/NewNote";
 
 const ModalBackground = styled(BaseModalBackground).attrs((props) => ({
   ...props,
@@ -106,6 +107,7 @@ export default function App() {
                       component={UpdateLink}
                     />
                     <AuthorizedRoute path="/links" component={Links} />
+                    <AuthorizedRoute path="/notes/new" component={NewNote} />
                     <AuthorizedRoute
                       path="/contacts"
                       exact

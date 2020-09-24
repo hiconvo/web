@@ -60,6 +60,7 @@ export default function LoginForm() {
           onChange={handleEmailChange}
           error={authErrors.email}
           required
+          autoFocus
         />
         <Input
           name="Password"
