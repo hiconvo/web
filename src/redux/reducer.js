@@ -159,11 +159,7 @@ export default function reducer(state, action) {
       const notes = state.notes
         .filter((n) => !action.payload.some((newNote) => newNote.id === n.id))
         .concat(action.payload)
-        .sort((a, b) => isBefore(a.createdAt, b.createdAt))
-        .map((note) => ({
-          ...note,
-          resourceType: "Note"
-        }));
+        .sort((a, b) => isBefore(a.createdAt, b.createdAt));
       return Object.assign({}, state, {
         notes,
         isNotesFetched: true,
@@ -172,12 +168,9 @@ export default function reducer(state, action) {
       });
     }
     case "RECEIVE_NOTES": {
-      const notes = action.payload
-        .sort((a, b) => isBefore(a.createdAt, b.createdAt))
-        .map((note) => ({
-          ...note,
-          resourceType: "Note"
-        }));
+      const notes = action.payload.sort((a, b) =>
+        isBefore(a.createdAt, b.createdAt)
+      );
       return Object.assign({}, state, {
         notes,
         isNotesFetched: true,

@@ -12,7 +12,6 @@ import {
   Heading,
   Text,
   Input,
-  TextArea,
   Box,
   Ripple,
   CenterContent,
@@ -127,22 +126,7 @@ export default function UpdateLink() {
           placeholder="https://convo.events/favicon.ico"
           fontFamily="mono"
         />
-        <Box mb={3} py={1}>
-          <Text fontSize={1} mb={1}>
-            Note
-          </Text>
-          <TextArea
-            name="body"
-            tabIndex="4"
-            value={formik.values.body}
-            onChange={formik.handleChange}
-            isDisabled={formik.isSubmitting}
-            maxLength="3071"
-            fontSize={2}
-            placeholder="Add a note..."
-          />
-        </Box>
-        <Box justifyContent="space-between" flexDirection="row">
+        <Box justifyContent="space-between" flexDirection="row" mt={3} mb={5}>
           <Box>
             <Button variant="secondary" onClick={handleDeleteNote}>
               <Text fontWeight="inherit" color="inherit">

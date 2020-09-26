@@ -33,15 +33,17 @@ export const fetchNote = (dispatch) =>
    * @returns {undefined}
    */
   async (id) => {
+    let note;
     try {
-      const response = await API.getNote(id);
+      note = await API.getNote(id);
       dispatch({
         type: "RECEIVE_NOTES_MERGE",
-        payload: [response]
+        payload: [note]
       });
     } catch (e) {
       return Promise.reject(e);
     }
+    return note;
   };
 
 /*

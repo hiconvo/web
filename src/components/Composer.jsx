@@ -4,7 +4,7 @@ import createMarkdownPlugin from "draft-js-markdown-plugin";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { markdownToDraft, draftToMarkdown } from "markdown-draft-js";
 
-import { theme } from "./styles";
+import { theme, Box } from "./styles";
 import { MarkdownContainer } from "./Markdown";
 
 const grayBackgroundStyle = (height) => ({
@@ -37,6 +37,7 @@ export function getTextFromEditorState(editorState) {
 }
 
 const basic = createMarkdownPlugin({
+  renderLanguageSelect: () => <Box mt="-1.2rem" />,
   features: {
     inline: ["BOLD", "ITALIC", "CODE", "LINK"],
     block: ["blockquote", "unordered-list-item"]
@@ -44,6 +45,7 @@ const basic = createMarkdownPlugin({
 });
 
 const complete = createMarkdownPlugin({
+  renderLanguageSelect: () => <Box mt="-1.2rem" />,
   inline: ["BOLD", "ITALIC", "CODE", "LINK"],
   block: [
     "header-one",

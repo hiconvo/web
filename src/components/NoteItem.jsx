@@ -25,7 +25,7 @@ function IconButton({ iconName, text, ...rest }) {
   );
 }
 
-function Bullet({ favicon }) {
+function Bullet({ favicon, isLink }) {
   return (
     <Box
       height="2rem"
@@ -38,7 +38,9 @@ function Bullet({ favicon }) {
       {favicon ? (
         <Box as="img" height="100%" width="100%" src={favicon} />
       ) : (
-        <Box dangerouslySetInnerHTML={{ __html: "&#x1F30F" }} />
+        <Box
+          dangerouslySetInnerHTML={{ __html: isLink ? "&#x1F30F" : "&#x1F4DD" }}
+        />
       )}
     </Box>
   );
@@ -66,6 +68,7 @@ export default function NoteItem({ note }) {
   const [body, setBody] = useState(getInitialEditorState(note.body));
   const { deleteNote, updateNote } = useActions(unboundActions);
   const debouncedBody = useDebounce(body, 800);
+  const isLink = note && note.url;
 
   useEffect(() => {
     async function handleUpdateBody(body) {
@@ -112,25 +115,46 @@ export default function NoteItem({ note }) {
   return (
     <Box as="li" py={2} width="100%" mb={isOpen ? 2 : 0}>
       <Box flexDirection="row" width="100%" alignItems="center">
-        <Bullet favicon={note.favicon} />
+        <Bullet favicon={note.favicon} isLink={isLink} />
         <Box
           width="calc(100% - 2rem)"
           overflow="visible"
           flexDirection="row"
           alignItems="center"
         >
-          <Box
-            as="a"
-            href={note.url}
-            target="_blank"
-            display="block"
-            overflow="hidden"
-            whiteSpace="nowrap"
-            textOverflow="ellipsis"
-            css={{ "&:hover": { "text-decoration": "underline" } }}
-          >
-            <Text fontWeight={isOpen ? "semiBold" : "normal"}>{note.name}</Text>
-          </Box>
+          {isLink ? (
+            <Box
+              as="a"
+              href={note.url}
+              target="_blank"
+              display="block"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              textOverflow="ellipsis"
+              css={{ "&:hover": { "text-decoration": "underline" } }}
+            >
+              <Text fontWeight={isOpen ? "semiBold" : "normal"}>
+                {note.name}
+              </Text>
+            </Box>
+          ) : (
+            <Box
+              as="button"
+              display="block"
+              backgroundColor="trueWhite"
+              border="none"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              textOverflow="ellipsis"
+              p="0"
+              cursor="pointer"
+              onClick={toggleOpen}
+            >
+              <Text fontWeight={isOpen ? "semiBold" : "normal"}>
+                {note.name}
+              </Text>
+            </Box>
+          )}
           <Expando onClick={toggleOpen} isOpen={isOpen} />
         </Box>
       </Box>
@@ -147,7 +171,11 @@ export default function NoteItem({ note }) {
               iconName="edit"
               text="Edit"
               mr={2}
-              onClick={() => history.push(`/links/${note.id}/edit`)}
+              onClick={() =>
+                history.push(
+                  isLink ? `/links/${note.id}/edit` : `/notes/${note.id}`
+                )
+              }
             />
             <IconButton
               iconName="push_pin"
