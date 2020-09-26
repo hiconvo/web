@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useActions, useSelectors } from "../redux";
 import useQuery from "../hooks/query";
 import * as unboundNotesActions from "../actions/notes";
-import { getIsNotesFetched, getNotesByDay } from "../selectors";
+import { getIsNotesFetched, getNotesByDay, getPins } from "../selectors";
 import {
   Ripple,
   Text,
@@ -20,12 +20,14 @@ import NoteItem from "../components/NoteItem";
 
 export default function Links() {
   const [isFetching, setIsFetching] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState(false);
   const query = useQuery();
   const pageNumber = parseInt(query.get("page")) || 0;
   const { fetchNotes } = useActions(unboundNotesActions);
-  const [isNotesFetched, notes] = useSelectors(
+  const [isNotesFetched, notes, pins] = useSelectors(
     getIsNotesFetched,
-    getNotesByDay
+    getNotesByDay,
+    getPins
   );
 
   const handleGetNotes = useCallback(async () => {
@@ -43,6 +45,22 @@ export default function Links() {
   useEffect(() => {
     handleGetNotes();
   }, [handleGetNotes]);
+
+  function setSelectedPin(id) {
+    if (id) {
+      setSelectedNoteId(`pin.${id}`);
+    } else {
+      setSelectedNoteId("");
+    }
+  }
+
+  function setSelectedNote(id) {
+    if (id) {
+      setSelectedNoteId(`note.${id}`);
+    } else {
+      setSelectedNoteId("");
+    }
+  }
 
   if (
     isNotesFetched &&
@@ -75,6 +93,23 @@ export default function Links() {
           </Box>
         </Box>
         {!isNotesFetched && <Ripple />}
+        {pageNumber === 0 && pins.length > 0 && (
+          <Box as="section" mb={4}>
+            <Heading as="h3" fontSize={3} fontWeight="bold">
+              Pins
+            </Heading>
+            <Box as="ul" flexDirection="column">
+              {pins.map((note) => (
+                <NoteItem
+                  key={note.id}
+                  note={note}
+                  isOpen={selectedNoteId === `pin.${note.id}`}
+                  setIsOpen={setSelectedPin}
+                />
+              ))}
+            </Box>
+          </Box>
+        )}
         {Object.entries(notes).map(([day, items]) => (
           <Box as="section" key={day} mb={4}>
             <Heading as="h3" fontSize={3} fontWeight="bold">
@@ -82,7 +117,12 @@ export default function Links() {
             </Heading>
             <Box as="ul" flexDirection="column">
               {items.map((note) => (
-                <NoteItem key={note.id} note={note} />
+                <NoteItem
+                  key={note.id}
+                  note={note}
+                  isOpen={selectedNoteId === `note.${note.id}`}
+                  setIsOpen={setSelectedNote}
+                />
               ))}
             </Box>
           </Box>

@@ -48,6 +48,10 @@ export function getNotes(store) {
   return store.notes;
 }
 
+export function getPins(store) {
+  return store.pins;
+}
+
 export function getIsContactsFetched(store) {
   return store.isContactsFetched;
 }

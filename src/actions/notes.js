@@ -15,7 +15,7 @@ export const fetchNotes = (dispatch) =>
       const response = await API.getNotes(pageNumber);
       dispatch({
         type: "RECEIVE_NOTES",
-        payload: response.notes,
+        payload: { notes: response.notes, pins: response.pins || [] },
         pageNumber
       });
     } catch (e) {
