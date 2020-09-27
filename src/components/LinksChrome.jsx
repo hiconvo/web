@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import "styled-components/macro";
-import css from "@styled-system/css";
 import { useHistory } from "react-router-dom";
 
 import {
@@ -10,6 +8,7 @@ import {
   IconButton,
   Icon,
   Dropdown,
+  DropdownMenu,
   Input
 } from "../components/styles";
 
@@ -32,20 +31,7 @@ function LinkSearchField({ isOpen, isVisible, onClose }) {
   }
 
   return (
-    <Box
-      css={css({
-        display: isOpen ? "block" : "none",
-        backgroundColor: "trueWhite",
-        borderRadius: "normal",
-        boxShadow: "normal",
-        paddingTop: "0.8rem",
-        paddingLeft: "1.4rem",
-        paddingRight: "1.4rem",
-        visibility: isVisible ? "visible" : "hidden",
-        transition: "all ease 0.2s",
-        opacity: isVisible ? "1" : "0"
-      })}
-    >
+    <DropdownMenu isOpen={isOpen} isVisible={isVisible} px="1.4rem" pt="0.8rem">
       <Box as="form" mb="-0.8rem" onSubmit={handleSubmit}>
         <Input
           type="text"
@@ -56,7 +42,55 @@ function LinkSearchField({ isOpen, isVisible, onClose }) {
           onBlur={() => isOpen && onClose()}
         />
       </Box>
-    </Box>
+    </DropdownMenu>
+  );
+}
+
+function LinkFilterMenu({ isOpen, isVisible }) {
+  return (
+    <DropdownMenu
+      isOpen={isOpen}
+      isVisible={isVisible}
+      px="1.4rem"
+      pt="0.8rem"
+      width="16rem"
+    >
+      <Box as="ul" mb={2}>
+        <li>
+          <LinkButton
+            variant="tertiary"
+            textAlign="left"
+            justifyContent="flex-start"
+            p={2}
+            to="/links/?filter=note"
+          >
+            Notes
+          </LinkButton>
+        </li>
+        <li>
+          <LinkButton
+            variant="tertiary"
+            textAlign="left"
+            justifyContent="flex-start"
+            p={2}
+            to="/links/?filter=link"
+          >
+            Links
+          </LinkButton>
+        </li>
+        <li>
+          <LinkButton
+            variant="tertiary"
+            textAlign="left"
+            justifyContent="flex-start"
+            p={2}
+            to="/links"
+          >
+            Remove Filter
+          </LinkButton>
+        </li>
+      </Box>
+    </DropdownMenu>
   );
 }
 
@@ -97,7 +131,25 @@ export default function LinksChrome({ onRefresh, withBackButton }) {
             />
           )}
         </Dropdown>
-        <IconButton iconName="filter_alt" text="Filter" mr={2} />
+        <Dropdown
+          side="left"
+          renderAnchor={({ onClick }) => (
+            <IconButton
+              onClick={onClick}
+              iconName="filter_alt"
+              text="Filter"
+              mr={2}
+            />
+          )}
+        >
+          {({ isOpen, isVisible, handleToggle }) => (
+            <LinkFilterMenu
+              isOpen={isOpen}
+              isVisible={isVisible}
+              onClose={handleToggle}
+            />
+          )}
+        </Dropdown>
         {onRefresh && (
           <IconButton
             iconName="refresh"

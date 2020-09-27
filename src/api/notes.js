@@ -3,8 +3,9 @@ import apiRequest from "./apiRequest";
 /*
  * @param {int} pageNumber
  */
-export function getNotes(pageNumber = 0) {
-  return apiRequest(`/notes?page=${pageNumber}&size=60`);
+export function getNotes(pageNumber = 0, filter = "") {
+  const filterQuery = filter ? `&filter=${filter}` : "";
+  return apiRequest(`/notes?page=${pageNumber}&size=60${filterQuery}`);
 }
 
 /*

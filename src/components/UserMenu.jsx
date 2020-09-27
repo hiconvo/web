@@ -6,6 +6,7 @@ import { useSelectors } from "../redux";
 import { getIsLoggedIn, getUser } from "../selectors";
 import {
   Dropdown,
+  DropdownMenu,
   LinkButton,
   Button,
   Box,
@@ -35,20 +36,6 @@ const Avatar = styled(Button)`
   &:hover {
     box-shadow: ${themeGet("shadows.normal")};
   }
-`;
-
-const List = styled.ul`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
-  width: 16rem;
-  background-color: ${themeGet("colors.trueWhite")};
-  border-radius: ${themeGet("radii.normal")};
-  box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
-  transition: all ease ${themeGet("animations.fast")};
-  transform: ${(props) =>
-    props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${(props) => (props.isVisible ? "1" : "0")};
-  z-index: 30;
 `;
 
 const SignUpContainer = styled.div`
@@ -148,7 +135,13 @@ export default function UserMenu() {
       )}
     >
       {({ isOpen, isVisible, handleToggle }) => (
-        <List isOpen={isOpen} isVisible={isVisible} onClick={handleToggle}>
+        <DropdownMenu
+          as="ul"
+          isOpen={isOpen}
+          isVisible={isVisible}
+          onClick={handleToggle}
+          width="16rem"
+        >
           <Item>
             <Button
               as="a"
@@ -175,7 +168,7 @@ export default function UserMenu() {
           <Item>
             <LogoutButton />
           </Item>
-        </List>
+        </DropdownMenu>
       )}
     </Dropdown>
   );

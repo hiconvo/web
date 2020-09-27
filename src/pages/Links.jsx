@@ -23,6 +23,7 @@ export default function Links() {
   const [selectedNoteId, setSelectedNoteId] = useState(false);
   const query = useQuery();
   const pageNumber = parseInt(query.get("page")) || 0;
+  const filter = query.get("filter") || "";
   const { fetchNotes } = useActions(unboundNotesActions);
   const [isNotesFetched, notes, pins] = useSelectors(
     getIsNotesFetched,
@@ -34,13 +35,13 @@ export default function Links() {
     setIsFetching(true);
 
     try {
-      await fetchNotes(pageNumber);
+      await fetchNotes(pageNumber, filter);
     } catch (e) {
       return;
     } finally {
       setIsFetching(false);
     }
-  }, [pageNumber, fetchNotes]);
+  }, [pageNumber, fetchNotes, filter]);
 
   useEffect(() => {
     handleGetNotes();
@@ -65,6 +66,7 @@ export default function Links() {
   if (
     isNotesFetched &&
     !isFetching &&
+    filter === "" &&
     pageNumber === 0 &&
     Object.keys(notes).length <= 0
   ) {
@@ -75,7 +77,9 @@ export default function Links() {
     <Box mx="auto" width="100%" maxWidth="100rem">
       <FloatingPill>
         <LinksChrome onRefresh={handleGetNotes} />
+
         {!isNotesFetched && <Ripple />}
+
         {pageNumber === 0 && pins.length > 0 && (
           <Box as="section" mb={4}>
             <Heading as="h3" fontSize={3} fontWeight="bold">
@@ -93,6 +97,7 @@ export default function Links() {
             </Box>
           </Box>
         )}
+
         {Object.entries(notes).map(([day, items]) => (
           <Box as="section" key={day} mb={4}>
             <Heading as="h3" fontSize={3} fontWeight="bold">
@@ -110,9 +115,11 @@ export default function Links() {
             </Box>
           </Box>
         ))}
+
         {isNotesFetched && !isFetching && Object.keys(notes).length <= 0 && (
-          <Paragraph>There's nothing here</Paragraph>
+          <Paragraph mb={4}>There's nothing here</Paragraph>
         )}
+
         {isNotesFetched && (
           <Box flexDirection="row" mb={3}>
             <LinkButton

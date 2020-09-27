@@ -10,9 +10,9 @@ export const fetchNotes = (dispatch) =>
   /*
    * @returns {undefined}
    */
-  async (pageNumber = 0) => {
+  async (pageNumber = 0, filter = "") => {
     try {
-      const response = await API.getNotes(pageNumber);
+      const response = await API.getNotes(pageNumber, filter);
       dispatch({
         type: "RECEIVE_NOTES",
         payload: { notes: response.notes, pins: response.pins || [] },
