@@ -11,11 +11,11 @@ import {
   Heading,
   FloatingPill,
   LinkButton,
-  IconButton,
   Icon,
   Paragraph
 } from "../components/styles";
 import LinksNullState from "../components/LinksNullState";
+import LinksChrome from "../components/LinksChrome";
 import NoteItem from "../components/NoteItem";
 
 export default function Links() {
@@ -74,24 +74,7 @@ export default function Links() {
   return (
     <Box mx="auto" width="100%" maxWidth="100rem">
       <FloatingPill>
-        <Box flexDirection="row" justifyContent="space-between" mb={4}>
-          <Box flexDirection="row" justifyContent="flex-start">
-            <IconButton iconName="search" text="Search" mr={2} />
-            <IconButton iconName="filter_alt" text="Filter" mr={2} />
-            <IconButton
-              iconName="refresh"
-              text="Refresh"
-              onClick={handleGetNotes}
-              mr={2}
-            />
-          </Box>
-          <Box>
-            <LinkButton variant="action" to="/notes/new">
-              <Icon name="edit" mr={2} />
-              <Text color="inherit">New Note</Text>
-            </LinkButton>
-          </Box>
-        </Box>
+        <LinksChrome onRefresh={handleGetNotes} />
         {!isNotesFetched && <Ripple />}
         {pageNumber === 0 && pins.length > 0 && (
           <Box as="section" mb={4}>

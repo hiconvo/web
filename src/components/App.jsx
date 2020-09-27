@@ -27,6 +27,7 @@ import MagicInvite from "../pages/MagicInvite";
 import Unsubscribe from "../pages/Unsubscribe";
 import NewNote from "../pages/NewNote";
 import Note from "../pages/Note";
+import SearchLinks from "../pages/SearchLinks";
 
 const ModalBackground = styled(BaseModalBackground).attrs((props) => ({
   ...props,
@@ -106,6 +107,11 @@ export default function App() {
                       path="/links/:id/edit"
                       exact
                       component={UpdateLink}
+                    />
+                    <AuthorizedRoute
+                      path="/links/search"
+                      exact
+                      component={SearchLinks}
                     />
                     <AuthorizedRoute path="/links" component={Links} />
                     <AuthorizedRoute path="/notes/new" component={NewNote} />

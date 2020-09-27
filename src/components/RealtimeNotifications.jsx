@@ -203,7 +203,7 @@ export default function RealtimeNotifications() {
               onClick();
             }}
           >
-            <Text fontWeight="inherit" fontSize="inherit">
+            <Text fontWeight="inherit" fontSize="inherit" color="inherit">
               {filteredNotifs.length}
             </Text>
           </Circle>

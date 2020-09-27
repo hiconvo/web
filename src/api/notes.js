@@ -8,6 +8,13 @@ export function getNotes(pageNumber = 0) {
 }
 
 /*
+ * @param {string} query
+ */
+export function searchNotes(query) {
+  return apiRequest(`/notes?search=${query}`);
+}
+
+/*
  * @param {string} id
  */
 export function getNote(id) {
