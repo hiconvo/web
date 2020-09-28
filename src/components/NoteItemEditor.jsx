@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useDebounce } from "../hooks";
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/notes";
+import { loginUserWithToken } from "../actions/auth";
 import Composer, {
   getInitialEditorState,
   getTextFromEditorState
@@ -17,7 +18,10 @@ export default function NoteItemEditor({ note, onClose }) {
   const [isSaving, setIsSaving] = useState(false);
   const [body, setBody] = useState(getInitialEditorState(note.body));
   const [tags, setTags] = useState(note.tags || []);
-  const { deleteNote, updateNote } = useActions(unboundActions);
+  const { deleteNote, updateNote, getUser } = useActions({
+    getUser: loginUserWithToken,
+    ...unboundActions
+  });
   const debouncedBody = useDebounce(body, 800);
   const isLink = note && note.url;
 
@@ -46,6 +50,7 @@ export default function NoteItemEditor({ note, onClose }) {
 
     try {
       await updateNote({ id: note.id, tags: newTags });
+      await getUser();
     } catch (e) {
       return;
     } finally {

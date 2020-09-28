@@ -134,6 +134,8 @@ export default function RealtimeNotifications() {
   const [isLoggedIn, user] = useSelectors(getIsLoggedIn, getUser);
   const [notifs, setNotifs] = useState([]);
   const subscription = useRef(null);
+  const userId = user && user.id;
+  const realtimeToken = user && user.realtimeToken;
 
   function markAllAsRead() {
     setNotifs(notifs.map((n) => ({ ...n, is_read: true, is_seen: true })));
@@ -156,7 +158,7 @@ export default function RealtimeNotifications() {
     if (isLoggedIn && !(client || feed || subscription.current)) {
       try {
         client = stream.connect("kqm59q4584ah", null, "62737");
-        feed = client.feed("notification", user.id, user.realtimeToken);
+        feed = client.feed("notification", userId, realtimeToken);
       } catch (e) {
         Sentry.captureException(e);
         return;
@@ -184,7 +186,7 @@ export default function RealtimeNotifications() {
       feed = null;
       client = null;
     };
-  }, [isLoggedIn, user, subscription]);
+  }, [isLoggedIn, userId, realtimeToken, subscription]);
 
   if (!isLoggedIn) {
     return <div />;
