@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useRouteMatch } from "react-router";
 
 import useQuery from "../hooks/query";
-import { searchNotes } from "../api/notes";
+import { searchNotes, getNotes } from "../api/notes";
 import NoteItem from "../components/NoteItem";
 import LinksChrome from "../components/LinksChrome";
 import {
@@ -11,38 +12,53 @@ import {
   FloatingPill,
   Paragraph
 } from "../components/styles";
+import { upperFirstLetter } from "../utils";
 
 export default function SearchLinks() {
+  const isSearchPage = useRouteMatch("/links/search");
   const [isFetching, setIsFetching] = useState(false);
   const [results, setResults] = useState([]);
   const [selectedNoteId, setSelectedNoteId] = useState(false);
   const query = useQuery();
-  const searchQuery = query.get("q");
+  const searchQuery = query.get("q") || "";
+  const tag = query.get("tag") || "";
 
-  const handleSearchNotes = useCallback(async () => {
+  const handleFetchNotes = useCallback(async () => {
     setIsFetching(true);
 
+    let func, args;
+    if (searchQuery) {
+      func = searchNotes;
+      args = [searchQuery];
+    } else if (tag) {
+      func = getNotes;
+      args = [0, "", tag];
+    }
+
     try {
-      const results = await searchNotes(searchQuery);
+      const results = await func(...args);
       setResults(results.notes);
     } catch (e) {
       return;
     } finally {
       setIsFetching(false);
     }
-  }, [searchQuery]);
+  }, [searchQuery, tag]);
 
   useEffect(() => {
-    handleSearchNotes();
-  }, [handleSearchNotes]);
+    handleFetchNotes();
+  }, [handleFetchNotes]);
 
   return (
     <Box mx="auto" width="100%" maxWidth="100rem">
       <FloatingPill>
-        <LinksChrome withBackButton />
+        <LinksChrome
+          withBackButton={isSearchPage}
+          onRefresh={isSearchPage ? null : handleFetchNotes}
+        />
         <Box as="section" mb={4}>
           <Heading as="h3" fontSize={3} fontWeight="bold">
-            Search
+            {tag ? upperFirstLetter(tag) : "Search"}
           </Heading>
 
           {isFetching && <Ripple />}

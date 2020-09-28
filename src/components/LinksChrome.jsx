@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
+import { useSelectors } from "../redux";
+import { getUser } from "../selectors";
 import {
   Text,
   Box,
@@ -11,6 +13,7 @@ import {
   DropdownMenu,
   Input
 } from "../components/styles";
+import { upperFirstLetter } from "../utils";
 
 function LinkSearchField({ isOpen, isVisible, onClose }) {
   const [query, setQuery] = useState("");
@@ -47,6 +50,8 @@ function LinkSearchField({ isOpen, isVisible, onClose }) {
 }
 
 function LinkFilterMenu({ isOpen, isVisible }) {
+  const [user] = useSelectors(getUser);
+
   return (
     <DropdownMenu
       isOpen={isOpen}
@@ -89,6 +94,31 @@ function LinkFilterMenu({ isOpen, isVisible }) {
             Remove Filter
           </LinkButton>
         </li>
+
+        {user.tags.length > 0 && (
+          <Box px={2} py={1}>
+            <Text fontSize={1} color="gray">
+              Tags
+            </Text>
+          </Box>
+        )}
+
+        {user.tags.map((tag) => (
+          <li key={tag}>
+            <LinkButton
+              variant="tertiary"
+              textAlign="left"
+              justifyContent="flex-start"
+              px={2}
+              py={1}
+              to={`/links/tags?tag=${encodeURIComponent(tag)}`}
+            >
+              {upperFirstLetter(tag)}
+            </LinkButton>
+          </li>
+        ))}
+
+        {user.tags.length > 0 && <Box py={1} />}
       </Box>
     </DropdownMenu>
   );

@@ -9,12 +9,14 @@ import Composer, {
   getInitialEditorState,
   getTextFromEditorState
 } from "./Composer";
+import TaggingEditor from "../components/TaggingEditor";
 import { Text, Box, IconButton } from "../components/styles";
 
 export default function NoteItemEditor({ note, onClose }) {
   const history = useHistory();
   const [isSaving, setIsSaving] = useState(false);
   const [body, setBody] = useState(getInitialEditorState(note.body));
+  const [tags, setTags] = useState(note.tags || []);
   const { deleteNote, updateNote } = useActions(unboundActions);
   const debouncedBody = useDebounce(body, 800);
   const isLink = note && note.url;
@@ -38,6 +40,20 @@ export default function NoteItemEditor({ note, onClose }) {
       handleUpdateBody(rawText);
     }
   }, [debouncedBody, note, updateNote]);
+
+  async function handleUpdateTags(newTags) {
+    setIsSaving(true);
+
+    try {
+      await updateNote({ id: note.id, tags: newTags });
+    } catch (e) {
+      return;
+    } finally {
+      setIsSaving(false);
+    }
+
+    setTags(newTags);
+  }
 
   async function handleDeleteNote() {
     try {
@@ -98,7 +114,15 @@ export default function NoteItemEditor({ note, onClose }) {
           placeholder="Add a note..."
         />
       </Box>
-      <Box mt={3}>
+      <Box
+        mt={2}
+        justifyContent="space-between"
+        alignItems="center"
+        flexDirection="row"
+        maxWidth="70rem"
+        width="100%"
+      >
+        <TaggingEditor tags={tags} setTags={handleUpdateTags} />
         <Text color="gray" fontSize={1}>
           {isSaving ? "Saving..." : "Saved"}
         </Text>

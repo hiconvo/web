@@ -113,6 +113,11 @@ export default function App() {
                       exact
                       component={SearchLinks}
                     />
+                    <AuthorizedRoute
+                      path="/links/tags"
+                      exact
+                      component={SearchLinks}
+                    />
                     <AuthorizedRoute path="/links" component={Links} />
                     <AuthorizedRoute path="/notes/new" component={NewNote} />
                     <AuthorizedRoute path="/notes/:id" component={Note} />
