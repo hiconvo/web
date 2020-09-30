@@ -63,27 +63,29 @@ export default function SearchLinks() {
 
           {isFetching && <Ripple />}
 
-          <Box as="ul" flexDirection="column">
-            {results.map((note) => (
-              <NoteItem
-                key={note.id}
-                note={note}
-                isOpen={selectedNoteId === note.id}
-                setIsOpen={setSelectedNoteId}
-              />
-            ))}
+          {!isFetching && results.length > 0 && (
+            <Box as="ul" flexDirection="column">
+              {results.map((note) => (
+                <NoteItem
+                  key={note.id}
+                  note={note}
+                  isOpen={selectedNoteId === note.id}
+                  setIsOpen={setSelectedNoteId}
+                />
+              ))}
+            </Box>
+          )}
 
-            {!isFetching && results.length <= 0 && (
-              <Box>
-                <Paragraph>
-                  No results{" "}
-                  <span role="img" aria-label="sad face">
-                    😕
-                  </span>
-                </Paragraph>
-              </Box>
-            )}
-          </Box>
+          {!isFetching && results.length <= 0 && (
+            <Box>
+              <Paragraph>
+                No results{" "}
+                <span role="img" aria-label="sad face">
+                  😕
+                </span>
+              </Paragraph>
+            </Box>
+          )}
         </Box>
       </FloatingPill>
     </Box>

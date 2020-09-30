@@ -6,7 +6,7 @@ import { Box, FloatingPill } from "../components/styles";
 const text = `
 Hello,
 
-I'm testing out a new feature that allows you to **save links** as you browse. To get started, dowload the browser extension for Chrome or Firefox and start saving links.
+I'm testing out a new feature that allows you to **save links** as you browse. To get started, dowload the browser extension for [Chrome](https://chrome.google.com/webstore/detail/convo/oneifhdbldlgdldmihfgmpiknhghcble) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/convo/) and start saving links.
 
 I built this feature over a few nights and weekends because I wasn't satisfied with the available solutions for **saving links**. I tried using [Instapaper](https://instapaper.com), [Pocket](https://getpocket.com), Medium's [Journal](https://usejournal.com), and a few others, but there was something missing about each of them.
 
