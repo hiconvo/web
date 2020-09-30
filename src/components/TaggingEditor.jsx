@@ -94,12 +94,12 @@ function TagButton({ tag, onRemoveTag }) {
 }
 
 export default function TaggingEditor({ tags, setTags }) {
-  function handleAddTag(tag) {
-    setTags(tags.concat(tag));
+  async function handleAddTag(tag) {
+    await setTags(tags.concat(tag.toLowerCase()));
   }
 
-  function handleRemoveTag(tag) {
-    setTags(tags.filter((t) => t !== tag));
+  async function handleRemoveTag(tag) {
+    await setTags(tags.filter((t) => t !== tag));
   }
 
   return (

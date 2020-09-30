@@ -22,7 +22,7 @@ export default function NoteItemEditor({ note, onClose }) {
     getUser: loginUserWithToken,
     ...unboundActions
   });
-  const debouncedBody = useDebounce(body, 800);
+  const debouncedBody = useDebounce(body, 1400);
   const isLink = note && note.url;
 
   useEffect(() => {
@@ -46,6 +46,8 @@ export default function NoteItemEditor({ note, onClose }) {
   }, [debouncedBody, note, updateNote]);
 
   async function handleUpdateTags(newTags) {
+    if (isSaving) return;
+
     setIsSaving(true);
 
     try {
@@ -115,6 +117,7 @@ export default function NoteItemEditor({ note, onClose }) {
         <Composer
           editorState={body}
           onChange={setBody}
+          mode="complete"
           backgroundColor="gray"
           placeholder="Add a note..."
         />
