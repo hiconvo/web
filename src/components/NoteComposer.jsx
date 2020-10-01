@@ -18,7 +18,7 @@ const StyledModel = Modal.styled`
   left: 0;
   width: 100vw;
   height: 100vh;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 export default function NoteComposer({ note: noteProp = { id: null } }) {
@@ -101,7 +101,7 @@ export default function NoteComposer({ note: noteProp = { id: null } }) {
             onChange={setBody}
             mode="complete"
             placeholder="The first line is the title. To make a line into a heading, prefix it with one or more hashes #. Surround text in asterisks for *bold* and underscores for _italic_."
-            height="50rem"
+            height="10rem"
             fontSize={4}
             autoFocus={true}
           />
