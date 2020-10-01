@@ -1,6 +1,12 @@
 import React from "react";
 
-import { Box, Heading, FloatingPill, LinkButton } from "../components/styles";
+import {
+  Box,
+  Heading,
+  FloatingPill,
+  LinkButton,
+  Text
+} from "../components/styles";
 
 export default function Extensions() {
   return (
@@ -52,8 +58,13 @@ export default function Extensions() {
               maxWidth="30rem"
               src="/browsers/safari.jpg"
             />
-            <LinkButton variant="secondary" to="#">
-              Download for Safari
+            <LinkButton variant="secondary" to="#" disabled>
+              <Text fontSize="inherit" color="inherit" mr={1}>
+                Coming soon
+              </Text>
+              <span role="img" aria-label="sad face">
+                😕
+              </span>
             </LinkButton>
           </Box>
         </Box>
