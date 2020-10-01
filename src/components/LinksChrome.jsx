@@ -146,6 +146,7 @@ export default function LinksChrome({ onRefresh, withBackButton }) {
           side="left"
           renderAnchor={({ onClick }) => (
             <IconButton
+              mobileHideText={true}
               onClick={onClick}
               iconName="search"
               text="Search"
@@ -165,6 +166,7 @@ export default function LinksChrome({ onRefresh, withBackButton }) {
           side="left"
           renderAnchor={({ onClick }) => (
             <IconButton
+              mobileHideText={true}
               onClick={onClick}
               iconName="filter_alt"
               text="Filter"
@@ -182,6 +184,7 @@ export default function LinksChrome({ onRefresh, withBackButton }) {
         </Dropdown>
         {onRefresh && (
           <IconButton
+            mobileHideText={true}
             iconName="refresh"
             text="Refresh"
             onClick={onRefresh}
@@ -191,8 +194,10 @@ export default function LinksChrome({ onRefresh, withBackButton }) {
       </Box>
       <Box>
         <LinkButton variant="action" to="/notes/new">
-          <Icon name="edit" mr={2} />
-          <Text color="inherit">New Note</Text>
+          <Icon name="edit" />
+          <Text ml={2} color="inherit" display={["none", "inline"]}>
+            New Note
+          </Text>
         </LinkButton>
       </Box>
     </Box>

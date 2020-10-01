@@ -63,6 +63,7 @@ function AddTagButton({ onAddTag }) {
           variant="tertiary"
           padding={0}
           mb={0}
+          mr={2}
           onClick={() => setIsEditing(true)}
         >
           <Text fontSize={1}>Add Tag</Text>

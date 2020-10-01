@@ -83,6 +83,7 @@ export default function NoteItemEditor({ note, onClose }) {
       <Box as="ul" flexDirection="row">
         <li>
           <IconButton
+            mobileHideText={true}
             iconName="delete"
             text="Delete"
             mr={2}
@@ -91,6 +92,7 @@ export default function NoteItemEditor({ note, onClose }) {
         </li>
         <li>
           <IconButton
+            mobileHideText={true}
             iconName="edit"
             text="Edit"
             mr={2}
@@ -103,6 +105,7 @@ export default function NoteItemEditor({ note, onClose }) {
         </li>
         <li>
           <IconButton
+            mobileHideText={true}
             iconName="push_pin"
             text={note.pin ? "Unpin" : "Pin"}
             mr={2}
@@ -110,7 +113,12 @@ export default function NoteItemEditor({ note, onClose }) {
           />
         </li>
         <li>
-          <IconButton iconName="close" text="Close" onClick={onClose} />
+          <IconButton
+            mobileHideText={true}
+            iconName="menu_open"
+            text="Close"
+            onClick={onClose}
+          />
         </li>
       </Box>
       <Box width="100%" maxWidth="70rem">
