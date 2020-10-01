@@ -95,7 +95,12 @@ export default function UploadAvatarFormButton() {
           >
             Cancel
           </Button>
-          <Button onClick={handleUpload} isLoading={isLoading} width="10rem">
+          <Button
+            variant="primary"
+            onClick={handleUpload}
+            isLoading={isLoading}
+            width="10rem"
+          >
             Done
           </Button>
         </Box>

@@ -3,9 +3,10 @@ import { Text, Paragraph, Heading } from "./typography";
 import { Input, TextArea, Checkbox } from "./Input";
 import Button from "./Button";
 import LinkButton from "./LinkButton";
+import IconButton from "./IconButton";
 import UnstyledButton from "./UnstyledButton";
 import Icon from "./Icon";
-import Dropdown from "./Dropdown";
+import Dropdown, { DropdownMenu } from "./Dropdown";
 import Ripple from "./Ripple";
 import Spinner from "./Spinner";
 import FloatingPill from "./FloatingPill";
@@ -29,6 +30,7 @@ export {
   TextArea,
   Button,
   LinkButton,
+  IconButton,
   Reset,
   Icon,
   Dropdown,
@@ -43,5 +45,6 @@ export {
   AutoCompleteDropDown,
   AutoCompleteItem,
   Avatar,
-  Checkbox
+  Checkbox,
+  DropdownMenu,
 };

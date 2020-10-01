@@ -12,7 +12,7 @@ export default function OpenGraphLink({ link }) {
     <a href={link.url} target="_blank" rel="noopener noreferrer">
       <Box borderRadius="normal" overflow="hidden">
         {image && <Box as="img" display="block" width="100%" src={image} />}
-        <Box backgroundColor="lightGray" p={3}>
+        <Box backgroundColor="veryLightGray" p={3}>
           <Box mb={1}>
             <Paragraph fontSize={1} fontWeight="bold" mb={1}>
               {link.title}

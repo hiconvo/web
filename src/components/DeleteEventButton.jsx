@@ -5,7 +5,7 @@ import { useActions, useSelectors } from "../redux";
 import { getEvents } from "../selectors";
 import ConfirmationModal from "./ConfirmationModal";
 import * as unboundActions from "../actions/events";
-import { Paragraph } from "./styles";
+import { Paragraph, Box } from "./styles";
 import Composer, {
   getInitialEditorState,
   getTextFromEditorState
@@ -34,7 +34,7 @@ export default function DeleteEventButton({ event, render }) {
     }
 
     if (events.length >= 2) {
-      const { id } = events.filter(e => e.id !== event.id)[0];
+      const { id } = events.filter((e) => e.id !== event.id)[0];
       history.push(`/events/${id}`);
     } else {
       history.push("/convos");
@@ -58,14 +58,16 @@ export default function DeleteEventButton({ event, render }) {
           past, they won't receive any email. This action cannot be undone.
         </Paragraph>
 
-        <Composer
-          backgroundColor="gray"
-          height="8rem"
-          placeholder="Tell your guests why you're canceling..."
-          editorState={message}
-          onChange={setMessage}
-          isDisabled={isLoading}
-        />
+        <Box mb={3}>
+          <Composer
+            backgroundColor="gray"
+            height="8rem"
+            placeholder="Tell your guests why you're canceling..."
+            editorState={message}
+            onChange={setMessage}
+            isDisabled={isLoading}
+          />
+        </Box>
       </ConfirmationModal>
     </React.Fragment>
   );

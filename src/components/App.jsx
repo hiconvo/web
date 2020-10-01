@@ -10,6 +10,8 @@ import DataLoader from "./DataLoader";
 import Frame from "./Frame";
 import Login from "../pages/Login";
 import Events from "../pages/Events";
+import Links from "../pages/Links";
+import UpdateLink from "../pages/UpdateLink";
 import NewEvent from "../pages/NewEvent";
 import Thread from "../pages/Thread";
 import NewThread from "../pages/NewThread";
@@ -23,6 +25,10 @@ import Feed from "../pages/Feed";
 import Magic from "../pages/Magic";
 import MagicInvite from "../pages/MagicInvite";
 import Unsubscribe from "../pages/Unsubscribe";
+import NewNote from "../pages/NewNote";
+import Note from "../pages/Note";
+import SearchLinks from "../pages/SearchLinks";
+import Extensions from "../pages/Extensions";
 
 const ModalBackground = styled(BaseModalBackground).attrs((props) => ({
   ...props,
@@ -99,11 +105,33 @@ export default function App() {
                     />
                     <AuthorizedRoute path="/events" exact component={Events} />
                     <AuthorizedRoute
+                      path="/links/:id/edit"
+                      exact
+                      component={UpdateLink}
+                    />
+                    <AuthorizedRoute
+                      path="/links/search"
+                      exact
+                      component={SearchLinks}
+                    />
+                    <AuthorizedRoute
+                      path="/links/tags"
+                      exact
+                      component={SearchLinks}
+                    />
+                    <AuthorizedRoute path="/links" component={Links} />
+                    <AuthorizedRoute path="/notes/new" component={NewNote} />
+                    <AuthorizedRoute path="/notes/:id" component={Note} />
+                    <AuthorizedRoute
                       path="/contacts"
                       exact
                       component={Contacts}
                     />
                     <AuthorizedRoute path="/settings" component={Settings} />
+                    <AuthorizedRoute
+                      path="/extensions"
+                      component={Extensions}
+                    />
                     <Redirect to="/convos" />
                   </Switch>
                 </Frame>

@@ -1,18 +1,28 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router";
+import { useLocation, useHistory } from "react-router";
 
 import Button from "./Button";
 
 function LinkButton({ to, children, preserveQuery, ...rest }) {
   const { search } = useLocation();
+  const history = useHistory();
+
+  const dest = preserveQuery ? to + search : to;
+
+  function handleClick(e) {
+    e.preventDefault();
+
+    if (dest.startsWith("http")) {
+      window.open(dest, "_blank");
+    } else {
+      history.push(dest);
+    }
+  }
 
   return (
-    <Link to={{ pathname: to, search: preserveQuery ? search : "" }}>
-      <Button as="div" {...rest}>
-        {children}
-      </Button>
-    </Link>
+    <Button as="a" href={to} onClick={handleClick} {...rest}>
+      {children}
+    </Button>
   );
 }
 

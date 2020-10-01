@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { useActions } from "../redux";
 import * as unboundActions from "../actions/auth";
-import { Box, Button } from "./styles";
+import { Box, Button, Text } from "./styles";
 
 import facebookLogo from "../media/facebook-logo.svg";
 
@@ -16,7 +16,7 @@ export default function LoginFacebook() {
     setIsLoading(true);
 
     window.FB.login(
-      async response => {
+      async (response) => {
         if (response.authResponse) {
           try {
             await loginUserWithOAuth({
@@ -56,7 +56,9 @@ export default function LoginFacebook() {
       color="bodytext"
     >
       <Box as="img" src={facebookLogo} width="2.2rem" mr={2} />
-      Continue with Facebook
+      <Text fontWeight="inherit" color="inherit">
+        Continue with Facebook
+      </Text>
     </Button>
   );
 }

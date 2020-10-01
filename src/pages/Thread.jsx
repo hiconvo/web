@@ -95,7 +95,9 @@ export default function Thread() {
             width="100%"
           >
             <Icon name="keyboard_backspace" mr={1} fontSize={3} />
-            Go back
+            <Text fontSize="inherit" fontWeight="inherit">
+              Go back
+            </Text>
           </Button>
         </Box>
       </Box>

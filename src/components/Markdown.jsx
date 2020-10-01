@@ -4,7 +4,7 @@ import { themeGet } from "@styled-system/theme-get";
 import { typography, textStyle } from "styled-system";
 import marked from "marked";
 
-const Container = styled.div`
+export const MarkdownContainer = styled.div`
   line-height: 1.5em;
   word-break: break-word;
 
@@ -26,7 +26,8 @@ const Container = styled.div`
     margin-bottom: ${themeGet("space.2")};
   }
 
-  p {
+  p,
+  .public-DraftStyleDefault-block {
     margin-bottom: ${themeGet("space.3")};
   }
 
@@ -59,24 +60,30 @@ const Container = styled.div`
     border: 0.1rem solid ${themeGet("colors.lightGray")};
     background-color: ${themeGet("colors.snow")};
     font-size: 1.4rem;
+    line-height: 1em;
   }
 
   ul {
-    margin-left: ${themeGet("space.2")};
-    margin-bottom: ${themeGet("space.2")};
-    list-style: disc inside;
+    margin-left: ${themeGet("space.4")};
+    margin-bottom: ${themeGet("space.3")};
+    list-style: disc outside;
   }
 
   ol {
-    margin-left: ${themeGet("space.2")};
+    margin-left: ${themeGet("space.4")};
+    margin-bottom: ${themeGet("space.3")};
+    list-style: decimal outside;
+  }
+
+  li {
     margin-bottom: ${themeGet("space.2")};
-    list-style: decimal inside;
   }
 
   blockquote {
     padding-left: ${themeGet("space.3")};
     margin-right: ${themeGet("space.3")};
     margin-bottom: ${themeGet("space.3")};
+    margin-top: ${themeGet("space.3")};
     border-left: ${themeGet("borders.lightGray")};
 
     p {
@@ -89,10 +96,26 @@ const Container = styled.div`
   ${textStyle}
 `;
 
-Container.defaultProps = { fontSize: 2 };
+MarkdownContainer.defaultProps = { fontSize: 2 };
+
+const renderer = new marked.Renderer();
+renderer.image = (text) => text;
+renderer.heading = (text) => text;
+renderer.hr = (text) => text;
+renderer.table = (text) => text;
+renderer.tablerow = (text) => text;
+renderer.tablecell = (text) => text;
+renderer.del = (text) => text;
+renderer.checkbox = (text) => text;
+renderer.html = (text) => escape(text);
 
 export default function Markdown({ text, ...rest }) {
   return (
-    <Container dangerouslySetInnerHTML={{ __html: marked(text) }} {...rest} />
+    <MarkdownContainer
+      dangerouslySetInnerHTML={{
+        __html: marked(text, { renderer: renderer, breaks: true, gfm: true })
+      }}
+      {...rest}
+    />
   );
 }

@@ -18,9 +18,9 @@ export const videoChatPlaces = [
   { description: "Other", placeId: "other" }
 ];
 
-function DropDownItem({ suggestion, ...rest }) {
+function DropDownItem({ suggestion, key, ...rest }) {
   return (
-    <li {...rest}>
+    <li key={key} {...rest}>
       <AutoCompleteItem>
         <Text>{suggestion.description}</Text>
       </AutoCompleteItem>
@@ -45,7 +45,7 @@ export default function PlacePicker({
       debounce={400}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps }) => (
-        <Box position="relative" width="100%">
+        <Box position="relative" width="100%" key="placesautocomplete">
           <InputComponent
             name="Where"
             type="text"

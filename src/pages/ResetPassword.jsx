@@ -42,7 +42,7 @@ export default function ResetPassword({ match, history }) {
           name="Password"
           type="password"
           value={password1}
-          onChange={e => setPassword1(e.target.value)}
+          onChange={(e) => setPassword1(e.target.value)}
           required
           mb={2}
         />
@@ -50,11 +50,17 @@ export default function ResetPassword({ match, history }) {
           name="Verify password"
           type="password"
           value={password2}
-          onChange={e => setPassword2(e.target.value)}
+          onChange={(e) => setPassword2(e.target.value)}
           required
           mb={4}
         />
-        <Button mt={2} mb={4} type="submit" isLoading={isLoading}>
+        <Button
+          variant="primary"
+          mt={2}
+          mb={4}
+          type="submit"
+          isLoading={isLoading}
+        >
           Set password
         </Button>
       </Box>

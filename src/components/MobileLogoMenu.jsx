@@ -82,6 +82,7 @@ export default function MobileLogoMenu() {
             </Box>
             <Box alignItems="flex-start">
               <NavItem to="/convos" text="Convos" />
+              <NavItem to="/links" text="Links" />
               <NavItem to="/events" text="Events" />
               <NavItem to="/contacts" text="Contacts" />
             </Box>

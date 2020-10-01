@@ -14,7 +14,11 @@ import {
 const isFetching = new Set();
 
 export default function DataLoader({ children }) {
-  const actions = useActions({ fetchThreads, fetchEvents, fetchContacts });
+  const actions = useActions({
+    fetchThreads,
+    fetchEvents,
+    fetchContacts
+  });
   const [
     isLoggedIn,
     isThreadsFetched,

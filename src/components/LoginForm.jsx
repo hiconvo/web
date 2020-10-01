@@ -60,6 +60,7 @@ export default function LoginForm() {
           onChange={handleEmailChange}
           error={authErrors.email}
           required
+          autoFocus
         />
         <Input
           name="Password"
@@ -70,8 +71,16 @@ export default function LoginForm() {
           required
           mb={4}
         />
-        <Button mt={2} mb={3} type="submit" isLoading={isLoading}>
-          Login
+        <Button
+          variant="primary"
+          mt={2}
+          mb={3}
+          type="submit"
+          isLoading={isLoading}
+        >
+          <Text fontWeight="inherit" color="inherit" fontSize="inherit">
+            Login
+          </Text>
         </Button>
       </Box>
       <LinkButton to="/login" preserveQuery>

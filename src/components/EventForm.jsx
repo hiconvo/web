@@ -139,6 +139,7 @@ export default function EventForm({ event }) {
           : "Complete the form to create an event and send invitations. If you do not complete this form now, your progress will be saved for later. Your guests will not be required to create an account on Convo in order to RSVP."}
       </Paragraph>
       <Input
+        autoFocus
         type="text"
         name="Name"
         tabIndex="1"
@@ -289,12 +290,15 @@ export default function EventForm({ event }) {
 
       <Box mt={4}>
         <Button
+          variant="primary"
           type="submit"
           tabIndex="8"
           onClick={formik.handleSubmit}
           isLoading={formik.isSubmitting}
         >
-          {isEditing ? "Update event" : "Send invitations"}
+          <Text fontWeight="inherit" color="inherit">
+            {isEditing ? "Update event" : "Send invitations"}
+          </Text>
         </Button>
       </Box>
     </Container>

@@ -7,9 +7,17 @@ import {
   border,
   background,
   color,
-  position
+  position,
+  shadow
 } from "styled-system";
-import { float, cursor, overflow, overflowY } from "./utils";
+import {
+  float,
+  cursor,
+  overflow,
+  overflowY,
+  whiteSpace,
+  textOverflow
+} from "./utils";
 
 const Box = styled("div")(
   {
@@ -20,6 +28,8 @@ const Box = styled("div")(
   space,
   layout,
   typography,
+  whiteSpace,
+  textOverflow,
   flexbox,
   border,
   color,
@@ -28,7 +38,8 @@ const Box = styled("div")(
   float,
   overflow,
   overflowY,
-  cursor
+  cursor,
+  shadow
 );
 
 Box.defaultProps = {

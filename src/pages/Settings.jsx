@@ -173,6 +173,7 @@ export default function Settings() {
           <SettingsButton
             onClick={sendResetPasswordEmail}
             iconName="vpn_key"
+            variant="tertiary"
             text={user.isPasswordSet ? "Reset password" : "Set password"}
           />
         </Group>

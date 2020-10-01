@@ -4,9 +4,9 @@ import { themeGet } from "@styled-system/theme-get";
 
 import InfoBoxMemberItem from "./InfoBoxMemberItem";
 import UserOverflowModal from "./UserOverflowModal";
-import { Text, Box, Icon, UnstyledButton } from "./styles";
+import { Text, Box, Icon, Button } from "./styles";
 
-const Container = styled.li`
+const Container = styled(Button)`
   display: flex;
   align-items: center;
   width: max-content;
@@ -15,6 +15,7 @@ const Container = styled.li`
     ${themeGet("space.2")};
   background-color: transparent;
   transition: background-color ease ${themeGet("animations.fast")};
+  margin-left: -1.8rem;
 
   &:hover {
     background-color: ${themeGet("colors.veryLightGray")};
@@ -50,20 +51,13 @@ export default function UserOverflowList({
       ))}
       {users.length > maxLength && (
         <Box>
-          <Container>
-            <UnstyledButton p={0} ml="-0.8rem" onClick={toggleModal}>
-              <Box alignItems="center" flexDirection="row">
-                <Icon
-                  name="more_horiz"
-                  width="3rem"
-                  fontSize={3}
-                  color="gray"
-                />
-                <Text ml={2} fontSize={3} color="gray">
-                  See {users.length - maxLength} more
-                </Text>
-              </Box>
-            </UnstyledButton>
+          <Container onClick={toggleModal}>
+            <Box alignItems="center" flexDirection="row">
+              <Icon name="more_horiz" width="3rem" fontSize={3} color="gray" />
+              <Text ml={2} fontSize={3} color="gray">
+                See {users.length - maxLength} more
+              </Text>
+            </Box>
           </Container>
           <UserOverflowModal
             isOpen={isOpen}

@@ -8,13 +8,18 @@ export const initialState = {
   events: [],
   messages: [],
   contacts: [],
+  notes: [],
+  pins: [],
   isContactsFetched: false,
   isThreadsFetched: false,
   isEventsFetched: false,
+  isNotesFetched: false,
   threadsPageNum: 0,
   eventsPageNum: 0,
+  notesPageNum: 0,
   isThreadsExhausted: false,
-  isEventsExhausted: false
+  isEventsExhausted: false,
+  isNotesExhausted: false
 };
 
 export default function reducer(state, action) {
@@ -144,6 +149,51 @@ export default function reducer(state, action) {
       return Object.assign({}, initialState, {
         loading: { global: false }
       });
+    case "CLEAR_NOTES": {
+      return Object.assign({}, state, {
+        notes: [],
+        isNotesFetched: false,
+        pageNumber: 0
+      });
+    }
+    case "RECEIVE_NOTES_MERGE": {
+      const notes = state.notes
+        .filter((n) => !action.payload.some((newNote) => newNote.id === n.id))
+        .concat(action.payload)
+        .sort((a, b) => isBefore(a.createdAt, b.createdAt));
+      const pins = state.pins
+        .filter((n) => !action.payload.some((newNote) => newNote.id === n.id))
+        .concat(action.payload.filter((n) => n.pin))
+        .sort((a, b) => isBefore(a.createdAt, b.createdAt));
+      return Object.assign({}, state, {
+        notes,
+        pins,
+        isNotesFetched: true,
+        notesPageNum: action.pageNumber || state.notesPageNum,
+        isNotesExhausted: action.payload.length === 0
+      });
+    }
+    case "RECEIVE_NOTES": {
+      const notes = action.payload.notes.sort((a, b) =>
+        isBefore(a.createdAt, b.createdAt)
+      );
+      const pins = action.payload.pins
+        ? action.payload.pins.sort((a, b) => isBefore(a.createdAt, b.createdAt))
+        : [];
+      return Object.assign({}, state, {
+        notes,
+        pins,
+        isNotesFetched: true,
+        notesPageNum: action.pageNumber || state.notesPageNum,
+        isNotesExhausted: action.payload.length === 0
+      });
+    }
+    case "DELETE_NOTE": {
+      return Object.assign({}, state, {
+        notes: state.notes.filter((n) => n.id !== action.payload),
+        pins: state.pins.filter((n) => n.id !== action.payload)
+      });
+    }
     case "RECEIVE_LOADING_STATE":
       return Object.assign({}, state, { ...state.loading, ...action.payload });
     default:

@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 import orderBy from "lodash/orderBy";
 import { isAfter, parseISO } from "date-fns";
-import { isoDateToString } from "../utils";
+import { isoDateToString, isoDateToNotesHeading } from "../utils";
 
 export function getGeneralError(store) {
   return (store.errors.auth && store.errors.auth.message) || "";
@@ -44,6 +44,14 @@ export function getContacts(store) {
   return store.contacts;
 }
 
+export function getNotes(store) {
+  return store.notes;
+}
+
+export function getPins(store) {
+  return store.pins;
+}
+
 export function getIsContactsFetched(store) {
   return store.isContactsFetched;
 }
@@ -56,6 +64,10 @@ export function getIsEventsFetched(store) {
   return store.isEventsFetched;
 }
 
+export function getIsNotesFetched(store) {
+  return store.isNotesFetched;
+}
+
 export function getThreadsPageNum(store) {
   return store.threadsPageNum;
 }
@@ -64,12 +76,20 @@ export function getEventsPageNum(store) {
   return store.eventsPageNum;
 }
 
+export function getNotesPageNum(store) {
+  return store.notesPageNum;
+}
+
 export function getIsThreadsExhausted(store) {
   return store.isThreadsExhausted;
 }
 
 export function getIsEventsExhausted(store) {
   return store.isEventsExhausted;
+}
+
+export function getIsNotesExhausted(store) {
+  return store.isNotesExhausted;
 }
 
 export const getThreadsPageInfo = createSelector(
@@ -101,6 +121,9 @@ export const getEventById = (id) => (store) =>
 
 export const getThreadById = (id) => (store) =>
   store.threads.find((t) => t.id === id);
+
+export const getNoteById = (id) => (store) =>
+  store.notes.find((n) => n.id === id);
 
 export function getMessagesByThreadId(id) {
   return (store) => store.messages.filter((message) => message.parentId === id);
@@ -147,6 +170,18 @@ export const getResourceById = (id) => (store) =>
 export const getEventsByDate = createSelector(getEvents, (events) =>
   events.reduce((acc, cur) => {
     acc[isoDateToString(cur.timestamp)] = cur;
+    return acc;
+  }, {})
+);
+
+export const getNotesByDay = createSelector(getNotes, (notes) =>
+  notes.reduce((acc, cur) => {
+    const date = isoDateToNotesHeading(cur.createdAt);
+    if (acc[date]) {
+      acc[date].push(cur);
+    } else {
+      acc[date] = [cur];
+    }
     return acc;
   }, {})
 );

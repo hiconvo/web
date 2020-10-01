@@ -6,6 +6,7 @@ import { useSelectors } from "../redux";
 import { getIsLoggedIn, getUser } from "../selectors";
 import {
   Dropdown,
+  DropdownMenu,
   LinkButton,
   Button,
   Box,
@@ -18,7 +19,7 @@ import LogoutButton from "./LogoutButton";
 import LoginWithGoogle from "./LoginGoogle";
 import LoginWithFacebook from "./LoginFacebook";
 
-const Avatar = styled.div`
+const Avatar = styled(Button)`
   display: flex;
   background-color: ${themeGet("colors.lightGray")};
   height: 3.6rem;
@@ -26,7 +27,7 @@ const Avatar = styled.div`
   border-radius: 100%;
   transition: all ease ${themeGet("animations.fast")};
   cursor: pointer;
-  background-image: url(${props => props.src});
+  background-image: url(${(props) => props.src});
   background-position: center;
   background-size: contain;
   align-items: center;
@@ -37,31 +38,17 @@ const Avatar = styled.div`
   }
 `;
 
-const List = styled.ul`
-  display: ${props => (props.isOpen ? "block" : "none")};
-  width: 16rem;
-  background-color: ${themeGet("colors.trueWhite")};
-  border-radius: ${themeGet("radii.normal")};
-  box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
-  transition: all ease ${themeGet("animations.fast")};
-  transform: ${props =>
-    props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isVisible ? "1" : "0")};
-  z-index: 30;
-`;
-
 const SignUpContainer = styled.div`
-  display: ${props => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.isOpen ? "block" : "none")};
   width: auto;
   background-color: ${themeGet("colors.primary100")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
-  transform: ${props =>
+  transform: ${(props) =>
     props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isVisible ? "1" : "0")};
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
   z-index: 30;
   padding: ${themeGet("space.3")};
 `;
@@ -148,22 +135,40 @@ export default function UserMenu() {
       )}
     >
       {({ isOpen, isVisible, handleToggle }) => (
-        <List isOpen={isOpen} isVisible={isVisible} onClick={handleToggle}>
+        <DropdownMenu
+          as="ul"
+          isOpen={isOpen}
+          isVisible={isVisible}
+          onClick={handleToggle}
+          width="16rem"
+        >
           <Item>
             <Button
               as="a"
               variant="tertiary"
               textAlign="left"
               href="https://convo.events"
-              width="100%"
+              width="calc(100% - 3.2rem)"
               justifyContent="flex-start"
               mb={0}
             >
               What is Convo?
             </Button>
+          </Item>
+          <Item>
+            <LinkButton
+              to="/extensions"
+              width="calc(100% - 3.2rem)"
+              justifyContent="flex-start"
+              mb={0}
+            >
+              Extensions
+            </LinkButton>
+          </Item>
+          <Item>
             <LinkButton
               to="/settings"
-              width="100%"
+              width="calc(100% - 3.2rem)"
               justifyContent="flex-start"
               mb={0}
             >
@@ -173,7 +178,7 @@ export default function UserMenu() {
           <Item>
             <LogoutButton />
           </Item>
-        </List>
+        </DropdownMenu>
       )}
     </Dropdown>
   );

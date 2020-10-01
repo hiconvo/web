@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
+import "styled-components/macro";
+import css from "@styled-system/css";
 
 import Box from "./Box";
 
@@ -7,9 +9,30 @@ const Setter = styled.div`
   position: absolute;
   top: 100%;
   z-index: 30;
-  ${props => (props.side === "left" ? "left: 0rem;" : "right: 0rem;")}
-  ${props => (props.stretch ? "width: 100%;" : "")}
+  ${(props) => (props.side === "left" ? "left: 0rem;" : "right: 0rem;")}
+  ${(props) => (props.stretch ? "width: 100%;" : "")}
 `;
+
+export function DropdownMenu({ children, isVisible, isOpen, ...rest }) {
+  return (
+    <Box
+      css={css({
+        display: isOpen ? "block" : "none",
+        backgroundColor: "trueWhite",
+        borderRadius: "normal",
+        boxShadow: "normal",
+        visibility: isVisible ? "visible" : "hidden",
+        transition: "all ease 0.2s",
+        transform: isVisible ? "translateY(0rem)" : "translateY(-1rem)",
+        opacity: isVisible ? "1" : "0",
+        zIndex: "30"
+      })}
+      {...rest}
+    >
+      {children}
+    </Box>
+  );
+}
 
 export default function Dropdown({
   renderAnchor,
@@ -25,7 +48,7 @@ export default function Dropdown({
   const timeout = useRef(null);
 
   const handleToggle = useCallback(
-    e => {
+    (e) => {
       e && e.stopPropagation();
 
       if (isOpen) {
@@ -45,7 +68,7 @@ export default function Dropdown({
   }, [initialState]);
 
   const handleClick = useCallback(
-    e => {
+    (e) => {
       // This bgEl stuff covers the case of clicking inside of a modal that is
       // inside a dropdown. Since the modal is rendered to the modal node
       // the containerRef does not contain it. So clicking anywhere closes

@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { margin } from "styled-system";
 import { themeGet } from "@styled-system/theme-get";
 
-import { Text, Box, Icon, Avatar, Dropdown, UnstyledButton } from "./styles";
+import { Text, Box, Icon, Avatar, Dropdown, Button } from "./styles";
 import ContactInfoBox from "./ContactInfoBox";
 
 const DeleteButton = styled.button`
@@ -12,9 +11,9 @@ const DeleteButton = styled.button`
   visibility: hidden;
 `;
 
-const Container = styled.li`
-  ${margin}
+const Container = styled(Button)`
   display: flex;
+  position: relative;
   align-items: center;
   width: max-content;
   border-radius: ${themeGet("radii.special")};
@@ -37,14 +36,14 @@ const InfoBoxContainer = styled.div`
   background-color: ${themeGet("colors.trueWhite")};
   border-radius: ${themeGet("radii.normal")};
   box-shadow: ${themeGet("shadows.normal")};
-  visibility: ${props => (props.isVisible ? "visible" : "hidden")};
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   transition: all ease ${themeGet("animations.fast")};
-  transform: ${props =>
+  transform: ${(props) =>
     props.isVisible ? "translateY(0rem)" : "translateY(-1rem)"};
-  opacity: ${props => (props.isVisible ? "1" : "0")};
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
   z-index: 30;
 
-  display: ${props => (props.isOpen ? "flex" : "none")};
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
 
   ${themeGet("media.phone")} {
     position: fixed;
@@ -84,26 +83,15 @@ export default function MemberItemMedium({
   return (
     <Dropdown
       renderAnchor={({ onClick }) => (
-        <Container {...rest}>
-          <UnstyledButton
-            position="relative"
-            p={0}
-            onClick={onClickOverride || onClick}
-          >
-            <Box alignItems="center" flexDirection="row">
-              <Avatar src={member.avatar} size="3rem" />
-              <Name ml={2} fontSize={3}>
-                {member.fullName || "Unregistered"}
-              </Name>
-            </Box>
-          </UnstyledButton>
+        <Container onClick={onClickOverride || onClick} {...rest}>
+          <Box alignItems="center" flexDirection="row">
+            <Avatar src={member.avatar} size="3rem" />
+            <Name ml={2} fontSize={3}>
+              {member.fullName || "Unregistered"}
+            </Name>
+          </Box>
           {isChecked && (
             <Icon name="check" fontSize={4} display="flex" ml={2} />
-          )}
-          {onDelete && (
-            <DeleteButton onClick={onDelete}>
-              <Icon name="clear" fontSize={4} display="flex" />
-            </DeleteButton>
           )}
         </Container>
       )}

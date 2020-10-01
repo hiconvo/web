@@ -1,5 +1,6 @@
-const toRems = arr => arr.map(px => (px / 10).toFixed(1).toString() + "rem");
-const toPx = arr => arr.map(px => px + "px");
+const toRems = (arr) =>
+  arr.map((px) => (px / 10).toFixed(1).toString() + "rem");
+const toPx = (arr) => arr.map((px) => px + "px");
 
 const space = toRems([0, 4, 8, 16, 32, 64, 128, 256, 512]);
 const fontSizes = toRems([12, 14, 16, 18, 24, 30, 36, 48, 64]);
@@ -278,7 +279,14 @@ export default {
   // All of our button variants
   buttons: {
     primary: {
+      width: [space[1], "auto"],
+      padding: space[3],
+      "margin-bottom": space[2],
+      "font-size": fontSizes[2],
+
       color: white,
+      fontWeight: fontWeights.semiBold,
+      "letter-spacing": letterSpacings.spaced,
       backgroundColor: primary700,
       borderRadius: radii.special,
       "&:hover": {
@@ -287,7 +295,13 @@ export default {
       }
     },
     secondary: {
+      width: [space[1], "auto"],
+      padding: space[3],
+      "margin-bottom": space[2],
+      "font-size": fontSizes[2],
+
       color: black,
+      fontWeight: fontWeights.semiBold,
       backgroundColor: veryLightGray,
       borderRadius: radii.special,
       "&:hover": {
@@ -295,6 +309,11 @@ export default {
       }
     },
     tertiary: {
+      width: [space[1], "auto"],
+      padding: space[3],
+      "margin-bottom": space[2],
+      "font-size": fontSizes[2],
+
       color: bodytext,
       fontWeight: fontWeights.regular,
       fontSize: "inherit",
@@ -306,6 +325,11 @@ export default {
       }
     },
     gray: {
+      width: [space[1], "auto"],
+      padding: space[3],
+      "margin-bottom": space[2],
+      "font-size": fontSizes[2],
+      fontWeight: fontWeights.semiBold,
       color: black,
       backgroundColor: lightGray,
       borderRadius: radii.special,
@@ -314,6 +338,11 @@ export default {
       }
     },
     brand: {
+      width: [space[1], "auto"],
+      padding: space[3],
+      "margin-bottom": space[2],
+      "font-size": fontSizes[2],
+
       color: primary700,
       fontWeight: fontWeights.semiBold,
       backgroundColor: "inherit",
@@ -323,12 +352,30 @@ export default {
       }
     },
     white: {
+      width: [space[1], "auto"],
+      padding: space[3],
+      "margin-bottom": space[2],
+      "font-size": fontSizes[2],
+
       color: bodytext,
+      fontWeight: fontWeights.semiBold,
       boxShadow: shadows.normal,
       backgroundColor: trueWhite,
       borderRadius: radii.special,
       "&:hover": {
         backgroundColor: lightGray
+      }
+    },
+    action: {
+      padding: `${space[2]} ${space[3]}`,
+      backgroundColor: veryLightGray,
+      color: darkGray,
+      borderRadius: radii.normal,
+      fontSize: fontSizes[2],
+
+      "&:hover": {
+        backgroundColor: lightGray,
+        color: trueBlack
       }
     }
   },

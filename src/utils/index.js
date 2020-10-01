@@ -1,4 +1,4 @@
-import { isBefore as before, parseISO } from "date-fns";
+import { isBefore as before, parseISO, format } from "date-fns";
 
 export function generateId() {
   return (
@@ -45,6 +45,15 @@ export function isoDateToString(date) {
   return datePartsToString(dt.getFullYear(), dt.getMonth(), dt.getDate());
 }
 
+export function isoDateToNotesHeading(date) {
+  const dt = parseISO(date);
+  return format(dt, "EEEE d LLLL");
+}
+
 export function getGoogleMapsUrl(lat, lng, placeId) {
   return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${placeId}`;
+}
+
+export function upperFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

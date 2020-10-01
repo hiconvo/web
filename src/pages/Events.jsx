@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { Helmet } from "react-helmet";
@@ -43,7 +43,6 @@ const fetched = new Set();
 
 export default function Events() {
   const { id } = useParams();
-  const history = useHistory();
   const [errorMessage, setErrorMessage] = useState("");
   const { fetchEvent } = useActions(unboundEventActions);
   const [isEventsFetched, events, event] = useSelectors(
@@ -72,7 +71,7 @@ export default function Events() {
 
   if (!events.length || !id || !event) {
     if (!id && events.length && events[0] && events[0].id) {
-      history.push(`/events/${events[0].id}`);
+      return <Redirect to={`/events/${events[0].id}`} />;
     }
 
     if (isEventsFetched && !events.length) {

@@ -71,6 +71,7 @@ export default () => {
         {showNav && (
           <Nav>
             <NavItem to="/convos" text="Convos" />
+            <NavItem to="/links" text="Links" />
             <NavItem to="/events" text="Events" />
             <NavItem to="/contacts" text="Contacts" />
           </Nav>
