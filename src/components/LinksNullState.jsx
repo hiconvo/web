@@ -4,11 +4,11 @@ import Markdown from "./Markdown";
 import { Box, FloatingPill } from "../components/styles";
 
 const text = `
-Hello,
+Hello, 👋
 
 I'm testing out a new feature that allows you to **save links** as you browse. To get started, dowload the browser extension for [Chrome](https://chrome.google.com/webstore/detail/convo/oneifhdbldlgdldmihfgmpiknhghcble) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/convo/) and start saving links.
 
-I built this feature over a few nights and weekends because I wasn't satisfied with the available solutions for **saving links**. I tried using [Instapaper](https://instapaper.com), [Pocket](https://getpocket.com), Medium's [Journal](https://usejournal.com), and a few others, but there was something missing about each of them.
+I built this feature over a few nights and weekends because I wasn't satisfied with the available solutions on the market. I tried using [Instapaper](https://instapaper.com), [Pocket](https://getpocket.com), Medium's [Journal](https://usejournal.com), and a few others, but there was something missing about each of them.
 
 Basically, I wanted something to do the following, but couldn't find it.
 
@@ -19,7 +19,7 @@ Basically, I wanted something to do the following, but couldn't find it.
 - Display my links and notes in a **clean UI** with **high information density**.
 - Organize everything on one logical level. No "workspaces" (Notion) or "spaces" (Journal) or other unnecessary subcategories.
 
-Not all of these features are available now, but they're all on the road map, along with iOS and Android apps for Convo.
+Mobile apps for iOS and Android are also on the road map so that you can save links from your phone too. Please let me know if you have any feedback and thanks for giving Convo a try.
 
 — Alex
 `;

@@ -157,6 +157,16 @@ export default function UserMenu() {
           </Item>
           <Item>
             <LinkButton
+              to="/extensions"
+              width="calc(100% - 3.2rem)"
+              justifyContent="flex-start"
+              mb={0}
+            >
+              Extensions
+            </LinkButton>
+          </Item>
+          <Item>
+            <LinkButton
               to="/settings"
               width="calc(100% - 3.2rem)"
               justifyContent="flex-start"

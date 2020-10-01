@@ -28,6 +28,7 @@ import Unsubscribe from "../pages/Unsubscribe";
 import NewNote from "../pages/NewNote";
 import Note from "../pages/Note";
 import SearchLinks from "../pages/SearchLinks";
+import Extensions from "../pages/Extensions";
 
 const ModalBackground = styled(BaseModalBackground).attrs((props) => ({
   ...props,
@@ -127,6 +128,10 @@ export default function App() {
                       component={Contacts}
                     />
                     <AuthorizedRoute path="/settings" component={Settings} />
+                    <AuthorizedRoute
+                      path="/extensions"
+                      component={Extensions}
+                    />
                     <Redirect to="/convos" />
                   </Switch>
                 </Frame>

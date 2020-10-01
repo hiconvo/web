@@ -11,7 +11,12 @@ function LinkButton({ to, children, preserveQuery, ...rest }) {
 
   function handleClick(e) {
     e.preventDefault();
-    history.push(dest);
+
+    if (dest.startsWith("http")) {
+      window.open(dest, "_blank");
+    } else {
+      history.push(dest);
+    }
   }
 
   return (
