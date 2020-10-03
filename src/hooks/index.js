@@ -4,6 +4,7 @@ import useUserSearch from "./userSearch";
 import useReadReporting from "./readReporting";
 import useGoogleContacts from "./googleContacts";
 import usePagination from "./pagination";
+import useQuery from "./query";
 
 export {
   useDebounce,
@@ -11,5 +12,6 @@ export {
   useUserSearch,
   useReadReporting,
   useGoogleContacts,
-  usePagination
+  usePagination,
+  useQuery
 };

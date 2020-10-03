@@ -63,18 +63,25 @@ export default function NoteItemEditor({ note, onClose }) {
   }
 
   async function handleDeleteNote() {
+    setIsSaving(true);
+
     try {
       await deleteNote({ note });
     } catch {
+      setIsSaving(false);
       return;
     }
   }
 
   async function handlePinNote() {
+    setIsSaving(true);
+
     try {
       await updateNote({ id: note.id, pin: !note.pin });
     } catch {
       return;
+    } finally {
+      setIsSaving(false);
     }
   }
 
@@ -88,6 +95,7 @@ export default function NoteItemEditor({ note, onClose }) {
             text="Delete"
             mr={2}
             onClick={handleDeleteNote}
+            disabled={isSaving}
           />
         </li>
         <li>
@@ -96,6 +104,7 @@ export default function NoteItemEditor({ note, onClose }) {
             iconName="edit"
             text="Edit"
             mr={2}
+            disabled={isSaving}
             onClick={() =>
               history.push(
                 isLink ? `/links/${note.id}/edit` : `/notes/${note.id}`
@@ -109,6 +118,7 @@ export default function NoteItemEditor({ note, onClose }) {
             iconName="push_pin"
             text={note.pin ? "Unpin" : "Pin"}
             mr={2}
+            disabled={isSaving}
             onClick={handlePinNote}
           />
         </li>
@@ -117,6 +127,7 @@ export default function NoteItemEditor({ note, onClose }) {
             mobileHideText={true}
             iconName="menu_open"
             text="Close"
+            disabled={isSaving}
             onClick={onClose}
           />
         </li>

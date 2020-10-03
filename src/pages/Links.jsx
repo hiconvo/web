@@ -36,6 +36,7 @@ export default function Links() {
 
     try {
       await fetchNotes(pageNumber, filter);
+      window.scrollTo(0, 0);
     } catch (e) {
       return;
     } finally {
@@ -76,7 +77,7 @@ export default function Links() {
   return (
     <Box mx="auto" width="100%" maxWidth="100rem">
       <FloatingPill>
-        <LinksChrome onRefresh={handleGetNotes} />
+        <LinksChrome onRefresh={handleGetNotes} isFetching={isFetching} />
 
         {!isNotesFetched && <Ripple />}
 
@@ -126,11 +127,16 @@ export default function Links() {
               variant="action"
               mr={2}
               to={`/links?page=${Math.max(pageNumber - 1, 0)}`}
+              disabled={isFetching}
             >
               <Icon name="chevron_left" />
               <Text>Newer</Text>
             </LinkButton>
-            <LinkButton variant="action" to={`/links?page=${pageNumber + 1}`}>
+            <LinkButton
+              variant="action"
+              to={`/links?page=${pageNumber + 1}`}
+              disabled={isFetching}
+            >
               <Text>Older</Text>
               <Icon name="chevron_right" />
             </LinkButton>
