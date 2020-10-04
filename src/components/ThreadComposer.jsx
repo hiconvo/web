@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import imageFileToBase64 from "image-file-to-base64-exif";
 
 import { getUser } from "../api/user";
-import useFormik from "../hooks/formik";
+import { useFormik, useQuery } from "../hooks";
 import { useActions } from "../redux";
 import Controls from "./MessageComposerControls";
 import MessageImagePreview from "./MessageImagePreview";
@@ -16,7 +16,7 @@ import { Box, Text } from "./styles";
 import * as unboundActions from "../actions/threads";
 import * as unboundNotifActions from "../actions/notifications";
 
-const validate = values => {
+const validate = (values) => {
   if (getTextFromEditorState(values.body).length <= 0) {
     return { message: "Your message cannot be empty" };
   } else {
@@ -29,8 +29,12 @@ export default function ThreadComposer() {
   const inputEl = useRef(null);
   const { createThread } = useActions(unboundActions);
   const { dispatchNotification } = useActions(unboundNotifActions);
+  const [hasFetchedUser, setHasFetchingUser] = useState(false);
+  const [isFetchingUser, setIsFetchingUser] = useState(false);
+  const [hasAddedLink, setHasAddedLink] = useState(false);
   const [src, setSrc] = useState("");
   const [isImgLoading, setIsImgLoading] = useState(false);
+  const query = useQuery();
   const formik = useFormik({
     formId: "newThread",
     initialValues: {
@@ -67,12 +71,23 @@ export default function ThreadComposer() {
   });
 
   useEffect(() => {
-    if (history.location && history.location.search) {
-      const [, id] = history.location.search.match(/\?userId=(.+)/);
-      getUser(id).then(user => formik.setFieldValue("members", [user]));
+    const userId = query.get("userId");
+    if (userId && !hasFetchedUser && !isFetchingUser) {
+      setIsFetchingUser(true);
+      getUser(userId)
+        .then((user) => formik.setFieldValue("members", [user]))
+        .then(() => setHasFetchingUser(true))
+        .then(() => setIsFetchingUser(false));
     }
-    // eslint-disable-next-line
-  }, [history.location]);
+  }, [formik, hasFetchedUser, isFetchingUser, query]);
+
+  useEffect(() => {
+    const link = query.get("link");
+    if (link && !hasAddedLink) {
+      setHasAddedLink(true);
+      formik.setFieldValue("body", getInitialEditorState(link));
+    }
+  }, [formik, query, hasAddedLink]);
 
   function handlePhotoClick(e) {
     e.preventDefault();
@@ -98,7 +113,7 @@ export default function ThreadComposer() {
         backgroundColor="white"
         placeholder="Share a link, photo, or message with people..."
         editorState={formik.values.body}
-        onChange={body => formik.setFieldValue("body", body)}
+        onChange={(body) => formik.setFieldValue("body", body)}
         isDisabled={formik.isSubmitting}
       />
       <Box
@@ -121,7 +136,7 @@ export default function ThreadComposer() {
         </Text>
         <SharePicker
           members={formik.values.members}
-          setMembers={members => formik.setFieldValue("members", members)}
+          setMembers={(members) => formik.setFieldValue("members", members)}
         />
       </Box>
       <MessageImagePreview src={src} onClick={handleClearImage} noBorder />

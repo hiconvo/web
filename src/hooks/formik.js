@@ -24,7 +24,7 @@ export default function useFormik({
   }, [formId, debouncedValue]);
 
   function setFieldValues(newValues) {
-    setValues(Object.assign({}, values, newValues));
+    setValues((prevValues) => Object.assign({}, prevValues, newValues));
   }
 
   function reset() {

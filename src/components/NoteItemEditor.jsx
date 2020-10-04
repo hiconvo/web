@@ -122,6 +122,19 @@ export default function NoteItemEditor({ note, onClose }) {
             onClick={handlePinNote}
           />
         </li>
+        {isLink && (
+          <li>
+            <IconButton
+              mobileHideText={true}
+              iconName="share"
+              text="Share"
+              mr={2}
+              onClick={() =>
+                history.push(`/convos/new?link=${encodeURI(note.url)}`)
+              }
+            />
+          </li>
+        )}
         <li>
           <IconButton
             mobileHideText={true}

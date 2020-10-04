@@ -5,6 +5,7 @@ import useReadReporting from "./readReporting";
 import useGoogleContacts from "./googleContacts";
 import usePagination from "./pagination";
 import useQuery from "./query";
+import useFormik from "./formik";
 
 export {
   useDebounce,
@@ -13,5 +14,6 @@ export {
   useReadReporting,
   useGoogleContacts,
   usePagination,
-  useQuery
+  useQuery,
+  useFormik
 };
