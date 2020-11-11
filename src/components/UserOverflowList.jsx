@@ -15,7 +15,7 @@ const Container = styled(Button)`
     ${themeGet("space.2")};
   background-color: transparent;
   transition: background-color ease ${themeGet("animations.fast")};
-  margin-left: -1.8rem;
+  margin-left: -0.8rem;
 
   &:hover {
     background-color: ${themeGet("colors.veryLightGray")};

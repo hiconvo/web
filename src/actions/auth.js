@@ -161,7 +161,7 @@ export const logoutUser = (dispatch) =>
     localStorage.clear();
     setHasEnabledGoogleContacts(false);
     getGapiAuth2().then((authInstance) => {
-      if (authInstance.isSignedIn.get()) {
+      if (authInstance && authInstance.isSignedIn.get()) {
         authInstance.signOut();
       }
     });
