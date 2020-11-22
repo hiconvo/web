@@ -66,7 +66,6 @@ export default function Links() {
 
   if (
     isNotesFetched &&
-    !isFetching &&
     filter === "" &&
     pageNumber === 0 &&
     Object.keys(notes).length <= 0

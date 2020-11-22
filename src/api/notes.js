@@ -7,7 +7,7 @@ export function getNotes(pageNumber = 0, filter = "", tag = "") {
   const filterQuery = filter ? `&filter=${filter}` : "";
   const tagQuery = tag ? `&tag=${tag}` : "";
   return apiRequest(
-    `/notes?page=${pageNumber}&size=60${filterQuery}${tagQuery}`
+    `/notes?page=${pageNumber}&size=40${filterQuery}${tagQuery}`
   );
 }
 
