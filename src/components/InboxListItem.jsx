@@ -21,7 +21,7 @@ const ListItem = styled.li`
   flex-shrink: 0;
   border-bottom: 0.1rem solid ${themeGet("colors.veryLightGray")};
 
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.isSelected
       ? props.theme.colors.primary100
       : props.theme.colors.trueWhite};
@@ -90,7 +90,8 @@ const EventDate = styled.span`
 
 function InboxListItem({ resource, isSelected }) {
   const [user] = useSelectors(getUser);
-  const hasRead = resource.reads && resource.reads.some(r => r.id === user.id);
+  const hasRead =
+    resource.reads && resource.reads.some((r) => r.id === user.id);
 
   if (resource.resourceType === "Thread") {
     // Thread
@@ -99,11 +100,11 @@ function InboxListItem({ resource, isSelected }) {
         <ListItem isSelected={isSelected}>
           <FromContainer>
             <From hasRead={hasRead}>
-              {resource.users.map(user => user.firstName).join(", ")}
+              {resource.users.map((user) => user.firstName).join(", ")}
             </From>
             <Timestamp>
               {resource.preview &&
-                format(new Date(resource.preview.timestamp), "MMM d")}
+                format(new Date(resource.preview.createdAt), "MMM d")}
             </Timestamp>
           </FromContainer>
           <Subject>{resource.subject}</Subject>
@@ -119,7 +120,7 @@ function InboxListItem({ resource, isSelected }) {
           <FromContainer>
             <From hasRead={hasRead}>{resource.owner.fullName}</From>
             <Timestamp>
-              {format(new Date(resource.timestamp), "MMM d")}
+              {format(new Date(resource.createdAt), "MMM d")}
             </Timestamp>
           </FromContainer>
 
@@ -136,7 +137,7 @@ function InboxListItem({ resource, isSelected }) {
                 {resource.name}
               </Text>
               <EventDate>
-                {format(new Date(resource.timestamp), "MMM d @ h:mm a")}
+                {format(new Date(resource.createdAt), "MMM d @ h:mm a")}
               </EventDate>
             </Box>
           </EventContainer>

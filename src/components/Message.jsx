@@ -58,7 +58,7 @@ export default function Message({ message, threadId, eventId, isAuthor }) {
             </React.Fragment>
           )}
           {message.user.firstName} @{" "}
-          {format(new Date(message.timestamp), "MMM d")}
+          {format(new Date(message.createdAt), "MMM d")}
         </Metadata>
         {message.body.length > 0 && (
           <Container isAuthor={isAuthor}>

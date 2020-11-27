@@ -13,7 +13,7 @@ import Composer, {
 } from "./Composer";
 import { Box } from "./styles";
 
-const validate = values => {
+const validate = (values) => {
   return getTextFromEditorState(values.body).length <= 0
     ? { message: "Your message cannot be empty" }
     : null;
@@ -79,10 +79,12 @@ export default function MessageComposer({
         backgroundColor={backgroundColor}
         placeholder={placeholder}
         editorState={formik.values.body}
-        onChange={body => formik.setFieldValue("body", body)}
+        onChange={(body) => formik.setFieldValue("body", body)}
         isDisabled={formik.isSubmitting}
       />
-      <MessageImagePreview src={src} onClick={handleClearImage} />
+      <Box mt={2}>
+        <MessageImagePreview src={src} onClick={handleClearImage} />
+      </Box>
       <Controls
         onPhotoClick={handlePhotoClick}
         onClick={formik.handleSubmit}

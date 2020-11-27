@@ -1,5 +1,4 @@
 import * as API from "../api/threads";
-import { createThreadMessage } from "./messages";
 import { dispatchNotification } from "./notifications";
 import { errorToString } from "../utils";
 
@@ -63,31 +62,19 @@ export const createThread = (dispatch) =>
     try {
       thread = await API.createThread({
         subject: payload.subject,
-        users: payload.users
-      });
-    } catch (e) {
-      dispatchNotification()({ type: "ERROR", message: errorToString(e) });
-      return Promise.reject(e);
-    }
-
-    try {
-      const message = await createThreadMessage(dispatch)(thread.id, {
+        users: payload.users,
         body: payload.body,
         blob: payload.blob
       });
-
-      thread.preview = message;
-
       dispatch({
         type: "RECEIVE_THREADS",
         payload: [thread]
       });
-
-      return thread;
     } catch (e) {
       dispatchNotification()({ type: "ERROR", message: errorToString(e) });
       return Promise.reject(e);
     }
+    return thread;
   };
 
 /*

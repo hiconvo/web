@@ -59,7 +59,7 @@ export default function ThreadViewer({ thread }) {
     show: (i) => ({ opacity: 1, transition: { delay: i * 0.01 } })
   };
 
-  const topItem = messages[messages.length - 1];
+  const topItem = thread.preview;
 
   if (!topItem || isLoading || !thread) return <Ripple />;
 
@@ -92,7 +92,7 @@ export default function ThreadViewer({ thread }) {
           height="8rem"
         />
       </FloatingPill>
-      {messages.slice(0, messages.length - 1).map((message, idx) => (
+      {messages.map((message, idx) => (
         <motion.div
           key={message.id}
           variants={item}

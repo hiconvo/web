@@ -40,19 +40,10 @@ export default function reducer(state, action) {
           (t) => !action.payload.some((newThread) => newThread.id === t.id)
         )
         .concat(action.payload)
-        .sort(
-          (a, b) =>
-            a.preview &&
-            b.preview &&
-            isBefore(a.preview.timestamp, b.preview.timestamp)
-        )
+        .sort((a, b) => isBefore(a.createdAt, b.createdAt))
         .map((thread) => ({
           ...thread,
-          resourceType: "Thread",
-          preview: {
-            ...thread.preview,
-            user: thread.preview && thread.preview.sender
-          }
+          resourceType: "Thread"
         }));
       return Object.assign({}, state, {
         threads,
@@ -73,7 +64,7 @@ export default function reducer(state, action) {
         .concat(action.payload)
         .sort(
           (a, b) =>
-            a.timestamp && b.timestamp && isBefore(a.timestamp, b.timestamp)
+            a.createdAt && b.createdAt && isBefore(a.createdAt, b.createdAt)
         )
         .map((event) => ({ ...event, resourceType: "Event" }));
       return Object.assign({}, state, {
@@ -97,30 +88,9 @@ export default function reducer(state, action) {
           (m) => !action.payload.some((newMessage) => newMessage.id === m.id)
         )
         .concat(action.payload)
-        .sort((a, b) => isBefore(a.timestamp, b.timestamp));
-
-      // Update thread previews. Could probably optimize this.
-      const threads = state.threads
-        .map((thread) => {
-          action.payload.forEach((message) => {
-            if (message.parentId === thread.id) {
-              if (!thread.preview) {
-                thread.preview = message;
-              }
-            }
-          });
-          return thread;
-        })
-        .sort(
-          (a, b) =>
-            a.preview &&
-            b.preview &&
-            isBefore(a.preview.timestamp, b.preview.timestamp)
-        );
-
+        .sort((a, b) => isBefore(a.createdAt, b.createdAt));
       return Object.assign({}, state, {
-        messages,
-        threads
+        messages
       });
     }
     case "DELETE_MESSAGES": {

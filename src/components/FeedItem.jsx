@@ -83,8 +83,8 @@ export default function FeedItem({ thread }) {
             <Box>
               <Text fontSize={1} color="gray">
                 {thread.preview &&
-                  thread.preview.timestamp &&
-                  format(new Date(thread.preview.timestamp), "MMM d")}
+                  thread.preview.createdAt &&
+                  format(new Date(thread.preview.createdAt), "MMM d")}
               </Text>
             </Box>
           </Box>
