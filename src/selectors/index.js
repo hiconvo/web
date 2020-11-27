@@ -185,3 +185,7 @@ export const getNotesByDay = createSelector(getNotes, (notes) =>
     return acc;
   }, {})
 );
+
+export const getRecentNotes = createSelector(getNotes, (notes) =>
+  notes.slice(0, 6)
+);

@@ -10,7 +10,7 @@ export default function UpcomingEventsSidebar() {
   const [events] = useSelectors(getUpcomingEvents);
 
   return (
-    <Box mb={3}>
+    <Box mb={4}>
       <Paragraph color="gray" mb={2} fontSize={0}>
         Upcoming events
       </Paragraph>

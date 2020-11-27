@@ -7,6 +7,7 @@ import { getThreadsPageInfo } from "../selectors";
 import { usePagination } from "../hooks";
 import FeedViewer from "../components/FeedViewer";
 import UpcomingEventsSidebar from "../components/UpcomingEventsSidebar";
+import RecentLinksSidebar from "../components/RecentLinksSidebar";
 import ContactsSidebar from "../components/ContactsSidebar";
 import { ContainerDualSidebars } from "./styles";
 import { Box } from "../components/styles";
@@ -38,6 +39,7 @@ export default function Feed() {
       <Box>
         <Box position="fixed" width="28rem">
           <UpcomingEventsSidebar />
+          <RecentLinksSidebar />
         </Box>
       </Box>
       <Container>

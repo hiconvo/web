@@ -4,27 +4,7 @@ import css from "@styled-system/css";
 
 import NoteItemEditor from "./NoteItemEditor";
 import { Text, Box, Icon, Button } from "../components/styles";
-
-function Bullet({ favicon, isLink }) {
-  return (
-    <Box
-      height="2rem"
-      width="2rem"
-      justifyContent="center"
-      alignItems="center"
-      flexShrink="0"
-      mr={2}
-    >
-      {favicon ? (
-        <Box as="img" height="100%" width="100%" src={favicon} />
-      ) : (
-        <Box
-          dangerouslySetInnerHTML={{ __html: isLink ? "&#x1F30F" : "&#x1F4DD" }}
-        />
-      )}
-    </Box>
-  );
-}
+import Bullet from "./NoteBullet";
 
 function Expando({ onClick, isOpen }) {
   return (

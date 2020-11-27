@@ -38,7 +38,7 @@ const Screen = styled.div`
 
 export default function FeedItem({ thread }) {
   const history = useHistory();
-  const responseCount = Math.max(thread.responseCount - 1, 0);
+  const responseCount = thread.responseCount;
 
   function handleClick(e) {
     history.push(`/convos/${thread.id}`);
