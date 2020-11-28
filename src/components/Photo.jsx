@@ -26,7 +26,11 @@ export default function Photo({ src, height = "29rem", ...rest }) {
       <Box
         as="img"
         display="block"
-        src={src}
+        src={
+          src.startsWith("https://")
+            ? src
+            : `https://storage.googleapis.com/convo-photos/${src}`
+        }
         borderRadius="normal"
         width="auto"
         maxWidth="100%"
