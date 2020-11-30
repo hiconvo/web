@@ -13,7 +13,7 @@ export default function RecentLinksSidebar() {
   return (
     <Box mb={4} mr={2}>
       <Paragraph color="gray" mb={2} fontSize={0}>
-        Recent Links & Notes
+        Recent links & notes
       </Paragraph>
       {notes.length <= 0 ? (
         <Paragraph fontSize={1}>
