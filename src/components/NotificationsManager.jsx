@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
 import Notification from "./Notification";
 
@@ -15,7 +16,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  visibility: ${props => (props.isOpen ? "visible" : "hidden")};
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   pointer-events: none;
 `;
 
@@ -25,12 +26,12 @@ export default function NotificationsManager() {
   useEffect(() => {
     function enqueueNotificationDeletion(id) {
       setTimeout(() => {
-        setNotifications(prevNotifs => prevNotifs.filter(n => n.id !== id));
+        setNotifications((prevNotifs) => prevNotifs.filter((n) => n.id !== id));
       }, 5000);
     }
 
     function handleNotification(e) {
-      setNotifications(prevNotifs => prevNotifs.concat(e.detail));
+      setNotifications((prevNotifs) => prevNotifs.concat(e.detail));
       enqueueNotificationDeletion(e.detail.id);
     }
 
@@ -43,9 +44,21 @@ export default function NotificationsManager() {
 
   return (
     <Container isOpen={notifications.length > 0}>
-      {notifications.map(notif => (
-        <Notification key={notif.id} {...notif} />
-      ))}
+      <AnimateSharedLayout>
+        <AnimatePresence>
+          {notifications.map((notif) => (
+            <motion.div
+              layout
+              key={notif.id}
+              exit={{ opacity: 0 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: -10, scale: 0 }}
+            >
+              <Notification key={notif.id} {...notif} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </AnimateSharedLayout>
     </Container>
   );
 }

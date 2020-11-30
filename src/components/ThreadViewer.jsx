@@ -61,7 +61,7 @@ export default function ThreadViewer({ thread }) {
 
   const topItem = thread.preview;
 
-  if (!topItem || isLoading || !thread) return <Ripple />;
+  if (!topItem || !thread) return <Ripple />;
 
   return (
     <motion.div
