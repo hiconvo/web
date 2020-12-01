@@ -34,6 +34,7 @@ const Metadata = styled.span`
   position: absolute;
   display: flex;
   flex-direction: row;
+  align-items: center;
   top: -2rem;
   ${(props) => (props.isAuthor ? "right" : "left")}: 1.6rem;
   font-size: ${themeGet("fontSizes.0")};

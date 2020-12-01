@@ -9,7 +9,8 @@ export default function OpenGraphLink({ link }) {
   const image = link.image.startsWith("https") ? link.image : "";
 
   return (
-    <a href={link.url} target="_blank" rel="noopener noreferrer">
+    // eslint-disable-next-line
+    <a href={link.url} target="_blank">
       <Box borderRadius="normal" overflow="hidden">
         {image && <Box as="img" display="block" width="100%" src={image} />}
         <Box backgroundColor="veryLightGray" p={3}>
@@ -33,7 +34,7 @@ export default function OpenGraphLink({ link }) {
               />
             )}
             {link.site && (
-              <Paragraph mb={0} fontSize={1}>
+              <Paragraph mb={0} fontSize={1} width="calc(100% - 1.5rem)">
                 {link.site}
               </Paragraph>
             )}
