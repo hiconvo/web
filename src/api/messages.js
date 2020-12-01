@@ -4,7 +4,7 @@ import apiRequest from "./apiRequest";
  * @param {string} threadId
  */
 export function getThreadMessages(threadId) {
-  return apiRequest(`/threads/${threadId}/messages`);
+  return apiRequest(`/threads/${threadId}/messages?size=-1`);
 }
 
 /*
@@ -34,7 +34,7 @@ export function deleteThreadMessage(threadId, messageId) {
  * @param {string} eventId
  */
 export function getEventMessages(eventId) {
-  return apiRequest(`/events/${eventId}/messages`);
+  return apiRequest(`/events/${eventId}/messages?size=-1`);
 }
 
 /*
