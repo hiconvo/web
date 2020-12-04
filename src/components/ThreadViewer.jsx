@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useSelectors, useActions } from "../redux";
 import { getUser, getMessagesByThreadId } from "../selectors";
 import * as unboundActions from "../actions/messages";
-import Message from "./Message";
+import MessageList from "./MessageList";
 import MessageComposer from "./MessageComposer";
 import OpenGraphLink from "./OpenGraphLink";
 import { useReadReporting } from "../hooks";
@@ -53,12 +53,6 @@ export default function ThreadViewer({ thread }) {
 
   useReadReporting(thread);
 
-  // Animation stuff. A little messy to put it here, but I'm lazy.
-  const item = {
-    hidden: { opacity: 0 },
-    show: (i) => ({ opacity: 1, transition: { delay: i * 0.01 } })
-  };
-
   const topItem = thread.preview;
 
   if (!topItem || !thread) return <Ripple />;
@@ -92,21 +86,11 @@ export default function ThreadViewer({ thread }) {
           height="8rem"
         />
       </FloatingPill>
-      {messages.map((message, idx) => (
-        <motion.div
-          key={message.id}
-          variants={item}
-          custom={idx}
-          initial="hidden"
-          animate="show"
-        >
-          <Message
-            message={message}
-            threadId={thread.id}
-            isAuthor={user.id === message.user.id}
-          />
-        </motion.div>
-      ))}
+      {isLoading ? (
+        <Ripple />
+      ) : (
+        <MessageList messages={messages} threadId={thread.id} user={user} />
+      )}
     </motion.div>
   );
 }

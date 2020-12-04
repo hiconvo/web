@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Paragraph } from "./styles";
+import { Box, Paragraph, FixedAspectRatioImage } from "./styles";
 
 export default function OpenGraphLink({ link }) {
   const [favicon, setFavicon] = useState(
@@ -12,7 +12,7 @@ export default function OpenGraphLink({ link }) {
     // eslint-disable-next-line
     <a href={link.url} target="_blank">
       <Box borderRadius="normal" overflow="hidden">
-        {image && <Box as="img" display="block" width="100%" src={image} />}
+        {image && <FixedAspectRatioImage src={image} width={16} height={9} />}
         <Box backgroundColor="veryLightGray" p={3}>
           <Box mb={1}>
             <Paragraph fontSize={1} fontWeight="bold" mb={1}>

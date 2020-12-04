@@ -10,7 +10,7 @@ import Markdown from "./Markdown";
 import Map from "./Map";
 import MessageComposer from "./MessageComposer";
 import RsvpPanel from "./RsvpPanel";
-import Message from "./Message";
+import MessageList from "./MessageList";
 import { videoChatPlaces } from "./PlacePicker";
 import { useReadReporting } from "../hooks";
 import { FloatingPill, Text, Heading, Icon, Box, Ripple } from "./styles";
@@ -132,15 +132,11 @@ export default function EventViewer({ event }) {
           />
         </FloatingPill>
 
-        {isLoading && <Ripple />}
-        {messages.map((message) => (
-          <Message
-            key={message.id}
-            message={message}
-            eventId={event.id}
-            isAuthor={user.id === message.user.id}
-          />
-        ))}
+        {isLoading ? (
+          <Ripple />
+        ) : (
+          <MessageList messages={messages} eventId={event.id} user={user} />
+        )}
       </Box>
     </motion.div>
   );

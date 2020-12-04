@@ -18,6 +18,7 @@ import {
   AutoCompleteDropDown,
   AutoCompleteItem
 } from "./AutoComplete";
+import FixedAspectRatioImage from "./FixedAspectRatioImage";
 import theme from "./theme";
 import Reset from "./Reset";
 
@@ -47,4 +48,5 @@ export {
   Avatar,
   Checkbox,
   DropdownMenu,
+  FixedAspectRatioImage
 };
