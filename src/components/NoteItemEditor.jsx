@@ -130,7 +130,7 @@ export default function NoteItemEditor({ note, onClose }) {
               text="Share"
               mr={2}
               onClick={() =>
-                history.push(`/convos/new?link=${encodeURI(note.url)}`)
+                history.push(`/convos/new?link=${encodeURIComponent(note.url)}`)
               }
             />
           </li>

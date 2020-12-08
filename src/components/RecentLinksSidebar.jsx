@@ -29,7 +29,13 @@ export default function RecentLinksSidebar() {
           const isLink = note && note.url;
 
           return (
-            <Box as="li" flexDirection="row" alignItems="center" py={2}>
+            <Box
+              key={note.id}
+              as="li"
+              flexDirection="row"
+              alignItems="center"
+              py={2}
+            >
               <Bullet favicon={note.favicon} isLink={isLink} />
               <Box
                 width="calc(100% - 3rem)"

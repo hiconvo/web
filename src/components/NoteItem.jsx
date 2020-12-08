@@ -55,14 +55,14 @@ export default function NoteItem({ note, isOpen, setIsOpen }) {
             </Box>
           ) : (
             <Box
-              as="button"
               display="block"
-              backgroundColor="trueWhite"
+              role="button"
               border="none"
+              p="0"
               overflow="hidden"
               whiteSpace="nowrap"
               textOverflow="ellipsis"
-              p="0"
+              width="100%"
               cursor="pointer"
               onClick={toggleOpen}
             >
