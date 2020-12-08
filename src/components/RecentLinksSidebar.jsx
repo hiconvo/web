@@ -38,7 +38,7 @@ export default function RecentLinksSidebar() {
                 alignItems="center"
               >
                 {isLink ? (
-                  <Box
+                  <Text
                     as="a"
                     href={note.url}
                     target="_blank"
@@ -46,24 +46,24 @@ export default function RecentLinksSidebar() {
                     overflow="hidden"
                     whiteSpace="nowrap"
                     textOverflow="ellipsis"
+                    weight="semiBold"
+                    fontSize={2}
                     css={{ "&:hover": { "text-decoration": "underline" } }}
                   >
-                    <Text weight="semiBold" fontSize={2}>
-                      {note.name}
-                    </Text>
-                  </Box>
+                    {note.name}
+                  </Text>
                 ) : (
-                  <Link key={note.id} to={`/notes/${note.id}`}>
-                    <Text
-                      weight="semiBold"
-                      overflow="hidden"
-                      whiteSpace="nowrap"
-                      textOverflow="ellipsis"
-                      fontSize={2}
-                    >
+                  <Text
+                    overflow="hidden"
+                    whiteSpace="nowrap"
+                    textOverflow="ellipsis"
+                    weight="semiBold"
+                    fontSize={2}
+                  >
+                    <Link key={note.id} to={`/notes/${note.id}`}>
                       {note.name}
-                    </Text>
-                  </Link>
+                    </Link>
+                  </Text>
                 )}
               </Box>
             </Box>
