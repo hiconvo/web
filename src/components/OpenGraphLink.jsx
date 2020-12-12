@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 
-import { Box, Paragraph, FixedAspectRatioImage } from "./styles";
+import { Box, Paragraph, Text, FixedAspectRatioImage } from "./styles";
 
 export default function OpenGraphLink({ link }) {
+  const needsTruncation = link.description && link.description.length > 300;
+  const [isDescOpen, setIsDescOpen] = useState(!needsTruncation);
   const [favicon, setFavicon] = useState(
     link.favicon.startsWith("https") ? link.favicon : ""
   );
   const image = link.image.startsWith("https") ? link.image : "";
+
+  let description = link.description;
+  if (needsTruncation && !isDescOpen) {
+    description = link.description.slice(0, 300) + "...";
+  }
 
   return (
     // eslint-disable-next-line
@@ -19,7 +26,20 @@ export default function OpenGraphLink({ link }) {
               {link.title}
             </Paragraph>
             <Paragraph fontSize={0} mb={0}>
-              {link.description}
+              {description}
+              {needsTruncation && (
+                <Text
+                  fontWeight="bold"
+                  fontSize="inherit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsDescOpen(!isDescOpen);
+                  }}
+                >
+                  {" "}
+                  Show {isDescOpen ? "less" : "more"}
+                </Text>
+              )}
             </Paragraph>
           </Box>
           <Box flexDirection="row" alignItems="center">
