@@ -63,7 +63,11 @@ export default function FeedItem({ thread }) {
           </div>
           {thread.preview.photos && thread.preview.photos.length > 0 && (
             <Box mt={3} mb={2}>
-              <Photo src={thread.preview.photos[0]} height="auto" />
+              <Photo
+                src={thread.preview.photos[0]}
+                height="auto"
+                width="100%"
+              />
             </Box>
           )}
           {thread.preview.link && (

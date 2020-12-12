@@ -18,20 +18,25 @@ const CloseButtonContainer = styled.div`
   z-index: 40;
 `;
 
-export default function Photo({ src, height = "29rem", ...rest }) {
+export default function Photo({
+  src,
+  height = "29rem",
+  width = "auto",
+  ...rest
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const fixedSrc = src.startsWith("https://")
     ? src
     : `https://storage.googleapis.com/convo-photos/${src}`;
 
   return (
-    <Box display="block" height={height} {...rest}>
+    <Box display="block" height={height} width={width} {...rest}>
       <Box
         as="img"
         display="block"
         src={fixedSrc}
         borderRadius="normal"
-        width="auto"
+        width={width}
         maxWidth="100%"
         height="auto"
         maxHeight="100%"
