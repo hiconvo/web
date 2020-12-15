@@ -62,7 +62,6 @@ export default function NoteItem({ note, isOpen, setIsOpen }) {
               overflow="hidden"
               whiteSpace="nowrap"
               textOverflow="ellipsis"
-              width="100%"
               cursor="pointer"
               onClick={toggleOpen}
             >
