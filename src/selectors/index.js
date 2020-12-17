@@ -144,7 +144,7 @@ export const getInboxContents = createSelector(
       [].concat(threads, events),
       [
         (o) => o.reads && o.reads.some((r) => r.id === (user && user.id)),
-        (o) => (o.preview ? o.preview.timestamp : o.timestamp)
+        (o) => o.createdAt
       ],
       ["asc", "desc"]
     )

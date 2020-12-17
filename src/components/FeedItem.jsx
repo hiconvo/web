@@ -53,26 +53,18 @@ export default function FeedItem({ thread }) {
         <Box mb={2}>
           <div onClick={handleClick}>
             <Container>
-              {thread.preview && thread.preview.body && (
-                <Markdown text={thread.preview.body} />
-              )}
-              {thread.preview &&
-                thread.preview.body &&
-                thread.preview.body.length > 256 && <Screen />}
+              <Markdown text={thread.body} />
+              {thread.body.length > 256 && <Screen />}
             </Container>
           </div>
-          {thread.preview.photos && thread.preview.photos.length > 0 && (
+          {thread.photos && thread.photos.length > 0 && (
             <Box mt={3} mb={2}>
-              <Photo
-                src={thread.preview.photos[0]}
-                height="auto"
-                width="100%"
-              />
+              <Photo src={thread.photos[0]} height="auto" width="100%" />
             </Box>
           )}
-          {thread.preview.link && (
+          {thread.link && (
             <Box my={3}>
-              <OpenGraphLink link={thread.preview.link} />
+              <OpenGraphLink link={thread.link} />
             </Box>
           )}
         </Box>

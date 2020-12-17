@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -14,10 +14,10 @@ const Container = styled.div`
   box-shadow: ${themeGet("shadows.normal")};
   font-size: ${themeGet("fontSizes.2")};
   text-align: center;
-  color: ${themeGet("colors.gray")};
+  color: ${themeGet("colors.darkGray")};
   padding: ${themeGet("space.3")};
   margin: ${themeGet("space.2")};
-  transition: background-color 3s ease;
+  transition: background-color 3s ease-in;
   opacity: 1;
 `;
 
@@ -34,14 +34,8 @@ const icons = {
 };
 
 export default function Notification({ message, type = "NEUTRAL" }) {
-  const [bgColor, setBgColor] = useState(colors[type]);
-
-  useEffect(() => {
-    setTimeout(() => setBgColor("colors.trueWhite"));
-  }, []);
-
   return (
-    <Container backgroundColor={bgColor} borderColor={colors[type]}>
+    <Container backgroundColor={colors[type]} borderColor={colors[type]}>
       <Icon name={icons[type]} fontSize={4} mr={2} color="inherit" />
       <Text color="inherit">{message}</Text>
     </Container>

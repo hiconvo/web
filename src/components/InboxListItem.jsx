@@ -104,11 +104,11 @@ function InboxListItem({ resource, isSelected }) {
             </From>
             <Timestamp>
               {resource.preview &&
-                format(new Date(resource.preview.createdAt), "MMM d")}
+                format(new Date(resource.createdAt), "MMM d")}
             </Timestamp>
           </FromContainer>
           <Subject>{resource.subject}</Subject>
-          <Preview>{resource.preview && resource.preview.body}</Preview>
+          <Preview>{resource.body}</Preview>
         </ListItem>
       </Link>
     );

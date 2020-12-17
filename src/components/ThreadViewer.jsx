@@ -53,9 +53,7 @@ export default function ThreadViewer({ thread }) {
 
   useReadReporting(thread);
 
-  const topItem = thread.preview;
-
-  if (!topItem || !thread) return <Ripple />;
+  if (!thread) return <Ripple />;
 
   return (
     <motion.div
@@ -66,17 +64,17 @@ export default function ThreadViewer({ thread }) {
       <FloatingPill>
         <ContactSection user={thread.owner} users={thread.users} />
         <Container>
-          {topItem && <Markdown text={topItem.body || ""} />}
+          <Markdown text={thread.body || ""} />
         </Container>
 
-        {topItem.photos && topItem.photos.length > 0 && (
+        {thread.photos && thread.photos.length > 0 && (
           <Box my={3}>
-            <Photo src={topItem.photos[0]} height="auto" width="100%" />
+            <Photo src={thread.photos[0]} height="auto" width="100%" />
           </Box>
         )}
-        {topItem.link && (
+        {thread.link && (
           <Box my={3}>
-            <OpenGraphLink link={topItem.link} />
+            <OpenGraphLink link={thread.link} />
           </Box>
         )}
         <MessageComposer
