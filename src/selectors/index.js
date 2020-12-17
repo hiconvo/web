@@ -122,8 +122,12 @@ export const getEventById = (id) => (store) =>
 export const getThreadById = (id) => (store) =>
   store.threads.find((t) => t.id === id);
 
-export const getNoteById = (id) => (store) =>
-  store.notes.find((n) => n.id === id);
+export const getAllNotes = createSelector(getNotes, getPins, (notes, pins) =>
+  notes.filter((n) => pins.some((p) => p.id === n.id)).concat(pins)
+);
+
+export const getNoteById = (id) =>
+  createSelector(getAllNotes, (notes) => notes.find((n) => n.id === id));
 
 export function getMessagesByThreadId(id) {
   return (store) => store.messages.filter((message) => message.parentId === id);
