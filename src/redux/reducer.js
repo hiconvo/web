@@ -40,7 +40,7 @@ export default function reducer(state, action) {
           (t) => !action.payload.some((newThread) => newThread.id === t.id)
         )
         .concat(action.payload)
-        .sort((a, b) => isBefore(a.createdAt, b.createdAt))
+        .sort((a, b) => isBefore(a.updatedAt, b.updatedAt))
         .map((thread) => ({
           ...thread,
           resourceType: "Thread"
