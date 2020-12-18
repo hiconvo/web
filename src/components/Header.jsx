@@ -27,11 +27,14 @@ const Header = styled.header`
     rgba(250, 250, 250, 0.8) 70%,
     rgba(250, 250, 250, 0)
   );
-
   ${themeGet("media.phone")} {
     width: calc(100% - ${themeGet("space.4")} * 2);
     padding: 0;
   }
+`;
+
+const Slug = styled.div`
+  height: ${themeGet("headerHeight")};
 `;
 
 const LogoWrapper = styled.div`
@@ -44,7 +47,6 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: row;
   margin-left: ${themeGet("space.3")};
-
   ${themeGet("media.phone")} {
     display: none;
   }
@@ -64,29 +66,32 @@ export default () => {
   const showNav = !(isLoginPage || isForgotPage);
 
   return (
-    <Header>
-      <Box flexDirection="row">
-        <WrappedLogo />
-        <MobileLogoMenu />
-        {showNav && (
-          <Nav>
-            <NavItem to="/convos" text="Convos" />
-            <NavItem to="/links" text="Links" />
-            <NavItem to="/events" text="Events" />
-            <NavItem to="/contacts" text="Contacts" />
-          </Nav>
-        )}
-      </Box>
-      <Box flexDirection="row" alignItems="center">
-        <HeaderInfoMenu />
-        <RealtimeNotifications />
-        <UserMenu />
-        {!showNav && (
-          <Paragraph mb="0rem">
-            <a href="https://convo.events">What is Convo?</a>
-          </Paragraph>
-        )}
-      </Box>
-    </Header>
+    <React.Fragment>
+      <Header>
+        <Box flexDirection="row">
+          <WrappedLogo />
+          <MobileLogoMenu />
+          {showNav && (
+            <Nav>
+              <NavItem to="/convos" text="Convos" />
+              <NavItem to="/links" text="Links" />
+              <NavItem to="/events" text="Events" />
+              <NavItem to="/contacts" text="Contacts" />
+            </Nav>
+          )}
+        </Box>
+        <Box flexDirection="row" alignItems="center">
+          <HeaderInfoMenu />
+          <RealtimeNotifications />
+          <UserMenu />
+          {!showNav && (
+            <Paragraph mb="0rem">
+              <a href="https://convo.events">What is Convo?</a>
+            </Paragraph>
+          )}
+        </Box>
+      </Header>
+      <Slug />
+    </React.Fragment>
   );
 };
