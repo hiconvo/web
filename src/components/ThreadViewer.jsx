@@ -4,10 +4,9 @@ import { themeGet } from "@styled-system/theme-get";
 import { motion } from "framer-motion";
 
 import { useSelectors, useActions } from "../redux";
-import { getUser, getMessagesByThreadId } from "../selectors";
+import { getMessagesByThreadId } from "../selectors";
 import * as unboundActions from "../actions/messages";
-import MessageList from "./MessageList";
-import MessageComposer from "./MessageComposer";
+import CommentsSection from "./CommentsSection";
 import OpenGraphLink from "./OpenGraphLink";
 import { useReadReporting } from "../hooks";
 import ContactSection from "./ContactSection";
@@ -30,7 +29,7 @@ export default function ThreadViewer({ thread }) {
   const { id } = thread;
   const fetched = useRef({});
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, user] = useSelectors(getMessagesByThreadId(id), getUser);
+  const [messages] = useSelectors(getMessagesByThreadId(id));
   const { fetchThreadMessages, createThreadMessage } = useActions(
     unboundActions
   );
@@ -77,18 +76,14 @@ export default function ThreadViewer({ thread }) {
             <OpenGraphLink link={thread.link} />
           </Box>
         )}
-        <MessageComposer
-          key={id}
+
+        <CommentsSection
+          isLoading={isLoading}
           createMessage={createThreadMessage}
-          backgroundColor="gray"
-          height="8rem"
+          messages={messages}
+          threadId={thread.id}
         />
       </FloatingPill>
-      {isLoading ? (
-        <Ripple />
-      ) : (
-        <MessageList messages={messages} threadId={thread.id} user={user} />
-      )}
     </motion.div>
   );
 }

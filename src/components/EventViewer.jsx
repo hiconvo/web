@@ -3,17 +3,16 @@ import { format, parseISO, formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
 
 import { useActions, useSelectors } from "../redux";
-import { getUser, getMessagesByThreadId } from "../selectors";
+import { getMessagesByThreadId } from "../selectors";
 import { getGoogleMapsUrl } from "../utils";
 import * as unboundActions from "../actions/messages";
 import Markdown from "./Markdown";
 import Map from "./Map";
-import MessageComposer from "./MessageComposer";
+import CommentsSection from "./CommentsSection";
 import RsvpPanel from "./RsvpPanel";
-import MessageList from "./MessageList";
 import { videoChatPlaces } from "./PlacePicker";
 import { useReadReporting } from "../hooks";
-import { FloatingPill, Text, Heading, Icon, Box, Ripple } from "./styles";
+import { FloatingPill, Text, Heading, Icon, Box } from "./styles";
 
 export default function EventViewer({ event }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +21,7 @@ export default function EventViewer({ event }) {
   const { id, timestamp } = event;
   const date = parseISO(timestamp);
 
-  const [user, messages] = useSelectors(getUser, getMessagesByThreadId(id));
+  const [messages] = useSelectors(getMessagesByThreadId(id));
   const hasMessages = messages.length > 0;
   const isVideoPlace = videoChatPlaces
     .map((p) => p.placeId)
@@ -123,20 +122,13 @@ export default function EventViewer({ event }) {
             />
           </Box>
 
-          <MessageComposer
-            key={id}
-            height="6rem"
-            backgroundColor="gray"
-            placeholder="Send a message to the guests..."
+          <CommentsSection
+            isLoading={isLoading}
+            messages={messages}
+            eventId={event.id}
             createMessage={createEventMessage}
           />
         </FloatingPill>
-
-        {isLoading ? (
-          <Ripple />
-        ) : (
-          <MessageList messages={messages} eventId={event.id} user={user} />
-        )}
       </Box>
     </motion.div>
   );

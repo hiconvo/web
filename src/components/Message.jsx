@@ -27,6 +27,7 @@ const Container = styled.div`
 const Relative = styled.div`
   position: relative;
   display: flex;
+  margin-top: ${themeGet("space.4")};
   flex-direction: ${(props) => (props.isAuthor ? "row-reverse" : "row")};
 `;
 
@@ -38,12 +39,12 @@ const Metadata = styled.span`
   top: -2rem;
   ${(props) => (props.isAuthor ? "right" : "left")}: 1.6rem;
   font-size: ${themeGet("fontSizes.0")};
-  color: ${themeGet("colors.mediumGray")};
+  color: ${themeGet("colors.gray")};
 `;
 
 export default function Message({ message, threadId, eventId, isAuthor }) {
   return (
-    <Box mb={5}>
+    <Box mb={2}>
       <Relative isAuthor={isAuthor}>
         <Metadata isAuthor={isAuthor}>
           {isAuthor && (

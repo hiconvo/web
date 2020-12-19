@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
+
 import Message from "./Message";
+import { Box } from "./styles";
 
 export default function MessageList({ messages, user, threadId, eventId }) {
   const item = {
@@ -9,7 +11,7 @@ export default function MessageList({ messages, user, threadId, eventId }) {
   };
 
   return (
-    <div>
+    <Box borderTop="dashed" mt={3} pt={2} mb={1}>
       {messages.map((message, idx) => (
         <motion.div
           key={message.id}
@@ -26,6 +28,6 @@ export default function MessageList({ messages, user, threadId, eventId }) {
           />
         </motion.div>
       ))}
-    </div>
+    </Box>
   );
 }
