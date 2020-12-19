@@ -10,7 +10,7 @@ import MobileLogoMenu from "./MobileLogoMenu";
 import HeaderInfoMenu from "./HeaderInfoMenu";
 import RealtimeNotifications from "./RealtimeNotifications";
 import Logo from "./Logo";
-import { Box, Paragraph } from "./styles";
+import { Box, Paragraph, LinkButton, Icon, Text } from "./styles";
 
 const Header = styled.header`
   position: fixed;
@@ -37,53 +37,57 @@ const Slug = styled.div`
   height: ${themeGet("headerHeight")};
 `;
 
-const LogoWrapper = styled.div`
-  ${themeGet("media.phone")} {
-    display: none;
-  }
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  flex-direction: row;
-  margin-left: ${themeGet("space.3")};
-  ${themeGet("media.phone")} {
-    display: none;
-  }
-`;
-
-const WrappedLogo = () => (
-  <LogoWrapper>
-    <Link style={{ width: "5rem", height: "5rem", display: "block" }} to="/">
-      <Logo width="5rem" />
-    </Link>
-  </LogoWrapper>
-);
-
 export default () => {
   const isLoginPage = useRouteMatch("/login");
   const isForgotPage = useRouteMatch("/forgot");
+  const isConvoPage = useRouteMatch("/convos/:id");
   const showNav = !(isLoginPage || isForgotPage);
+  const convoPageCaveat = isConvoPage ? "none" : "flex";
 
   return (
     <React.Fragment>
       <Header>
         <Box flexDirection="row">
-          <WrappedLogo />
-          <MobileLogoMenu />
+          <Box display={["none", convoPageCaveat, "block"]}>
+            <Link
+              style={{ width: "5rem", height: "5rem", display: "block" }}
+              to="/"
+            >
+              <Logo width="5rem" />
+            </Link>
+          </Box>
+
+          {showNav && !isConvoPage && <MobileLogoMenu />}
+
+          {isConvoPage && (
+            <Box display={["flex", "flex", "none"]}>
+              <LinkButton to="/convos" variant="gray" py="0.6rem" mb={0}>
+                <Icon name="keyboard_backspace" mr={1} fontSize={4} />
+                <Text fontSize={3}>Go back</Text>
+              </LinkButton>
+            </Box>
+          )}
+
           {showNav && (
-            <Nav>
+            <Box
+              as="nav"
+              display={["none", convoPageCaveat, "flex"]}
+              flexDirection="row"
+              ml={3}
+            >
               <NavItem to="/convos" text="Convos" />
               <NavItem to="/links" text="Links" />
               <NavItem to="/events" text="Events" />
               <NavItem to="/contacts" text="Contacts" />
-            </Nav>
+            </Box>
           )}
         </Box>
+
         <Box flexDirection="row" alignItems="center">
           <HeaderInfoMenu />
           <RealtimeNotifications />
           <UserMenu />
+
           {!showNav && (
             <Paragraph mb="0rem">
               <a href="https://convo.events">What is Convo?</a>

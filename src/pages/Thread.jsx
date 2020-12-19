@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 import { Helmet } from "react-helmet";
@@ -15,7 +15,7 @@ import {
   Box,
   Ripple,
   CenterContent,
-  Button,
+  LinkButton,
   Icon
 } from "../components/styles";
 import { errorToString } from "../utils";
@@ -39,7 +39,6 @@ const Container = styled.div`
 const fetched = new Set();
 
 export default function Thread() {
-  const history = useHistory();
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const { fetchThread } = useActions(unboundThreadActions);
@@ -89,16 +88,12 @@ export default function Thread() {
       </Helmet>
       <Box>
         <Box position="fixed" width="28rem">
-          <Button
-            onClick={() => history.push("/convos")}
-            variant="gray"
-            width="100%"
-          >
+          <LinkButton to="/convos" variant="gray">
             <Icon name="keyboard_backspace" mr={1} fontSize={3} />
             <Text fontSize="inherit" fontWeight="inherit">
               Go back
             </Text>
-          </Button>
+          </LinkButton>
         </Box>
       </Box>
       <Container>
