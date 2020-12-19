@@ -43,12 +43,13 @@ export default () => {
   const isConvoPage = useRouteMatch("/convos/:id");
   const showNav = !(isLoginPage || isForgotPage);
   const convoPageCaveat = isConvoPage ? "none" : "flex";
+  const loginPageCaveat = showNav ? "none" : "block";
 
   return (
     <React.Fragment>
       <Header>
         <Box flexDirection="row">
-          <Box display={["none", convoPageCaveat, "block"]}>
+          <Box display={[loginPageCaveat, convoPageCaveat, "block"]}>
             <Link
               style={{ width: "5rem", height: "5rem", display: "block" }}
               to="/"
