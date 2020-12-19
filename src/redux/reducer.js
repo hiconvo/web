@@ -88,7 +88,7 @@ export default function reducer(state, action) {
           (m) => !action.payload.some((newMessage) => newMessage.id === m.id)
         )
         .concat(action.payload)
-        .sort((a, b) => isBefore(a.createdAt, b.createdAt));
+        .sort((a, b) => isBefore(b.createdAt, a.createdAt));
       return Object.assign({}, state, {
         messages
       });
