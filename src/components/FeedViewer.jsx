@@ -6,7 +6,7 @@ import FeedItem from "./FeedItem";
 import ThreadComposer from "./ThreadComposer";
 import RegisterWarning from "./RegisterWarning";
 
-import { Ripple, FloatingPill } from "./styles";
+import { Ripple, FloatingPill, Box } from "./styles";
 
 export default function FeedViewer() {
   const [isThreadsFetched, threads] = useSelectors(
@@ -17,9 +17,11 @@ export default function FeedViewer() {
   return (
     <div>
       <RegisterWarning />
-      <FloatingPill>
-        <ThreadComposer />
-      </FloatingPill>
+      <Box display={["none", "block", "block"]}>
+        <FloatingPill>
+          <ThreadComposer />
+        </FloatingPill>
+      </Box>
       {!isThreadsFetched && <Ripple />}
       {threads.map((thread) => (
         <FeedItem key={thread.id} thread={thread} />
