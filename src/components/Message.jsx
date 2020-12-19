@@ -66,9 +66,11 @@ export default function Message({ message, threadId, eventId, isAuthor }) {
             {message.user.firstName} @{" "}
             {format(new Date(message.createdAt), "MMM d")}
           </Metadata>
-          <Container isAuthor={isAuthor}>
-            <Markdown text={message.body} fontSize={3} />
-          </Container>
+          {message.body.length > 0 && (
+            <Container isAuthor={isAuthor}>
+              <Markdown text={message.body} fontSize={3} />
+            </Container>
+          )}
         </Box>
       </Relative>
       {message.photos && message.photos.length > 0 && (
