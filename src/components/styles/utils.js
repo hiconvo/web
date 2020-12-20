@@ -46,3 +46,7 @@ export const maxWidth = style({
 export const zIndex = style({
   prop: "zIndex"
 });
+
+export const textDecoration = style({
+  prop: "textDecoration"
+});

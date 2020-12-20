@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { textStyle } from "styled-system";
-import { textOverflow, whiteSpace } from "./utils";
+import { textOverflow, whiteSpace, textDecoration } from "./utils";
 
 import Box from "./Box";
 
@@ -8,7 +8,8 @@ const Text = styled(Box)`
   ${textOverflow}
   ${textStyle}
   ${whiteSpace}
-  text-align: ${props => props.textAlign};
+  ${textDecoration}
+  text-align: ${(props) => props.textAlign};
 `;
 
 Text.defaultProps = {
