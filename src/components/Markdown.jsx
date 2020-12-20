@@ -64,13 +64,13 @@ export const MarkdownContainer = styled.div`
   }
 
   ul {
-    margin-left: ${themeGet("space.4")};
+    margin-left: ${themeGet("space.3")};
     margin-bottom: ${themeGet("space.3")};
     list-style: disc outside;
   }
 
   ol {
-    margin-left: ${themeGet("space.4")};
+    margin-left: ${themeGet("space.3")};
     margin-bottom: ${themeGet("space.3")};
     list-style: decimal outside;
   }
