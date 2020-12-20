@@ -74,6 +74,7 @@ export default function RegistrationForm() {
       <Input
         name="Email"
         type="email"
+        inputmode="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         error={authErrors.email}

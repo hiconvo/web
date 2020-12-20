@@ -56,6 +56,7 @@ export default function LoginForm() {
         <Input
           name="Email"
           type="email"
+          inputmode="email"
           value={email}
           onChange={handleEmailChange}
           error={authErrors.email}
