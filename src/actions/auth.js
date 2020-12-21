@@ -4,8 +4,6 @@ import { errorToString } from "../utils";
 import { getGapiAuth2, setHasEnabledGoogleContacts } from "../utils/gapi";
 
 function handleAuthError(e, dispatch) {
-  logoutUser(dispatch)();
-
   if (!e.getPayload) {
     dispatchNotification()({ type: "ERROR", message: errorToString(e) });
   }
