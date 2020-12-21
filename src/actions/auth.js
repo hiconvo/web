@@ -32,6 +32,8 @@ export const loginUserWithToken = (dispatch) =>
       } catch (error) {
         return handleAuthError(error, dispatch);
       }
+    } else {
+      logoutUser(dispatch)();
     }
   };
 
