@@ -123,7 +123,7 @@ export const getThreadById = (id) => (store) =>
   store.threads.find((t) => t.id === id);
 
 export const getAllNotes = createSelector(getNotes, getPins, (notes, pins) =>
-  notes.filter((n) => pins.some((p) => p.id === n.id)).concat(pins)
+  notes.filter((n) => pins.some((p) => p.id !== n.id)).concat(pins)
 );
 
 export const getNoteById = (id) =>
