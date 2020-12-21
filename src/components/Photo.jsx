@@ -41,6 +41,7 @@ export default function Photo({
         height="auto"
         maxHeight="100%"
         cursor="zoom-in"
+        border="veryLightGray"
         onClick={() => setIsOpen(true)}
       />
       <StyledModal isOpen={isOpen} onBackgroundClick={() => setIsOpen(false)}>
