@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useRouteMatch, useHistory } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
 
@@ -36,7 +36,6 @@ function Action({ iconName, text, onClick, ...rest }) {
 }
 
 export default function ContactInfoBox({ contact, position = "fixed" }) {
-  const history = useHistory();
   const { addToContacts, removeFromContacts } = useActions(unboundActions);
   const [contacts] = useSelectors(getContacts);
   const isEvent = useRouteMatch("/events");
@@ -45,7 +44,7 @@ export default function ContactInfoBox({ contact, position = "fixed" }) {
 
   if (!contact) return null;
 
-  const isContact = contacts.some(c => c.id === contact.id);
+  const isContact = contacts.some((c) => c.id === contact.id);
   const isSelected = Boolean(contact.id);
   const isRemovable =
     !!resource && resource.owner.id === user.id && contact.id !== user.id;
@@ -63,14 +62,6 @@ export default function ContactInfoBox({ contact, position = "fixed" }) {
           <React.Fragment>
             <Label>Actions</Label>
             <Box as="ul">
-              <Action
-                ml="-1.2rem"
-                text="Start a convo"
-                iconName="mail"
-                onClick={() => {
-                  history.push(`/convos/new?userId=${contact.id}`);
-                }}
-              />
               {isContact ? (
                 <Action
                   ml="-1.2rem"
@@ -89,7 +80,7 @@ export default function ContactInfoBox({ contact, position = "fixed" }) {
             </Box>
             {isRemovable && (
               <RemoveUserButton
-                render={toggleIsOpen => (
+                render={(toggleIsOpen) => (
                   <Action
                     ml="-1.2rem"
                     text="Remove"

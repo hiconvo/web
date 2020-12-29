@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Paragraph, Text } from "./styles";
 
 const Container = styled.footer`
-  height: ${themeGet("headerHeight")};
+  height: ${themeGet("footerHeight")};
 `;
 
 export default function Footer() {

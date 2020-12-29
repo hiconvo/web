@@ -81,26 +81,11 @@ export default function MobileLogoMenu() {
               <Logo height="6rem" />
             </Box>
             <Box alignItems="flex-start">
-              <NavItem to="/convos" text="Convos" />
-              <NavItem to="/links" text="Links" />
               <NavItem to="/events" text="Events" />
               <NavItem to="/contacts" text="Contacts" />
             </Box>
           </Nav>
           <Nav>
-            <LinkButton
-              to="/convos/new"
-              variant="brand"
-              width="100%"
-              alignItems="center"
-              justifyContent="flexStart"
-              display="flex"
-              mb="0"
-              fontSize={[1]}
-            >
-              <Icon name="mail_outline" mr={1} fontSize="2.2rem" />
-              New Convo
-            </LinkButton>
             <LinkButton
               to="/events/new"
               variant="brand"

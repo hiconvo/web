@@ -12,7 +12,7 @@ export default function AuthorizedRoute(props) {
   const [isLoading, isLoggedIn] = useSelectors(getIsLoading, getIsLoggedIn);
   const { loginUserWithToken } = useActions(unboundAuthActions);
   const { pathname } = useLocation();
-  const query = pathname && pathname !== "/convos" ? `?next=${pathname}` : "";
+  const query = pathname && pathname !== "/events" ? `?next=${pathname}` : "";
 
   useEffect(() => {
     if (!isLoggedIn) {

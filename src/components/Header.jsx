@@ -76,8 +76,6 @@ export default () => {
               flexDirection="row"
               ml={3}
             >
-              <NavItem to="/convos" text="Convos" />
-              <NavItem to="/links" text="Links" />
               <NavItem to="/events" text="Events" />
               <NavItem to="/contacts" text="Contacts" />
             </Box>

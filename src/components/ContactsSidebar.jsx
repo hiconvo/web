@@ -5,7 +5,7 @@ import { getContacts } from "../selectors";
 import UserOverflowList from "./UserOverflowList";
 import { Paragraph } from "./styles";
 
-export default function ContactsSidebar({ transformUserProps = p => p }) {
+export default function ContactsSidebar({ transformUserProps = (p) => p }) {
   const [contacts] = useSelectors(getContacts);
 
   return (
@@ -20,8 +20,7 @@ export default function ContactsSidebar({ transformUserProps = p => p }) {
         renderExtraChildren={() =>
           contacts.length <= 0 && (
             <Paragraph fontSize={1}>
-              You haven't added any contacts yet. Start a convo with someone to
-              add them as a contact.
+              You haven't added any contacts yet.
             </Paragraph>
           )
         }

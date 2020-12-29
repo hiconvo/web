@@ -38,7 +38,7 @@ const Input = styled.input`
 function ContactsList({ contacts, onClick }) {
   return (
     <Box as="ul" flexDirection="row" flexWrap="wrap">
-      {contacts.map(c => (
+      {contacts.map((c) => (
         <Box as="li" key={c.id} width={["50%", "50%", "25%"]}>
           <ContactCard contact={c} onClick={() => onClick(c)} />
         </Box>
@@ -59,8 +59,7 @@ function NullState() {
   return (
     <Box justifyContent="center" alignItems="center" width="100%" height="100%">
       <Paragraph mb={5} textAlign="center" p={2} maxWidth="50rem">
-        You haven't added any contacts yet. Start a convo or create an event
-        with someone to add them as a contact.
+        You haven't added any contacts yet.
       </Paragraph>
     </Box>
   );

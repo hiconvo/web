@@ -13,22 +13,18 @@ import Events from "../pages/Events";
 import Links from "../pages/Links";
 import UpdateLink from "../pages/UpdateLink";
 import NewEvent from "../pages/NewEvent";
-import Thread from "../pages/Thread";
-import NewThread from "../pages/NewThread";
 import Contacts from "../pages/Contacts";
 import Settings from "../pages/Settings";
 import VerifyEmail from "../pages/VerifyEmail";
 import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
 import Rsvp from "../pages/Rsvp";
-import Feed from "../pages/Feed";
 import Magic from "../pages/Magic";
 import MagicInvite from "../pages/MagicInvite";
 import Unsubscribe from "../pages/Unsubscribe";
 import NewNote from "../pages/NewNote";
 import Note from "../pages/Note";
 import SearchLinks from "../pages/SearchLinks";
-import Extensions from "../pages/Extensions";
 
 const ModalBackground = styled(BaseModalBackground).attrs((props) => ({
   ...props,
@@ -78,17 +74,6 @@ export default function App() {
                       component={Unsubscribe}
                     />
                     <AuthorizedRoute
-                      path="/convos/new"
-                      exact
-                      component={NewThread}
-                    />
-                    <AuthorizedRoute
-                      path="/convos/:id"
-                      exact
-                      component={Thread}
-                    />
-                    <AuthorizedRoute path="/convos" exact component={Feed} />
-                    <AuthorizedRoute
                       path="/events/new"
                       exact
                       component={NewEvent}
@@ -128,11 +113,7 @@ export default function App() {
                       component={Contacts}
                     />
                     <AuthorizedRoute path="/settings" component={Settings} />
-                    <AuthorizedRoute
-                      path="/extensions"
-                      component={Extensions}
-                    />
-                    <Redirect to="/convos" />
+                    <Redirect to="/events" />
                   </Switch>
                 </Frame>
               </BrowserRouter>
