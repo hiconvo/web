@@ -19,7 +19,7 @@
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
     "markdown-draft-js": "^2.2.1",
-    "marked": "^0.8.2",
+    "marked": "^4.0.10",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",
